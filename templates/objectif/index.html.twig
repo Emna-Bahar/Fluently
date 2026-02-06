@@ -1,0 +1,139 @@
+{# templates/contact/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact - Fluently{% endblock %}
+
+{% block body %}
+    <!-- Hero Section -->
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('assets/images/bg_2.jpg') }}');">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text align-items-end justify-content-center">
+                <div class="col-md-9 ftco-animate pb-5 text-center">
+                    <p class="breadcrumbs">
+                        <span class="mr-2">
+                            <a href="{{ path('app_home') }}">Home <i class="fa fa-chevron-right"></i></a>
+                        </span> 
+                        <span>Objectifs<i class="fa fa-chevron-right"></i></span>
+                    </p>
+                    <h1 class="mb-0 bread">Nos Objectifs</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form & Info -->
+    <section class="ftco-section">
+        <div class="container">
+            
+        </div>
+    </section>
+
+    <!-- Additional Contact Info -->
+    <section class="ftco-section bg-light">
+        <div class="container">
+            
+        </div>
+    </section>
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <script>
+        // Initialisation de la carte Google
+        function initMap() {
+            var location = {lat: 48.8566, lng: 2.3522}; // Paris
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: location,
+                styles: [
+                    {
+                        featureType: "all",
+                        elementType: "labels.text.fill",
+                        stylers: [{color: "#7c7c7c"}]
+                    }
+                ]
+            });
+            
+            var marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                title: 'Fluently - Paris',
+                icon: {
+                    url: '{{ asset('assets/images/marker.png') }}',
+                    scaledSize: new google.maps.Size(40, 40)
+                }
+            });
+            
+            var infoWindow = new google.maps.InfoWindow({
+                content: '<h5>Fluently</h5><p>123 Avenue des Langues<br>75000 Paris, France</p>'
+            });
+            
+            marker.addListener('click', function() {
+                infoWindow.open(map, marker);
+            });
+        }
+        
+        // Soumission du formulaire
+        $(document).ready(function() {
+            $('#contactForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                var $form = $(this);
+                var $submitBtn = $form.find('input[type="submit"]');
+                var originalText = $submitBtn.val();
+                
+                $submitBtn.val('Envoi en cours...').prop('disabled', true);
+                
+                // Simulation d'envoi (à remplacer par AJAX réel)
+                setTimeout(function() {
+                    alert('Message envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.');
+                    $form[0].reset();
+                    $submitBtn.val(originalText).prop('disabled', false);
+                }, 1500);
+            });
+        });
+    </script>
+    
+    <!-- Google Maps API -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&callback=initMap"></script>
+{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <style>
+        .info-wrap {
+            border-radius: 10px;
+        }
+        .info-wrap .icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        .info-wrap .text p {
+            margin-bottom: 5px;
+        }
+        .info-wrap .text span {
+            font-weight: 600;
+            color: #fff;
+        }
+        .info-wrap a {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .info-wrap a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+        #map {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .contact-wrap {
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+{% endblock %}

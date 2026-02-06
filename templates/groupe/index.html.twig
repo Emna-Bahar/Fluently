@@ -1,0 +1,52 @@
+{# templates/instructor/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Instructeurs - Fluently{% endblock %}
+
+{% block body %}
+    <!-- Hero Section -->
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('assets/images/bg_2.jpg') }}');">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text align-items-end justify-content-center">
+                <div class="col-md-9 ftco-animate pb-5 text-center">
+                    <p class="breadcrumbs">
+                        <span class="mr-2">
+                            <a href="{{ path('app_home') }}">Home <i class="fa fa-chevron-right"></i></a>
+                        </span> 
+                        <span>Groupes<i class="fa fa-chevron-right"></i></span>
+                    </p>
+                    <h1 class="mb-0 bread">Nos Groupes</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instructors Grid -->
+    <section class="ftco-section bg-light">
+        <div class="container">
+            
+        </div>
+    </section>
+{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <style>
+        .staff {
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+        .staff:hover {
+            transform: translateY(-10px);
+        }
+        .img-wrap {
+            height: 250px;
+        }
+        .img {
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+{% endblock %}
