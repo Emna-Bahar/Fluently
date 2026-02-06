@@ -1,0 +1,39 @@
+{# templates/home/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Fluently{% endblock %}
+
+{% block body %}
+    {# Le contenu de base.html.twig sera écrasé par ce bloc #}
+    
+    {% set bg_image = asset('assets/images/bg_k.jpg') %}
+
+<div class="hero-wrap js-fullheight" style="background-image: url('{{ bg_image }}');">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
+                <div class="col-md-7 ftco-animate">
+                    <span class="subheading">Bienvenue sur Fluently</span>
+                    <h1 class="mb-4">Plateforme d'Apprentissage des Langues en Ligne</h1>
+                    <p class="caps">Maîtrisez de nouvelles langues avec des cours interactifs, des sessions en direct et des parcours d'apprentissage personnalisés</p>
+                    <p class="mb-0">
+                     {#   <a href="{{ path('app_course') }}" class="btn btn-primary">Nos Cours</a> 
+                        <a href="{{ path('app_about') }}" class="btn btn-white">En Savoir Plus</a>#}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    {# JavaScript spécifique à la page d'accueil #}
+    <script>
+        // Animation ou fonctionnalités spécifiques
+        console.log("Page d'accueil chargée");
+    </script>
+{% endblock %}
