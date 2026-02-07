@@ -1,0 +1,147 @@
+{{ form_start(form) }}
+
+<style>
+/* ==== PAGE ==== */
+body {
+    background-color: #f5f7fb;
+}
+
+/* ==== CONTAINER ==== */
+.task-wrapper {
+    max-width: 850px;
+    margin: 120px auto 40px auto; /* décalage navbar */
+}
+
+/* ==== CARD ==== */
+.task-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 35px 40px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+/* ==== TITRE ==== */
+.task-title {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 600;
+    color: #4f6df5;
+    margin-bottom: 30px;
+}
+
+/* ==== INPUTS ==== */
+.form-control {
+    height: 52px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    padding: 10px 16px;
+    font-size: 15px;
+    transition: all 0.25s ease;
+    background-color: #fafafa;
+}
+
+textarea.form-control {
+    height: auto;
+}
+
+/* ==== FOCUS (curseur visible) ==== */
+.form-control:focus {
+    outline: none !important;
+    border: 2px solid #4f6df5;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(79,109,245,0.15);
+}
+
+/* ==== LABEL ==== */
+label {
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #444;
+}
+
+/* ==== BOUTONS ==== */
+.btn-save {
+    background: linear-gradient(135deg, #4f6df5, #6a82fb);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 40px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(79,109,245,0.35);
+}
+
+.btn-cancel {
+    background: #e74c3c;
+    color: white;
+    border-radius: 30px;
+    padding: 12px 30px;
+    border: none;
+}
+
+.btn-back {
+    background: #6c757d;
+    color: white;
+    border-radius: 30px;
+    padding: 12px 30px;
+    border: none;
+}
+</style>
+
+<div class="task-wrapper">
+    <div class="task-card">
+
+        <div class="task-title">
+            📝 Gestion de la tâche
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.titre) }}
+            {{ form_widget(form.titre, {'attr': {'class': 'form-control', 'placeholder':'Titre de la tâche'}}) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder':'Description de la tâche'}}) }}
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form_label(form.date_limite) }}
+                {{ form_widget(form.date_limite, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form_label(form.priorite) }}
+                {{ form_widget(form.priorite, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="mb-4">
+            {{ form_label(form.statut) }}
+            {{ form_widget(form.statut, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <!-- BOUTONS -->
+        <div class="d-flex justify-content-end gap-3">
+            <button type="button" class="btn-back" onclick="history.back()">
+                ⬅ Retour
+            </button>
+
+            <button type="reset" class="btn-cancel">
+                ❌ Annuler
+            </button>
+
+            <button class="btn-save">
+                💾 Enregistrer
+            </button>
+        </div>
+
+    </div>
+</div>
+
+{{ form_end(form) }}
