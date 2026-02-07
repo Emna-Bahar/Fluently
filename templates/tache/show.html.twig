@@ -1,0 +1,131 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail de la tâche{% endblock %}
+
+{% block body %}
+
+<style>
+.tache-page {
+    margin-top: 120px;
+    margin-bottom: 120px;
+}
+
+.tache-card {
+    max-width: 700px;
+    margin: auto;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+}
+
+.tache-title {
+    font-size: 26px;
+    font-weight: 600;
+    color: #4f6df5;
+}
+
+.tache-desc {
+    font-size: 15px;
+    color: #6c757d;
+}
+
+.badge-custom {
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+.badge-priority-basse { background: #2ecc71; }
+.badge-priority-moyenne { background: #f1c40f; color: #000; }
+.badge-priority-haute { background: #e74c3c; }
+
+.badge-status-faire { background: #4f6df5; }
+.badge-status-terminee { background: #2ecc71; }
+
+.btn-rounded {
+    border-radius: 30px;
+    padding: 10px 20px;
+}
+</style>
+
+<section class="tache-page">
+    <div class="container">
+
+        <div class="card tache-card border-0">
+            <div class="card-body p-5">
+
+                <!-- TITRE -->
+                <h2 class="tache-title mb-2">
+                    📝 {{ tache.titre }}
+                </h2>
+
+                {% if tache.idObjectif %}
+                    <p class="mb-4">
+                        🎯 Objectif :
+                        <span class="badge bg-light text-primary">
+                            {{ tache.idObjectif.titre }}
+                        </span>
+                    </p>
+                {% endif %}
+
+                <!-- DESCRIPTION -->
+                <p class="tache-desc mb-4">
+                    {{ tache.description ?: 'Aucune description fournie.' }}
+                </p>
+
+                <!-- INFOS -->
+                <ul class="list-group list-group-flush mb-4">
+                    <li class="list-group-item">
+                        📅 <strong>Date limite :</strong>
+                        {{ tache.dateLimite|date('d/m/Y') }}
+                    </li>
+
+                    <li class="list-group-item">
+                        ⚡ <strong>Priorité :</strong>
+                        {% if tache.priorite == 'haute' %}
+                            <span class="badge badge-custom badge-priority-haute">Haute</span>
+                        {% elseif tache.priorite == 'moyenne' %}
+                            <span class="badge badge-custom badge-priority-moyenne">Moyenne</span>
+                        {% else %}
+                            <span class="badge badge-custom badge-priority-basse">Basse</span>
+                        {% endif %}
+                    </li>
+
+                    <li class="list-group-item">
+                        📌 <strong>Statut :</strong>
+                        {% if tache.statut == 'terminee' %}
+                            <span class="badge badge-custom badge-status-terminee">✔ Terminée</span>
+                        {% else %}
+                            <span class="badge badge-custom badge-status-faire">⏳ À faire</span>
+                        {% endif %}
+                    </li>
+                </ul>
+
+                <!-- ACTIONS -->
+                <div class="d-flex justify-content-between mt-4">
+
+                    <a href="{{ path('app_tache_edit', { id: tache.id }) }}"
+                       class="btn btn-warning btn-rounded">
+                        ✏️ Modifier
+                    </a>
+
+                    {% if tache.idObjectif %}
+                        <a href="{{ path('app_objectif_show', { id: tache.idObjectif.id }) }}"
+                           class="btn btn-primary btn-rounded">
+                            ← Retour à l’objectif
+                        </a>
+                    {% else %}
+                        <a href="{{ path('app_tache_index') }}"
+                           class="btn btn-secondary btn-rounded">
+                            ← Retour
+                        </a>
+                    {% endif %}
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

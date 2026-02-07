@@ -82,8 +82,9 @@
                     <li class="nav-item {{ app.request.get('_route') == 'app_session' ? 'active' : '' }}">
                         <a href="{{ path('app_session') }}" class="nav-link">Sessions</a>
                     </li>
-                    <li class="nav-item {{ app.request.get('_route') == 'app_objectif' ? 'active' : '' }}">
-                        <a href="{{ path('app_objectif') }}" class="nav-link">Objectifs</a></li>
+                    <li class="nav-item {{ app.request.get('_route') starts with 'app_objectif' ? 'active' : '' }}">
+    <a href="{{ path('app_objectif_index') }}" class="nav-link">Objectifs</a>
+</li>
                 {# Boutons utilisateur #}
                     <li class="nav-item dropdown ml-lg-3">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

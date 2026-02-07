@@ -1,0 +1,35 @@
+{{ form_start(form) }}
+
+<div class="form-group">
+    {{ form_label(form.titre) }}
+    {{ form_widget(form.titre, {'attr': {'class': 'form-control', 'placeholder': 'Titre de l\'objectif'}}) }}
+    {{ form_errors(form.titre) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.description) }}
+    {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Description'}}) }}
+    {{ form_errors(form.description) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.date_deb) }}
+    {{ form_widget(form.date_deb, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.date_deb) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.date_fin) }}
+    {{ form_widget(form.date_fin, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.date_fin) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.statut) }}
+    {{ form_widget(form.statut, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.statut) }}
+</div>
+
+<button type="submit" class="btn btn-primary">Save</button>
+
+{{ form_end(form) }}
