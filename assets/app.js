@@ -1,10 +1,3 @@
-import './bootstrap.js';
-/*
- * Welcome to your app's main JavaScript file!
- *
- * This file will be included onto the page via the importmap() Twig function,
- * which should already be in your base.html.twig.
- */
-import './styles/app.css';
-
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+version https://git-lfs.github.com/spec/v1
+oid sha256:b755064140ba9098e9cb01c2d444ed8f257f2d6f9ab7ac424f5c310c1b0ef0c6
+size 321

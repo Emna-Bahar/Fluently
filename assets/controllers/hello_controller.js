@@ -1,16 +1,3 @@
-import { Controller } from '@hotwired/stimulus';
-
-/*
- * This is an example Stimulus controller!
- *
- * Any element with a data-controller="hello" attribute will cause
- * this controller to be executed. The name "hello" comes from the filename:
- * hello_controller.js -> "hello"
- *
- * Delete this file or adapt it for your use!
- */
-export default class extends Controller {
-    connect() {
-        this.element.textContent = 'Hello Stimulus! Edit me in assets/controllers/hello_controller.js';
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:f4fde09e2f16bfb4c702487cf91916c0f4f7e3411ea0aa6fec42210191841e86
+size 500
