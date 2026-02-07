@@ -39,12 +39,12 @@ class Cours
         return $this->id;
     }
 
-    public function getNumero(): ?Number
+    public function getNumero(): ?int
     {
         return $this->numero;
     }
 
-    public function setNumero(Number $numero): static
+    public function setNumero(int $numero): static
     {
         $this->numero = $numero;
 

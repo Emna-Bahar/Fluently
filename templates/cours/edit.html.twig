@@ -1,0 +1,188 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le cours n°{{ cour.numero }}{% endblock %}
+
+{% block body %}
+<div style="background: linear-gradient(135deg, #4f46e5 0%, #5b21b6 100%); min-height: 100vh; padding: 80px 20px; color: #000;">
+<br><br>
+    <div class="container" style="max-width: 900px;">
+        <h1 class="text-center mb-5 text-white fw-bold">
+            Modifier le cours n°{{ cour.numero }}
+        </h1>
+
+        <div class="card shadow-lg border-0 rounded-4" style="background: rgba(255,255,255,0.95);">
+            <div class="card-body p-5">
+                {{ form_start(form) }}
+
+                    <!-- Langue -->
+                    <div class="mb-4">
+                        {{ form_label(form.langue, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(form.langue, {'attr': {'class': 'form-select form-select-lg', 'id': 'cours_langue'}}) }}
+                        {{ form_errors(form.langue) }}
+                    </div>
+
+                    <!-- Niveau (lié à la langue) -->
+                    <div class="mb-4">
+                        {{ form_label(form.Id_niveau, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(form.Id_niveau, {'attr': {'class': 'form-select form-select-lg', 'id': 'niveau-select'}}) }}
+                        {{ form_errors(form.Id_niveau) }}
+                    </div>
+
+                    <!-- Numéro -->
+                    <div class="mb-4">
+                        {{ form_label(form.numero, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(form.numero, {'attr': {'class': 'form-control form-control-lg'}}) }}
+                        {{ form_errors(form.numero) }}
+                    </div>
+
+                    <!-- Cours précédent -->
+                    <div class="mb-4">
+                        {{ form_label(form.cours_precedent_id, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(form.cours_precedent_id, {'attr': {'class': 'form-select form-select-lg'}}) }}
+                        {{ form_errors(form.cours_precedent_id) }}
+                    </div>
+
+                    <!-- RESSOURCES EXISTANTES (seulement en modification) -->
+                    {% if cour.ressource and cour.ressource|trim %}
+                    <div class="mb-5">
+                        <label class="form-label fw-bold">Ressources actuelles :</label>
+                        <ul class="list-group mb-3">
+                            {% for file in cour.ressource|split('\n') %}
+                                {% if file|trim %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>
+                                        <i class="fas fa-file me-2 text-primary"></i> {{ file|trim }}
+                                    </span>
+                                    <div class="form-check">
+                                        <input class="form-check-input" 
+                                               type="checkbox" 
+                                               name="delete_ressources[]" 
+                                               value="{{ file|trim }}" 
+                                               id="delete_{{ loop.index }}">
+                                        <label class="form-check-label text-danger" for="delete_{{ loop.index }}">
+                                            Supprimer
+                                        </label>
+                                    </div>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    <!-- AJOUT DE NOUVELLES RESSOURCES (identique à la création) -->
+                    <div class="mb-5">
+                        <label class="form-label fw-bold">Ajouter de nouvelles ressources</label>
+                        <div id="ressources-list" 
+                             data-prototype="{{ form_widget(form.ressourcesFiles.vars.prototype)|e('html_attr') }}">
+                        </div>
+                        <button type="button" class="btn btn-outline-primary mt-2" id="add-ressource-btn">
+                            <i class="fas fa-plus"></i> Ajouter une ressource
+                        </button>
+                        <small class="form-text text-muted d-block mt-2">
+                            Formats acceptés : PDF, MP4, JPG, PNG, MP3, WAV, OGG...
+                        </small>
+                    </div>
+
+                    <!-- Boutons -->
+                    <div class="d-flex gap-3 justify-content-end">
+                        <a href="{{ path('app_cours_index') }}" class="btn btn-secondary btn-lg px-5 fw-bold">Annuler</a>
+                        <button type="submit" class="btn btn-success btn-lg px-5 fw-bold shadow">Mettre à jour</button>
+                    </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Gestion des niveaux par langue (exactement comme dans new)
+    const langueSelect = document.getElementById('cours_langue');
+    const niveauSelect = document.getElementById('niveau-select'); 
+
+    if (langueSelect && niveauSelect) {
+        let allNiveauOptions = Array.from(niveauSelect.options).map(option => ({
+            value: option.value,
+            text: option.text,
+            langueId: option.getAttribute('data-langue')
+        }));
+
+        function filterNiveaux() {
+            const selectedLangueId = langueSelect.value;
+            const currentNiveauId = niveauSelect.value;
+            
+            niveauSelect.innerHTML = ''; 
+
+            allNiveauOptions.forEach(opt => {
+                if (opt.value === '') {
+                    const option = new Option(opt.text, opt.value);
+                    niveauSelect.add(option);
+                    return;
+                }
+                
+                if (!selectedLangueId || opt.langueId == selectedLangueId) {
+                    const option = new Option(opt.text, opt.value);
+                    option.setAttribute('data-langue', opt.langueId);
+                    niveauSelect.add(option);
+                }
+            });
+
+            if (currentNiveauId) {
+                niveauSelect.value = currentNiveauId;
+            }
+        }
+
+        langueSelect.addEventListener('change', filterNiveaux);
+        
+        if (langueSelect.value) {
+            filterNiveaux();
+        }
+    }
+
+    // 2. Gestion de l'ajout dynamique de ressources (exactement comme dans new)
+    const collectionHolder = document.getElementById('ressources-list');
+    const addRessourceBtn = document.getElementById('add-ressource-btn');
+    
+    let index = 0;
+
+    if (addRessourceBtn) {
+        addRessourceBtn.addEventListener('click', function() {
+            addElement(collectionHolder);
+        });
+    }
+
+    function addElement(holder) {
+        if (!holder || !holder.dataset.prototype) {
+            console.error("Prototype non trouvé");
+            return;
+        }
+
+        const prototype = holder.dataset.prototype;
+        const newForm = prototype.replace(/__name__/g, index);
+        index++;
+
+        const div = document.createElement('div');
+        div.classList.add('d-flex', 'gap-2', 'mb-2', 'align-items-center');
+        div.innerHTML = newForm;
+
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.classList.add('btn', 'btn-danger', 'btn-sm');
+        removeBtn.innerHTML = '<i class="fas fa-trash"></i>';
+        removeBtn.onclick = function() {
+            div.remove();
+        };
+
+        div.appendChild(removeBtn);
+        holder.appendChild(div);
+    }
+
+    // Pas d'ajout automatique au chargement en mode édition (optionnel)
+    // if (collectionHolder.children.length === 0) {
+    //     addElement(collectionHolder);
+    // }
+});
+</script>
+{% endblock %}

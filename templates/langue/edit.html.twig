@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ app.request.attributes.get('_route') == 'app_admin_langue_new' ? 'Nouvelle Langue' : 'Modifier Langue' }}{% endblock %}
+
+{% block body %}
+<div style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); min-height: 100vh; padding: 80px 20px; color: #111827;">
+<br><br><br><br>
+    <div style="max-width: 700px; margin: 0 auto; background: white; border-radius: 20px; padding: 50px 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.25);">
+
+        <h1 style="text-align: center; font-size: 2.4rem; font-weight: 900; margin: 0 0 45px; color: #111827;">
+            {{ app.request.attributes.get('_route') == 'app_admin_langue_new' ? 'Créer une nouvelle langue' : 'Modifier la langue' }}
+        </h1>
+
+        {{ form_start(form) }}
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px 40px;">
+            <!-- Nom -->
+            <div>
+                <label style="display: block; font-weight: 800; color: #111827; margin-bottom: 10px; font-size: 1.25rem;">Nom de la langue *</label>
+                {{ form_widget(form.nom, {'attr': {'style': 'width:100%; padding:16px 20px; border:2px solid #cbd5e1; border-radius:12px; font-size:1.15rem;'}}) }}
+                {{ form_errors(form.nom, {'attr': {'style': 'color:#dc2626; font-size:0.95rem; margin-top:6px;'}}) }}
+            </div>
+
+            <!-- Popularité -->
+            <div>
+                <label style="display: block; font-weight: 800; color: #111827; margin-bottom: 10px; font-size: 1.25rem;">Popularité</label>
+                {{ form_widget(form.popularite, {'attr': {'style': 'width:100%; padding:16px 20px; border:2px solid #cbd5e1; border-radius:12px; font-size:1.15rem;'}}) }}
+            </div>
+
+            <!-- Description -->
+            <div style="grid-column: 1 / -1;">
+                <label style="display: block; font-weight: 800; color: #111827; margin-bottom: 10px; font-size: 1.25rem;">Description détaillée</label>
+                {{ form_widget(form.description, {'attr': {'style': 'width:100%; padding:16px 20px; border:2px solid #cbd5e1; border-radius:12px; font-size:1.15rem; min-height:160px; resize:vertical;'}}) }}
+            </div>
+
+            <!-- Active (Oui/Non) -->
+            <div>
+                <label style="display: block; font-weight: 800; color: #111827; margin-bottom: 10px; font-size: 1.25rem;">Active</label>
+                <select name="{{ form.isActive.vars.full_name }}" style="width:100%; padding:16px 20px; border:2px solid #cbd5e1; border-radius:12px; font-size:1.15rem; background:white;">
+                    <option value="1" {% if langue.isActive %}selected{% endif %}>Oui (visible aux étudiants)</option>
+                    <option value="0" {% if not langue.isActive %}selected{% endif %}>Non</option>
+                </select>
+            </div>
+
+            <!-- Drapeau -->
+            <div>
+                <label style="display: block; font-weight: 800; color: #111827; margin-bottom: 10px; font-size: 1.25rem;">Drapeau (image)</label>
+                {{ form_widget(form.drapeauFile, {'attr': {'style': 'width:100%; padding:16px 20px; border:2px dashed #9ca3af; border-radius:12px; background:#f9fafb; cursor:pointer; font-size:1.1rem;'}}) }}
+                {{ form_errors(form.drapeauFile, {'attr': {'style': 'color:#dc2626; font-size:0.95rem; margin-top:6px;'}}) }}
+
+                {% if langue.drapeau %}
+                    <div style="margin-top: 16px; text-align: center;">
+                        <img src="{{ asset('images/langues/' ~ langue.drapeau) }}" alt="Drapeau actuel" style="max-height: 140px; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.15);">
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Bouton soumission -->
+        <div style="text-align: center; margin: 60px 0 30px;">
+            <button type="submit" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 18px 70px; font-size: 1.4rem; font-weight: 800; border-radius: 16px; cursor: pointer; box-shadow: 0 10px 30px rgba(16,185,129,0.4); transition: all 0.3s;" onmouseover="this.style.transform='scale(1.06) translateY(-3px)';" onmouseout="this.style.transform='scale(1)';">
+                {{ app.request.attributes.get('_route') == 'app_admin_langue_new' ? 'Créer la langue' : 'Mettre à jour' }}
+            </button>
+        </div>
+
+        {{ form_end(form) }}
+
+        <div style="text-align: center;">
+            <a href="{{ path('app_admin_langue_index') }}" style="color: #2563eb; font-weight: 700; font-size: 1.3rem; text-decoration: none;">← Retour à la liste</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

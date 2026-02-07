@@ -1,0 +1,139 @@
+{% extends 'dashboard/index.html.twig' %}  {# ← ton template dashboard que tu viens de montrer #}
+
+{% block title %}Admin - Gestion des langues{% endblock %}
+
+{% block body %}
+
+    <!-- Contenu principal -->
+    <div class="nxl-content">
+
+        <!-- Header de la page -->
+        <div class="page-header">
+            <div class="page-header-left d-flex align-items-center">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Gestion des Langues</h5>
+                    <h6 class="m-b-0">Ajoutez, modifiez ou supprimez les langues disponibles</h6>
+                </div>
+            </div>
+            <div class="page-header-right ms-auto">
+                <a href="{{ path('app_admin_langue_new') }}" class="btn btn-primary btn-lg">
+                    <i class="feather-plus me-2"></i> Nouvelle langue
+                </a>
+            </div>
+        </div>
+
+        <!-- Card principale -->
+        <div class="main-content">
+
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-bottom">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <h6 class="m-0">Liste des langues</h6>
+
+                        <!-- Filtres -->
+                        <form method="GET" class="d-flex align-items-center gap-3 flex-wrap">
+                            <div class="input-group" style="width: 280px;">
+                                <span class="input-group-text bg-white border-end-0">
+                                    <i class="feather-search"></i>
+                                </span>
+                                <input type="text" name="search" value="{{ app.request.query.get('search') }}" 
+                                       class="form-control" placeholder="Rechercher une langue...">
+                            </div>
+
+                            <div class="input-group" style="width: 180px;">
+                                <select name="active" class="form-select">
+                                    <option value="">Tous les statuts</option>
+                                    <option value="1" {% if app.request.query.get('active') == '1' %}selected{% endif %}>Actives</option>
+                                    <option value="0" {% if app.request.query.get('active') == '0' %}selected{% endif %}>Inactives</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-outline-primary">
+                                <i class="feather-filter me-2"></i> Filtrer
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nom</th>
+                                    <th class="text-center">Drapeau</th>
+                                    <th>Popularité</th>
+                                    <th class="text-center">Active</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for langue in langues %}
+                                <tr>
+                                    <td class="fw-medium">{{ langue.id }}</td>
+                                    <td class="fw-bold">{{ langue.nom }}</td>
+                                    <td class="text-center">
+                                        {% if langue.drapeau %}
+                                            <img src="{{ asset('images/langues/' ~ langue.drapeau) }}" 
+                                                 alt="{{ langue.nom }}" 
+                                                 class="rounded" 
+                                                 style="width: 60px; height: 40px; object-fit: cover; border: 1px solid #dee2e6;">
+                                        {% else %}
+                                            <span class="text-muted">—</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ langue.popularite ?: '—' }}</td>
+                                    <td class="text-center">
+                                        {% if langue.isActive %}
+                                            <span class="badge bg-success-subtle text-success px-3 py-2">Oui</span>
+                                        {% else %}
+                                            <span class="badge bg-danger-subtle text-danger px-3 py-2">Non</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="d-flex gap-2 justify-content-center">
+                                            <a href="{{ path('app_langue_show', {'id': langue.id}) }}" 
+                                               class="btn btn-sm btn-outline-info" 
+                                               data-bs-toggle="tooltip" title="Voir">
+                                                <i class="feather-eye"></i>
+                                            </a>
+
+                                            <a href="{{ path('app_admin_langue_edit', {'id': langue.id}) }}" 
+                                               class="btn btn-sm btn-outline-warning" 
+                                               data-bs-toggle="tooltip" title="Modifier">
+                                                <i class="feather-edit-2"></i>
+                                            </a>
+
+                                            <form method="post" action="{{ path('app_admin_langue_delete', {'id': langue.id}) }}" 
+                                                  onsubmit="return confirm('Confirmer la suppression de cette langue ?');" 
+                                                  style="display: inline;">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ langue.id) }}">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                        data-bs-toggle="tooltip" title="Supprimer">
+                                                    <i class="feather-trash-2"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="6" class="text-center py-5 text-muted">
+                                        <h5 class="mb-3">Aucune langue trouvée</h5>
+                                        <a href="{{ path('app_admin_langue_new') }}" class="btn btn-primary">
+                                            <i class="feather-plus me-2"></i> Ajouter une langue
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

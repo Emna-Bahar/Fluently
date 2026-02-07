@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ niveau.id ? 'Modifier le niveau : ' ~ niveau.titre : 'Créer un niveau' }}{% endblock %}
+
+{% block body %}
+<div style="background: linear-gradient(135deg, #4f46e5 0%, #5b21b6 100%); min-height: 100vh; padding: 80px 20px; color: #000000;">
+<br><br><br><br>
+    <div class="container" style="max-width: 900px;">
+
+        <!-- Titre -->
+        <div class="text-center mb-5">
+            <h1 class="fw-bold" style="font-size: 2.8rem; color: #000000; text-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                {{ niveau.id ? 'Modifier le niveau : ' ~ niveau.titre : 'Créer un nouveau niveau' }}
+            </h1>
+            <p class="mt-2" style="font-size: 1.2rem; color: #111111;">
+                {{ niveau.id ? 'Modifiez les informations du niveau' : 'Ajoutez un nouveau niveau pour une langue' }}
+            </p>
+        </div>
+
+        <!-- Formulaire -->
+        <div class="card shadow-xl border-0 rounded-4 overflow-hidden" style="background: rgba(255,255,255,0.98); backdrop-filter: blur(8px);">
+            <div class="card-body p-5">
+                {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': ''}}) }}
+
+                    <!-- Langue -->
+                    <div class="mb-4">
+                        {{ form_label(form.Id_langue, null, {'label_attr': {'class': 'form-label fw-bold', 'style': 'color: #000000;'}}) }}
+                        {{ form_widget(form.Id_langue, {'attr': {'class': 'form-select form-select-lg'}}) }}
+                        {{ form_errors(form.Id_langue, {'attr': {'class': 'text-danger mt-1'}}) }}
+                    </div>
+
+                    <!-- Titre -->
+                    <div class="mb-4">
+                        {{ form_label(form.titre, null, {'label_attr': {'class': 'form-label fw-bold', 'style': 'color: #000000;'}}) }}
+                        {{ form_widget(form.titre, {'attr': {'class': 'form-control form-control-lg'}}) }}
+                        {{ form_errors(form.titre, {'attr': {'class': 'text-danger mt-1'}}) }}
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-4">
+                        {{ form_label(form.description, null, {'label_attr': {'class': 'form-label fw-bold', 'style': 'color: #000000;'}}) }}
+                        {{ form_widget(form.description, {'attr': {'class': 'form-control form-control-lg', 'rows': 5}}) }}
+                        {{ form_errors(form.description, {'attr': {'class': 'text-danger mt-1'}}) }}
+                    </div>
+
+                    <!-- Image de couverture -->
+                    <div class="mb-4">
+                        {{ form_label(form.imageCouvertureFile, 'Image de couverture (jpg, png, webp)', {'label_attr': {'class': 'form-label fw-bold', 'style': 'color: #000000;'}}) }}
+                        {{ form_widget(form.imageCouvertureFile, {'attr': {'class': 'form-control form-control-lg'}}) }}
+                        {{ form_errors(form.imageCouvertureFile, {'attr': {'class': 'text-danger mt-1'}}) }}
+
+                        {% if niveau.imageCouverture %}
+                            <div class="mt-3 text-center">
+                                <p class="fw-bold" style="color: #000000;">Image actuelle :</p>
+                                <img src="{{ asset('uploads/niveaux/' ~ niveau.imageCouverture) }}" alt="Couverture actuelle" class="img-fluid rounded-3 shadow" style="max-height: 220px; max-width: 100%;">
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Difficulté + Ordre -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            {{ form_label(form.difficulte, null, {'label_attr': {'class': 'form-label fw-bold', 'style': 'color: #000000;'}}) }}
+                            {{ form_widget(form.difficulte, {'attr': {'class': 'form-control form-control-lg'}}) }}
+                            {{ form_errors(form.difficulte, {'attr': {'class': 'text-danger mt-1'}}) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_label(form.ordre, null, {'label_attr': {'class': 'form-label fw-bold', 'style': 'color: #000000;'}}) }}
+                            {{ form_widget(form.ordre, {'attr': {'class': 'form-control form-control-lg'}}) }}
+                            {{ form_errors(form.ordre, {'attr': {'class': 'text-danger mt-1'}}) }}
+                        </div>
+                    </div>
+
+                    <!-- Seuil min + max -->
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-6">
+                            {{ form_label(form.seuil_score_min, 'Score minimum pour réussir', {'label_attr': {'class': 'form-label fw-bold', 'style': 'color: #000000;'}}) }}
+                            {{ form_widget(form.seuil_score_min, {'attr': {'class': 'form-control form-control-lg'}}) }}
+                            {{ form_errors(form.seuil_score_min, {'attr': {'class': 'text-danger mt-1'}}) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_label(form.seuil_score_max, 'Score maximum possible', {'label_attr': {'class': 'form-label fw-bold', 'style': 'color: #000000;'}}) }}
+                            {{ form_widget(form.seuil_score_max, {'attr': {'class': 'form-control form-control-lg'}}) }}
+                            {{ form_errors(form.seuil_score_max, {'attr': {'class': 'text-danger mt-1'}}) }}
+                        </div>
+                    </div>
+
+                    <!-- Boutons -->
+                    <div class="d-flex justify-content-end gap-3">
+                        <a href="{{ path('app_niveau_index') }}" class="btn btn-secondary btn-lg px-5 fw-bold">Annuler</a>
+                        <button type="submit" class="btn btn-success btn-lg px-5 fw-bold shadow">
+                            {{ niveau.id ? 'Mettre à jour' : 'Créer le niveau' }}
+                        </button>
+                    </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

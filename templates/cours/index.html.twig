@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Cours{% endblock %}
+
+{% block body %}
+<div style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); min-height: 100vh; padding: 100px 20px 60px; color: white;">
+<br><br><br><br>
+    <div class="container" style="max-width: 1400px;">
+
+        <!-- Titre + Bouton Ajouter -->
+        <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-4">
+            <h1 class="mb-0 fw-bold" style="font-size: 2.8rem; text-shadow: 0 4px 16px rgba(0,0,0,0.5);">
+                Gestion des Cours
+            </h1>
+            <a href="{{ path('app_admin_cours_new') }}" class="btn btn-success btn-lg shadow px-5 py-3 fw-bold">
+                + Créer un cours
+            </a>
+        </div>
+
+        <!-- Filtres : Langue + Difficulté -->
+        <div class="card mb-5 shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255,255,255,0.12); backdrop-filter: blur(12px);">
+            <div class="card-body p-4">
+                <form method="get" class="row g-4 align-items-end">
+                    <!-- Filtre Langue -->
+                    <div class="col-lg-4 col-md-6">
+                        <label for="langue" class="form-label fw-bold text-white">Filtrer par langue</label>
+                        <select name="langue" id="langue" class="form-select form-select-lg">
+                            <option value="">Toutes les langues</option>
+                            {% set languesUniques = [] %}
+                            {% for niveau in niveaux %}
+                                {% if niveau.IdLangue and niveau.IdLangue.id not in languesUniques %}
+                                    {% set languesUniques = languesUniques|merge([niveau.IdLangue.id]) %}
+                                    <option value="{{ niveau.IdLangue.id }}" {% if app.request.query.get('langue') == niveau.IdLangue.id %}selected{% endif %}>
+                                        {{ niveau.IdLangue.nom }}
+                                    </option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Filtre Difficulté -->
+                    <div class="col-lg-4 col-md-6">
+                        <label for="difficulte" class="form-label fw-bold text-white">Filtrer par difficulté</label>
+                        <select name="difficulte" id="difficulte" class="form-select form-select-lg">
+                            <option value="">Toutes les difficultés</option>
+                            {% set difficultes = [] %}
+                            {% for niveau in niveaux %}
+                                {% if niveau.difficulte and niveau.difficulte not in difficultes %}
+                                    {% set difficultes = difficultes|merge([niveau.difficulte]) %}
+                                {% endif %}
+                            {% endfor %}
+                            {% for diff in difficultes|sort %}
+                                <option value="{{ diff }}" {% if app.request.query.get('difficulte') == diff %}selected{% endif %}>
+                                    {{ diff }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Boutons -->
+                    <div class="col-lg-4 col-12 d-flex flex-wrap gap-3 justify-content-lg-end mt-3 mt-lg-0">
+                        <button type="submit" class="btn btn-primary btn-lg px-5 fw-bold shadow">
+                            Filtrer
+                        </button>
+                        <a href="{{ path('app_cours_index') }}" class="btn btn-outline-light btn-lg px-5 fw-bold">
+                            Réinitialiser
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Messages flash -->
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} alert-dismissible fade show mb-4 rounded-3" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <!-- Tableau des cours -->
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255,255,255,0.95);">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped mb-0 align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th class="ps-4">ID</th>
+                                <th>Langue / Niveau</th>
+                                <th class="text-center">Numéro</th>
+                                <th>Ressources</th>
+                                <th class="text-center">Date création</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for cour in cours %}
+                            <tr>
+                                <td class="ps-4 fw-bold">{{ cour.id }}</td>
+                                <td class="fw-bold">
+                                    {{ cour.IdNiveau.IdLangue.nom }} 
+                                    <small class="text-muted d-block">{{ cour.IdNiveau.titre }} — {{ cour.IdNiveau.difficulte }}</small>
+                                </td>
+                                <td class="text-center fw-bold">{{ cour.numero }}</td>
+                                <td class="text-center">
+                                    {% set nb = cour.ressource ? cour.ressource|split('\n')|filter(v => v|trim)|length : 0 %}
+                                    {{ nb }} fichier{{ nb != 1 ? 's' : '' }}
+                                </td>
+                                <td class="text-center">
+                                    {{ cour.dateCreation ? cour.dateCreation|date('d/m/Y') : '—' }}
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <a href="{{ path('app_cours_show', {'id': cour.id}) }}" class="btn btn-info">Voir</a>
+                                        <a href="{{ path('app_cours_edit', {'id': cour.id}) }}" class="btn btn-warning">Modifier</a>
+                                        <form method="post" action="{{ path('app_cours_delete', {'id': cour.id}) }}" onsubmit="return confirm('Supprimer ce cours ?\nCette action est irréversible.');" class="d-inline">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ cour.id) }}">
+                                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6" class="text-center py-5 text-muted fs-4 fw-bold bg-light">
+                                    Aucun cours trouvé pour le moment.
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

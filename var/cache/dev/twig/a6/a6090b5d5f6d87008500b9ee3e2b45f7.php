@@ -14,7 +14,7 @@ use Twig\Source;
 use Twig\Template;
 use Twig\TemplateWrapper;
 
-/* Langue/index.html.twig */
+/* langue/index.html.twig */
 class __TwigTemplate_4426915203f2098c8273b95231bb80da extends Template
 {
     private Source $source;
@@ -31,15 +31,13 @@ class __TwigTemplate_4426915203f2098c8273b95231bb80da extends Template
 
         $this->blocks = [
             'title' => [$this, 'block_title'],
-            'stylesheets' => [$this, 'block_stylesheets'],
             'body' => [$this, 'block_body'],
-            'javascripts' => [$this, 'block_javascripts'],
         ];
     }
 
     protected function doGetParent(array $context): bool|string|Template|TemplateWrapper
     {
-        // line 2
+        // line 1
         return "base.html.twig";
     }
 
@@ -47,12 +45,12 @@ class __TwigTemplate_4426915203f2098c8273b95231bb80da extends Template
     {
         $macros = $this->macros;
         $__internal_5a27a8ba21ca79b61932376b2fa922d2 = $this->extensions["Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension"];
-        $__internal_5a27a8ba21ca79b61932376b2fa922d2->enter($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "template", "Langue/index.html.twig"));
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2->enter($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "template", "langue/index.html.twig"));
 
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
-        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "template", "Langue/index.html.twig"));
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "template", "langue/index.html.twig"));
 
-        $this->parent = $this->load("base.html.twig", 2);
+        $this->parent = $this->load("base.html.twig", 1);
         yield from $this->parent->unwrap()->yield($context, array_merge($this->blocks, $blocks));
         
         $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
@@ -62,7 +60,7 @@ class __TwigTemplate_4426915203f2098c8273b95231bb80da extends Template
 
     }
 
-    // line 4
+    // line 3
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -75,7 +73,7 @@ class __TwigTemplate_4426915203f2098c8273b95231bb80da extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "title"));
 
-        yield "À propos - Fluently";
+        yield "Langues Disponibles - Fluently";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
 
@@ -85,153 +83,7 @@ class __TwigTemplate_4426915203f2098c8273b95231bb80da extends Template
         yield from [];
     }
 
-    // line 6
-    /**
-     * @return iterable<null|scalar|\Stringable>
-     */
-    public function block_stylesheets(array $context, array $blocks = []): iterable
-    {
-        $macros = $this->macros;
-        $__internal_5a27a8ba21ca79b61932376b2fa922d2 = $this->extensions["Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension"];
-        $__internal_5a27a8ba21ca79b61932376b2fa922d2->enter($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "stylesheets"));
-
-        $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
-        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "stylesheets"));
-
-        // line 7
-        yield from $this->yieldParentBlock("stylesheets", $context, $blocks);
-        yield "
-<style>
-    .game-container {
-        position: relative;
-        min-height: 800px;
-    }
-    
-    .level-circle {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: bold;
-        font-size: 1.5rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: absolute;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        border: 5px solid white;
-    }
-    
-    .level-circle:hover {
-        transform: scale(1.1);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    }
-    
-    .level-circle.active {
-        animation: pulse 2s infinite;
-    }
-    
-    .level-circle.locked {
-        background-color: #95a5a6 !important;
-        cursor: not-allowed;
-        opacity: 0.7;
-    }
-    
-    .level-circle.completed {
-        border-color: #2ecc71;
-    }
-    
-    .level-circle.current {
-        border-color: #3498db;
-    }
-    
-    .path-line {
-        position: absolute;
-        background-color: #3498db;
-        height: 10px;
-        z-index: -1;
-        transform-origin: left center;
-    }
-    
-    .game-info {
-        background: white;
-        border-radius: 15px;
-        padding: 30px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        margin-bottom: 40px;
-    }
-    
-    .progress-bar-game {
-        height: 20px;
-        border-radius: 10px;
-        background: #ecf0f1;
-        overflow: hidden;
-        margin: 20px 0;
-    }
-    
-    .progress-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #3498db, #2ecc71);
-        transition: width 0.5s ease;
-    }
-    
-    @keyframes pulse {
-        0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7); }
-        70% { box-shadow: 0 0 0 15px rgba(52, 152, 219, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
-    }
-    
-    .level-badge {
-        position: absolute;
-        top: -10px;
-        right: -10px;
-        width: 40px;
-        height: 40px;
-        background: #e74c3c;
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-    }
-    
-    .test-modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.8);
-        z-index: 1000;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .test-content {
-        background: white;
-        border-radius: 20px;
-        padding: 40px;
-        max-width: 800px;
-        width: 90%;
-        max-height: 90vh;
-        overflow-y: auto;
-    }
-</style>
-";
-        
-        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
-
-        
-        $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
-
-        yield from [];
-    }
-
-    // line 130
+    // line 5
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -244,397 +96,159 @@ class __TwigTemplate_4426915203f2098c8273b95231bb80da extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
-        // line 131
-        yield "
-<section class=\"hero-wrap hero-wrap-2\" style=\"background-image: url('";
-        // line 132
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/images/bg_2.jpg"), "html", null, true);
-        yield "');\">
-    <div class=\"overlay\"></div>
-    <div class=\"container\">
-        <div class=\"row no-gutters slider-text align-items-end justify-content-center\">
-            <div class=\"col-md-9 ftco-animate pb-5 text-center\">
-                <p class=\"breadcrumbs\">
-                    <span class=\"mr-2\">
-                        <a href=\"";
-        // line 139
-        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_home");
-        yield "\">Accueil <i class=\"fa fa-chevron-right\"></i></a>
-                    </span> 
-                    <span>Langues <i class=\"fa fa-chevron-right\"></i></span>
-                </p>
-                <h1 class=\"mb-0 bread\">Aventure Linguistique</h1>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class=\"ftco-section\">
-    <div class=\"container\">
-        <div class=\"game-info\">
-            <div class=\"row\">
-                <div class=\"col-md-6\">
-                    <h2 class=\"mb-3\">Progression</h2>
-                    <div class=\"progress-bar-game\">
-                        <div class=\"progress-fill\" style=\"width: 30%;\"></div>
-                    </div>
-                    <p>3/10 niveaux complétés</p>
-                </div>
-                <div class=\"col-md-6 text-right\">
-                    <h3>Score: 2,540</h3>
-                    <div class=\"mt-3\">
-                        <span class=\"badge badge-success mr-2\">Anglais</span>
-                        <span class=\"badge badge-warning mr-2\">Français</span>
-                        <span class=\"badge badge-info\">Espagnol</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class=\"game-container\" id=\"gameContainer\">
-            ";
-        // line 173
-        yield "        </div>
-        
-        <div class=\"text-center mt-5\">
-            <button class=\"btn btn-primary btn-lg\" onclick=\"resetGame()\">
-                <i class=\"fa fa-redo\"></i> Réinitialiser la progression
-            </button>
-        </div>
-    </div>
-</section>
-
-<!-- Modal pour le test de niveau -->
-<div class=\"test-modal\" id=\"testModal\">
-    <div class=\"test-content\">
-        <h2 id=\"testTitle\" class=\"mb-4\">Test de Niveau - Niveau <span id=\"levelNumber\">1</span></h2>
-        <div id=\"testContent\">
-            <!-- Le contenu du test sera chargé dynamiquement depuis l'API -->
-        </div>
-        <div class=\"text-right mt-4\">
-            <button class=\"btn btn-secondary mr-2\" onclick=\"closeTest()\">Annuler</button>
-            <button class=\"btn btn-success\" onclick=\"submitTest()\">Soumettre les réponses</button>
-        </div>
-    </div>
-</div>
-
-";
-        
-        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
-
-        
-        $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
-
-        yield from [];
-    }
-
-    // line 199
-    /**
-     * @return iterable<null|scalar|\Stringable>
-     */
-    public function block_javascripts(array $context, array $blocks = []): iterable
-    {
-        $macros = $this->macros;
-        $__internal_5a27a8ba21ca79b61932376b2fa922d2 = $this->extensions["Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension"];
-        $__internal_5a27a8ba21ca79b61932376b2fa922d2->enter($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
-
-        $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
-        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
-
-        // line 200
-        yield from $this->yieldParentBlock("javascripts", $context, $blocks);
-        yield "
-<script>
-// Configuration des niveaux
-const levels = [
-    { id: 1, x: 50, y: 100, color: '#3498db', title: 'Débutant', unlocked: true, completed: true, testRequired: true },
-    { id: 2, x: 200, y: 180, color: '#2ecc71', title: 'Basique', unlocked: true, completed: true, testRequired: true },
-    { id: 3, x: 350, y: 100, color: '#9b59b6', title: 'Intermédiaire 1', unlocked: true, completed: true, testRequired: true },
-    { id: 4, x: 500, y: 180, color: '#e67e22', title: 'Intermédiaire 2', unlocked: true, completed: false, testRequired: true },
-    { id: 5, x: 650, y: 100, color: '#e74c3c', title: 'Avancé 1', unlocked: false, completed: false, testRequired: true },
-    { id: 6, x: 50, y: 300, color: '#1abc9c', title: 'Conversation', unlocked: false, completed: false, testRequired: true },
-    { id: 7, x: 200, y: 380, color: '#d35400', title: 'Business', unlocked: false, completed: false, testRequired: true },
-    { id: 8, x: 350, y: 300, color: '#34495e', title: 'Technique', unlocked: false, completed: false, testRequired: true },
-    { id: 9, x: 500, y: 380, color: '#f39c12', title: 'Expert', unlocked: false, completed: false, testRequired: true },
-    { id: 10, x: 650, y: 300, color: '#c0392b', title: 'Maîtrise', unlocked: false, completed: false, testRequired: true }
-];
-
-let currentLevel = 4; // Le niveau actuel (premier non complété)
-
-// URL des APIs (sur des PC différents)
-const API_BASE_URL = 'http://votre-api-test:8000'; // API des tests
-const LANGUE_API_URL = 'http://votre-api-langue:8001'; // API des langues
-
-function initGame() {
-    const container = document.getElementById('gameContainer');
-    container.innerHTML = '';
-    
-    // Dessiner les lignes de chemin
-    for (let i = 0; i < levels.length - 1; i++) {
-        if (levels[i].unlocked && levels[i + 1].unlocked) {
-            const line = document.createElement('div');
-            line.className = 'path-line';
-            
-            const x1 = levels[i].x + 60;
-            const y1 = levels[i].y + 60;
-            const x2 = levels[i + 1].x + 60;
-            const y2 = levels[i + 1].y + 60;
-            
-            const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-            const angle = Math.atan2(y2 - y1, x2 - x1) * (180 / Math.PI);
-            
-            line.style.width = length + 'px';
-            line.style.left = x1 + 'px';
-            line.style.top = (y1 - 5) + 'px';
-            line.style.transform = rotate(\${angle}deg);
-            
-            container.appendChild(line);
-        }
-    }
-    
-    // Créer les cercles de niveau
-    levels.forEach((level, index) => {
-        const circle = document.createElement('div');
-        circle.className = 'level-circle';
-        circle.style.left = level.x + 'px';
-        circle.style.top = level.y + 'px';
-        circle.style.backgroundColor = level.color;
-        circle.style.zIndex = '10';
-        
-        if (!level.unlocked) {
-            circle.classList.add('locked');
-        } else if (level.completed) {
-            circle.classList.add('completed');
-        }
-        
-        if (level.id === currentLevel) {
-            circle.classList.add('current', 'active');
-        }
-        
-        circle.innerHTML = `
-            <div class=\"text-center\">
-                <div style=\"font-size: 1.2rem;\">\${level.title}</div>
-                <div>Niveau \${level.id}</div>
-            </div>
-        `;
-        
-        if (level.testRequired && !level.completed) {
-            const badge = document.createElement('div');
-            badge.className = 'level-badge';
-            badge.innerHTML = '<i class=\"fa fa-question\"></i>';
-            circle.appendChild(badge);
-        }
-        
-        circle.onclick = () => handleLevelClick(level);
-        
-        container.appendChild(circle);
-    });
-}
-
-function handleLevelClick(level) {
-    if (!level.unlocked) {
-        alert('Ce niveau est verrouillé. Complétez le niveau précédent d\\'abord.');
-        return;
-    }
-    
-    if (level.id === currentLevel) {
-        // Si c'est le niveau courant, commencer le test
-        startLevelTest(level);
-    } else if (level.id < currentLevel) {
-        // Si c'est un niveau déjà complété, montrer les résultats
-        showLevelResults(level);
-    } else {
-        alert('Vous devez compléter le niveau ' + (currentLevel - 1) + ' d\\'abord!');
-    }
-}
-
-async function startLevelTest(level) {
-    document.getElementById('levelNumber').textContent = level.id;
-    document.getElementById('testTitle').textContent = Test de Niveau - \${level.title};
-    
-    try {
-        // Appeler l'API des tests sur l'autre PC
-        const response = await fetch(\${API_BASE_URL}/api/test/level/\${level.id}, {
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            }
-        });
-        
-        if (!response.ok) throw new Error('Erreur de chargement du test');
-        
-        const testData = await response.json();
-        displayTestQuestions(testData);
-        
-    } catch (error) {
-        console.error('Erreur:', error);
-        // Mode démo si l'API n'est pas disponible
-        displayDemoTest(level);
-    }
-    
-    document.getElementById('testModal').style.display = 'flex';
-}
-
-function displayTestQuestions(testData) {
-    const container = document.getElementById('testContent');
-    let html = `
-        <p class=\"mb-4\">\${testData.description || 'Test de compétence linguistique'}</p>
-        <p><strong>Temps estimé:</strong> \${testData.duration || '10'} minutes</p>
-    `;
-    
-    testData.questions.forEach((question, index) => {
-        html += `
-            <div class=\"question mb-4 p-3 border rounded\">
-                <h5>Question \${index + 1}: \${question.text}</h5>
-                \${question.options ? question.options.map((option, i) => `
-                    <div class=\"form-check\">
-                        <input class=\"form-check-input\" type=\"radio\" name=\"q\${index}\" id=\"q\${index}o\${i}\" value=\"\${i}\">
-                        <label class=\"form-check-label\" for=\"q\${index}o\${i}\">
-                            \${option}
+        // line 6
+        yield "<div style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 0;\">
+<br><br><br><br>
+    <!-- Zone de recherche et tri (centré et plus esthétique) -->
+    <div style=\"padding: 60px 20px 40px; text-align: center;\">
+        <div style=\"max-width: 900px; margin: 0 auto;\">
+            <div style=\"background: rgba(255,255,255,0.95); border-radius: 20px; padding: 32px; box-shadow: 0 12px 40px rgba(0,0,0,0.25);\">
+                <form method=\"GET\" action=\"";
+        // line 12
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_langue_index");
+        yield "\" style=\"display: grid; grid-template-columns: 2fr 1fr 160px; gap: 24px; align-items: end;\">
+                    <div>
+                        <label style=\"font-weight: 700; color: #1e293b; margin-bottom: 12px; display: block; font-size: 1.15rem;\">
+                            Rechercher une langue
                         </label>
+                        <input type=\"text\" name=\"search\" value=\"";
+        // line 17
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["search"]) || array_key_exists("search", $context) ? $context["search"] : (function () { throw new RuntimeError('Variable "search" does not exist.', 17, $this->source); })()), "html", null, true);
+        yield "\" placeholder=\"Ex: Français, Anglais...\" 
+                               style=\"width: 100%; padding: 16px 20px; border: 2px solid #d1d5db; border-radius: 12px; font-size: 1.1rem; box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);\">
                     </div>
-                `).join('') : ''}
-                \${question.input ? `
-                    <div class=\"form-group\">
-                        <label>Votre réponse:</label>
-                        <input type=\"text\" class=\"form-control\" name=\"q\${index}_input\">
-                    </div>
-                ` : ''}
-            </div>
-        `;
-    });
-    
-    container.innerHTML = html;
-}
 
-function displayDemoTest(level) {
-    const container = document.getElementById('testContent');
-    container.innerHTML = `
-        <p class=\"mb-4\">Test de niveau démo pour \${level.title}. Dans la version réelle, ceci serait chargé depuis l'API de tests.</p>
-        
-        <div class=\"question mb-4 p-3 border rounded\">
-            <h5>Question 1: Traduisez \"Bonjour\" en anglais</h5>
-            <div class=\"form-check\">
-                <input class=\"form-check-input\" type=\"radio\" name=\"q1\" id=\"q1o1\" value=\"1\">
-                <label class=\"form-check-label\" for=\"q1o1\">Hello</label>
-            </div>
-            <div class=\"form-check\">
-                <input class=\"form-check-input\" type=\"radio\" name=\"q1\" id=\"q1o2\" value=\"2\">
-                <label class=\"form-check-label\" for=\"q1o2\">Goodbye</label>
-            </div>
-            <div class=\"form-check\">
-                <input class=\"form-check-input\" type=\"radio\" name=\"q1\" id=\"q1o3\" value=\"3\">
-                <label class=\"form-check-label\" for=\"q1o3\">Thank you</label>
+                    <div>
+                        <label style=\"font-weight: 700; color: #1e293b; margin-bottom: 12px; display: block; font-size: 1.15rem;\">
+                            Trier par
+                        </label>
+                        <select name=\"sortBy\" style=\"width: 100%; padding: 16px 20px; border: 2px solid #d1d5db; border-radius: 12px; font-size: 1.1rem; background: white;\">
+                            <option value=\"\">-- Aucun tri --</option>
+                            <option value=\"nom\"        ";
+        // line 27
+        if (((isset($context["sortBy"]) || array_key_exists("sortBy", $context) ? $context["sortBy"] : (function () { throw new RuntimeError('Variable "sortBy" does not exist.', 27, $this->source); })()) == "nom")) {
+            yield "selected";
+        }
+        yield ">Nom (A-Z)</option>
+                            <option value=\"popularite\" ";
+        // line 28
+        if (((isset($context["sortBy"]) || array_key_exists("sortBy", $context) ? $context["sortBy"] : (function () { throw new RuntimeError('Variable "sortBy" does not exist.', 28, $this->source); })()) == "popularite")) {
+            yield "selected";
+        }
+        yield ">Popularité</option>
+                        </select>
+                    </div>
+
+                    <button type=\"submit\" style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; padding: 16px 28px; font-weight: 700; font-size: 1.15rem; cursor: pointer; box-shadow: 0 6px 16px rgba(102,110,234,0.4); transition: all 0.25s;\" onmouseover=\"this.style.transform='scale(1.05)';\" onmouseout=\"this.style.transform='scale(1)';\">
+                        Filtrer
+                    </button>
+                </form>
             </div>
         </div>
-        
-        <div class=\"question mb-4 p-3 border rounded\">
-            <h5>Question 2: Complétez la phrase: \"I _ to school every day.\"</h5>
-            <div class=\"form-group\">
-                <input type=\"text\" class=\"form-control\" name=\"q2_input\" placeholder=\"Votre réponse\">
-            </div>
-        </div>
-    `;
-}
+    </div>
 
-async function submitTest() {
-    // Collecter les réponses
-    const answers = {};
-    // Logique de collecte des réponses...
-    
-    try {
-        // Envoyer les réponses à l'API des tests
-        const response = await fetch(\${API_BASE_URL}/api/test/submit, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            },
-            body: JSON.stringify({
-                levelId: document.getElementById('levelNumber').textContent,
-                answers: answers
-            })
-        });
-        
-        const result = await response.json();
-        
-        if (result.passed) {
-            // Mettre à jour l'API des langues
-            await fetch(\${LANGUE_API_URL}/api/langue/progression, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('token')
-                },
-                body: JSON.stringify({
-                    level: result.level,
-                    score: result.score,
-                    language: 'english' // À adapter
-                })
-            });
-            
-            alert(Félicitations! Vous avez réussi le test avec \${result.score}%!);
-            closeTest();
-            updateLevelProgress(result.level);
+    <!-- Titre principal -->
+    <div style=\"padding: 0 20px 40px; text-align: center;\">
+        <h1 style=\"color: white; font-size: 3rem; font-weight: 900; margin: 0 0 16px; text-shadow: 0 4px 12px rgba(0,0,0,0.4);\">
+            Langues Disponibles
+        </h1>
+        <p style=\"color: rgba(255,255,255,0.95); font-size: 1.35rem; margin: 0;\">
+            Choisissez une langue et commencez votre aventure linguistique dès aujourd'hui !
+        </p>
+    </div>
+
+    <!-- Cartes des langues -->
+    <div style=\"padding: 0 20px 80px;\">
+        <div style=\"max-width: 1300px; margin: 0 auto;\">
+            ";
+        // line 53
+        if ((($tmp = (isset($context["langues"]) || array_key_exists("langues", $context) ? $context["langues"] : (function () { throw new RuntimeError('Variable "langues" does not exist.', 53, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+            // line 54
+            yield "                <div style=\"display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px;\">
+                    ";
+            // line 55
+            $context['_parent'] = $context;
+            $context['_seq'] = CoreExtension::ensureTraversable((isset($context["langues"]) || array_key_exists("langues", $context) ? $context["langues"] : (function () { throw new RuntimeError('Variable "langues" does not exist.', 55, $this->source); })()));
+            foreach ($context['_seq'] as $context["_key"] => $context["langue"]) {
+                // line 56
+                yield "                        <a href=\"";
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_langue_apprentissage", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "id", [], "any", false, false, false, 56)]), "html", null, true);
+                yield "\" style=\"text-decoration: none;\">
+                            <div style=\"background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 36px rgba(0,0,0,0.18); transition: all 0.4s ease; height: 100%; display: flex; flex-direction: column;\" 
+                                 onmouseover=\"this.style.transform='translateY(-12px)'; this.style.boxShadow='0 24px 60px rgba(0,0,0,0.28)';\" 
+                                 onmouseout=\"this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 36px rgba(0,0,0,0.18)';\">
+                                
+                                <!-- Drapeau -->
+                                <div style=\"height: 180px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; position: relative;\">
+                                    ";
+                // line 63
+                if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "drapeau", [], "any", false, false, false, 63)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                    // line 64
+                    yield "                                        <img src=\"";
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(("images/langues/" . CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "drapeau", [], "any", false, false, false, 64))), "html", null, true);
+                    yield "\" 
+                                             alt=\"Drapeau ";
+                    // line 65
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "nom", [], "any", false, false, false, 65), "html", null, true);
+                    yield "\" 
+                                             style=\"width: 100%; height: 100%; object-fit: cover; border-bottom: 6px solid rgba(255,255,255,0.3);\">
+                                    ";
+                } else {
+                    // line 68
+                    yield "                                        <span style=\"color: white; font-size: 5rem; opacity: 0.4;\">🌍</span>
+                                    ";
+                }
+                // line 70
+                yield "                                </div>
+
+                                <!-- Contenu -->
+                                <div style=\"padding: 28px; display: flex; flex-direction: column; flex-grow: 1;\">
+                                    <h3 style=\"font-size: 1.9rem; font-weight: 800; color: #111827; margin: 0 0 12px;\">";
+                // line 74
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "nom", [], "any", false, false, false, 74), "html", null, true);
+                yield "</h3>
+                                    <p style=\"color: #4b5563; margin: 0 0 24px; line-height: 1.6; flex-grow: 1; font-size: 1.1rem;\">
+                                        ";
+                // line 76
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::slice($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "description", [], "any", false, false, false, 76), 0, 110), "html", null, true);
+                if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "description", [], "any", false, false, false, 76)) > 110)) {
+                    yield "...";
+                }
+                // line 77
+                yield "                                    </p>
+                                    <div style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 1.25rem; margin-top: auto; box-shadow: 0 4px 12px rgba(102,110,234,0.3); transition: all 0.3s;\" onmouseover=\"this.style.transform='scale(1.05)';\" onmouseout=\"this.style.transform='scale(1)';\">
+                                        Commencer →
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    ";
+            }
+            $_parent = $context['_parent'];
+            unset($context['_seq'], $context['_key'], $context['langue'], $context['_parent']);
+            $context = array_intersect_key($context, $_parent) + $_parent;
+            // line 85
+            yield "                </div>
+            ";
         } else {
-            alert(Test échoué. Score: \${result.score}%. Essayez à nouveau!);
+            // line 87
+            yield "                <div style=\"background: white; border-radius: 20px; padding: 80px 40px; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,0.2);\">
+                    <h3 style=\"color: #1e293b; font-size: 1.8rem; margin-bottom: 20px;\">Aucune langue trouvée</h3>
+                    <p style=\"color: #4b5563; font-size: 1.2rem; margin-bottom: 32px;\">Essayez de modifier vos critères de recherche.</p>
+                    <a href=\"";
+            // line 90
+            yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_langue_index");
+            yield "\" style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 16px 40px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1.25rem; box-shadow: 0 6px 20px rgba(102,110,234,0.4);\">
+                        Réinitialiser les filtres
+                    </a>
+                </div>
+            ";
         }
-        
-    } catch (error) {
-        console.error('Erreur:', error);
-        // Mode démo
-        alert('Félicitations! Test réussi en mode démo!');
-        closeTest();
-        updateLevelProgress(parseInt(document.getElementById('levelNumber').textContent));
-    }
-}
+        // line 95
+        yield "        </div>
+    </div>
 
-function updateLevelProgress(levelId) {
-    // Mettre à jour le niveau localement
-    const levelIndex = levels.findIndex(l => l.id === levelId);
-    if (levelIndex !== -1) {
-        levels[levelIndex].completed = true;
-        
-        // Déverrouiller le niveau suivant
-        if (levelIndex + 1 < levels.length) {
-            levels[levelIndex + 1].unlocked = true;
-            currentLevel = levelId + 1;
-        }
-        
-        // Recharger le jeu
-        initGame();
-        
-        // Mettre à jour la barre de progression
-        const completed = levels.filter(l => l.completed).length;
-        document.querySelector('.progress-fill').style.width = \${(completed / levels.length) * 100}%;
-        document.querySelector('.game-info p').textContent = \${completed}/\${levels.length} niveaux complétés;
-    }
-}
-
-function showLevelResults(level) {
-    alert(Niveau \${level.id} - \${level.title}\\n\\nStatut: \${level.completed ? 'Complété ✓' : 'En cours...'}\\n\\nCliquez sur le niveau actuel pour continuer votre progression.);
-}
-
-function closeTest() {
-    document.getElementById('testModal').style.display = 'none';
-}
-
-function resetGame() {
-    if (confirm('Êtes-vous sûr de vouloir réinitialiser toute votre progression?')) {
-        levels.forEach(level => {
-            level.unlocked = level.id === 1;
-            level.completed = level.id === 1;
-        });
-        currentLevel = 2;
-        initGame();
-        document.querySelector('.progress-fill').style.width = '10%';
-        document.querySelector('.game-info p').textContent = '1/10 niveaux complétés';
-    }
-}
-
-// Initialiser le jeu quand la page est chargée
-document.addEventListener('DOMContentLoaded', initGame);
-</script>
+</div>
 ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -650,7 +264,7 @@ document.addEventListener('DOMContentLoaded', initGame);
      */
     public function getTemplateName(): string
     {
-        return "Langue/index.html.twig";
+        return "langue/index.html.twig";
     }
 
     /**
@@ -666,502 +280,109 @@ document.addEventListener('DOMContentLoaded', initGame);
      */
     public function getDebugInfo(): array
     {
-        return array (  345 => 200,  332 => 199,  297 => 173,  261 => 139,  251 => 132,  248 => 131,  235 => 130,  102 => 7,  89 => 6,  66 => 4,  43 => 2,);
+        return array (  248 => 95,  240 => 90,  235 => 87,  231 => 85,  218 => 77,  213 => 76,  208 => 74,  202 => 70,  198 => 68,  192 => 65,  187 => 64,  185 => 63,  174 => 56,  170 => 55,  167 => 54,  165 => 53,  135 => 28,  129 => 27,  116 => 17,  108 => 12,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
     {
-        return new Source("{# templates/about/index.html.twig #}
-{% extends 'base.html.twig' %}
+        return new Source("{% extends 'base.html.twig' %}
 
-{% block title %}À propos - Fluently{% endblock %}
-
-{% block stylesheets %}
-{{ parent() }}
-<style>
-    .game-container {
-        position: relative;
-        min-height: 800px;
-    }
-    
-    .level-circle {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: bold;
-        font-size: 1.5rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        position: absolute;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        border: 5px solid white;
-    }
-    
-    .level-circle:hover {
-        transform: scale(1.1);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    }
-    
-    .level-circle.active {
-        animation: pulse 2s infinite;
-    }
-    
-    .level-circle.locked {
-        background-color: #95a5a6 !important;
-        cursor: not-allowed;
-        opacity: 0.7;
-    }
-    
-    .level-circle.completed {
-        border-color: #2ecc71;
-    }
-    
-    .level-circle.current {
-        border-color: #3498db;
-    }
-    
-    .path-line {
-        position: absolute;
-        background-color: #3498db;
-        height: 10px;
-        z-index: -1;
-        transform-origin: left center;
-    }
-    
-    .game-info {
-        background: white;
-        border-radius: 15px;
-        padding: 30px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        margin-bottom: 40px;
-    }
-    
-    .progress-bar-game {
-        height: 20px;
-        border-radius: 10px;
-        background: #ecf0f1;
-        overflow: hidden;
-        margin: 20px 0;
-    }
-    
-    .progress-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #3498db, #2ecc71);
-        transition: width 0.5s ease;
-    }
-    
-    @keyframes pulse {
-        0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7); }
-        70% { box-shadow: 0 0 0 15px rgba(52, 152, 219, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
-    }
-    
-    .level-badge {
-        position: absolute;
-        top: -10px;
-        right: -10px;
-        width: 40px;
-        height: 40px;
-        background: #e74c3c;
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-    }
-    
-    .test-modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.8);
-        z-index: 1000;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .test-content {
-        background: white;
-        border-radius: 20px;
-        padding: 40px;
-        max-width: 800px;
-        width: 90%;
-        max-height: 90vh;
-        overflow-y: auto;
-    }
-</style>
-{% endblock %}
+{% block title %}Langues Disponibles - Fluently{% endblock %}
 
 {% block body %}
-
-<section class=\"hero-wrap hero-wrap-2\" style=\"background-image: url('{{ asset('assets/images/bg_2.jpg') }}');\">
-    <div class=\"overlay\"></div>
-    <div class=\"container\">
-        <div class=\"row no-gutters slider-text align-items-end justify-content-center\">
-            <div class=\"col-md-9 ftco-animate pb-5 text-center\">
-                <p class=\"breadcrumbs\">
-                    <span class=\"mr-2\">
-                        <a href=\"{{ path('app_home') }}\">Accueil <i class=\"fa fa-chevron-right\"></i></a>
-                    </span> 
-                    <span>Langues <i class=\"fa fa-chevron-right\"></i></span>
-                </p>
-                <h1 class=\"mb-0 bread\">Aventure Linguistique</h1>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class=\"ftco-section\">
-    <div class=\"container\">
-        <div class=\"game-info\">
-            <div class=\"row\">
-                <div class=\"col-md-6\">
-                    <h2 class=\"mb-3\">Progression</h2>
-                    <div class=\"progress-bar-game\">
-                        <div class=\"progress-fill\" style=\"width: 30%;\"></div>
-                    </div>
-                    <p>3/10 niveaux complétés</p>
-                </div>
-                <div class=\"col-md-6 text-right\">
-                    <h3>Score: 2,540</h3>
-                    <div class=\"mt-3\">
-                        <span class=\"badge badge-success mr-2\">Anglais</span>
-                        <span class=\"badge badge-warning mr-2\">Français</span>
-                        <span class=\"badge badge-info\">Espagnol</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class=\"game-container\" id=\"gameContainer\">
-            {# Les niveaux seront générés dynamiquement par JavaScript #}
-        </div>
-        
-        <div class=\"text-center mt-5\">
-            <button class=\"btn btn-primary btn-lg\" onclick=\"resetGame()\">
-                <i class=\"fa fa-redo\"></i> Réinitialiser la progression
-            </button>
-        </div>
-    </div>
-</section>
-
-<!-- Modal pour le test de niveau -->
-<div class=\"test-modal\" id=\"testModal\">
-    <div class=\"test-content\">
-        <h2 id=\"testTitle\" class=\"mb-4\">Test de Niveau - Niveau <span id=\"levelNumber\">1</span></h2>
-        <div id=\"testContent\">
-            <!-- Le contenu du test sera chargé dynamiquement depuis l'API -->
-        </div>
-        <div class=\"text-right mt-4\">
-            <button class=\"btn btn-secondary mr-2\" onclick=\"closeTest()\">Annuler</button>
-            <button class=\"btn btn-success\" onclick=\"submitTest()\">Soumettre les réponses</button>
-        </div>
-    </div>
-</div>
-
-{% endblock %}
-
-{% block javascripts %}
-{{ parent() }}
-<script>
-// Configuration des niveaux
-const levels = [
-    { id: 1, x: 50, y: 100, color: '#3498db', title: 'Débutant', unlocked: true, completed: true, testRequired: true },
-    { id: 2, x: 200, y: 180, color: '#2ecc71', title: 'Basique', unlocked: true, completed: true, testRequired: true },
-    { id: 3, x: 350, y: 100, color: '#9b59b6', title: 'Intermédiaire 1', unlocked: true, completed: true, testRequired: true },
-    { id: 4, x: 500, y: 180, color: '#e67e22', title: 'Intermédiaire 2', unlocked: true, completed: false, testRequired: true },
-    { id: 5, x: 650, y: 100, color: '#e74c3c', title: 'Avancé 1', unlocked: false, completed: false, testRequired: true },
-    { id: 6, x: 50, y: 300, color: '#1abc9c', title: 'Conversation', unlocked: false, completed: false, testRequired: true },
-    { id: 7, x: 200, y: 380, color: '#d35400', title: 'Business', unlocked: false, completed: false, testRequired: true },
-    { id: 8, x: 350, y: 300, color: '#34495e', title: 'Technique', unlocked: false, completed: false, testRequired: true },
-    { id: 9, x: 500, y: 380, color: '#f39c12', title: 'Expert', unlocked: false, completed: false, testRequired: true },
-    { id: 10, x: 650, y: 300, color: '#c0392b', title: 'Maîtrise', unlocked: false, completed: false, testRequired: true }
-];
-
-let currentLevel = 4; // Le niveau actuel (premier non complété)
-
-// URL des APIs (sur des PC différents)
-const API_BASE_URL = 'http://votre-api-test:8000'; // API des tests
-const LANGUE_API_URL = 'http://votre-api-langue:8001'; // API des langues
-
-function initGame() {
-    const container = document.getElementById('gameContainer');
-    container.innerHTML = '';
-    
-    // Dessiner les lignes de chemin
-    for (let i = 0; i < levels.length - 1; i++) {
-        if (levels[i].unlocked && levels[i + 1].unlocked) {
-            const line = document.createElement('div');
-            line.className = 'path-line';
-            
-            const x1 = levels[i].x + 60;
-            const y1 = levels[i].y + 60;
-            const x2 = levels[i + 1].x + 60;
-            const y2 = levels[i + 1].y + 60;
-            
-            const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-            const angle = Math.atan2(y2 - y1, x2 - x1) * (180 / Math.PI);
-            
-            line.style.width = length + 'px';
-            line.style.left = x1 + 'px';
-            line.style.top = (y1 - 5) + 'px';
-            line.style.transform = rotate(\${angle}deg);
-            
-            container.appendChild(line);
-        }
-    }
-    
-    // Créer les cercles de niveau
-    levels.forEach((level, index) => {
-        const circle = document.createElement('div');
-        circle.className = 'level-circle';
-        circle.style.left = level.x + 'px';
-        circle.style.top = level.y + 'px';
-        circle.style.backgroundColor = level.color;
-        circle.style.zIndex = '10';
-        
-        if (!level.unlocked) {
-            circle.classList.add('locked');
-        } else if (level.completed) {
-            circle.classList.add('completed');
-        }
-        
-        if (level.id === currentLevel) {
-            circle.classList.add('current', 'active');
-        }
-        
-        circle.innerHTML = `
-            <div class=\"text-center\">
-                <div style=\"font-size: 1.2rem;\">\${level.title}</div>
-                <div>Niveau \${level.id}</div>
-            </div>
-        `;
-        
-        if (level.testRequired && !level.completed) {
-            const badge = document.createElement('div');
-            badge.className = 'level-badge';
-            badge.innerHTML = '<i class=\"fa fa-question\"></i>';
-            circle.appendChild(badge);
-        }
-        
-        circle.onclick = () => handleLevelClick(level);
-        
-        container.appendChild(circle);
-    });
-}
-
-function handleLevelClick(level) {
-    if (!level.unlocked) {
-        alert('Ce niveau est verrouillé. Complétez le niveau précédent d\\'abord.');
-        return;
-    }
-    
-    if (level.id === currentLevel) {
-        // Si c'est le niveau courant, commencer le test
-        startLevelTest(level);
-    } else if (level.id < currentLevel) {
-        // Si c'est un niveau déjà complété, montrer les résultats
-        showLevelResults(level);
-    } else {
-        alert('Vous devez compléter le niveau ' + (currentLevel - 1) + ' d\\'abord!');
-    }
-}
-
-async function startLevelTest(level) {
-    document.getElementById('levelNumber').textContent = level.id;
-    document.getElementById('testTitle').textContent = Test de Niveau - \${level.title};
-    
-    try {
-        // Appeler l'API des tests sur l'autre PC
-        const response = await fetch(\${API_BASE_URL}/api/test/level/\${level.id}, {
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            }
-        });
-        
-        if (!response.ok) throw new Error('Erreur de chargement du test');
-        
-        const testData = await response.json();
-        displayTestQuestions(testData);
-        
-    } catch (error) {
-        console.error('Erreur:', error);
-        // Mode démo si l'API n'est pas disponible
-        displayDemoTest(level);
-    }
-    
-    document.getElementById('testModal').style.display = 'flex';
-}
-
-function displayTestQuestions(testData) {
-    const container = document.getElementById('testContent');
-    let html = `
-        <p class=\"mb-4\">\${testData.description || 'Test de compétence linguistique'}</p>
-        <p><strong>Temps estimé:</strong> \${testData.duration || '10'} minutes</p>
-    `;
-    
-    testData.questions.forEach((question, index) => {
-        html += `
-            <div class=\"question mb-4 p-3 border rounded\">
-                <h5>Question \${index + 1}: \${question.text}</h5>
-                \${question.options ? question.options.map((option, i) => `
-                    <div class=\"form-check\">
-                        <input class=\"form-check-input\" type=\"radio\" name=\"q\${index}\" id=\"q\${index}o\${i}\" value=\"\${i}\">
-                        <label class=\"form-check-label\" for=\"q\${index}o\${i}\">
-                            \${option}
+<div style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 0;\">
+<br><br><br><br>
+    <!-- Zone de recherche et tri (centré et plus esthétique) -->
+    <div style=\"padding: 60px 20px 40px; text-align: center;\">
+        <div style=\"max-width: 900px; margin: 0 auto;\">
+            <div style=\"background: rgba(255,255,255,0.95); border-radius: 20px; padding: 32px; box-shadow: 0 12px 40px rgba(0,0,0,0.25);\">
+                <form method=\"GET\" action=\"{{ path('app_langue_index') }}\" style=\"display: grid; grid-template-columns: 2fr 1fr 160px; gap: 24px; align-items: end;\">
+                    <div>
+                        <label style=\"font-weight: 700; color: #1e293b; margin-bottom: 12px; display: block; font-size: 1.15rem;\">
+                            Rechercher une langue
                         </label>
+                        <input type=\"text\" name=\"search\" value=\"{{ search }}\" placeholder=\"Ex: Français, Anglais...\" 
+                               style=\"width: 100%; padding: 16px 20px; border: 2px solid #d1d5db; border-radius: 12px; font-size: 1.1rem; box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);\">
                     </div>
-                `).join('') : ''}
-                \${question.input ? `
-                    <div class=\"form-group\">
-                        <label>Votre réponse:</label>
-                        <input type=\"text\" class=\"form-control\" name=\"q\${index}_input\">
-                    </div>
-                ` : ''}
-            </div>
-        `;
-    });
-    
-    container.innerHTML = html;
-}
 
-function displayDemoTest(level) {
-    const container = document.getElementById('testContent');
-    container.innerHTML = `
-        <p class=\"mb-4\">Test de niveau démo pour \${level.title}. Dans la version réelle, ceci serait chargé depuis l'API de tests.</p>
-        
-        <div class=\"question mb-4 p-3 border rounded\">
-            <h5>Question 1: Traduisez \"Bonjour\" en anglais</h5>
-            <div class=\"form-check\">
-                <input class=\"form-check-input\" type=\"radio\" name=\"q1\" id=\"q1o1\" value=\"1\">
-                <label class=\"form-check-label\" for=\"q1o1\">Hello</label>
-            </div>
-            <div class=\"form-check\">
-                <input class=\"form-check-input\" type=\"radio\" name=\"q1\" id=\"q1o2\" value=\"2\">
-                <label class=\"form-check-label\" for=\"q1o2\">Goodbye</label>
-            </div>
-            <div class=\"form-check\">
-                <input class=\"form-check-input\" type=\"radio\" name=\"q1\" id=\"q1o3\" value=\"3\">
-                <label class=\"form-check-label\" for=\"q1o3\">Thank you</label>
+                    <div>
+                        <label style=\"font-weight: 700; color: #1e293b; margin-bottom: 12px; display: block; font-size: 1.15rem;\">
+                            Trier par
+                        </label>
+                        <select name=\"sortBy\" style=\"width: 100%; padding: 16px 20px; border: 2px solid #d1d5db; border-radius: 12px; font-size: 1.1rem; background: white;\">
+                            <option value=\"\">-- Aucun tri --</option>
+                            <option value=\"nom\"        {% if sortBy == 'nom'        %}selected{% endif %}>Nom (A-Z)</option>
+                            <option value=\"popularite\" {% if sortBy == 'popularite' %}selected{% endif %}>Popularité</option>
+                        </select>
+                    </div>
+
+                    <button type=\"submit\" style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; padding: 16px 28px; font-weight: 700; font-size: 1.15rem; cursor: pointer; box-shadow: 0 6px 16px rgba(102,110,234,0.4); transition: all 0.25s;\" onmouseover=\"this.style.transform='scale(1.05)';\" onmouseout=\"this.style.transform='scale(1)';\">
+                        Filtrer
+                    </button>
+                </form>
             </div>
         </div>
-        
-        <div class=\"question mb-4 p-3 border rounded\">
-            <h5>Question 2: Complétez la phrase: \"I _ to school every day.\"</h5>
-            <div class=\"form-group\">
-                <input type=\"text\" class=\"form-control\" name=\"q2_input\" placeholder=\"Votre réponse\">
-            </div>
+    </div>
+
+    <!-- Titre principal -->
+    <div style=\"padding: 0 20px 40px; text-align: center;\">
+        <h1 style=\"color: white; font-size: 3rem; font-weight: 900; margin: 0 0 16px; text-shadow: 0 4px 12px rgba(0,0,0,0.4);\">
+            Langues Disponibles
+        </h1>
+        <p style=\"color: rgba(255,255,255,0.95); font-size: 1.35rem; margin: 0;\">
+            Choisissez une langue et commencez votre aventure linguistique dès aujourd'hui !
+        </p>
+    </div>
+
+    <!-- Cartes des langues -->
+    <div style=\"padding: 0 20px 80px;\">
+        <div style=\"max-width: 1300px; margin: 0 auto;\">
+            {% if langues %}
+                <div style=\"display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px;\">
+                    {% for langue in langues %}
+                        <a href=\"{{ path('app_langue_apprentissage', {'id': langue.id}) }}\" style=\"text-decoration: none;\">
+                            <div style=\"background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 36px rgba(0,0,0,0.18); transition: all 0.4s ease; height: 100%; display: flex; flex-direction: column;\" 
+                                 onmouseover=\"this.style.transform='translateY(-12px)'; this.style.boxShadow='0 24px 60px rgba(0,0,0,0.28)';\" 
+                                 onmouseout=\"this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 36px rgba(0,0,0,0.18)';\">
+                                
+                                <!-- Drapeau -->
+                                <div style=\"height: 180px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; position: relative;\">
+                                    {% if langue.drapeau %}
+                                        <img src=\"{{ asset('images/langues/' ~ langue.drapeau) }}\" 
+                                             alt=\"Drapeau {{ langue.nom }}\" 
+                                             style=\"width: 100%; height: 100%; object-fit: cover; border-bottom: 6px solid rgba(255,255,255,0.3);\">
+                                    {% else %}
+                                        <span style=\"color: white; font-size: 5rem; opacity: 0.4;\">🌍</span>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Contenu -->
+                                <div style=\"padding: 28px; display: flex; flex-direction: column; flex-grow: 1;\">
+                                    <h3 style=\"font-size: 1.9rem; font-weight: 800; color: #111827; margin: 0 0 12px;\">{{ langue.nom }}</h3>
+                                    <p style=\"color: #4b5563; margin: 0 0 24px; line-height: 1.6; flex-grow: 1; font-size: 1.1rem;\">
+                                        {{ langue.description|slice(0, 110) }}{% if langue.description|length > 110 %}...{% endif %}
+                                    </p>
+                                    <div style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 1.25rem; margin-top: auto; box-shadow: 0 4px 12px rgba(102,110,234,0.3); transition: all 0.3s;\" onmouseover=\"this.style.transform='scale(1.05)';\" onmouseout=\"this.style.transform='scale(1)';\">
+                                        Commencer →
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div style=\"background: white; border-radius: 20px; padding: 80px 40px; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,0.2);\">
+                    <h3 style=\"color: #1e293b; font-size: 1.8rem; margin-bottom: 20px;\">Aucune langue trouvée</h3>
+                    <p style=\"color: #4b5563; font-size: 1.2rem; margin-bottom: 32px;\">Essayez de modifier vos critères de recherche.</p>
+                    <a href=\"{{ path('app_langue_index') }}\" style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 16px 40px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1.25rem; box-shadow: 0 6px 20px rgba(102,110,234,0.4);\">
+                        Réinitialiser les filtres
+                    </a>
+                </div>
+            {% endif %}
         </div>
-    `;
-}
+    </div>
 
-async function submitTest() {
-    // Collecter les réponses
-    const answers = {};
-    // Logique de collecte des réponses...
-    
-    try {
-        // Envoyer les réponses à l'API des tests
-        const response = await fetch(\${API_BASE_URL}/api/test/submit, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            },
-            body: JSON.stringify({
-                levelId: document.getElementById('levelNumber').textContent,
-                answers: answers
-            })
-        });
-        
-        const result = await response.json();
-        
-        if (result.passed) {
-            // Mettre à jour l'API des langues
-            await fetch(\${LANGUE_API_URL}/api/langue/progression, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('token')
-                },
-                body: JSON.stringify({
-                    level: result.level,
-                    score: result.score,
-                    language: 'english' // À adapter
-                })
-            });
-            
-            alert(Félicitations! Vous avez réussi le test avec \${result.score}%!);
-            closeTest();
-            updateLevelProgress(result.level);
-        } else {
-            alert(Test échoué. Score: \${result.score}%. Essayez à nouveau!);
-        }
-        
-    } catch (error) {
-        console.error('Erreur:', error);
-        // Mode démo
-        alert('Félicitations! Test réussi en mode démo!');
-        closeTest();
-        updateLevelProgress(parseInt(document.getElementById('levelNumber').textContent));
-    }
-}
-
-function updateLevelProgress(levelId) {
-    // Mettre à jour le niveau localement
-    const levelIndex = levels.findIndex(l => l.id === levelId);
-    if (levelIndex !== -1) {
-        levels[levelIndex].completed = true;
-        
-        // Déverrouiller le niveau suivant
-        if (levelIndex + 1 < levels.length) {
-            levels[levelIndex + 1].unlocked = true;
-            currentLevel = levelId + 1;
-        }
-        
-        // Recharger le jeu
-        initGame();
-        
-        // Mettre à jour la barre de progression
-        const completed = levels.filter(l => l.completed).length;
-        document.querySelector('.progress-fill').style.width = \${(completed / levels.length) * 100}%;
-        document.querySelector('.game-info p').textContent = \${completed}/\${levels.length} niveaux complétés;
-    }
-}
-
-function showLevelResults(level) {
-    alert(Niveau \${level.id} - \${level.title}\\n\\nStatut: \${level.completed ? 'Complété ✓' : 'En cours...'}\\n\\nCliquez sur le niveau actuel pour continuer votre progression.);
-}
-
-function closeTest() {
-    document.getElementById('testModal').style.display = 'none';
-}
-
-function resetGame() {
-    if (confirm('Êtes-vous sûr de vouloir réinitialiser toute votre progression?')) {
-        levels.forEach(level => {
-            level.unlocked = level.id === 1;
-            level.completed = level.id === 1;
-        });
-        currentLevel = 2;
-        initGame();
-        document.querySelector('.progress-fill').style.width = '10%';
-        document.querySelector('.game-info p').textContent = '1/10 niveaux complétés';
-    }
-}
-
-// Initialiser le jeu quand la page est chargée
-document.addEventListener('DOMContentLoaded', initGame);
-</script>
-{% endblock %}", "Langue/index.html.twig", "C:\\Users\\emnab\\Documents\\Main\\Fluently\\templates\\langue\\index.html.twig");
+</div>
+{% endblock %}", "langue/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\langue\\index.html.twig");
     }
 }

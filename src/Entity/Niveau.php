@@ -113,12 +113,12 @@ class Niveau
         return $this;
     }
 
-    public function getOrdre(): ?Number
+    public function getOrdre(): ?int
     {
         return $this->ordre;
     }
 
-    public function setOrdre(Number $ordre): static
+    public function setOrdre(int $ordre): static
     {
         $this->ordre = $ordre;
 

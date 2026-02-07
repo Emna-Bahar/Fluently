@@ -135,10 +135,19 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
                             <span class=\"nxl-mtext\">Langues</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"reports-sales.html\">Sales Report</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"reports-leads.html\">Leads Report</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"reports-project.html\">Project Report</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"reports-timesheets.html\">Timesheets Report</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
+        // line 69
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_admin_langue_index");
+        yield "\">Langue</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
+        // line 70
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_cours_index");
+        yield "\">Cours</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
+        // line 71
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_niveau_index");
+        yield "\">Niveau</a></li>
+                            
                         </ul>
                     </li>
                     <li class=\"nxl-item nxl-hasmenu\">
@@ -534,7 +543,7 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  489 => 334,  476 => 333,  460 => 371,  454 => 368,  450 => 367,  444 => 364,  440 => 363,  436 => 362,  431 => 360,  421 => 352,  419 => 333,  322 => 239,  314 => 234,  290 => 213,  272 => 198,  254 => 183,  113 => 45,  109 => 44,  87 => 25,  81 => 22,  77 => 21,  71 => 18,  65 => 15,  49 => 1,);
+        return array (  498 => 334,  485 => 333,  469 => 371,  463 => 368,  459 => 367,  453 => 364,  449 => 363,  445 => 362,  440 => 360,  430 => 352,  428 => 333,  331 => 239,  323 => 234,  299 => 213,  281 => 198,  263 => 183,  148 => 71,  144 => 70,  140 => 69,  113 => 45,  109 => 44,  87 => 25,  81 => 22,  77 => 21,  71 => 18,  65 => 15,  49 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -607,10 +616,10 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
                             <span class=\"nxl-mtext\">Langues</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"reports-sales.html\">Sales Report</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"reports-leads.html\">Leads Report</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"reports-project.html\">Project Report</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"reports-timesheets.html\">Timesheets Report</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_admin_langue_index') }}\">Langue</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_cours_index') }}\">Cours</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_niveau_index') }}\">Niveau</a></li>
+                            
                         </ul>
                     </li>
                     <li class=\"nxl-item nxl-hasmenu\">
@@ -913,6 +922,6 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
    
 </body>
 
-</html>", "dashboard/index.html.twig", "C:\\Users\\emnab\\Documents\\Main\\Fluently\\templates\\dashboard\\index.html.twig");
+</html>", "dashboard/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\dashboard\\index.html.twig");
     }
 }

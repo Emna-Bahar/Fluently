@@ -1,0 +1,63 @@
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_row(form.langue, {'attr': {'id': 'langue-select'}}) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.Id_niveau, {'attr': {'id': 'niveau-select'}}) }}
+        </div>
+    </div>
+    
+    {{ form_widget(form) }}
+    
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const langueSelect = document.getElementById('langue-select');
+    const niveauSelect = document.getElementById('niveau-select');
+    // Store original options to restore them later
+    // We need to clone them because appending them to a new select removes them from the original NodeList
+    const niveauOptions = Array.from(niveauSelect.options).map(option => option.cloneNode(true));
+
+    function filterNiveaux() {
+        const selectedLangueId = langueSelect.value;
+        const currentNiveauId = niveauSelect.value;
+        
+        // Reset selection if the current one is being hidden
+        let isCurrentValid = false;
+
+        niveauSelect.innerHTML = ''; // Clear existing
+        
+        niveauOptions.forEach(option => {
+            if (option.value === '') {
+                niveauSelect.appendChild(option.cloneNode(true)); // Always keep placeholder
+                return;
+            }
+            
+            const optionLangue = option.getAttribute('data-langue');
+            if (optionLangue === selectedLangueId) {
+                const clonedOption = option.cloneNode(true);
+                niveauSelect.appendChild(clonedOption);
+                if (clonedOption.value === currentNiveauId) isCurrentValid = true;
+            }
+        });
+
+        if (!isCurrentValid) {
+            niveauSelect.value = '';
+        } else {
+            niveauSelect.value = currentNiveauId; // Restore previous selection if still valid
+        }
+    }
+
+    if(langueSelect) {
+        langueSelect.addEventListener('change', filterNiveaux);
+        // Trigger on load if langue is already selected (e.g. edit or back button)
+        // Only filter if a langue is actually selected, otherwise show all
+        if(langueSelect.value) {
+            filterNiveaux();
+        }
+    }
+});
+</script>
+{{ form_end(form) }}

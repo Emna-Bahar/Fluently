@@ -1,0 +1,157 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Niveaux{% endblock %}
+
+{% block body %}
+<div style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); min-height: 100vh; padding: 100px 20px 60px; color: white;">
+<br><br><br><br>
+    <div class="container" style="max-width: 1400px;">
+
+        <!-- Titre + Ajouter -->
+        <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-4">
+            <h1 class="mb-0" style="font-weight: 900; text-shadow: 0 4px 16px rgba(0,0,0,0.5);">
+                Gestion des Niveaux
+            </h1>
+            <a href="{{ path('app_niveau_new') }}" class="btn btn-success btn-lg shadow px-5 py-3 fw-bold">
+                + Ajouter un niveau
+            </a>
+        </div>
+
+        <!-- Filtres sur une seule ligne (grande taille) -->
+        <div class="card mb-5 shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255,255,255,0.12); backdrop-filter: blur(12px);">
+            <div class="card-body p-4">
+                <form method="get" class="row g-4 align-items-end">
+                    <!-- Langue -->
+                    <div class="col-lg-3 col-md-6">
+                        <label for="langue" class="form-label fw-bold text-white">Langue</label>
+                        <select name="langue" id="langue" class="form-select form-select-lg">
+                            <option value="">Toutes les langues</option>
+                            {% for langue in langues %}
+                                <option value="{{ langue.id }}" {% if app.request.query.get('langue') == langue.id %}selected{% endif %}>
+                                    {{ langue.nom }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Difficulté -->
+                    <div class="col-lg-3 col-md-6">
+                        <label for="difficulte" class="form-label fw-bold text-white">Difficulté</label>
+                        <select name="difficulte" id="difficulte" class="form-select form-select-lg">
+                            <option value="">Toutes</option>
+                            {% set difficultes = [] %}
+                            {% for n in niveaux %}
+                                {% if n.difficulte and n.difficulte not in difficultes %}
+                                    {% set difficultes = difficultes|merge([n.difficulte]) %}
+                                {% endif %}
+                            {% endfor %}
+                            {% for diff in difficultes|sort %}
+                                <option value="{{ diff }}" {% if app.request.query.get('difficulte') == diff %}selected{% endif %}>
+                                    {{ diff }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Seuil min -->
+                    <div class="col-lg-3 col-md-6">
+                        <label class="form-label fw-bold text-white">Seuil score min</label>
+                        <input type="number" name="seuil_min" class="form-control form-control-lg" 
+                               placeholder="Ex: 0" 
+                               value="{{ app.request.query.get('seuil_min') }}" 
+                               min="0" step="0.1">
+                    </div>
+
+                    <!-- Seuil max -->
+                    <div class="col-lg-3 col-md-6">
+                        <label class="form-label fw-bold text-white">Seuil score max</label>
+                        <input type="number" name="seuil_max" class="form-control form-control-lg" 
+                               placeholder="Ex: 100" 
+                               value="{{ app.request.query.get('seuil_max') }}" 
+                               min="0" step="0.1">
+                    </div>
+
+                    <!-- Boutons (à droite) -->
+                    <div class="col-12 col-lg-auto d-flex flex-wrap gap-3 justify-content-lg-end mt-3 mt-lg-0">
+                        <button type="submit" class="btn btn-primary btn-lg px-5 fw-bold shadow">
+                            Filtrer
+                        </button>
+                        <a href="{{ path('app_niveau_index') }}" class="btn btn-outline-light btn-lg px-5 fw-bold">
+                            Réinitialiser
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Messages flash -->
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} alert-dismissible fade show mb-4 rounded-3" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <!-- Tableau -->
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255,255,255,0.95);">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped mb-0 align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th class="ps-4">ID</th>
+                                <th>Langue</th>
+                                <th>Titre</th>
+                                <th class="text-center">Ordre</th>
+                                <th>Difficulté</th>
+                                <th class="text-center">Image</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for niveau in niveaux %}
+                            <tr>
+                                <td class="ps-4 fw-bold">{{ niveau.id }}</td>
+                                <td class="fw-bold">{{ niveau.IdLangue.nom }}</td>
+                                <td class="fw-bold">{{ niveau.titre }}</td>
+                                <td class="text-center">{{ niveau.ordre }}</td>
+                                <td class="text-center">{{ niveau.difficulte }}</td>
+                                <td class="text-center">
+                                    {% if niveau.imageCouverture %}
+                                        <img src="{{ asset('uploads/niveaux/' ~ niveau.imageCouverture) }}" alt="Couverture" style="max-width: 100px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                                    {% else %}
+                                        <span class="text-muted">—</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <a href="{{ path('app_niveau_show', {'id': niveau.id}) }}" class="btn btn-info">Voir</a>
+                                        <a href="{{ path('app_niveau_edit', {'id': niveau.id}) }}" class="btn btn-warning">Modifier</a>
+                                        <form method="post" action="{{ path('app_niveau_delete', {'id': niveau.id}) }}" onsubmit="return confirm('Supprimer ce niveau ?');" style="display:inline;">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ niveau.id) }}">
+                                            <button class="btn btn-danger">Supprimer</button>
+                                        </form>
+                                        <a href="{{ path('app_langue_show', {'id': niveau.IdLangue.id}) }}" class="btn btn-primary">
+                                            Voir langue
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="7" class="text-center py-5 text-muted fs-4 fw-bold bg-light">
+                                    Aucun niveau trouvé pour le moment.
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

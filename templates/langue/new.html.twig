@@ -1,0 +1,116 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}
+    {{ app.request.attributes.get('_route') == 'app_admin_langue_new' ? 'Nouvelle Langue' : 'Modifier Langue' }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="nxl-content">
+
+        <!-- Header de la page -->
+        <div class="page-header">
+            <div class="page-header-left d-flex align-items-center">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">
+                        {{ app.request.attributes.get('_route') == 'app_admin_langue_new' ? 'Nouvelle Langue' : 'Modifier la Langue' }}
+                    </h5>
+                    <h6 class="m-b-0">
+                        {% if app.request.attributes.get('_route') == 'app_admin_langue_new' %}
+                            Ajouter une nouvelle langue au catalogue
+                        {% else %}
+                            Modifier les informations de la langue
+                        {% endif %}
+                    </h6>
+                </div>
+            </div>
+            <div class="page-header-right ms-auto">
+                <a href="{{ path('app_admin_langue_index') }}" class="btn btn-outline-secondary">
+                    <i class="feather-arrow-left me-2"></i> Retour à la liste
+                </a>
+            </div>
+        </div>
+
+        <!-- Card principale -->
+        <div class="main-content">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-bottom">
+                    <h6 class="m-0">
+                        <i class="feather-plus-circle text-primary me-2"></i>
+                        {{ app.request.attributes.get('_route') == 'app_admin_langue_new' ? 'Créer une nouvelle langue' : 'Modifier la langue' }}
+                    </h6>
+                </div>
+
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'class': 'row g-4'}}) }}
+
+                    <!-- Nom -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            {{ form_widget(form.nom, {'attr': {'placeholder': ' '}}) }}
+                            {{ form_label(form.nom) }}
+                            {{ form_errors(form.nom) }}
+                        </div>
+                    </div>
+
+                    <!-- Popularité -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            {{ form_widget(form.popularite, {'attr': {'placeholder': ' '}}) }}
+                            {{ form_label(form.popularite) }}
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="col-12">
+                        <div class="form-floating">
+                            {{ form_widget(form.description, {'attr': {'placeholder': ' ', 'style': 'min-height: 140px;'}}) }}
+                            {{ form_label(form.description) }}
+                        </div>
+                    </div>
+
+                    <!-- Statut Active -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select class="form-select" id="{{ form.isActive.vars.id }}" name="{{ form.isActive.vars.full_name }}">
+                                <option value="1" {% if form.isActive.vars.value == true %}selected{% endif %}>Oui - Visible aux étudiants</option>
+                                <option value="0" {% if form.isActive.vars.value == false %}selected{% endif %}>Non - Masquée</option>
+                            </select>
+                            {{ form_label(form.isActive, 'Statut') }}
+                        </div>
+                    </div>
+
+                    <!-- Drapeau -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Drapeau (image)</label>
+                        <div class="input-group">
+                            {{ form_widget(form.drapeauFile, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        {{ form_errors(form.drapeauFile) }}
+
+                        {% if app.request.attributes.get('_route') != 'app_admin_langue_new' and langue.drapeau %}
+                            <div class="mt-3">
+                                <p class="small text-muted mb-2">Drapeau actuel :</p>
+                                <img src="{{ asset('images/langues/' ~ langue.drapeau) }}" 
+                                     alt="Drapeau {{ langue.nom }}" 
+                                     class="img-thumbnail rounded" 
+                                     style="max-height: 120px; object-fit: contain;">
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Bouton Soumission -->
+                    <div class="col-12 text-end mt-4 pt-3 border-top">
+                        <button type="submit" class="btn btn-primary btn-lg px-5">
+                            <i class="feather-save me-2"></i>
+                            {{ app.request.attributes.get('_route') == 'app_admin_langue_new' ? 'Créer la langue' : 'Enregistrer les modifications' }}
+                        </button>
+                    </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
