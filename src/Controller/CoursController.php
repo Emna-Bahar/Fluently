@@ -132,7 +132,7 @@ public function index(CoursRepository $coursRepository, NiveauRepository $niveau
 
         return $this->render('cours/new.html.twig', ['form' => $form->createView()]);
     }
-    // Pour l'étudiant (front-office)
+    
 // Pour l'étudiant (front-office)
 #[Route('/{id}', name: 'app_cours_show', methods: ['GET'])]
 public function show(Cours $cour): Response
@@ -157,9 +157,9 @@ public function show(Cours $cour): Response
     // Fusion + déduplication (array_unique garde la première occurrence)
     $allResources = array_unique(array_merge($files, $dbResources));
 
-    return $this->render('cours/base_apprentissage.html.twig', [  // ou ton template étudiant
+    return $this->render('cours/base_apprentissage.html.twig', [  
         'cour' => $cour,
-        'files' => $allResources,  // ← maintenant unique !
+        'files' => $allResources,  
         'public_path' => $publicPath,
     ]);
 }

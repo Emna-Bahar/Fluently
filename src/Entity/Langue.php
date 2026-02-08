@@ -7,8 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LangueRepository::class)]
+#[UniqueEntity(
+    fields: ['nom'],
+    message: 'Cette langue existe déjà dans le système.'
+)]
 class Langue
 {
     #[ORM\Id]
@@ -17,21 +23,34 @@ class Langue
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: "Le nom de la langue est obligatoire.")]
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: "Le nom doit contenir au moins {{ limit }} caractères.",
+        maxMessage: "Le nom ne peut pas dépasser {{ limit }} caractères."
+    )]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $drapeau = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "La description est obligatoire.")]
+    #[Assert\Length(
+        min: 5,
+        minMessage: "La description doit contenir au moins {{ limit }} caractères."
+    )]
     private ?string $description = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
     private ?string $popularite = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $date_ajout = null;
 
     #[ORM\Column]
+    #[Assert\NotNull(message: "Veuillez indiquer si la langue est active ou non.")]
     private ?bool $is_active = null;
 
     /**
@@ -64,6 +83,10 @@ class Langue
         $this->niveaux = new ArrayCollection();
         $this->groupes = new ArrayCollection();
         $this->tests = new ArrayCollection();
+
+        // Valeurs par défaut raisonnables
+        $this->date_ajout = new \DateTime();
+        $this->is_active = true;
     }
 
     public function getId(): ?int

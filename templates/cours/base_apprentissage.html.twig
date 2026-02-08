@@ -5,7 +5,8 @@
 {% block body %}
 <div style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); min-height: 100vh; padding: 60px 20px; color: white; font-family: system-ui, sans-serif;">
     <div style="max-width: 1100px; margin: 0 auto;">
-<br><br><br><br>
+        <br><br><br><br>
+
         <!-- En-tête -->
         <div style="text-align: center; margin-bottom: 60px;">
             <h1 style="font-size: 3rem; font-weight: 900; color: white; margin: 0 0 12px; text-shadow: 0 4px 12px rgba(0,0,0,0.4);">
@@ -32,7 +33,7 @@
         <div id="ressources-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 32px;">
             {% if files|length > 0 %}
                 {% for res in files %}
-                    {% set isYoutube = 'youtube.com' in res or 'youtu.be' in res %}
+                    {% set isYoutube = res matches '/(youtube\\.com|youtu\\.be)/i' %}
 
                     {% if isYoutube %}
                         {% set type = 'video' %}
@@ -40,9 +41,9 @@
                         {% set ext = res|split('.')|last|lower %}
                         {% set type = 'other' %}
                         {% if ext in ['pdf'] %}{% set type = 'pdf' %}
-                        {% elseif ext in ['mp4','webm'] %}{% set type = 'video' %}
-                        {% elseif ext in ['jpg','jpeg','png','gif','webp'] %}{% set type = 'image' %}
-                        {% elseif ext in ['mp3','wav','ogg'] %}{% set type = 'audio' %}
+                        {% elseif ext in ['mp4','webm','mov'] %}{% set type = 'video' %}
+                        {% elseif ext in ['jpg','jpeg','png','gif','webp','svg'] %}{% set type = 'image' %}
+                        {% elseif ext in ['mp3','wav','ogg','m4a'] %}{% set type = 'audio' %}
                         {% endif %}
                     {% endif %}
 
@@ -63,15 +64,36 @@
                             </div>
 
                             {% if isYoutube %}
-                                <div class="ratio ratio-16x9 rounded-3 overflow-hidden shadow">
-                                    <iframe 
-                                        src="{{ res|replace({'watch?v=': 'embed/', 'youtu.be/': 'www.youtube.com/embed/'}) }}" 
-                                        title="Vidéo YouTube" 
-                                        frameborder="0" 
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                        allowfullscreen>
-                                    </iframe>
-                                </div>
+                                {# Extraction robuste de l'ID YouTube #}
+                                {% set clean = res|trim %}
+                                {% set videoId = '' %}
+
+                                {% if 'youtu.be/' in clean %}
+                                    {% set videoId = clean|split('youtu.be/')[1]|split('?')[0]|trim %}
+                                {% elseif 'youtube.com/watch?v=' in clean %}
+                                    {% set videoId = clean|split('v=')[1]|split('&')[0]|trim %}
+                                {% elseif 'youtube.com/embed/' in clean %}
+                                    {% set videoId = clean|split('embed/')[1]|split('?')[0]|trim %}
+                                {% endif %}
+
+                                {% if videoId|length == 11 %}
+                                    <div class="ratio ratio-16x9 rounded-3 overflow-hidden shadow">
+                                        <iframe 
+                                            src="https://www.youtube.com/embed/{{ videoId }}?rel=0&modestbranding=1&showinfo=0&controls=1&autoplay=0&iv_load_policy=3" 
+                                            title="Vidéo YouTube" 
+                                            frameborder="0" 
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                            allowfullscreen>
+                                        </iframe>
+                                    </div>
+                                {% else %}
+                                    <div class="alert alert-warning text-center p-4">
+                                        <strong>Erreur de lecture :</strong> Impossible de charger cette vidéo.<br>
+                                        <small>URL problématique : {{ res|escape }}</small><br>
+                                        <small>Vérifiez le lien dans l'administration.</small>
+                                    </div>
+                                {% endif %}
+
                             {% else %}
                                 {% set filePath = public_path ~ '/' ~ res %}
 
@@ -122,7 +144,7 @@
 
     <!-- Script filtrage + terminer -->
     <script>
-        // Filtrage (inchangé)
+        // Filtrage
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
