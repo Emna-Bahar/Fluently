@@ -1,0 +1,177 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résultat du test - Fluently{% endblock %}
+
+{% block css %}
+{{ parent() }}
+<style>
+    .result-container {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 60px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .result-card {
+        background: white;
+        border-radius: 30px;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+        max-width: 800px;
+        overflow: hidden;
+    }
+    .result-header {
+        padding: 50px 30px;
+        text-align: center;
+        {% if results.pourcentage >= 80 %}
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        {% elseif results.pourcentage >= 50 %}
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        {% else %}
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        {% endif %}
+        color: white;
+    }
+    .score-circle {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 30px;
+        border: 10px solid rgba(255,255,255,0.4);
+    }
+    .score-number {
+        font-size: 4rem;
+        font-weight: 900;
+    }
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 20px;
+        padding: 30px;
+        background: #f8f9fa;
+    }
+    .stat-item {
+        text-align: center;
+        padding: 20px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .stat-item i {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+    .details-section {
+        padding: 30px;
+    }
+    .question-result {
+        padding: 20px;
+        margin-bottom: 15px;
+        border-radius: 12px;
+        border-left: 5px solid;
+    }
+    .question-result.correct {
+        background: #d1fae5;
+        border-color: #10b981;
+    }
+    .question-result.incorrect {
+        background: #fee2e2;
+        border-color: #ef4444;
+    }
+    .action-buttons {
+        padding: 30px;
+        text-align: center;
+        background: #f8f9fa;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="result-container">
+    <div class="result-card">
+        <div class="result-header">
+            <div class="score-circle">
+                <div class="score-number">{{ results.pourcentage }}%</div>
+            </div>
+            <h1 class="mb-3">
+                {% if results.pourcentage >= 80 %}
+                    🎉 Excellent travail !
+                {% elseif results.pourcentage >= 50 %}
+                    👍 Bon résultat !
+                {% else %}
+                    💪 Continue tes efforts !
+                {% endif %}
+            </h1>
+            <p class="mb-0" style="font-size: 1.2rem;">
+                Test : <strong>{{ results.test_type }}</strong> - {{ results.langue }}
+            </p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-item">
+                <i class="fas fa-check-circle text-success"></i>
+                <h3 class="mb-1">{{ results.correct_answers }}</h3>
+                <small class="text-muted">Bonnes réponses</small>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-times-circle text-danger"></i>
+                <h3 class="mb-1">{{ results.total_questions - results.correct_answers }}</h3>
+                <small class="text-muted">Erreurs</small>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-question-circle text-primary"></i>
+                <h3 class="mb-1">{{ results.total_questions }}</h3>
+                <small class="text-muted">Questions</small>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-star text-warning"></i>
+                <h3 class="mb-1">{{ results.total_score }}/{{ results.max_score }}</h3>
+                <small class="text-muted">Score total</small>
+            </div>
+        </div>
+
+        <div class="details-section">
+            <h3 class="mb-4">
+                <i class="fas fa-list-check"></i> Détails des réponses
+            </h3>
+            
+            {% for questionId, detail in results.details %}
+                <div class="question-result {{ detail.correct ? 'correct' : 'incorrect' }}">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <strong>{{ detail.question }}</strong>
+                        <span class="badge {{ detail.correct ? 'bg-success' : 'bg-danger' }}">
+                            {{ detail.score }} pts
+                        </span>
+                    </div>
+                    <p class="mb-1">
+                        <strong>Votre réponse :</strong> {{ detail.selected }}
+                        {% if detail.correct %}
+                            <i class="fas fa-check text-success ms-2"></i>
+                        {% else %}
+                            <i class="fas fa-times text-danger ms-2"></i>
+                        {% endif %}
+                    </p>
+                    {% if not detail.correct %}
+                        <p class="mb-0 text-success">
+                            <strong>Bonne réponse :</strong> {{ detail.correctAnswer }}
+                        </p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="action-buttons">
+            <a href="{{ path('app_langue_apprentissage', {id: test.idLangue.id}) }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-arrow-left"></i> Retour au parcours
+            </a>
+            <a href="{{ path('app_langue_index') }}" class="btn btn-outline-secondary btn-lg ms-2">
+                <i class="fas fa-home"></i> Accueil
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -158,7 +158,7 @@ class __TwigTemplate_a4c38e93d7be1f48162ac64792f99bf8 extends Template
                                 <th class=\"text-center\" style=\"width: 80px;\">Rang</th>
                                 <th>Family_Langue</th>
                                 <th class=\"text-end\">Locuteurs totaux</th>
-                                <th class=\"text-end\">Locuteurs natifs</th>
+                                
                                 <th class=\"text-center\">Part mondiale approx.</th>
                             </tr>
                         </thead>
@@ -185,21 +185,16 @@ class __TwigTemplate_a4c38e93d7be1f48162ac64792f99bf8 extends Template
             yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber((CoreExtension::getAttribute($this->env, $this->source, $context["lang"], "total_speakers", [], "any", false, false, false, 69) / 1000000), 1, ",", " "), "html", null, true);
             yield " M
                                 </td>
-                                <td class=\"text-end text-muted\">
-                                    ";
-            // line 72
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber((CoreExtension::getAttribute($this->env, $this->source, $context["lang"], "native_speakers", [], "any", false, false, false, 72) / 1000000), 1, ",", " "), "html", null, true);
-            yield " M
-                                </td>
+                                
                                 <td class=\"text-center\">
                                     ";
-            // line 75
-            $context["percent"] = ((CoreExtension::getAttribute($this->env, $this->source, $context["lang"], "total_speakers", [], "any", false, false, false, 75) / 8000000000) * 100);
-            // line 76
+            // line 73
+            $context["percent"] = ((CoreExtension::getAttribute($this->env, $this->source, $context["lang"], "total_speakers", [], "any", false, false, false, 73) / 8000000000) * 100);
+            // line 74
             yield "                                    <span class=\"badge bg-info-subtle text-info px-3 py-2 fs-6\">
                                         ~";
-            // line 77
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber((isset($context["percent"]) || array_key_exists("percent", $context) ? $context["percent"] : (function () { throw new RuntimeError('Variable "percent" does not exist.', 77, $this->source); })()), 1), "html", null, true);
+            // line 75
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber((isset($context["percent"]) || array_key_exists("percent", $context) ? $context["percent"] : (function () { throw new RuntimeError('Variable "percent" does not exist.', 75, $this->source); })()), 1), "html", null, true);
             yield " %
                                     </span>
                                 </td>
@@ -207,9 +202,9 @@ class __TwigTemplate_a4c38e93d7be1f48162ac64792f99bf8 extends Template
                         ";
             $context['_iterated'] = true;
         }
-        // line 81
+        // line 79
         if (!$context['_iterated']) {
-            // line 82
+            // line 80
             yield "                            <tr>
                                 <td colspan=\"5\" class=\"text-center py-5 text-muted\">
                                     <i class=\"feather-alert-circle fs-1 d-block mb-3 opacity-50\"></i>
@@ -221,7 +216,7 @@ class __TwigTemplate_a4c38e93d7be1f48162ac64792f99bf8 extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['lang'], $context['_parent'], $context['_iterated']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 89
+        // line 87
         yield "                        </tbody>
                     </table>
                 </div>
@@ -234,9 +229,9 @@ class __TwigTemplate_a4c38e93d7be1f48162ac64792f99bf8 extends Template
 
         <!-- === SECTION 2 : Graphique === -->
         ";
-        // line 100
-        if ((($tmp =  !Twig\Extension\CoreExtension::testEmpty((isset($context["globalLanguages"]) || array_key_exists("globalLanguages", $context) ? $context["globalLanguages"] : (function () { throw new RuntimeError('Variable "globalLanguages" does not exist.', 100, $this->source); })()))) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-            // line 101
+        // line 98
+        if ((($tmp =  !Twig\Extension\CoreExtension::testEmpty((isset($context["globalLanguages"]) || array_key_exists("globalLanguages", $context) ? $context["globalLanguages"] : (function () { throw new RuntimeError('Variable "globalLanguages" does not exist.', 98, $this->source); })()))) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+            // line 99
             yield "            <div class=\"card border-0 shadow-lg rounded-4 overflow-hidden\">
                 <div class=\"card-header bg-gradient-info text-white py-4\">
                     <h5 class=\"m-0 fw-bold\">
@@ -260,22 +255,22 @@ class __TwigTemplate_a4c38e93d7be1f48162ac64792f99bf8 extends Template
             </div>
         ";
         }
-        // line 123
+        // line 121
         yield "
     </div>
 
     <!-- === Chart.js === -->
     ";
-        // line 127
-        if ((($tmp =  !Twig\Extension\CoreExtension::testEmpty((isset($context["globalLanguages"]) || array_key_exists("globalLanguages", $context) ? $context["globalLanguages"] : (function () { throw new RuntimeError('Variable "globalLanguages" does not exist.', 127, $this->source); })()))) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-            // line 128
+        // line 125
+        if ((($tmp =  !Twig\Extension\CoreExtension::testEmpty((isset($context["globalLanguages"]) || array_key_exists("globalLanguages", $context) ? $context["globalLanguages"] : (function () { throw new RuntimeError('Variable "globalLanguages" does not exist.', 125, $this->source); })()))) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+            // line 126
             yield "        <script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const ctx = document.getElementById('languagesChart').getContext('2d');
                 const top10 = ";
-            // line 132
-            yield json_encode(Twig\Extension\CoreExtension::slice($this->env->getCharset(), (isset($context["globalLanguages"]) || array_key_exists("globalLanguages", $context) ? $context["globalLanguages"] : (function () { throw new RuntimeError('Variable "globalLanguages" does not exist.', 132, $this->source); })()), 0, 10));
+            // line 130
+            yield json_encode(Twig\Extension\CoreExtension::slice($this->env->getCharset(), (isset($context["globalLanguages"]) || array_key_exists("globalLanguages", $context) ? $context["globalLanguages"] : (function () { throw new RuntimeError('Variable "globalLanguages" does not exist.', 130, $this->source); })()), 0, 10));
             yield ";
 
                 new Chart(ctx, {
@@ -340,7 +335,7 @@ class __TwigTemplate_a4c38e93d7be1f48162ac64792f99bf8 extends Template
         </script>
     ";
         }
-        // line 195
+        // line 193
         yield "
 ";
         
@@ -373,7 +368,7 @@ class __TwigTemplate_a4c38e93d7be1f48162ac64792f99bf8 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  344 => 195,  278 => 132,  272 => 128,  270 => 127,  264 => 123,  240 => 101,  238 => 100,  225 => 89,  213 => 82,  211 => 81,  202 => 77,  199 => 76,  197 => 75,  191 => 72,  185 => 69,  180 => 67,  176 => 66,  173 => 65,  168 => 64,  137 => 35,  129 => 29,  127 => 28,  118 => 22,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  339 => 193,  273 => 130,  267 => 126,  265 => 125,  259 => 121,  235 => 99,  233 => 98,  220 => 87,  208 => 80,  206 => 79,  197 => 75,  194 => 74,  192 => 73,  185 => 69,  180 => 67,  176 => 66,  173 => 65,  168 => 64,  137 => 35,  129 => 29,  127 => 28,  118 => 22,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -436,7 +431,7 @@ class __TwigTemplate_a4c38e93d7be1f48162ac64792f99bf8 extends Template
                                 <th class=\"text-center\" style=\"width: 80px;\">Rang</th>
                                 <th>Family_Langue</th>
                                 <th class=\"text-end\">Locuteurs totaux</th>
-                                <th class=\"text-end\">Locuteurs natifs</th>
+                                
                                 <th class=\"text-center\">Part mondiale approx.</th>
                             </tr>
                         </thead>
@@ -448,9 +443,7 @@ class __TwigTemplate_a4c38e93d7be1f48162ac64792f99bf8 extends Template
                                 <td class=\"text-end fw-bold\">
                                     {{ (lang.total_speakers / 1000000)|number_format(1, ',', ' ') }} M
                                 </td>
-                                <td class=\"text-end text-muted\">
-                                    {{ (lang.native_speakers / 1000000)|number_format(1, ',', ' ') }} M
-                                </td>
+                                
                                 <td class=\"text-center\">
                                     {% set percent = (lang.total_speakers / 8000000000 * 100) %}
                                     <span class=\"badge bg-info-subtle text-info px-3 py-2 fs-6\">

@@ -138,91 +138,118 @@ class __TwigTemplate_d43904990e5fac6bdfcbcc4bd849c320 extends Template
             <div style=\"position: absolute; top: 0; bottom: 0; left: 50%; width: 10px; background: linear-gradient(to bottom, rgba(255,255,255,0.6), rgba(255,255,255,0.15)); transform: translateX(-50%); border-radius: 5px; z-index: 1;\"></div>
 
             <!-- Test de niveau (toujours visible en haut) -->
-            
-            <div style=\"position: relative; margin: 0 auto 180px; text-align: center; z-index: 3; max-width: 240px;\">
-                <a href=\"#\" onclick=\"alert('Lance le test de niveau (module à implémenter)'); return false;\" style=\"text-decoration: none;\">
-                    <div style=\"width: 200px; height: 200px; margin: 0 auto; background: linear-gradient(135deg, #fbbf24, #f59e0b); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 16px 60px rgba(251,191,36,0.6); transition: all 0.4s;\" onmouseover=\"this.style.transform='scale(1.15) rotate(12deg)';\" onmouseout=\"this.style.transform='scale(1) rotate(0deg)';\">
-                        <span style=\"font-size: 6rem; line-height: 1;\">📝</span>
-                        <span style=\"font-size: 1.6rem; font-weight: 900; color: #1e293b; margin-top: 12px;\">TEST</span>
-                    </div>
-                    <p style=\"margin-top: 32px; font-size: 1.8rem; font-weight: 800; color: white; text-shadow: 0 4px 12px rgba(0,0,0,0.5);\">
-                        Évalue ton niveau actuel
-                    </p>
-                </a>
+
+            <!-- Test de niveau (toujours visible en haut) -->
+<div style=\"position: relative; margin: 0 auto 180px; text-align: center; z-index: 3; max-width: 240px;\">
+    ";
+        // line 46
+        if ((($tmp = (isset($context["testNiveau"]) || array_key_exists("testNiveau", $context) ? $context["testNiveau"] : (function () { throw new RuntimeError('Variable "testNiveau" does not exist.', 46, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+            // line 47
+            yield "        ";
+            // line 48
+            yield "        <a href=\"";
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_test_student_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, (isset($context["testNiveau"]) || array_key_exists("testNiveau", $context) ? $context["testNiveau"] : (function () { throw new RuntimeError('Variable "testNiveau" does not exist.', 48, $this->source); })()), "id", [], "any", false, false, false, 48)]), "html", null, true);
+            yield "\" style=\"text-decoration: none;\">
+            <div style=\"width: 200px; height: 200px; margin: 0 auto; background: linear-gradient(135deg, #fbbf24, #f59e0b); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 16px 60px rgba(251,191,36,0.6); transition: all 0.4s;\" onmouseover=\"this.style.transform='scale(1.15) rotate(12deg)';\" onmouseout=\"this.style.transform='scale(1) rotate(0deg)';\">
+                <span style=\"font-size: 6rem; line-height: 1;\">📝</span>
+                <span style=\"font-size: 1.6rem; font-weight: 900; color: #1e293b; margin-top: 12px;\">TEST</span>
+
             </div>
+            <p style=\"margin-top: 32px; font-size: 1.8rem; font-weight: 800; color: white; text-shadow: 0 4px 12px rgba(0,0,0,0.5);\">
+                Évalue ton niveau actuel
+            </p>
+        </a>
+    ";
+        } else {
+            // line 59
+            yield "        ";
+            // line 60
+            yield "        <a href=\"#\" onclick=\"alert('⚠️ Aucun test de niveau disponible pour cette langue pour le moment.'); return false;\" style=\"text-decoration: none; opacity: 0.6; cursor: not-allowed;\">
+            <div style=\"width: 200px; height: 200px; margin: 0 auto; background: linear-gradient(135deg, #9ca3af, #6b7280); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 16px 60px rgba(107,114,128,0.4);\">
+                <span style=\"font-size: 6rem; line-height: 1;\">🔒</span>
+                <span style=\"font-size: 1.6rem; font-weight: 900; color: #1e293b; margin-top: 12px;\">TEST</span>
+            </div>
+            <p style=\"margin-top: 32px; font-size: 1.5rem; font-weight: 700; color: white; text-shadow: 0 4px 12px rgba(0,0,0,0.5);\">
+                Bientôt disponible
+            </p>
+        </a>
+    ";
+        }
+        // line 70
+        yield "</div>
 
             <!-- Les 18 cercles (6 niveaux × 3 cours) -->
             ";
-        // line 57
+        // line 73
         $context["niveaux"] = ["A1", "A2", "B1", "B2", "C1", "C2"];
-        // line 58
+        // line 74
         yield "            ";
         $context["couleurs"] = ["#22c55e", "#3b82f6", "#8b5cf6", "#f59e0b", "#ef4444", "#7c3aed"];
-        // line 59
+        // line 75
         yield "            ";
         $context["niveauIndex"] = 0;
-        // line 60
+        // line 76
         yield "
             ";
-        // line 61
+        // line 77
         $context['_parent'] = $context;
         $context['_seq'] = CoreExtension::ensureTraversable(range(1, 18));
         foreach ($context['_seq'] as $context["_key"] => $context["i"]) {
-            // line 62
+            // line 78
             yield "                ";
             if ((($context["i"] % 3) == 1)) {
-                // line 63
+                // line 79
                 yield "                    ";
-                $context["niveauIndex"] = ((isset($context["niveauIndex"]) || array_key_exists("niveauIndex", $context) ? $context["niveauIndex"] : (function () { throw new RuntimeError('Variable "niveauIndex" does not exist.', 63, $this->source); })()) + 1);
-                // line 64
+                $context["niveauIndex"] = ((isset($context["niveauIndex"]) || array_key_exists("niveauIndex", $context) ? $context["niveauIndex"] : (function () { throw new RuntimeError('Variable "niveauIndex" does not exist.', 79, $this->source); })()) + 1);
+                // line 80
                 yield "                    <div style=\"position: relative; margin: 180px 0 140px; text-align: center; z-index: 3;\">
                         <div style=\"font-size: 3.5rem; font-weight: 900; color: white; margin-bottom: 50px; text-shadow: 0 6px 16px rgba(0,0,0,0.5);\">
                             Niveau ";
-                // line 66
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["niveaux"]) || array_key_exists("niveaux", $context) ? $context["niveaux"] : (function () { throw new RuntimeError('Variable "niveaux" does not exist.', 66, $this->source); })()), ((isset($context["niveauIndex"]) || array_key_exists("niveauIndex", $context) ? $context["niveauIndex"] : (function () { throw new RuntimeError('Variable "niveauIndex" does not exist.', 66, $this->source); })()) - 1), [], "array", false, false, false, 66), "html", null, true);
+                // line 82
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["niveaux"]) || array_key_exists("niveaux", $context) ? $context["niveaux"] : (function () { throw new RuntimeError('Variable "niveaux" does not exist.', 82, $this->source); })()), ((isset($context["niveauIndex"]) || array_key_exists("niveauIndex", $context) ? $context["niveauIndex"] : (function () { throw new RuntimeError('Variable "niveauIndex" does not exist.', 82, $this->source); })()) - 1), [], "array", false, false, false, 82), "html", null, true);
                 yield "
                         </div>
                     </div>
                 ";
             }
-            // line 70
+            // line 86
             yield "
                 ";
-            // line 72
+            // line 88
             yield "                
                 ";
-            // line 74
+            // line 90
             yield "                ";
             $context["isUnlocked"] = ($context["i"] == 1);
             yield "  ";
-            // line 75
+            // line 91
             yield "
                 <div style=\"position: relative; margin: 120px 0; text-align: center; z-index: 3; transform: translateX(";
-            // line 76
+            // line 92
             yield (((($context["i"] % 6) < 3)) ? ("120px") : ("-120px"));
             yield ");\">
                     <a href=\"";
-            // line 77
-            if ((($tmp = (isset($context["isUnlocked"]) || array_key_exists("isUnlocked", $context) ? $context["isUnlocked"] : (function () { throw new RuntimeError('Variable "isUnlocked" does not exist.', 77, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_cours_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["allCours"]) || array_key_exists("allCours", $context) ? $context["allCours"] : (function () { throw new RuntimeError('Variable "allCours" does not exist.', 77, $this->source); })()), ($context["i"] - 1), [], "array", false, false, false, 77), "id", [], "any", false, false, false, 77)]), "html", null, true);
+            // line 93
+            if ((((isset($context["isUnlocked"]) || array_key_exists("isUnlocked", $context) ? $context["isUnlocked"] : (function () { throw new RuntimeError('Variable "isUnlocked" does not exist.', 93, $this->source); })()) && CoreExtension::getAttribute($this->env, $this->source, ($context["allCours"] ?? null), ($context["i"] - 1), [], "array", true, true, false, 93)) && CoreExtension::getAttribute($this->env, $this->source, (isset($context["allCours"]) || array_key_exists("allCours", $context) ? $context["allCours"] : (function () { throw new RuntimeError('Variable "allCours" does not exist.', 93, $this->source); })()), ($context["i"] - 1), [], "array", false, false, false, 93))) {
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_cours_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["allCours"]) || array_key_exists("allCours", $context) ? $context["allCours"] : (function () { throw new RuntimeError('Variable "allCours" does not exist.', 93, $this->source); })()), ($context["i"] - 1), [], "array", false, false, false, 93), "id", [], "any", false, false, false, 93)]), "html", null, true);
             } else {
                 yield "#";
             }
-            yield "\" 
+            yield "\">
                        style=\"text-decoration: none; pointer-events: ";
-            // line 78
-            yield (((($tmp = (isset($context["isUnlocked"]) || array_key_exists("isUnlocked", $context) ? $context["isUnlocked"] : (function () { throw new RuntimeError('Variable "isUnlocked" does not exist.', 78, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ("auto") : ("none"));
+            // line 94
+            yield (((($tmp = (isset($context["isUnlocked"]) || array_key_exists("isUnlocked", $context) ? $context["isUnlocked"] : (function () { throw new RuntimeError('Variable "isUnlocked" does not exist.', 94, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ("auto") : ("none"));
             yield "; opacity: ";
-            yield (((($tmp = (isset($context["isUnlocked"]) || array_key_exists("isUnlocked", $context) ? $context["isUnlocked"] : (function () { throw new RuntimeError('Variable "isUnlocked" does not exist.', 78, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ("1") : ("0.45"));
+            yield (((($tmp = (isset($context["isUnlocked"]) || array_key_exists("isUnlocked", $context) ? $context["isUnlocked"] : (function () { throw new RuntimeError('Variable "isUnlocked" does not exist.', 94, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ("1") : ("0.45"));
             yield ";\">
                         <div style=\"
                             width: 180px;
                             height: 180px;
                             margin: 0 auto;
                             background: ";
-            // line 83
-            if ((($tmp = (isset($context["isUnlocked"]) || array_key_exists("isUnlocked", $context) ? $context["isUnlocked"] : (function () { throw new RuntimeError('Variable "isUnlocked" does not exist.', 83, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["couleurs"]) || array_key_exists("couleurs", $context) ? $context["couleurs"] : (function () { throw new RuntimeError('Variable "couleurs" does not exist.', 83, $this->source); })()), ((isset($context["niveauIndex"]) || array_key_exists("niveauIndex", $context) ? $context["niveauIndex"] : (function () { throw new RuntimeError('Variable "niveauIndex" does not exist.', 83, $this->source); })()) - 1), [], "array", false, false, false, 83), "html", null, true);
+            // line 99
+            if ((($tmp = (isset($context["isUnlocked"]) || array_key_exists("isUnlocked", $context) ? $context["isUnlocked"] : (function () { throw new RuntimeError('Variable "isUnlocked" does not exist.', 99, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["couleurs"]) || array_key_exists("couleurs", $context) ? $context["couleurs"] : (function () { throw new RuntimeError('Variable "couleurs" does not exist.', 99, $this->source); })()), ((isset($context["niveauIndex"]) || array_key_exists("niveauIndex", $context) ? $context["niveauIndex"] : (function () { throw new RuntimeError('Variable "niveauIndex" does not exist.', 99, $this->source); })()) - 1), [], "array", false, false, false, 99), "html", null, true);
             } else {
                 yield "#6b7280";
             }
@@ -236,46 +263,46 @@ class __TwigTemplate_d43904990e5fac6bdfcbcc4bd849c320 extends Template
                             transition: all 0.45s ease;
                             position: relative;
                             border: 8px solid ";
-            // line 92
-            yield (((($tmp = (isset($context["isUnlocked"]) || array_key_exists("isUnlocked", $context) ? $context["isUnlocked"] : (function () { throw new RuntimeError('Variable "isUnlocked" does not exist.', 92, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ("rgba(255,255,255,0.7)") : ("rgba(255,255,255,0.25)"));
+            // line 108
+            yield (((($tmp = (isset($context["isUnlocked"]) || array_key_exists("isUnlocked", $context) ? $context["isUnlocked"] : (function () { throw new RuntimeError('Variable "isUnlocked" does not exist.', 108, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ("rgba(255,255,255,0.7)") : ("rgba(255,255,255,0.25)"));
             yield ";
                         \" onmouseover=\"";
-            // line 93
-            if ((($tmp = (isset($context["isUnlocked"]) || array_key_exists("isUnlocked", $context) ? $context["isUnlocked"] : (function () { throw new RuntimeError('Variable "isUnlocked" does not exist.', 93, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+            // line 109
+            if ((($tmp = (isset($context["isUnlocked"]) || array_key_exists("isUnlocked", $context) ? $context["isUnlocked"] : (function () { throw new RuntimeError('Variable "isUnlocked" does not exist.', 109, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
                 yield "this.style.transform='scale(1.2) rotate(";
                 yield (((($context["i"] % 2) == 0)) ? ("10") : ("-10"));
                 yield "deg)'; this.style.boxShadow='0 40px 90px rgba(0,0,0,0.6)';";
             }
             yield "\" 
                            onmouseout=\"";
-            // line 94
-            if ((($tmp = (isset($context["isUnlocked"]) || array_key_exists("isUnlocked", $context) ? $context["isUnlocked"] : (function () { throw new RuntimeError('Variable "isUnlocked" does not exist.', 94, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+            // line 110
+            if ((($tmp = (isset($context["isUnlocked"]) || array_key_exists("isUnlocked", $context) ? $context["isUnlocked"] : (function () { throw new RuntimeError('Variable "isUnlocked" does not exist.', 110, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
                 yield "this.style.transform='scale(1) rotate(0deg)'; this.style.boxShadow='0 16px 60px rgba(0,0,0,0.45)';";
             }
             yield "\">
                             
                             <span style=\"font-size: 5rem; font-weight: 900; color: white; text-shadow: 5px 5px 14px rgba(0,0,0,0.6);\">
                                 ";
-            // line 97
+            // line 113
             yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["i"], "html", null, true);
             yield "
                             </span>
 
                             ";
-            // line 100
-            if ((($tmp =  !(isset($context["isUnlocked"]) || array_key_exists("isUnlocked", $context) ? $context["isUnlocked"] : (function () { throw new RuntimeError('Variable "isUnlocked" does not exist.', 100, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-                // line 101
+            // line 116
+            if ((($tmp =  !(isset($context["isUnlocked"]) || array_key_exists("isUnlocked", $context) ? $context["isUnlocked"] : (function () { throw new RuntimeError('Variable "isUnlocked" does not exist.', 116, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                // line 117
                 yield "                                <div style=\"position: absolute; top: -14px; right: -14px; background: #ef4444; color: white; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; box-shadow: 0 10px 24px rgba(239,68,68,0.6); border: 5px solid white;\">
                                     🔒
                                 </div>
                             ";
             }
-            // line 105
+            // line 121
             yield "                        </div>
 
                         <p style=\"margin-top: 28px; font-size: 1.5rem; font-weight: 700; color: white; text-shadow: 0 3px 10px rgba(0,0,0,0.5);\">
                             Unité ";
-            // line 108
+            // line 124
             yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(((($context["i"] - 1) % 3) + 1), "html", null, true);
             yield "
                         </p>
@@ -286,7 +313,7 @@ class __TwigTemplate_d43904990e5fac6bdfcbcc4bd849c320 extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['i'], $context['_parent']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 113
+        // line 129
         yield "
         </div>
     </div>
@@ -322,7 +349,7 @@ class __TwigTemplate_d43904990e5fac6bdfcbcc4bd849c320 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  290 => 113,  279 => 108,  274 => 105,  268 => 101,  266 => 100,  260 => 97,  252 => 94,  244 => 93,  240 => 92,  224 => 83,  214 => 78,  206 => 77,  202 => 76,  199 => 75,  195 => 74,  192 => 72,  189 => 70,  182 => 66,  178 => 64,  175 => 63,  172 => 62,  168 => 61,  165 => 60,  162 => 59,  159 => 58,  157 => 57,  126 => 29,  101 => 6,  88 => 5,  64 => 3,  41 => 1,);
+        return array (  317 => 129,  306 => 124,  301 => 121,  295 => 117,  293 => 116,  287 => 113,  279 => 110,  271 => 109,  267 => 108,  251 => 99,  241 => 94,  233 => 93,  229 => 92,  226 => 91,  222 => 90,  219 => 88,  216 => 86,  209 => 82,  205 => 80,  202 => 79,  199 => 78,  195 => 77,  192 => 76,  189 => 75,  186 => 74,  184 => 73,  179 => 70,  167 => 60,  165 => 59,  150 => 48,  148 => 47,  146 => 46,  126 => 29,  101 => 6,  88 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -369,18 +396,34 @@ class __TwigTemplate_d43904990e5fac6bdfcbcc4bd849c320 extends Template
             <div style=\"position: absolute; top: 0; bottom: 0; left: 50%; width: 10px; background: linear-gradient(to bottom, rgba(255,255,255,0.6), rgba(255,255,255,0.15)); transform: translateX(-50%); border-radius: 5px; z-index: 1;\"></div>
 
             <!-- Test de niveau (toujours visible en haut) -->
-            
-            <div style=\"position: relative; margin: 0 auto 180px; text-align: center; z-index: 3; max-width: 240px;\">
-                <a href=\"#\" onclick=\"alert('Lance le test de niveau (module à implémenter)'); return false;\" style=\"text-decoration: none;\">
-                    <div style=\"width: 200px; height: 200px; margin: 0 auto; background: linear-gradient(135deg, #fbbf24, #f59e0b); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 16px 60px rgba(251,191,36,0.6); transition: all 0.4s;\" onmouseover=\"this.style.transform='scale(1.15) rotate(12deg)';\" onmouseout=\"this.style.transform='scale(1) rotate(0deg)';\">
-                        <span style=\"font-size: 6rem; line-height: 1;\">📝</span>
-                        <span style=\"font-size: 1.6rem; font-weight: 900; color: #1e293b; margin-top: 12px;\">TEST</span>
-                    </div>
-                    <p style=\"margin-top: 32px; font-size: 1.8rem; font-weight: 800; color: white; text-shadow: 0 4px 12px rgba(0,0,0,0.5);\">
-                        Évalue ton niveau actuel
-                    </p>
-                </a>
+
+            <!-- Test de niveau (toujours visible en haut) -->
+<div style=\"position: relative; margin: 0 auto 180px; text-align: center; z-index: 3; max-width: 240px;\">
+    {% if testNiveau %}
+        {# Si un test existe pour cette langue #}
+        <a href=\"{{ path('app_test_student_show', {id: testNiveau.id}) }}\" style=\"text-decoration: none;\">
+            <div style=\"width: 200px; height: 200px; margin: 0 auto; background: linear-gradient(135deg, #fbbf24, #f59e0b); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 16px 60px rgba(251,191,36,0.6); transition: all 0.4s;\" onmouseover=\"this.style.transform='scale(1.15) rotate(12deg)';\" onmouseout=\"this.style.transform='scale(1) rotate(0deg)';\">
+                <span style=\"font-size: 6rem; line-height: 1;\">📝</span>
+                <span style=\"font-size: 1.6rem; font-weight: 900; color: #1e293b; margin-top: 12px;\">TEST</span>
+
             </div>
+            <p style=\"margin-top: 32px; font-size: 1.8rem; font-weight: 800; color: white; text-shadow: 0 4px 12px rgba(0,0,0,0.5);\">
+                Évalue ton niveau actuel
+            </p>
+        </a>
+    {% else %}
+        {# Si aucun test n'existe encore #}
+        <a href=\"#\" onclick=\"alert('⚠️ Aucun test de niveau disponible pour cette langue pour le moment.'); return false;\" style=\"text-decoration: none; opacity: 0.6; cursor: not-allowed;\">
+            <div style=\"width: 200px; height: 200px; margin: 0 auto; background: linear-gradient(135deg, #9ca3af, #6b7280); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 16px 60px rgba(107,114,128,0.4);\">
+                <span style=\"font-size: 6rem; line-height: 1;\">🔒</span>
+                <span style=\"font-size: 1.6rem; font-weight: 900; color: #1e293b; margin-top: 12px;\">TEST</span>
+            </div>
+            <p style=\"margin-top: 32px; font-size: 1.5rem; font-weight: 700; color: white; text-shadow: 0 4px 12px rgba(0,0,0,0.5);\">
+                Bientôt disponible
+            </p>
+        </a>
+    {% endif %}
+</div>
 
             <!-- Les 18 cercles (6 niveaux × 3 cours) -->
             {% set niveaux = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] %}
@@ -403,7 +446,7 @@ class __TwigTemplate_d43904990e5fac6bdfcbcc4bd849c320 extends Template
                 {% set isUnlocked = (i == 1) %}  {# Seul le premier cours est débloqué pour l'instant #}
 
                 <div style=\"position: relative; margin: 120px 0; text-align: center; z-index: 3; transform: translateX({{ (i % 6 < 3) ? '120px' : '-120px' }});\">
-                    <a href=\"{% if isUnlocked %}{{ path('app_cours_show', {id: allCours[i-1].id}) }}{% else %}#{% endif %}\" 
+                    <a href=\"{% if isUnlocked and allCours[i-1] is defined and allCours[i-1] %}{{ path('app_cours_show', {id: allCours[i-1].id}) }}{% else %}#{% endif %}\">
                        style=\"text-decoration: none; pointer-events: {{ isUnlocked ? 'auto' : 'none' }}; opacity: {{ isUnlocked ? '1' : '0.45' }};\">
                         <div style=\"
                             width: 180px;

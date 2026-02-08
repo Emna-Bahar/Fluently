@@ -125,8 +125,11 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
                             <span class=\"nxl-mtext\">Dashboards_User</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"index.html\">CRM</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"analytics.html\">Analytics</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
+        // line 59
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("dashboard");
+        yield "\">Users</a></li>
+                            
                         </ul>
                     </li>
                     <li class=\"nxl-item nxl-hasmenu\">
@@ -153,18 +156,25 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
         yield "\">Statistiques</a></li>
                         </ul>
                     </li>
-                    <li class=\"nxl-item nxl-hasmenu\">
-                        <a href=\"javascript:void(0);\" class=\"nxl-link\">
-                            <span class=\"nxl-micon\"><i class=\"feather-send\"></i></span>
+                    <li class=\"nxl-item\">
+                       <a href=\"javascript:void(0);\" class=\"nxl-link\">
+                            <span class=\"nxl-micon\"><i class=\"feather-cast\"></i></span>
                             <span class=\"nxl-mtext\">Test</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-chat.html\">Chat</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-email.html\">Email</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-tasks.html\">Tasks</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-notes.html\">Notes</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-storage.html\">Storage</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-calendar.html\">Calendar</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
+        // line 81
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_test_index");
+        yield "\">Tests</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
+        // line 82
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_question_index");
+        yield "\">Questions</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
+        // line 83
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_reponse_index");
+        yield "\">Reponse</a></li>
+                            
                         </ul>
                     </li>
                     <li class=\"nxl-item nxl-hasmenu\">
@@ -203,14 +213,7 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
                     </li>
                     
                 </ul>
-                <div class=\"card text-center\">
-                    <div class=\"card-body\">
-                        <i class=\"feather-sunrise fs-4 text-dark\"></i>
-                        <h6 class=\"mt-4 text-dark fw-bolder\">Downloading Center</h6>
-                        <p class=\"fs-11 my-3 text-dark\">Duralux is a production ready CRM to get started up and running easily.</p>
-                        <a href=\"https://www.themewagon.com/themes/Duralux-admin\" target=\"_blank\" class=\"btn btn-primary text-dark w-100\">Download Now</a>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </nav>
@@ -262,7 +265,7 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
                             </div>
                             <div class=\"notifications-item\">
                                 <img src=\"";
-        // line 183
+        // line 174
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/images/avatar/2.png"), "html", null, true);
         yield "\" alt=\"\" class=\"rounded me-3 border\" />
                                 <div class=\"notifications-desc\">
@@ -280,7 +283,7 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
                             </div>
                             <div class=\"notifications-item\">
                                 <img src=\"";
-        // line 198
+        // line 189
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/images/avatar/3.png"), "html", null, true);
         yield "\" alt=\"\" class=\"rounded me-3 border\" />
                                 <div class=\"notifications-desc\">
@@ -298,7 +301,7 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
                             </div>
                             <div class=\"notifications-item\">
                                 <img src=\"";
-        // line 213
+        // line 204
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/images/avatar/4.png"), "html", null, true);
         yield "\" alt=\"\" class=\"rounded me-3 border\" />
                                 <div class=\"notifications-desc\">
@@ -322,7 +325,7 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
                     <div class=\"dropdown nxl-h-item\">
                         <a href=\"javascript:void(0);\" data-bs-toggle=\"dropdown\" role=\"button\" data-bs-auto-close=\"outside\">
                             <img src=\"";
-        // line 234
+        // line 225
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/images/avatar/1.png"), "html", null, true);
         yield "\" alt=\"user-image\" class=\"img-fluid user-avtar me-0\" />
                         </a>
@@ -330,7 +333,7 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
                             <div class=\"dropdown-header\">
                                 <div class=\"d-flex align-items-center\">
                                     <img src=\"";
-        // line 239
+        // line 230
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/images/avatar/1.png"), "html", null, true);
         yield "\" alt=\"user-image\" class=\"img-fluid user-avtar\" />
                                     <div>
@@ -427,9 +430,9 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
     <!--! ================================================================ !-->
     <main class=\"nxl-container\">
       ";
-        // line 333
+        // line 324
         yield from $this->unwrap()->yieldBlock('body', $context, $blocks);
-        // line 352
+        // line 343
         yield "    </main>
     
             </div>
@@ -439,36 +442,36 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
    
     <!--! BEGIN: Vendors JS !-->
     <script src=\"";
-        // line 360
+        // line 351
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/vendors/js/vendors.min.js"), "html", null, true);
         yield "\"></script>
     <!-- vendors.min.js {always must need to be top} -->
     <script src=\"";
-        // line 362
+        // line 353
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/vendors/js/daterangepicker.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 363
+        // line 354
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/vendors/js/apexcharts.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 364
+        // line 355
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/vendors/js/circle-progress.min.js"), "html", null, true);
         yield "\"></script>
     <!--! END: Vendors JS !-->
     <!--! BEGIN: Apps Init  !-->
     <script src=\"";
-        // line 367
+        // line 358
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/common-init.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 368
+        // line 359
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/dashboard-init.min.js"), "html", null, true);
         yield "\"></script>
     <!--! END: Apps Init !-->
     <!--! BEGIN: Theme Customizer  !-->
     <script src=\"";
-        // line 371
+        // line 362
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/theme-customizer-init.min.js"), "html", null, true);
         yield "\"></script>
    
@@ -484,7 +487,7 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
         yield from [];
     }
 
-    // line 333
+    // line 324
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -497,7 +500,7 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
-        // line 334
+        // line 325
         yield "        
         <!-- [ Footer ] start -->
         <footer class=\"footer\">
@@ -546,7 +549,7 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  501 => 334,  488 => 333,  472 => 371,  466 => 368,  462 => 367,  456 => 364,  452 => 363,  448 => 362,  443 => 360,  433 => 352,  431 => 333,  334 => 239,  326 => 234,  302 => 213,  284 => 198,  266 => 183,  152 => 72,  148 => 71,  144 => 70,  140 => 69,  113 => 45,  109 => 44,  87 => 25,  81 => 22,  77 => 21,  71 => 18,  65 => 15,  49 => 1,);
+        return array (  504 => 325,  491 => 324,  475 => 362,  469 => 359,  465 => 358,  459 => 355,  455 => 354,  451 => 353,  446 => 351,  436 => 343,  434 => 324,  337 => 230,  329 => 225,  305 => 204,  287 => 189,  269 => 174,  175 => 83,  171 => 82,  167 => 81,  155 => 72,  151 => 71,  147 => 70,  143 => 69,  130 => 59,  113 => 45,  109 => 44,  87 => 25,  81 => 22,  77 => 21,  71 => 18,  65 => 15,  49 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -609,8 +612,8 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
                             <span class=\"nxl-mtext\">Dashboards_User</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"index.html\">CRM</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"analytics.html\">Analytics</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('dashboard') }}\">Users</a></li>
+                            
                         </ul>
                     </li>
                     <li class=\"nxl-item nxl-hasmenu\">
@@ -625,18 +628,16 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
                             <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_admin_langue_stats') }}\">Statistiques</a></li>
                         </ul>
                     </li>
-                    <li class=\"nxl-item nxl-hasmenu\">
-                        <a href=\"javascript:void(0);\" class=\"nxl-link\">
-                            <span class=\"nxl-micon\"><i class=\"feather-send\"></i></span>
+                    <li class=\"nxl-item\">
+                       <a href=\"javascript:void(0);\" class=\"nxl-link\">
+                            <span class=\"nxl-micon\"><i class=\"feather-cast\"></i></span>
                             <span class=\"nxl-mtext\">Test</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-chat.html\">Chat</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-email.html\">Email</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-tasks.html\">Tasks</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-notes.html\">Notes</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-storage.html\">Storage</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-calendar.html\">Calendar</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_test_index') }}\">Tests</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_question_index') }}\">Questions</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_reponse_index') }}\">Reponse</a></li>
+                            
                         </ul>
                     </li>
                     <li class=\"nxl-item nxl-hasmenu\">
@@ -675,14 +676,7 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
                     </li>
                     
                 </ul>
-                <div class=\"card text-center\">
-                    <div class=\"card-body\">
-                        <i class=\"feather-sunrise fs-4 text-dark\"></i>
-                        <h6 class=\"mt-4 text-dark fw-bolder\">Downloading Center</h6>
-                        <p class=\"fs-11 my-3 text-dark\">Duralux is a production ready CRM to get started up and running easily.</p>
-                        <a href=\"https://www.themewagon.com/themes/Duralux-admin\" target=\"_blank\" class=\"btn btn-primary text-dark w-100\">Download Now</a>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </nav>

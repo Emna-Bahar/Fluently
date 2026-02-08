@@ -1,0 +1,56 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Détails du Test - Fluently{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Détails du Test #{{ test.id }}</h1>
+        
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5>Informations du Test</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Type :</strong> {{ test.type }}</p>
+                <p><strong>Date de passage :</strong> {{ test.datePassage ? test.datePassage|date('d/m/Y') : '-' }}</p>
+                <p><strong>Durée :</strong> {{ test.duree ? test.duree|date('H:i:s') : '-' }}</p>
+                <p><strong>Résultat (calculé plus tard) :</strong> {{ test.resultat ? test.resultat ~ '%' : 'Non calculé' }}</p>
+                <p><strong>Langue :</strong> {{ test.idLangue ? test.idLangue.nom : '-' }}</p>
+            </div>
+        </div>
+
+        <h2 class="mb-3">Questions associées</h2>
+        <a href="{{ path('app_question_new', {'test_id': test.id}) }}" class="btn btn-primary mb-3">Ajouter une question</a>
+        
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Énoncé</th>
+                    <th>Type</th>
+                    <th>Score max</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in test.questions %}
+                    <tr>
+                        <td>{{ question.id }}</td>
+                        <td>{{ question.enonce }}</td>
+                        <td>{{ question.type }}</td>
+                        <td>{{ question.scoreMax }}</td>
+                        <td>
+                            <a href="{{ path('app_question_show', {'id': question.id}) }}" class="btn btn-sm btn-info">Voir</a>
+                            <a href="{{ path('app_question_edit', {'id': question.id}) }}" class="btn btn-sm btn-warning">Modifier</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="5">Aucune question pour ce test</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <a href="{{ path('app_test_edit', {'id': test.id}) }}" class="btn btn-warning">Modifier le test</a>
+        <a href="{{ path('app_test_index') }}" class="btn btn-secondary">Retour à la liste</a>
+    </div>
+{% endblock %}

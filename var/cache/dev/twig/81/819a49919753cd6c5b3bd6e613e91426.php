@@ -36,6 +36,7 @@ class __TwigTemplate_432d7a90ff9bba53cdbd01282f208e1b extends Template
             'css' => [$this, 'block_css'],
             'body' => [$this, 'block_body'],
             'js' => [$this, 'block_js'],
+            'javascripts' => [$this, 'block_javascripts'],
         ];
     }
 
@@ -137,48 +138,77 @@ class __TwigTemplate_432d7a90ff9bba53cdbd01282f208e1b extends Template
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_objectif");
         yield "\" class=\"nav-link\">Objectifs</a></li>
                 ";
-        // line 88
-        yield "                    <li class=\"nav-item dropdown ml-lg-3\">
-                        <a class=\"nav-link dropdown-toggle d-flex align-items-center\" href=\"#\" id=\"userDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
-                            <i class=\"fa fa-user-circle mr-2\" style=\"font-size: 1.2rem;\"></i>
-                            <span>Mon compte</span>
-                        </a>
-                        <div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"userDropdown\">
-                            ";
-        // line 95
-        yield "                            <a class=\"dropdown-item\" href=\"#\">
-                                ";
-        // line 97
-        yield "                                <i class=\"fa fa-user mr-2\"></i> Mon profil
-                            </a>
-                            <div class=\"dropdown-divider\"></div>
-                            ";
-        // line 101
-        yield "                            <a class=\"dropdown-item text-danger\" href=\"#\">
-                                ";
-        // line 103
-        yield "                                <i class=\"fa fa-sign-out mr-2\"></i> Déconnexion
-                            </a>
-                        </div>
-                    </li>
+        // line 89
+        yield "<li class=\"nav-item dropdown ml-lg-3\">
+    ";
+        // line 90
+        if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 90, $this->source); })()), "session", [], "any", false, false, false, 90), "get", ["user_id"], "method", false, false, false, 90)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+            // line 91
+            yield "        <a class=\"nav-link dropdown-toggle d-flex align-items-center\"
+           href=\"#\"
+           id=\"userDropdown\"
+           role=\"button\"
+           data-toggle=\"dropdown\">
+
+            <i class=\"fa fa-user-circle mr-2\" style=\"font-size:1.2rem;\"></i>
+            <span>";
+            // line 98
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 98, $this->source); })()), "session", [], "any", false, false, false, 98), "get", ["user_name"], "method", false, false, false, 98), "html", null, true);
+            yield " (";
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 98, $this->source); })()), "session", [], "any", false, false, false, 98), "get", ["user_status"], "method", false, false, false, 98), "html", null, true);
+            yield ")</span>
+        </a>
+
+        <div class=\"dropdown-menu dropdown-menu-right\">
+            <a class=\"dropdown-item\" href=\"";
+            // line 102
+            yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_profile");
+            yield "\">
+    <i class=\"fa fa-user mr-2\"></i> Mon profil
+</a>
+
+
+            <div class=\"dropdown-divider\"></div>
+
+            <a class=\"dropdown-item text-danger\" href=\"#\" onclick=\"logoutUser(event)\">
+                <i class=\"fa fa-sign-out mr-2\"></i> Déconnexion
+            </a>
+        </div>
+
+    ";
+        } else {
+            // line 115
+            yield "        <a class=\"nav-link d-flex align-items-center\" href=\"";
+            yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_login");
+            yield "\">
+            <i class=\"fa fa-user-circle mr-2\" style=\"font-size:1.2rem;\"></i>
+            <span>Se connecter</span>
+        </a>
+    ";
+        }
+        // line 120
+        yield "</li>
+
+
+
                     
                     ";
-        // line 109
+        // line 126
         yield "                    ";
-        // line 121
+        // line 138
         yield "                </ul>
             </div>
         </div>
     </nav>
     
     ";
-        // line 127
+        // line 144
         yield "    ";
         yield from $this->unwrap()->yieldBlock('body', $context, $blocks);
-        // line 128
+        // line 145
         yield "    
     ";
-        // line 130
+        // line 147
         yield "    <footer class=\"ftco-footer ftco-no-pt\">
         <div class=\"container\">
             <div class=\"row mb-5\">
@@ -214,10 +244,14 @@ class __TwigTemplate_432d7a90ff9bba53cdbd01282f208e1b extends Template
     <div id=\"ftco-loader\" class=\"show fullscreen\"><svg class=\"circular\" width=\"48px\" height=\"48px\"><circle class=\"path-bg\" cx=\"24\" cy=\"24\" r=\"22\" fill=\"none\" stroke-width=\"4\" stroke=\"#eeeeee\"/><circle class=\"path\" cx=\"24\" cy=\"24\" r=\"22\" fill=\"none\" stroke-width=\"4\" stroke-miterlimit=\"10\" stroke=\"#F96D00\"/></svg></div>
     
     ";
-        // line 164
+        // line 181
         yield from $this->unwrap()->yieldBlock('js', $context, $blocks);
-        // line 180
-        yield "</body>
+        // line 197
+        yield "    ";
+        yield from $this->unwrap()->yieldBlock('javascripts', $context, $blocks);
+        // line 213
+        yield "
+</body>
 </html>";
         
         $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
@@ -340,7 +374,7 @@ class __TwigTemplate_432d7a90ff9bba53cdbd01282f208e1b extends Template
         yield from [];
     }
 
-    // line 127
+    // line 144
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -362,7 +396,7 @@ class __TwigTemplate_432d7a90ff9bba53cdbd01282f208e1b extends Template
         yield from [];
     }
 
-    // line 164
+    // line 181
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -375,63 +409,101 @@ class __TwigTemplate_432d7a90ff9bba53cdbd01282f208e1b extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "js"));
 
-        // line 165
+        // line 182
         yield "    <script src=\"";
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/jquery.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 166
+        // line 183
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/jquery-migrate-3.0.1.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 167
+        // line 184
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/popper.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 168
+        // line 185
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/bootstrap.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 169
+        // line 186
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/jquery.easing.1.3.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 170
+        // line 187
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/jquery.waypoints.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 171
+        // line 188
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/jquery.stellar.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 172
+        // line 189
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/owl.carousel.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 173
+        // line 190
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/jquery.magnific-popup.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 174
+        // line 191
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/jquery.animateNumber.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 175
+        // line 192
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/bootstrap-datepicker.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 176
+        // line 193
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/scrollax.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 177
+        // line 194
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/google-map.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 178
+        // line 195
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/main.js"), "html", null, true);
         yield "\"></script>
     ";
+        
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
+
+        
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
+
+        yield from [];
+    }
+
+    // line 197
+    /**
+     * @return iterable<null|scalar|\Stringable>
+     */
+    public function block_javascripts(array $context, array $blocks = []): iterable
+    {
+        $macros = $this->macros;
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2 = $this->extensions["Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension"];
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2->enter($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
+
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
+
+        // line 198
+        yield "   <script>
+function logoutUser(event) {
+    event.preventDefault();
+
+    fetch('/logout-ajax')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();   // refresh navbar state
+            }
+        });
+}
+
+</script>
+";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
 
@@ -462,7 +534,7 @@ class __TwigTemplate_432d7a90ff9bba53cdbd01282f208e1b extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  432 => 178,  428 => 177,  424 => 176,  420 => 175,  416 => 174,  412 => 173,  408 => 172,  404 => 171,  400 => 170,  396 => 169,  392 => 168,  388 => 167,  384 => 166,  379 => 165,  366 => 164,  344 => 127,  331 => 53,  327 => 52,  323 => 51,  319 => 50,  315 => 49,  311 => 48,  307 => 47,  303 => 46,  268 => 13,  255 => 12,  232 => 5,  220 => 180,  218 => 164,  182 => 130,  179 => 128,  176 => 127,  169 => 121,  167 => 109,  160 => 103,  157 => 101,  152 => 97,  149 => 95,  141 => 88,  137 => 86,  133 => 85,  128 => 83,  124 => 82,  119 => 80,  115 => 79,  109 => 76,  105 => 75,  100 => 73,  96 => 72,  86 => 64,  81 => 62,  77 => 60,  73 => 58,  69 => 55,  67 => 12,  57 => 5,  52 => 2,);
+        return array (  492 => 198,  479 => 197,  466 => 195,  462 => 194,  458 => 193,  454 => 192,  450 => 191,  446 => 190,  442 => 189,  438 => 188,  434 => 187,  430 => 186,  426 => 185,  422 => 184,  418 => 183,  413 => 182,  400 => 181,  378 => 144,  365 => 53,  361 => 52,  357 => 51,  353 => 50,  349 => 49,  345 => 48,  341 => 47,  337 => 46,  302 => 13,  289 => 12,  266 => 5,  253 => 213,  250 => 197,  248 => 181,  212 => 147,  209 => 145,  206 => 144,  199 => 138,  197 => 126,  190 => 120,  181 => 115,  165 => 102,  156 => 98,  147 => 91,  145 => 90,  142 => 89,  138 => 86,  134 => 85,  129 => 83,  125 => 82,  120 => 80,  116 => 79,  110 => 76,  106 => 75,  101 => 73,  97 => 72,  87 => 64,  82 => 62,  78 => 60,  74 => 58,  70 => 55,  68 => 12,  58 => 5,  53 => 2,);
     }
 
     public function getSourceContext(): Source
@@ -554,25 +626,42 @@ class __TwigTemplate_432d7a90ff9bba53cdbd01282f208e1b extends Template
                     <li class=\"nav-item {{ app.request.get('_route') == 'app_objectif' ? 'active' : '' }}\">
                         <a href=\"{{ path('app_objectif') }}\" class=\"nav-link\">Objectifs</a></li>
                 {# Boutons utilisateur #}
-                    <li class=\"nav-item dropdown ml-lg-3\">
-                        <a class=\"nav-link dropdown-toggle d-flex align-items-center\" href=\"#\" id=\"userDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
-                            <i class=\"fa fa-user-circle mr-2\" style=\"font-size: 1.2rem;\"></i>
-                            <span>Mon compte</span>
-                        </a>
-                        <div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"userDropdown\">
-                            {# Bouton Profil #}
-                            <a class=\"dropdown-item\" href=\"#\">
-                                {# <a class=\"dropdown-item\" href=\"{{ path('app_profile') }}\"> #}
-                                <i class=\"fa fa-user mr-2\"></i> Mon profil
-                            </a>
-                            <div class=\"dropdown-divider\"></div>
-                            {# Bouton Déconnexion #}
-                            <a class=\"dropdown-item text-danger\" href=\"#\">
-                                {# <a class=\"dropdown-item text-danger\" href=\"{{ path('app_logout') }}\"> #}
-                                <i class=\"fa fa-sign-out mr-2\"></i> Déconnexion
-                            </a>
-                        </div>
-                    </li>
+{# Boutons utilisateur #}
+<li class=\"nav-item dropdown ml-lg-3\">
+    {% if app.session.get('user_id') %}
+        <a class=\"nav-link dropdown-toggle d-flex align-items-center\"
+           href=\"#\"
+           id=\"userDropdown\"
+           role=\"button\"
+           data-toggle=\"dropdown\">
+
+            <i class=\"fa fa-user-circle mr-2\" style=\"font-size:1.2rem;\"></i>
+            <span>{{ app.session.get('user_name') }} ({{ app.session.get('user_status') }})</span>
+        </a>
+
+        <div class=\"dropdown-menu dropdown-menu-right\">
+            <a class=\"dropdown-item\" href=\"{{ path('app_profile') }}\">
+    <i class=\"fa fa-user mr-2\"></i> Mon profil
+</a>
+
+
+            <div class=\"dropdown-divider\"></div>
+
+            <a class=\"dropdown-item text-danger\" href=\"#\" onclick=\"logoutUser(event)\">
+                <i class=\"fa fa-sign-out mr-2\"></i> Déconnexion
+            </a>
+        </div>
+
+    {% else %}
+        <a class=\"nav-link d-flex align-items-center\" href=\"{{ path('app_login') }}\">
+            <i class=\"fa fa-user-circle mr-2\" style=\"font-size:1.2rem;\"></i>
+            <span>Se connecter</span>
+        </a>
+    {% endif %}
+</li>
+
+
+
                     
                     {# Version alternative avec boutons séparés (sans dropdown) #}
                     {#
@@ -646,6 +735,23 @@ class __TwigTemplate_432d7a90ff9bba53cdbd01282f208e1b extends Template
     <script src=\"{{ asset('assets/js/google-map.js') }}\"></script>
     <script src=\"{{ asset('assets/js/main.js') }}\"></script>
     {% endblock %}
+    {% block javascripts %}
+   <script>
+function logoutUser(event) {
+    event.preventDefault();
+
+    fetch('/logout-ajax')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();   // refresh navbar state
+            }
+        });
+}
+
+</script>
+{% endblock %}
+
 </body>
 </html>", "base.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\base.html.twig");
     }

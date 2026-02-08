@@ -8,6 +8,7 @@ use App\Repository\LangueRepository;
 use App\Repository\CoursRepository;
 use App\Service\LanguageStatsService;
 use Doctrine\ORM\EntityManagerInterface;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +16,9 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[Route('/langue')]
+
+
+#[Route('/Langue')]
 final class LangueController extends AbstractController
 {
     // ────────────────────────────────────────────────
@@ -57,7 +60,7 @@ final class LangueController extends AbstractController
     // FRONT ÉTUDIANT - Parcours d'apprentissage (jeu)
     // ────────────────────────────────────────────────
     #[Route('/{id}/apprentissage', name: 'app_langue_apprentissage', methods: ['GET'])]
-public function apprentissage(Langue $langue, CoursRepository $coursRepository, Request $request): Response
+public function apprentissage(Langue $langue, CoursRepository $coursRepository, Request $request, EntityManagerInterface $em): Response
 {
     $cours = $coursRepository->createQueryBuilder('c')
         ->leftJoin('c.Id_niveau', 'n')
@@ -73,10 +76,22 @@ public function apprentissage(Langue $langue, CoursRepository $coursRepository, 
     $key = 'last_completed_cours_langue_' . $langue->getId();
     $lastCompletedId = $session->get($key, 0); // 0 = rien terminé
 
+    // NOUVEAU : Récupérer le test de niveau pour cette langue
+    $testNiveau = $em->getRepository(\App\Entity\Test::class)
+        ->createQueryBuilder('t')
+        ->where('t.Id_langue = :langue')
+        ->andWhere('t.type = :type')
+        ->setParameter('langue', $langue)
+        ->setParameter('type', 'Niveau') // ou 'Niveau' selon ton type
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getOneOrNullResult();
+
     return $this->render('langue/apprentissage.html.twig', [
         'langue'           => $langue,
         'allCours'         => $cours,
         'lastCompletedId'  => $lastCompletedId,
+        'testNiveau'       => $testNiveau, // ← NOUVEAU
     ]);
 }
 

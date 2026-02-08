@@ -194,17 +194,17 @@ class __TwigTemplate_9f7de122ce33bffb20085fc5d0a6f1d8 extends Template
                                 </div>
                             </div>
 
-                            <!-- Nombre de ressources -->
+                            <!-- Nombre de ressources (corrigé : on compte uniquement ce qui est en base) -->
                             <div class=\"col-md-6\">
                                 <div class=\"bg-light rounded-3 p-4 shadow-sm text-center\">
                                     <h6 class=\"fw-bold mb-3\">Ressources</h6>
                                     ";
         // line 67
-        $context["allRessources"] = Twig\Extension\CoreExtension::merge((isset($context["files"]) || array_key_exists("files", $context) ? $context["files"] : (function () { throw new RuntimeError('Variable "files" does not exist.', 67, $this->source); })()), (((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 67, $this->source); })()), "ressource", [], "any", false, false, false, 67)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? (Twig\Extension\CoreExtension::filter($this->env, Twig\Extension\CoreExtension::split($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 67, $this->source); })()), "ressource", [], "any", false, false, false, 67), "
-"), function ($__v__) use ($context, $macros) { $context["v"] = $__v__; return Twig\Extension\CoreExtension::trim((isset($context["v"]) || array_key_exists("v", $context) ? $context["v"] : (function () { throw new RuntimeError('Variable "v" does not exist.', 67, $this->source); })())); })) : ([])));
+        $context["dbResources"] = (((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 67, $this->source); })()), "ressource", [], "any", false, false, false, 67)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? (Twig\Extension\CoreExtension::filter($this->env, Twig\Extension\CoreExtension::split($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 67, $this->source); })()), "ressource", [], "any", false, false, false, 67), "
+"), function ($__v__) use ($context, $macros) { $context["v"] = $__v__; return Twig\Extension\CoreExtension::trim((isset($context["v"]) || array_key_exists("v", $context) ? $context["v"] : (function () { throw new RuntimeError('Variable "v" does not exist.', 67, $this->source); })())); })) : ([]));
         // line 68
         yield "                                    ";
-        $context["nb"] = Twig\Extension\CoreExtension::length($this->env->getCharset(), (isset($context["allRessources"]) || array_key_exists("allRessources", $context) ? $context["allRessources"] : (function () { throw new RuntimeError('Variable "allRessources" does not exist.', 68, $this->source); })()));
+        $context["nb"] = Twig\Extension\CoreExtension::length($this->env->getCharset(), (isset($context["dbResources"]) || array_key_exists("dbResources", $context) ? $context["dbResources"] : (function () { throw new RuntimeError('Variable "dbResources" does not exist.', 68, $this->source); })()));
         // line 69
         yield "                                    <div class=\"display-4 fw-bold ";
         yield ((((isset($context["nb"]) || array_key_exists("nb", $context) ? $context["nb"] : (function () { throw new RuntimeError('Variable "nb" does not exist.', 69, $this->source); })()) > 0)) ? ("text-success") : ("text-muted"));
@@ -221,19 +221,19 @@ class __TwigTemplate_9f7de122ce33bffb20085fc5d0a6f1d8 extends Template
                                 </div>
                             </div>
 
-                            <!-- Liste des ressources (fichiers + liens YouTube) -->
+                            <!-- Liste des ressources (seulement ce qui est stocké en base) -->
                             <div class=\"col-12\">
                                 <h6 class=\"fw-bold mb-3\">Ressources du cours</h6>
 
                                 ";
         // line 80
-        if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), (isset($context["allRessources"]) || array_key_exists("allRessources", $context) ? $context["allRessources"] : (function () { throw new RuntimeError('Variable "allRessources" does not exist.', 80, $this->source); })())) > 0)) {
+        if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), (isset($context["dbResources"]) || array_key_exists("dbResources", $context) ? $context["dbResources"] : (function () { throw new RuntimeError('Variable "dbResources" does not exist.', 80, $this->source); })())) > 0)) {
             // line 81
             yield "                                    <div class=\"list-group\">
                                         ";
             // line 82
             $context['_parent'] = $context;
-            $context['_seq'] = CoreExtension::ensureTraversable((isset($context["allRessources"]) || array_key_exists("allRessources", $context) ? $context["allRessources"] : (function () { throw new RuntimeError('Variable "allRessources" does not exist.', 82, $this->source); })()));
+            $context['_seq'] = CoreExtension::ensureTraversable((isset($context["dbResources"]) || array_key_exists("dbResources", $context) ? $context["dbResources"] : (function () { throw new RuntimeError('Variable "dbResources" does not exist.', 82, $this->source); })()));
             foreach ($context['_seq'] as $context["_key"] => $context["res"]) {
                 // line 83
                 yield "                                            <div class=\"list-group-item d-flex justify-content-between align-items-center\">
@@ -289,7 +289,7 @@ class __TwigTemplate_9f7de122ce33bffb20085fc5d0a6f1d8 extends Template
         } else {
             // line 107
             yield "                                    <div class=\"alert alert-info mb-0\">
-                                        Aucune ressource uploadée ou liée pour ce cours.
+                                        Aucune ressource enregistrée pour ce cours.
                                     </div>
                                 ";
         }
@@ -297,6 +297,10 @@ class __TwigTemplate_9f7de122ce33bffb20085fc5d0a6f1d8 extends Template
         yield "                            </div>
 
                         </div>
+                    </div>
+
+                    <div class=\"card-footer bg-light text-muted small text-center py-3\">
+                        Liste basée uniquement sur les ressources enregistrées en base de données
                     </div>
                 </div>
             </div>
@@ -401,12 +405,12 @@ class __TwigTemplate_9f7de122ce33bffb20085fc5d0a6f1d8 extends Template
                                 </div>
                             </div>
 
-                            <!-- Nombre de ressources -->
+                            <!-- Nombre de ressources (corrigé : on compte uniquement ce qui est en base) -->
                             <div class=\"col-md-6\">
                                 <div class=\"bg-light rounded-3 p-4 shadow-sm text-center\">
                                     <h6 class=\"fw-bold mb-3\">Ressources</h6>
-                                    {% set allRessources = files|merge(cour.ressource ? cour.ressource|split('\\n')|filter(v => v|trim) : []) %}
-                                    {% set nb = allRessources|length %}
+                                    {% set dbResources = cour.ressource ? cour.ressource|split('\\n')|filter(v => v|trim) : [] %}
+                                    {% set nb = dbResources|length %}
                                     <div class=\"display-4 fw-bold {{ nb > 0 ? 'text-success' : 'text-muted' }}\">
                                         {{ nb }}
                                     </div>
@@ -414,13 +418,13 @@ class __TwigTemplate_9f7de122ce33bffb20085fc5d0a6f1d8 extends Template
                                 </div>
                             </div>
 
-                            <!-- Liste des ressources (fichiers + liens YouTube) -->
+                            <!-- Liste des ressources (seulement ce qui est stocké en base) -->
                             <div class=\"col-12\">
                                 <h6 class=\"fw-bold mb-3\">Ressources du cours</h6>
 
-                                {% if allRessources|length > 0 %}
+                                {% if dbResources|length > 0 %}
                                     <div class=\"list-group\">
-                                        {% for res in allRessources %}
+                                        {% for res in dbResources %}
                                             <div class=\"list-group-item d-flex justify-content-between align-items-center\">
                                                 <div class=\"d-flex align-items-center\">
                                                     {% if 'youtube.com' in res or 'youtu.be' in res %}
@@ -446,12 +450,16 @@ class __TwigTemplate_9f7de122ce33bffb20085fc5d0a6f1d8 extends Template
                                     </div>
                                 {% else %}
                                     <div class=\"alert alert-info mb-0\">
-                                        Aucune ressource uploadée ou liée pour ce cours.
+                                        Aucune ressource enregistrée pour ce cours.
                                     </div>
                                 {% endif %}
                             </div>
 
                         </div>
+                    </div>
+
+                    <div class=\"card-footer bg-light text-muted small text-center py-3\">
+                        Liste basée uniquement sur les ressources enregistrées en base de données
                     </div>
                 </div>
             </div>

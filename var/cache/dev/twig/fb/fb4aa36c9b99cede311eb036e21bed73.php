@@ -102,21 +102,22 @@ class __TwigTemplate_78980e1d77114bb26d61eccb1514475a extends Template
         // line 6
         yield "<div style=\"background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); min-height: 100vh; padding: 60px 20px; color: white; font-family: system-ui, sans-serif;\">
     <div style=\"max-width: 1100px; margin: 0 auto;\">
-<br><br><br><br>
+        <br><br><br><br>
+
         <!-- En-tête -->
         <div style=\"text-align: center; margin-bottom: 60px;\">
             <h1 style=\"font-size: 3rem; font-weight: 900; color: white; margin: 0 0 12px; text-shadow: 0 4px 12px rgba(0,0,0,0.4);\">
                 Leçon ";
-        // line 12
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 12, $this->source); })()), "numero", [], "any", false, false, false, 12), "html", null, true);
+        // line 13
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 13, $this->source); })()), "numero", [], "any", false, false, false, 13), "html", null, true);
         yield "
             </h1>
             <p style=\"font-size: 1.5rem; color: rgba(255,255,255,0.9); margin: 0;\">
                 ";
-        // line 15
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 15, $this->source); })()), "idNiveau", [], "any", false, false, false, 15), "titre", [], "any", false, false, false, 15), "html", null, true);
+        // line 16
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 16, $this->source); })()), "idNiveau", [], "any", false, false, false, 16), "titre", [], "any", false, false, false, 16), "html", null, true);
         yield " • ";
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 15, $this->source); })()), "idNiveau", [], "any", false, false, false, 15), "idLangue", [], "any", false, false, false, 15), "nom", [], "any", false, false, false, 15), "html", null, true);
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 16, $this->source); })()), "idNiveau", [], "any", false, false, false, 16), "idLangue", [], "any", false, false, false, 16), "nom", [], "any", false, false, false, 16), "html", null, true);
         yield "
             </p>
         </div>
@@ -136,12 +137,12 @@ class __TwigTemplate_78980e1d77114bb26d61eccb1514475a extends Template
         <!-- Conteneur ressources -->
         <div id=\"ressources-container\" style=\"display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 32px;\">
             ";
-        // line 33
-        if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), (isset($context["files"]) || array_key_exists("files", $context) ? $context["files"] : (function () { throw new RuntimeError('Variable "files" does not exist.', 33, $this->source); })())) > 0)) {
-            // line 34
+        // line 34
+        if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), (isset($context["files"]) || array_key_exists("files", $context) ? $context["files"] : (function () { throw new RuntimeError('Variable "files" does not exist.', 34, $this->source); })())) > 0)) {
+            // line 35
             yield "                ";
             $context['_parent'] = $context;
-            $context['_seq'] = CoreExtension::ensureTraversable((isset($context["files"]) || array_key_exists("files", $context) ? $context["files"] : (function () { throw new RuntimeError('Variable "files" does not exist.', 34, $this->source); })()));
+            $context['_seq'] = CoreExtension::ensureTraversable((isset($context["files"]) || array_key_exists("files", $context) ? $context["files"] : (function () { throw new RuntimeError('Variable "files" does not exist.', 35, $this->source); })()));
             $context['loop'] = [
               'parent' => $context['_parent'],
               'index0' => 0,
@@ -156,181 +157,232 @@ class __TwigTemplate_78980e1d77114bb26d61eccb1514475a extends Template
                 $context['loop']['last'] = 1 === $length;
             }
             foreach ($context['_seq'] as $context["_key"] => $context["res"]) {
-                // line 35
-                yield "                    ";
-                $context["isYoutube"] = (CoreExtension::inFilter("youtube.com", $context["res"]) || CoreExtension::inFilter("youtu.be", $context["res"]));
                 // line 36
+                yield "                    ";
+                $context["isYoutube"] = CoreExtension::matches("/(youtube\\.com|youtu\\.be)/i", $context["res"]);
+                // line 37
                 yield "
                     ";
-                // line 37
-                if ((($tmp = (isset($context["isYoutube"]) || array_key_exists("isYoutube", $context) ? $context["isYoutube"] : (function () { throw new RuntimeError('Variable "isYoutube" does not exist.', 37, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-                    // line 38
+                // line 38
+                if ((($tmp = (isset($context["isYoutube"]) || array_key_exists("isYoutube", $context) ? $context["isYoutube"] : (function () { throw new RuntimeError('Variable "isYoutube" does not exist.', 38, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                    // line 39
                     yield "                        ";
                     $context["type"] = "video";
-                    // line 39
+                    // line 40
                     yield "                    ";
                 } else {
-                    // line 40
-                    yield "                        ";
-                    $context["ext"] = Twig\Extension\CoreExtension::lower($this->env->getCharset(), Twig\Extension\CoreExtension::last($this->env->getCharset(), Twig\Extension\CoreExtension::split($this->env->getCharset(), $context["res"], ".")));
                     // line 41
                     yield "                        ";
-                    $context["type"] = "other";
+                    $context["ext"] = Twig\Extension\CoreExtension::lower($this->env->getCharset(), Twig\Extension\CoreExtension::last($this->env->getCharset(), Twig\Extension\CoreExtension::split($this->env->getCharset(), $context["res"], ".")));
                     // line 42
                     yield "                        ";
-                    if (CoreExtension::inFilter((isset($context["ext"]) || array_key_exists("ext", $context) ? $context["ext"] : (function () { throw new RuntimeError('Variable "ext" does not exist.', 42, $this->source); })()), ["pdf"])) {
+                    $context["type"] = "other";
+                    // line 43
+                    yield "                        ";
+                    if (CoreExtension::inFilter((isset($context["ext"]) || array_key_exists("ext", $context) ? $context["ext"] : (function () { throw new RuntimeError('Variable "ext" does not exist.', 43, $this->source); })()), ["pdf"])) {
                         $context["type"] = "pdf";
-                        // line 43
-                        yield "                        ";
-                    } elseif (CoreExtension::inFilter((isset($context["ext"]) || array_key_exists("ext", $context) ? $context["ext"] : (function () { throw new RuntimeError('Variable "ext" does not exist.', 43, $this->source); })()), ["mp4", "webm"])) {
-                        $context["type"] = "video";
                         // line 44
                         yield "                        ";
-                    } elseif (CoreExtension::inFilter((isset($context["ext"]) || array_key_exists("ext", $context) ? $context["ext"] : (function () { throw new RuntimeError('Variable "ext" does not exist.', 44, $this->source); })()), ["jpg", "jpeg", "png", "gif", "webp"])) {
-                        $context["type"] = "image";
+                    } elseif (CoreExtension::inFilter((isset($context["ext"]) || array_key_exists("ext", $context) ? $context["ext"] : (function () { throw new RuntimeError('Variable "ext" does not exist.', 44, $this->source); })()), ["mp4", "webm", "mov"])) {
+                        $context["type"] = "video";
                         // line 45
                         yield "                        ";
-                    } elseif (CoreExtension::inFilter((isset($context["ext"]) || array_key_exists("ext", $context) ? $context["ext"] : (function () { throw new RuntimeError('Variable "ext" does not exist.', 45, $this->source); })()), ["mp3", "wav", "ogg"])) {
-                        $context["type"] = "audio";
+                    } elseif (CoreExtension::inFilter((isset($context["ext"]) || array_key_exists("ext", $context) ? $context["ext"] : (function () { throw new RuntimeError('Variable "ext" does not exist.', 45, $this->source); })()), ["jpg", "jpeg", "png", "gif", "webp", "svg"])) {
+                        $context["type"] = "image";
                         // line 46
                         yield "                        ";
+                    } elseif (CoreExtension::inFilter((isset($context["ext"]) || array_key_exists("ext", $context) ? $context["ext"] : (function () { throw new RuntimeError('Variable "ext" does not exist.', 46, $this->source); })()), ["mp3", "wav", "ogg", "m4a"])) {
+                        $context["type"] = "audio";
+                        // line 47
+                        yield "                        ";
                     }
-                    // line 47
+                    // line 48
                     yield "                    ";
                 }
-                // line 48
+                // line 49
                 yield "
                     <div class=\"ressource-card\" data-type=\"";
-                // line 49
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["type"]) || array_key_exists("type", $context) ? $context["type"] : (function () { throw new RuntimeError('Variable "type" does not exist.', 49, $this->source); })()), "html", null, true);
+                // line 50
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["type"]) || array_key_exists("type", $context) ? $context["type"] : (function () { throw new RuntimeError('Variable "type" does not exist.', 50, $this->source); })()), "html", null, true);
                 yield "\" style=\"background: rgba(255,255,255,0.95); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); transition: all 0.3s; transform: translateY(0); display: none;\">
                         <div style=\"padding: 32px;\">
                             <div style=\"display: flex; align-items: center; gap: 16px; margin-bottom: 20px;\">
                                 <span style=\"font-size: 2.8rem;\">
                                     ";
-                // line 53
-                if ((($tmp = (isset($context["isYoutube"]) || array_key_exists("isYoutube", $context) ? $context["isYoutube"] : (function () { throw new RuntimeError('Variable "isYoutube" does not exist.', 53, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                // line 54
+                if ((($tmp = (isset($context["isYoutube"]) || array_key_exists("isYoutube", $context) ? $context["isYoutube"] : (function () { throw new RuntimeError('Variable "isYoutube" does not exist.', 54, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
                     yield "🎥
-                                    ";
-                } elseif ((                // line 54
-(isset($context["type"]) || array_key_exists("type", $context) ? $context["type"] : (function () { throw new RuntimeError('Variable "type" does not exist.', 54, $this->source); })()) == "pdf")) {
-                    yield "📄
                                     ";
                 } elseif ((                // line 55
-(isset($context["type"]) || array_key_exists("type", $context) ? $context["type"] : (function () { throw new RuntimeError('Variable "type" does not exist.', 55, $this->source); })()) == "video")) {
-                    yield "🎥
+(isset($context["type"]) || array_key_exists("type", $context) ? $context["type"] : (function () { throw new RuntimeError('Variable "type" does not exist.', 55, $this->source); })()) == "pdf")) {
+                    yield "📄
                                     ";
                 } elseif ((                // line 56
-(isset($context["type"]) || array_key_exists("type", $context) ? $context["type"] : (function () { throw new RuntimeError('Variable "type" does not exist.', 56, $this->source); })()) == "image")) {
-                    yield "🖼️
+(isset($context["type"]) || array_key_exists("type", $context) ? $context["type"] : (function () { throw new RuntimeError('Variable "type" does not exist.', 56, $this->source); })()) == "video")) {
+                    yield "🎥
                                     ";
                 } elseif ((                // line 57
-(isset($context["type"]) || array_key_exists("type", $context) ? $context["type"] : (function () { throw new RuntimeError('Variable "type" does not exist.', 57, $this->source); })()) == "audio")) {
+(isset($context["type"]) || array_key_exists("type", $context) ? $context["type"] : (function () { throw new RuntimeError('Variable "type" does not exist.', 57, $this->source); })()) == "image")) {
+                    yield "🖼️
+                                    ";
+                } elseif ((                // line 58
+(isset($context["type"]) || array_key_exists("type", $context) ? $context["type"] : (function () { throw new RuntimeError('Variable "type" does not exist.', 58, $this->source); })()) == "audio")) {
                     yield "🎵
                                     ";
                 } else {
-                    // line 58
+                    // line 59
                     yield "📎";
                 }
-                // line 59
+                // line 60
                 yield "                                </span>
                                 <h3 style=\"margin: 0; color: #1e293b; font-size: 1.5rem; font-weight: 800;\">
                                     ";
-                // line 61
-                yield (((($tmp = (isset($context["isYoutube"]) || array_key_exists("isYoutube", $context) ? $context["isYoutube"] : (function () { throw new RuntimeError('Variable "isYoutube" does not exist.', 61, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ("Vidéo YouTube") : ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::capitalize($this->env->getCharset(), (isset($context["type"]) || array_key_exists("type", $context) ? $context["type"] : (function () { throw new RuntimeError('Variable "type" does not exist.', 61, $this->source); })())), "html", null, true)));
+                // line 62
+                yield (((($tmp = (isset($context["isYoutube"]) || array_key_exists("isYoutube", $context) ? $context["isYoutube"] : (function () { throw new RuntimeError('Variable "isYoutube" does not exist.', 62, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ("Vidéo YouTube") : ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::capitalize($this->env->getCharset(), (isset($context["type"]) || array_key_exists("type", $context) ? $context["type"] : (function () { throw new RuntimeError('Variable "type" does not exist.', 62, $this->source); })())), "html", null, true)));
                 yield " ";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["loop"], "index", [], "any", false, false, false, 61), "html", null, true);
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["loop"], "index", [], "any", false, false, false, 62), "html", null, true);
                 yield "
                                 </h3>
                             </div>
 
                             ";
-                // line 65
-                if ((($tmp = (isset($context["isYoutube"]) || array_key_exists("isYoutube", $context) ? $context["isYoutube"] : (function () { throw new RuntimeError('Variable "isYoutube" does not exist.', 65, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-                    // line 66
-                    yield "                                <div class=\"ratio ratio-16x9 rounded-3 overflow-hidden shadow\">
-                                    <iframe 
-                                        src=\"";
-                    // line 68
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::replace($context["res"], ["watch?v=" => "embed/", "youtu.be/" => "www.youtube.com/embed/"]), "html", null, true);
-                    yield "\" 
-                                        title=\"Vidéo YouTube\" 
-                                        frameborder=\"0\" 
-                                        allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" 
-                                        allowfullscreen>
-                                    </iframe>
-                                </div>
-                            ";
-                } else {
-                    // line 76
+                // line 66
+                if ((($tmp = (isset($context["isYoutube"]) || array_key_exists("isYoutube", $context) ? $context["isYoutube"] : (function () { throw new RuntimeError('Variable "isYoutube" does not exist.', 66, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                    // line 67
                     yield "                                ";
-                    $context["filePath"] = (((isset($context["public_path"]) || array_key_exists("public_path", $context) ? $context["public_path"] : (function () { throw new RuntimeError('Variable "public_path" does not exist.', 76, $this->source); })()) . "/") . $context["res"]);
-                    // line 77
+                    // line 68
+                    yield "                                ";
+                    $context["clean"] = Twig\Extension\CoreExtension::trim($context["res"]);
+                    // line 69
+                    yield "                                ";
+                    $context["videoId"] = "";
+                    // line 70
                     yield "
                                 ";
+                    // line 71
+                    if (CoreExtension::inFilter("youtu.be/", (isset($context["clean"]) || array_key_exists("clean", $context) ? $context["clean"] : (function () { throw new RuntimeError('Variable "clean" does not exist.', 71, $this->source); })()))) {
+                        // line 72
+                        yield "                                    ";
+                        $context["videoId"] = Twig\Extension\CoreExtension::trim(CoreExtension::getAttribute($this->env, $this->source, Twig\Extension\CoreExtension::split($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, Twig\Extension\CoreExtension::split($this->env->getCharset(), (isset($context["clean"]) || array_key_exists("clean", $context) ? $context["clean"] : (function () { throw new RuntimeError('Variable "clean" does not exist.', 72, $this->source); })()), "youtu.be/"), 1, [], "array", false, false, false, 72), "?"), 0, [], "array", false, false, false, 72));
+                        // line 73
+                        yield "                                ";
+                    } elseif (CoreExtension::inFilter("youtube.com/watch?v=", (isset($context["clean"]) || array_key_exists("clean", $context) ? $context["clean"] : (function () { throw new RuntimeError('Variable "clean" does not exist.', 73, $this->source); })()))) {
+                        // line 74
+                        yield "                                    ";
+                        $context["videoId"] = Twig\Extension\CoreExtension::trim(CoreExtension::getAttribute($this->env, $this->source, Twig\Extension\CoreExtension::split($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, Twig\Extension\CoreExtension::split($this->env->getCharset(), (isset($context["clean"]) || array_key_exists("clean", $context) ? $context["clean"] : (function () { throw new RuntimeError('Variable "clean" does not exist.', 74, $this->source); })()), "v="), 1, [], "array", false, false, false, 74), "&"), 0, [], "array", false, false, false, 74));
+                        // line 75
+                        yield "                                ";
+                    } elseif (CoreExtension::inFilter("youtube.com/embed/", (isset($context["clean"]) || array_key_exists("clean", $context) ? $context["clean"] : (function () { throw new RuntimeError('Variable "clean" does not exist.', 75, $this->source); })()))) {
+                        // line 76
+                        yield "                                    ";
+                        $context["videoId"] = Twig\Extension\CoreExtension::trim(CoreExtension::getAttribute($this->env, $this->source, Twig\Extension\CoreExtension::split($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, Twig\Extension\CoreExtension::split($this->env->getCharset(), (isset($context["clean"]) || array_key_exists("clean", $context) ? $context["clean"] : (function () { throw new RuntimeError('Variable "clean" does not exist.', 76, $this->source); })()), "embed/"), 1, [], "array", false, false, false, 76), "?"), 0, [], "array", false, false, false, 76));
+                        // line 77
+                        yield "                                ";
+                    }
                     // line 78
-                    if (((isset($context["type"]) || array_key_exists("type", $context) ? $context["type"] : (function () { throw new RuntimeError('Variable "type" does not exist.', 78, $this->source); })()) == "image")) {
-                        // line 79
+                    yield "
+                                ";
+                    // line 79
+                    if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), (isset($context["videoId"]) || array_key_exists("videoId", $context) ? $context["videoId"] : (function () { throw new RuntimeError('Variable "videoId" does not exist.', 79, $this->source); })())) == 11)) {
+                        // line 80
+                        yield "                                    <div class=\"ratio ratio-16x9 rounded-3 overflow-hidden shadow\">
+                                        <iframe 
+                                            src=\"https://www.youtube.com/embed/";
+                        // line 82
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["videoId"]) || array_key_exists("videoId", $context) ? $context["videoId"] : (function () { throw new RuntimeError('Variable "videoId" does not exist.', 82, $this->source); })()), "html", null, true);
+                        yield "?rel=0&modestbranding=1&showinfo=0&controls=1&autoplay=0&iv_load_policy=3\" 
+                                            title=\"Vidéo YouTube\" 
+                                            frameborder=\"0\" 
+                                            allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" 
+                                            allowfullscreen>
+                                        </iframe>
+                                    </div>
+                                ";
+                    } else {
+                        // line 90
+                        yield "                                    <div class=\"alert alert-warning text-center p-4\">
+                                        <strong>Erreur de lecture :</strong> Impossible de charger cette vidéo.<br>
+                                        <small>URL problématique : ";
+                        // line 92
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["res"]);
+                        yield "</small><br>
+                                        <small>Vérifiez le lien dans l'administration.</small>
+                                    </div>
+                                ";
+                    }
+                    // line 96
+                    yield "
+                            ";
+                } else {
+                    // line 98
+                    yield "                                ";
+                    $context["filePath"] = (((isset($context["public_path"]) || array_key_exists("public_path", $context) ? $context["public_path"] : (function () { throw new RuntimeError('Variable "public_path" does not exist.', 98, $this->source); })()) . "/") . $context["res"]);
+                    // line 99
+                    yield "
+                                ";
+                    // line 100
+                    if (((isset($context["type"]) || array_key_exists("type", $context) ? $context["type"] : (function () { throw new RuntimeError('Variable "type" does not exist.', 100, $this->source); })()) == "image")) {
+                        // line 101
                         yield "                                    <img src=\"";
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["filePath"]) || array_key_exists("filePath", $context) ? $context["filePath"] : (function () { throw new RuntimeError('Variable "filePath" does not exist.', 79, $this->source); })()), "html", null, true);
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["filePath"]) || array_key_exists("filePath", $context) ? $context["filePath"] : (function () { throw new RuntimeError('Variable "filePath" does not exist.', 101, $this->source); })()), "html", null, true);
                         yield "\" alt=\"Ressource\" style=\"width: 100%; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);\">
                                 ";
-                    } elseif ((                    // line 80
-(isset($context["type"]) || array_key_exists("type", $context) ? $context["type"] : (function () { throw new RuntimeError('Variable "type" does not exist.', 80, $this->source); })()) == "video")) {
-                        // line 81
+                    } elseif ((                    // line 102
+(isset($context["type"]) || array_key_exists("type", $context) ? $context["type"] : (function () { throw new RuntimeError('Variable "type" does not exist.', 102, $this->source); })()) == "video")) {
+                        // line 103
                         yield "                                    <video controls style=\"width: 100%; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);\">
                                         <source src=\"";
-                        // line 82
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["filePath"]) || array_key_exists("filePath", $context) ? $context["filePath"] : (function () { throw new RuntimeError('Variable "filePath" does not exist.', 82, $this->source); })()), "html", null, true);
+                        // line 104
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["filePath"]) || array_key_exists("filePath", $context) ? $context["filePath"] : (function () { throw new RuntimeError('Variable "filePath" does not exist.', 104, $this->source); })()), "html", null, true);
                         yield "\" type=\"video/";
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["ext"]) || array_key_exists("ext", $context) ? $context["ext"] : (function () { throw new RuntimeError('Variable "ext" does not exist.', 82, $this->source); })()), "html", null, true);
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["ext"]) || array_key_exists("ext", $context) ? $context["ext"] : (function () { throw new RuntimeError('Variable "ext" does not exist.', 104, $this->source); })()), "html", null, true);
                         yield "\">
                                         Vidéo non supportée.
                                     </video>
                                 ";
-                    } elseif ((                    // line 85
-(isset($context["type"]) || array_key_exists("type", $context) ? $context["type"] : (function () { throw new RuntimeError('Variable "type" does not exist.', 85, $this->source); })()) == "pdf")) {
-                        // line 86
+                    } elseif ((                    // line 107
+(isset($context["type"]) || array_key_exists("type", $context) ? $context["type"] : (function () { throw new RuntimeError('Variable "type" does not exist.', 107, $this->source); })()) == "pdf")) {
+                        // line 108
                         yield "                                    <a href=\"";
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["filePath"]) || array_key_exists("filePath", $context) ? $context["filePath"] : (function () { throw new RuntimeError('Variable "filePath" does not exist.', 86, $this->source); })()), "html", null, true);
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["filePath"]) || array_key_exists("filePath", $context) ? $context["filePath"] : (function () { throw new RuntimeError('Variable "filePath" does not exist.', 108, $this->source); })()), "html", null, true);
                         yield "\" target=\"_blank\" style=\"display: flex; align-items: center; gap: 16px; background: linear-gradient(135deg, #f97316, #ea580c); color: white; padding: 18px 36px; border-radius: 14px; text-decoration: none; font-weight: 700; font-size: 1.2rem; box-shadow: 0 8px 24px rgba(249,115,22,0.4); transition: all 0.3s; width: fit-content; margin: 0 auto;\" onmouseover=\"this.style.transform='scale(1.05)';\" onmouseout=\"this.style.transform='scale(1)';\">
                                         📄 Ouvrir le PDF du cours
                                     </a>
                                 ";
-                    } elseif ((                    // line 89
-(isset($context["type"]) || array_key_exists("type", $context) ? $context["type"] : (function () { throw new RuntimeError('Variable "type" does not exist.', 89, $this->source); })()) == "audio")) {
-                        // line 90
+                    } elseif ((                    // line 111
+(isset($context["type"]) || array_key_exists("type", $context) ? $context["type"] : (function () { throw new RuntimeError('Variable "type" does not exist.', 111, $this->source); })()) == "audio")) {
+                        // line 112
                         yield "                                    <audio controls style=\"width: 100%; margin: 20px 0;\">
                                         <source src=\"";
-                        // line 91
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["filePath"]) || array_key_exists("filePath", $context) ? $context["filePath"] : (function () { throw new RuntimeError('Variable "filePath" does not exist.', 91, $this->source); })()), "html", null, true);
+                        // line 113
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["filePath"]) || array_key_exists("filePath", $context) ? $context["filePath"] : (function () { throw new RuntimeError('Variable "filePath" does not exist.', 113, $this->source); })()), "html", null, true);
                         yield "\" type=\"audio/";
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["ext"]) || array_key_exists("ext", $context) ? $context["ext"] : (function () { throw new RuntimeError('Variable "ext" does not exist.', 91, $this->source); })()), "html", null, true);
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["ext"]) || array_key_exists("ext", $context) ? $context["ext"] : (function () { throw new RuntimeError('Variable "ext" does not exist.', 113, $this->source); })()), "html", null, true);
                         yield "\">
                                         Audio non supporté.
                                     </audio>
                                 ";
                     } else {
-                        // line 95
+                        // line 117
                         yield "                                    <div style=\"padding: 40px; background: #f1f5f9; border-radius: 16px; text-align: center; color: #475569; border: 3px dashed #cbd5e1;\">
                                         <p style=\"margin: 0 0 16px; font-size: 1.3rem; font-weight: 700;\">Fichier : ";
-                        // line 96
+                        // line 118
                         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::last($this->env->getCharset(), Twig\Extension\CoreExtension::split($this->env->getCharset(), $context["res"], "/")), "html", null, true);
                         yield "</p>
                                         <small style=\"font-size: 1rem; opacity: 0.8;\">(format non prévisualisé)</small>
                                         <a href=\"";
-                        // line 98
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["filePath"]) || array_key_exists("filePath", $context) ? $context["filePath"] : (function () { throw new RuntimeError('Variable "filePath" does not exist.', 98, $this->source); })()), "html", null, true);
+                        // line 120
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["filePath"]) || array_key_exists("filePath", $context) ? $context["filePath"] : (function () { throw new RuntimeError('Variable "filePath" does not exist.', 120, $this->source); })()), "html", null, true);
                         yield "\" download style=\"display: inline-block; margin-top: 24px; background: #6366f1; color: white; padding: 14px 32px; border-radius: 12px; text-decoration: none; font-weight: 700; box-shadow: 0 6px 16px rgba(99,102,241,0.3); transition: all 0.2s;\" onmouseover=\"this.style.transform='scale(1.05)';\" onmouseout=\"this.style.transform='scale(1)';\">
                                             Télécharger le fichier
                                         </a>
                                     </div>
                                 ";
                     }
-                    // line 103
+                    // line 125
                     yield "                            ";
                 }
-                // line 104
+                // line 126
                 yield "                        </div>
                     </div>
                 ";
@@ -346,23 +398,23 @@ class __TwigTemplate_78980e1d77114bb26d61eccb1514475a extends Template
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_key'], $context['res'], $context['_parent'], $context['loop']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 107
+            // line 129
             yield "            ";
         } else {
-            // line 108
+            // line 130
             yield "                <div style=\"grid-column: 1 / -1; text-align: center; padding: 100px 40px; background: rgba(255,255,255,0.9); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); color: #475569; font-size: 1.5rem; font-weight: 600;\">
                     Aucune ressource disponible pour cette leçon pour le moment.
                 </div>
             ";
         }
-        // line 112
+        // line 134
         yield "        </div>
 
         <!-- Bouton Terminer -->
         <div style=\"margin-top: 80px; text-align: center;\">
             <button onclick=\"terminerCours(";
-        // line 116
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 116, $this->source); })()), "id", [], "any", false, false, false, 116), "html", null, true);
+        // line 138
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 138, $this->source); })()), "id", [], "any", false, false, false, 138), "html", null, true);
         yield ")\" style=\"background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 22px 80px; font-size: 1.5rem; font-weight: 900; border-radius: 20px; cursor: pointer; box-shadow: 0 12px 40px rgba(16,185,129,0.5); transition: all 0.35s;\" onmouseover=\"this.style.transform='scale(1.08) translateY(-4px)';\" onmouseout=\"this.style.transform='scale(1) translateY(0)';\">
                 Terminer cette leçon →
             </button>
@@ -372,7 +424,7 @@ class __TwigTemplate_78980e1d77114bb26d61eccb1514475a extends Template
 
     <!-- Script filtrage + terminer -->
     <script>
-        // Filtrage (inchangé)
+        // Filtrage
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -399,8 +451,8 @@ class __TwigTemplate_78980e1d77114bb26d61eccb1514475a extends Template
                     method: 'POST',
                     headers: {
                         'X-CSRF-Token': '";
-        // line 151
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken(("delete" . CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 151, $this->source); })()), "id", [], "any", false, false, false, 151))), "html", null, true);
+        // line 173
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken(("delete" . CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 173, $this->source); })()), "id", [], "any", false, false, false, 173))), "html", null, true);
         yield "'
                     }
                 })
@@ -408,8 +460,8 @@ class __TwigTemplate_78980e1d77114bb26d61eccb1514475a extends Template
                 .then(data => {
                     if (data.success) {
                         window.location.href = '/langue/";
-        // line 157
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 157, $this->source); })()), "idNiveau", [], "any", false, false, false, 157), "idLangue", [], "any", false, false, false, 157), "id", [], "any", false, false, false, 157), "html", null, true);
+        // line 179
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 179, $this->source); })()), "idNiveau", [], "any", false, false, false, 179), "idLangue", [], "any", false, false, false, 179), "id", [], "any", false, false, false, 179), "html", null, true);
         yield "/apprentissage';
                     } else {
                         alert(\"Une erreur est survenue : \" + (data.message || 'Inconnu'));
@@ -450,7 +502,7 @@ class __TwigTemplate_78980e1d77114bb26d61eccb1514475a extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  412 => 157,  403 => 151,  365 => 116,  359 => 112,  353 => 108,  350 => 107,  334 => 104,  331 => 103,  323 => 98,  318 => 96,  315 => 95,  306 => 91,  303 => 90,  301 => 89,  294 => 86,  292 => 85,  284 => 82,  281 => 81,  279 => 80,  274 => 79,  272 => 78,  269 => 77,  266 => 76,  255 => 68,  251 => 66,  249 => 65,  240 => 61,  236 => 59,  233 => 58,  228 => 57,  224 => 56,  220 => 55,  216 => 54,  212 => 53,  205 => 49,  202 => 48,  199 => 47,  196 => 46,  192 => 45,  188 => 44,  184 => 43,  180 => 42,  177 => 41,  174 => 40,  171 => 39,  168 => 38,  166 => 37,  163 => 36,  160 => 35,  142 => 34,  140 => 33,  117 => 15,  111 => 12,  103 => 6,  90 => 5,  64 => 3,  41 => 1,);
+        return array (  464 => 179,  455 => 173,  417 => 138,  411 => 134,  405 => 130,  402 => 129,  386 => 126,  383 => 125,  375 => 120,  370 => 118,  367 => 117,  358 => 113,  355 => 112,  353 => 111,  346 => 108,  344 => 107,  336 => 104,  333 => 103,  331 => 102,  326 => 101,  324 => 100,  321 => 99,  318 => 98,  314 => 96,  307 => 92,  303 => 90,  292 => 82,  288 => 80,  286 => 79,  283 => 78,  280 => 77,  277 => 76,  274 => 75,  271 => 74,  268 => 73,  265 => 72,  263 => 71,  260 => 70,  257 => 69,  254 => 68,  252 => 67,  250 => 66,  241 => 62,  237 => 60,  234 => 59,  229 => 58,  225 => 57,  221 => 56,  217 => 55,  213 => 54,  206 => 50,  203 => 49,  200 => 48,  197 => 47,  193 => 46,  189 => 45,  185 => 44,  181 => 43,  178 => 42,  175 => 41,  172 => 40,  169 => 39,  167 => 38,  164 => 37,  161 => 36,  143 => 35,  141 => 34,  118 => 16,  112 => 13,  103 => 6,  90 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -462,7 +514,8 @@ class __TwigTemplate_78980e1d77114bb26d61eccb1514475a extends Template
 {% block body %}
 <div style=\"background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); min-height: 100vh; padding: 60px 20px; color: white; font-family: system-ui, sans-serif;\">
     <div style=\"max-width: 1100px; margin: 0 auto;\">
-<br><br><br><br>
+        <br><br><br><br>
+
         <!-- En-tête -->
         <div style=\"text-align: center; margin-bottom: 60px;\">
             <h1 style=\"font-size: 3rem; font-weight: 900; color: white; margin: 0 0 12px; text-shadow: 0 4px 12px rgba(0,0,0,0.4);\">
@@ -489,7 +542,7 @@ class __TwigTemplate_78980e1d77114bb26d61eccb1514475a extends Template
         <div id=\"ressources-container\" style=\"display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 32px;\">
             {% if files|length > 0 %}
                 {% for res in files %}
-                    {% set isYoutube = 'youtube.com' in res or 'youtu.be' in res %}
+                    {% set isYoutube = res matches '/(youtube\\\\.com|youtu\\\\.be)/i' %}
 
                     {% if isYoutube %}
                         {% set type = 'video' %}
@@ -497,9 +550,9 @@ class __TwigTemplate_78980e1d77114bb26d61eccb1514475a extends Template
                         {% set ext = res|split('.')|last|lower %}
                         {% set type = 'other' %}
                         {% if ext in ['pdf'] %}{% set type = 'pdf' %}
-                        {% elseif ext in ['mp4','webm'] %}{% set type = 'video' %}
-                        {% elseif ext in ['jpg','jpeg','png','gif','webp'] %}{% set type = 'image' %}
-                        {% elseif ext in ['mp3','wav','ogg'] %}{% set type = 'audio' %}
+                        {% elseif ext in ['mp4','webm','mov'] %}{% set type = 'video' %}
+                        {% elseif ext in ['jpg','jpeg','png','gif','webp','svg'] %}{% set type = 'image' %}
+                        {% elseif ext in ['mp3','wav','ogg','m4a'] %}{% set type = 'audio' %}
                         {% endif %}
                     {% endif %}
 
@@ -520,15 +573,36 @@ class __TwigTemplate_78980e1d77114bb26d61eccb1514475a extends Template
                             </div>
 
                             {% if isYoutube %}
-                                <div class=\"ratio ratio-16x9 rounded-3 overflow-hidden shadow\">
-                                    <iframe 
-                                        src=\"{{ res|replace({'watch?v=': 'embed/', 'youtu.be/': 'www.youtube.com/embed/'}) }}\" 
-                                        title=\"Vidéo YouTube\" 
-                                        frameborder=\"0\" 
-                                        allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" 
-                                        allowfullscreen>
-                                    </iframe>
-                                </div>
+                                {# Extraction robuste de l'ID YouTube #}
+                                {% set clean = res|trim %}
+                                {% set videoId = '' %}
+
+                                {% if 'youtu.be/' in clean %}
+                                    {% set videoId = clean|split('youtu.be/')[1]|split('?')[0]|trim %}
+                                {% elseif 'youtube.com/watch?v=' in clean %}
+                                    {% set videoId = clean|split('v=')[1]|split('&')[0]|trim %}
+                                {% elseif 'youtube.com/embed/' in clean %}
+                                    {% set videoId = clean|split('embed/')[1]|split('?')[0]|trim %}
+                                {% endif %}
+
+                                {% if videoId|length == 11 %}
+                                    <div class=\"ratio ratio-16x9 rounded-3 overflow-hidden shadow\">
+                                        <iframe 
+                                            src=\"https://www.youtube.com/embed/{{ videoId }}?rel=0&modestbranding=1&showinfo=0&controls=1&autoplay=0&iv_load_policy=3\" 
+                                            title=\"Vidéo YouTube\" 
+                                            frameborder=\"0\" 
+                                            allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" 
+                                            allowfullscreen>
+                                        </iframe>
+                                    </div>
+                                {% else %}
+                                    <div class=\"alert alert-warning text-center p-4\">
+                                        <strong>Erreur de lecture :</strong> Impossible de charger cette vidéo.<br>
+                                        <small>URL problématique : {{ res|escape }}</small><br>
+                                        <small>Vérifiez le lien dans l'administration.</small>
+                                    </div>
+                                {% endif %}
+
                             {% else %}
                                 {% set filePath = public_path ~ '/' ~ res %}
 
@@ -579,7 +653,7 @@ class __TwigTemplate_78980e1d77114bb26d61eccb1514475a extends Template
 
     <!-- Script filtrage + terminer -->
     <script>
-        // Filtrage (inchangé)
+        // Filtrage
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));

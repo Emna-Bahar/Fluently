@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TestRepository::class)]
 class Test
@@ -17,15 +18,19 @@ class Test
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message: "La date de passage est obligatoire")]
+    #[Assert\GreaterThan("today", message: "La date de passage doit être future")]
     private ?\DateTime $date_passage = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::FLOAT, nullable: true)]  // UNE SEULE annotation, nullable
     private ?float $resultat = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
+    #[Assert\NotBlank(message: "La durée est obligatoire")]
     private ?\DateTime $duree = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: "Le type est obligatoire")]
     private ?string $type = null;
 
     #[ORM\ManyToOne(inversedBy: 'tests')]
@@ -69,7 +74,7 @@ class Test
         return $this->resultat;
     }
 
-    public function setResultat(float $resultat): static
+    public function setResultat(?float $resultat): static
     {
         $this->resultat = $resultat;
 
@@ -145,7 +150,6 @@ class Test
     public function removeQuestion(Question $question): static
     {
         if ($this->questions->removeElement($question)) {
-            // set the owning side to null (unless already changed)
             if ($question->getIdTest() === $this) {
                 $question->setIdTest(null);
             }

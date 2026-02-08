@@ -6,6 +6,7 @@ use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
 class Question
@@ -16,12 +17,18 @@ class Question
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "L'énoncé est obligatoire")]
+    #[Assert\Length(min: 5, max: 255, minMessage: "Au moins 5 caractères", maxMessage: "Max 255 caractères")]
     private ?string $enonce = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: "Le type est obligatoire")]
+    #[Assert\Choice(choices: ['qcm', 'texte_libre', 'vrai_faux'], message: "Type invalide (qcm, texte_libre, vrai_faux)")]
     private ?string $type = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Score max obligatoire")]
+    #[Assert\Range(min: 1, max: 20, notInRangeMessage: "Score max entre 1 et 20")]
     private ?float $score_max = null;
 
     #[ORM\ManyToOne(inversedBy: 'questions')]
