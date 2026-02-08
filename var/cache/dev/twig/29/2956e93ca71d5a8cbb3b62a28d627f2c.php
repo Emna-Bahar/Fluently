@@ -47,17 +47,82 @@ class __TwigTemplate_70a5d2e37bb1e00711e846e3bad298f6 extends Template
         // line 1
         yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 1, $this->source); })()), 'form_start');
         yield "
-    ";
-        // line 2
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 2, $this->source); })()), 'widget');
-        yield "
-    <button class=\"btn\">";
-        // line 3
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(((array_key_exists("button_label", $context)) ? (Twig\Extension\CoreExtension::default((isset($context["button_label"]) || array_key_exists("button_label", $context) ? $context["button_label"] : (function () { throw new RuntimeError('Variable "button_label" does not exist.', 3, $this->source); })()), "Save")) : ("Save")), "html", null, true);
-        yield "</button>
-";
+    <div class=\"row\">
+        <div class=\"col-md-6\">
+            ";
         // line 4
-        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 4, $this->source); })()), 'form_end');
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 4, $this->source); })()), "langue", [], "any", false, false, false, 4), 'row', ["attr" => ["id" => "langue-select"]]);
+        yield "
+        </div>
+        <div class=\"col-md-6\">
+            ";
+        // line 7
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 7, $this->source); })()), "Id_niveau", [], "any", false, false, false, 7), 'row', ["attr" => ["id" => "niveau-select"]]);
+        yield "
+        </div>
+    </div>
+    
+    ";
+        // line 11
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 11, $this->source); })()), 'widget');
+        yield "
+    
+    <button class=\"btn btn-primary\">";
+        // line 13
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(((array_key_exists("button_label", $context)) ? (Twig\Extension\CoreExtension::default((isset($context["button_label"]) || array_key_exists("button_label", $context) ? $context["button_label"] : (function () { throw new RuntimeError('Variable "button_label" does not exist.', 13, $this->source); })()), "Save")) : ("Save")), "html", null, true);
+        yield "</button>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const langueSelect = document.getElementById('langue-select');
+    const niveauSelect = document.getElementById('niveau-select');
+    // Store original options to restore them later
+    // We need to clone them because appending them to a new select removes them from the original NodeList
+    const niveauOptions = Array.from(niveauSelect.options).map(option => option.cloneNode(true));
+
+    function filterNiveaux() {
+        const selectedLangueId = langueSelect.value;
+        const currentNiveauId = niveauSelect.value;
+        
+        // Reset selection if the current one is being hidden
+        let isCurrentValid = false;
+
+        niveauSelect.innerHTML = ''; // Clear existing
+        
+        niveauOptions.forEach(option => {
+            if (option.value === '') {
+                niveauSelect.appendChild(option.cloneNode(true)); // Always keep placeholder
+                return;
+            }
+            
+            const optionLangue = option.getAttribute('data-langue');
+            if (optionLangue === selectedLangueId) {
+                const clonedOption = option.cloneNode(true);
+                niveauSelect.appendChild(clonedOption);
+                if (clonedOption.value === currentNiveauId) isCurrentValid = true;
+            }
+        });
+
+        if (!isCurrentValid) {
+            niveauSelect.value = '';
+        } else {
+            niveauSelect.value = currentNiveauId; // Restore previous selection if still valid
+        }
+    }
+
+    if(langueSelect) {
+        langueSelect.addEventListener('change', filterNiveaux);
+        // Trigger on load if langue is already selected (e.g. edit or back button)
+        // Only filter if a langue is actually selected, otherwise show all
+        if(langueSelect.value) {
+            filterNiveaux();
+        }
+    }
+});
+</script>
+";
+        // line 63
+        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 63, $this->source); })()), 'form_end');
         yield "
 ";
         
@@ -90,14 +155,73 @@ class __TwigTemplate_70a5d2e37bb1e00711e846e3bad298f6 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  60 => 4,  56 => 3,  52 => 2,  48 => 1,);
+        return array (  125 => 63,  72 => 13,  67 => 11,  60 => 7,  54 => 4,  48 => 1,);
     }
 
     public function getSourceContext(): Source
     {
         return new Source("{{ form_start(form) }}
+    <div class=\"row\">
+        <div class=\"col-md-6\">
+            {{ form_row(form.langue, {'attr': {'id': 'langue-select'}}) }}
+        </div>
+        <div class=\"col-md-6\">
+            {{ form_row(form.Id_niveau, {'attr': {'id': 'niveau-select'}}) }}
+        </div>
+    </div>
+    
     {{ form_widget(form) }}
-    <button class=\"btn\">{{ button_label|default('Save') }}</button>
+    
+    <button class=\"btn btn-primary\">{{ button_label|default('Save') }}</button>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const langueSelect = document.getElementById('langue-select');
+    const niveauSelect = document.getElementById('niveau-select');
+    // Store original options to restore them later
+    // We need to clone them because appending them to a new select removes them from the original NodeList
+    const niveauOptions = Array.from(niveauSelect.options).map(option => option.cloneNode(true));
+
+    function filterNiveaux() {
+        const selectedLangueId = langueSelect.value;
+        const currentNiveauId = niveauSelect.value;
+        
+        // Reset selection if the current one is being hidden
+        let isCurrentValid = false;
+
+        niveauSelect.innerHTML = ''; // Clear existing
+        
+        niveauOptions.forEach(option => {
+            if (option.value === '') {
+                niveauSelect.appendChild(option.cloneNode(true)); // Always keep placeholder
+                return;
+            }
+            
+            const optionLangue = option.getAttribute('data-langue');
+            if (optionLangue === selectedLangueId) {
+                const clonedOption = option.cloneNode(true);
+                niveauSelect.appendChild(clonedOption);
+                if (clonedOption.value === currentNiveauId) isCurrentValid = true;
+            }
+        });
+
+        if (!isCurrentValid) {
+            niveauSelect.value = '';
+        } else {
+            niveauSelect.value = currentNiveauId; // Restore previous selection if still valid
+        }
+    }
+
+    if(langueSelect) {
+        langueSelect.addEventListener('change', filterNiveaux);
+        // Trigger on load if langue is already selected (e.g. edit or back button)
+        // Only filter if a langue is actually selected, otherwise show all
+        if(langueSelect.value) {
+            filterNiveaux();
+        }
+    }
+});
+</script>
 {{ form_end(form) }}
 ", "cours/_form.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\cours\\_form.html.twig");
     }

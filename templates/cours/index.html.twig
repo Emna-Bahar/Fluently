@@ -1,29 +1,48 @@
-{% extends 'base.html.twig' %}
+{% extends 'dashboard/index.html.twig' %}
 
-{% block title %}Gestion des Cours{% endblock %}
+{% block title %}Gestion des Cours - Admin{% endblock %}
 
 {% block body %}
-<div style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); min-height: 100vh; padding: 100px 20px 60px; color: white;">
-<br><br><br><br>
-    <div class="container" style="max-width: 1400px;">
 
-        <!-- Titre + Bouton Ajouter -->
-        <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-4">
-            <h1 class="mb-0 fw-bold" style="font-size: 2.8rem; text-shadow: 0 4px 16px rgba(0,0,0,0.5);">
-                Gestion des Cours
-            </h1>
-            <a href="{{ path('app_admin_cours_new') }}" class="btn btn-success btn-lg shadow px-5 py-3 fw-bold">
-                + Créer un cours
-            </a>
+    <div class="nxl-content">
+
+        <!-- En-tête de page -->
+        <div class="page-header">
+            <div class="page-header-left d-flex align-items-center">
+                <div class="page-header-title">
+                    <h5 class="m-b-10 fw-bold">
+                        <i class="feather-book-open text-primary me-2"></i>
+                        Gestion des Cours
+                    </h5>
+                    <h6 class="m-b-0 text-muted">
+                        
+                    </h6>
+                </div>
+            </div>
+            <div class="page-header-right ms-auto">
+                <a href="{{ path('app_admin_cours_new') }}" class="btn btn-primary px-4">
+                    <i class="feather-plus me-2"></i> Créer un cours
+                </a>
+            </div>
         </div>
 
-        <!-- Filtres : Langue + Difficulté -->
-        <div class="card mb-5 shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255,255,255,0.12); backdrop-filter: blur(12px);">
+        <!-- Messages flash -->
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} alert-dismissible fade show mb-4 rounded-3" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <!-- Filtres -->
+        <div class="card border-0 shadow-sm mb-5">
             <div class="card-body p-4">
                 <form method="get" class="row g-4 align-items-end">
-                    <!-- Filtre Langue -->
+                    <!-- Filtre par langue -->
                     <div class="col-lg-4 col-md-6">
-                        <label for="langue" class="form-label fw-bold text-white">Filtrer par langue</label>
+                        <label for="langue" class="form-label fw-bold">Langue</label>
                         <select name="langue" id="langue" class="form-select form-select-lg">
                             <option value="">Toutes les langues</option>
                             {% set languesUniques = [] %}
@@ -38,9 +57,9 @@
                         </select>
                     </div>
 
-                    <!-- Filtre Difficulté -->
+                    <!-- Filtre par difficulté -->
                     <div class="col-lg-4 col-md-6">
-                        <label for="difficulte" class="form-label fw-bold text-white">Filtrer par difficulté</label>
+                        <label for="difficulte" class="form-label fw-bold">Difficulté</label>
                         <select name="difficulte" id="difficulte" class="form-select form-select-lg">
                             <option value="">Toutes les difficultés</option>
                             {% set difficultes = [] %}
@@ -57,12 +76,12 @@
                         </select>
                     </div>
 
-                    <!-- Boutons -->
-                    <div class="col-lg-4 col-12 d-flex flex-wrap gap-3 justify-content-lg-end mt-3 mt-lg-0">
-                        <button type="submit" class="btn btn-primary btn-lg px-5 fw-bold shadow">
-                            Filtrer
+                    <!-- Boutons filtres -->
+                    <div class="col-lg-4 col-12 d-flex flex-wrap gap-3 justify-content-lg-end">
+                        <button type="submit" class="btn btn-primary px-5">
+                            <i class="feather-filter me-2"></i> Filtrer
                         </button>
-                        <a href="{{ path('app_cours_index') }}" class="btn btn-outline-light btn-lg px-5 fw-bold">
+                        <a href="{{ path('app_cours_index') }}" class="btn btn-outline-secondary px-5">
                             Réinitialiser
                         </a>
                     </div>
@@ -70,62 +89,81 @@
             </div>
         </div>
 
-        <!-- Messages flash -->
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert alert-{{ label }} alert-dismissible fade show mb-4 rounded-3" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            {% endfor %}
-        {% endfor %}
-
         <!-- Tableau des cours -->
-        <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255,255,255,0.95);">
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="card-header bg-light border-bottom">
+                <h6 class="m-0 fw-bold">
+                    <i class="feather-list text-primary me-2"></i>
+                    Liste des cours
+                </h6>
+            </div>
+
             <div class="card-body p-0">
                 <div class="table-responsive">
-                    <table class="table table-hover table-striped mb-0 align-middle">
-                        <thead class="table-dark">
+                    <table class="table table-hover table-striped align-middle mb-0">
+                        <thead style="background-color: #2872e1; color: white;">
                             <tr>
                                 <th class="ps-4">ID</th>
                                 <th>Langue / Niveau</th>
-                                <th class="text-center">Numéro</th>
-                                <th>Ressources</th>
-                                <th class="text-center">Date création</th>
+                                <th class="text-center">N°</th>
+                                <th class="text-center">Ressources</th>
+                                <th class="text-center">Créé le</th>
                                 <th class="text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                         {% for cour in cours %}
                             <tr>
-                                <td class="ps-4 fw-bold">{{ cour.id }}</td>
-                                <td class="fw-bold">
-                                    {{ cour.IdNiveau.IdLangue.nom }} 
-                                    <small class="text-muted d-block">{{ cour.IdNiveau.titre }} — {{ cour.IdNiveau.difficulte }}</small>
+                                <td class="ps-4 fw-medium">{{ cour.id }}</td>
+                                <td class="fw-medium">
+                                    <div>{{ cour.IdNiveau.IdLangue.nom }}</div>
+                                    <small class="text-muted d-block">
+                                        {{ cour.IdNiveau.titre }} • {{ cour.IdNiveau.difficulte }}
+                                    </small>
                                 </td>
                                 <td class="text-center fw-bold">{{ cour.numero }}</td>
                                 <td class="text-center">
                                     {% set nb = cour.ressource ? cour.ressource|split('\n')|filter(v => v|trim)|length : 0 %}
-                                    {{ nb }} fichier{{ nb != 1 ? 's' : '' }}
+                                    <span class="badge {{ nb > 0 ? 'bg-success' : 'bg-secondary' }} px-3 py-2">
+                                        {{ nb }} fichier{{ nb != 1 ? 's' : '' }}
+                                    </span>
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center text-muted">
                                     {{ cour.dateCreation ? cour.dateCreation|date('d/m/Y') : '—' }}
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group btn-group-sm" role="group">
-                                        <a href="{{ path('app_cours_show', {'id': cour.id}) }}" class="btn btn-info">Voir</a>
-                                        <a href="{{ path('app_cours_edit', {'id': cour.id}) }}" class="btn btn-warning">Modifier</a>
-                                        <form method="post" action="{{ path('app_cours_delete', {'id': cour.id}) }}" onsubmit="return confirm('Supprimer ce cours ?\nCette action est irréversible.');" class="d-inline">
+                                        <a href="{{ path('app_admin_cours_show', {'id': cour.id}) }}" class="btn btn-info">
+    <i class="feather-eye"></i>
+</a>
+                                        <a href="{{ path('app_cours_edit', {'id': cour.id}) }}" 
+                                           class="btn btn-warning" 
+                                           data-bs-toggle="tooltip" title="Modifier">
+                                            <i class="feather-edit-2"></i>
+                                        </a>
+                                        <form method="post" action="{{ path('app_cours_delete', {'id': cour.id}) }}" 
+                                              onsubmit="return confirm('Supprimer ce cours ?\nCette action est irréversible.');" 
+                                              class="d-inline">
                                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ cour.id) }}">
-                                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                                            <button type="submit" class="btn btn-danger" 
+                                                    data-bs-toggle="tooltip" title="Supprimer">
+                                                <i class="feather-trash-2"></i>
+                                            </button>
                                         </form>
                                     </div>
                                 </td>
                             </tr>
                         {% else %}
                             <tr>
-                                <td colspan="6" class="text-center py-5 text-muted fs-4 fw-bold bg-light">
-                                    Aucun cours trouvé pour le moment.
+                                <td colspan="6" class="text-center py-5 text-muted">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <i class="feather-folder-open fs-1 mb-3 text-muted"></i>
+                                        <h5 class="mb-2">Aucun cours trouvé</h5>
+                                        <p class="text-muted mb-4">Créez votre premier cours maintenant</p>
+                                        <a href="{{ path('app_admin_cours_new') }}" class="btn btn-primary">
+                                            <i class="feather-plus me-2"></i> Créer un cours
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -136,5 +174,5 @@
         </div>
 
     </div>
-</div>
+
 {% endblock %}

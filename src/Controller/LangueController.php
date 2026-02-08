@@ -6,6 +6,7 @@ use App\Entity\Langue;
 use App\Form\LangueType;
 use App\Repository\LangueRepository;
 use App\Repository\CoursRepository;
+use App\Service\LanguageStatsService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -239,4 +240,14 @@ public function indexAdmin(Request $request, LangueRepository $langueRepository)
             'langue' => $langue,
         ]);
     }
+
+   #[Route('/admin/stats', name: 'app_admin_langue_stats', methods: ['GET'])]
+public function statsAdmin(LanguageStatsService $statsService): Response
+{
+    $globalLanguages = $statsService->getTopLanguages(20);
+
+    return $this->render('langue/stats_admin.html.twig', [
+        'globalLanguages' => $globalLanguages,
+    ]);
+}
 }

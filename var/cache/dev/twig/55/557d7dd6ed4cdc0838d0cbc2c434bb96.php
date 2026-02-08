@@ -38,7 +38,7 @@ class __TwigTemplate_ba26d7d92bb68eb0de35803935db5df7 extends Template
     protected function doGetParent(array $context): bool|string|Template|TemplateWrapper
     {
         // line 1
-        return "base.html.twig";
+        return "dashboard/index.html.twig";
     }
 
     protected function doDisplay(array $context, array $blocks = []): iterable
@@ -50,7 +50,7 @@ class __TwigTemplate_ba26d7d92bb68eb0de35803935db5df7 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "template", "niveau/index.html.twig"));
 
-        $this->parent = $this->load("base.html.twig", 1);
+        $this->parent = $this->load("dashboard/index.html.twig", 1);
         yield from $this->parent->unwrap()->yield($context, array_merge($this->blocks, $blocks));
         
         $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
@@ -73,7 +73,7 @@ class __TwigTemplate_ba26d7d92bb68eb0de35803935db5df7 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "title"));
 
-        yield "Gestion des Niveaux";
+        yield "Gestion des Niveaux - Admin";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
 
@@ -97,48 +97,91 @@ class __TwigTemplate_ba26d7d92bb68eb0de35803935db5df7 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
         // line 6
-        yield "<div style=\"background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); min-height: 100vh; padding: 100px 20px 60px; color: white;\">
-<br><br><br><br>
-    <div class=\"container\" style=\"max-width: 1400px;\">
+        yield "
+    <div class=\"nxl-content\">
 
-        <!-- Titre + Ajouter -->
-        <div class=\"d-flex justify-content-between align-items-center mb-5 flex-wrap gap-4\">
-            <h1 class=\"mb-0\" style=\"font-weight: 900; text-shadow: 0 4px 16px rgba(0,0,0,0.5);\">
-                Gestion des Niveaux
-            </h1>
-            <a href=\"";
-        // line 15
+        <!-- En-tête de page -->
+        <div class=\"page-header\">
+            <div class=\"page-header-left d-flex align-items-center\">
+                <div class=\"page-header-title\">
+                    <h5 class=\"m-b-10 fw-bold\">
+                        <i class=\"feather-layers text-primary me-2\"></i>
+                        Gestion des Niveaux
+                    </h5>
+                    <h6 class=\"m-b-0 text-muted\">
+                        Créer, modifier ou supprimer les niveaux de difficulté
+                    </h6>
+                </div>
+            </div>
+            <div class=\"page-header-right ms-auto\">
+                <a href=\"";
+        // line 23
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_niveau_new");
-        yield "\" class=\"btn btn-success btn-lg shadow px-5 py-3 fw-bold\">
-                + Ajouter un niveau
-            </a>
+        yield "\" class=\"btn btn-primary px-4\">
+                    <i class=\"feather-plus me-2\"></i> Ajouter un niveau
+                </a>
+            </div>
         </div>
 
-        <!-- Filtres sur une seule ligne (grande taille) -->
-        <div class=\"card mb-5 shadow-lg border-0 rounded-4 overflow-hidden\" style=\"background: rgba(255,255,255,0.12); backdrop-filter: blur(12px);\">
+        <!-- Messages flash -->
+        ";
+        // line 30
+        $context['_parent'] = $context;
+        $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 30, $this->source); })()), "flashes", [], "any", false, false, false, 30));
+        foreach ($context['_seq'] as $context["label"] => $context["messages"]) {
+            // line 31
+            yield "            ";
+            $context['_parent'] = $context;
+            $context['_seq'] = CoreExtension::ensureTraversable($context["messages"]);
+            foreach ($context['_seq'] as $context["_key"] => $context["message"]) {
+                // line 32
+                yield "                <div class=\"alert alert-";
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["label"], "html", null, true);
+                yield " alert-dismissible fade show mb-4 rounded-3\" role=\"alert\">
+                    ";
+                // line 33
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["message"], "html", null, true);
+                yield "
+                    <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>
+                </div>
+            ";
+            }
+            $_parent = $context['_parent'];
+            unset($context['_seq'], $context['_key'], $context['message'], $context['_parent']);
+            $context = array_intersect_key($context, $_parent) + $_parent;
+            // line 37
+            yield "        ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['label'], $context['messages'], $context['_parent']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 38
+        yield "
+        <!-- Filtres -->
+        <div class=\"card border-0 shadow-sm mb-5\">
             <div class=\"card-body p-4\">
                 <form method=\"get\" class=\"row g-4 align-items-end\">
                     <!-- Langue -->
-                    <div class=\"col-lg-3 col-md-6\">
-                        <label for=\"langue\" class=\"form-label fw-bold text-white\">Langue</label>
+                    <div class=\"col-lg-4 col-md-6\">
+                        <label for=\"langue\" class=\"form-label fw-bold\">Langue</label>
                         <select name=\"langue\" id=\"langue\" class=\"form-select form-select-lg\">
                             <option value=\"\">Toutes les langues</option>
                             ";
-        // line 29
+        // line 48
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["langues"]) || array_key_exists("langues", $context) ? $context["langues"] : (function () { throw new RuntimeError('Variable "langues" does not exist.', 29, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["langues"]) || array_key_exists("langues", $context) ? $context["langues"] : (function () { throw new RuntimeError('Variable "langues" does not exist.', 48, $this->source); })()));
         foreach ($context['_seq'] as $context["_key"] => $context["langue"]) {
-            // line 30
+            // line 49
             yield "                                <option value=\"";
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "id", [], "any", false, false, false, 30), "html", null, true);
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "id", [], "any", false, false, false, 49), "html", null, true);
             yield "\" ";
-            if ((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 30, $this->source); })()), "request", [], "any", false, false, false, 30), "query", [], "any", false, false, false, 30), "get", ["langue"], "method", false, false, false, 30) == CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "id", [], "any", false, false, false, 30))) {
+            if ((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 49, $this->source); })()), "request", [], "any", false, false, false, 49), "query", [], "any", false, false, false, 49), "get", ["langue"], "method", false, false, false, 49) == CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "id", [], "any", false, false, false, 49))) {
                 yield "selected";
             }
             yield ">
                                     ";
-            // line 31
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "nom", [], "any", false, false, false, 31), "html", null, true);
+            // line 50
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "nom", [], "any", false, false, false, 50), "html", null, true);
             yield "
                                 </option>
                             ";
@@ -146,53 +189,53 @@ class __TwigTemplate_ba26d7d92bb68eb0de35803935db5df7 extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['langue'], $context['_parent']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 34
+        // line 53
         yield "                        </select>
                     </div>
 
                     <!-- Difficulté -->
-                    <div class=\"col-lg-3 col-md-6\">
-                        <label for=\"difficulte\" class=\"form-label fw-bold text-white\">Difficulté</label>
+                    <div class=\"col-lg-4 col-md-6\">
+                        <label for=\"difficulte\" class=\"form-label fw-bold\">Difficulté</label>
                         <select name=\"difficulte\" id=\"difficulte\" class=\"form-select form-select-lg\">
                             <option value=\"\">Toutes</option>
                             ";
-        // line 42
+        // line 61
         $context["difficultes"] = [];
-        // line 43
+        // line 62
         yield "                            ";
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["niveaux"]) || array_key_exists("niveaux", $context) ? $context["niveaux"] : (function () { throw new RuntimeError('Variable "niveaux" does not exist.', 43, $this->source); })()));
-        foreach ($context['_seq'] as $context["_key"] => $context["n"]) {
-            // line 44
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["niveaux"]) || array_key_exists("niveaux", $context) ? $context["niveaux"] : (function () { throw new RuntimeError('Variable "niveaux" does not exist.', 62, $this->source); })()));
+        foreach ($context['_seq'] as $context["_key"] => $context["niveau"]) {
+            // line 63
             yield "                                ";
-            if ((CoreExtension::getAttribute($this->env, $this->source, $context["n"], "difficulte", [], "any", false, false, false, 44) && !CoreExtension::inFilter(CoreExtension::getAttribute($this->env, $this->source, $context["n"], "difficulte", [], "any", false, false, false, 44), (isset($context["difficultes"]) || array_key_exists("difficultes", $context) ? $context["difficultes"] : (function () { throw new RuntimeError('Variable "difficultes" does not exist.', 44, $this->source); })())))) {
-                // line 45
+            if ((CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "difficulte", [], "any", false, false, false, 63) && !CoreExtension::inFilter(CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "difficulte", [], "any", false, false, false, 63), (isset($context["difficultes"]) || array_key_exists("difficultes", $context) ? $context["difficultes"] : (function () { throw new RuntimeError('Variable "difficultes" does not exist.', 63, $this->source); })())))) {
+                // line 64
                 yield "                                    ";
-                $context["difficultes"] = Twig\Extension\CoreExtension::merge((isset($context["difficultes"]) || array_key_exists("difficultes", $context) ? $context["difficultes"] : (function () { throw new RuntimeError('Variable "difficultes" does not exist.', 45, $this->source); })()), [CoreExtension::getAttribute($this->env, $this->source, $context["n"], "difficulte", [], "any", false, false, false, 45)]);
-                // line 46
+                $context["difficultes"] = Twig\Extension\CoreExtension::merge((isset($context["difficultes"]) || array_key_exists("difficultes", $context) ? $context["difficultes"] : (function () { throw new RuntimeError('Variable "difficultes" does not exist.', 64, $this->source); })()), [CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "difficulte", [], "any", false, false, false, 64)]);
+                // line 65
                 yield "                                ";
             }
-            // line 47
+            // line 66
             yield "                            ";
         }
         $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_key'], $context['n'], $context['_parent']);
+        unset($context['_seq'], $context['_key'], $context['niveau'], $context['_parent']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 48
+        // line 67
         yield "                            ";
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable(Twig\Extension\CoreExtension::sort($this->env, (isset($context["difficultes"]) || array_key_exists("difficultes", $context) ? $context["difficultes"] : (function () { throw new RuntimeError('Variable "difficultes" does not exist.', 48, $this->source); })())));
+        $context['_seq'] = CoreExtension::ensureTraversable(Twig\Extension\CoreExtension::sort($this->env, (isset($context["difficultes"]) || array_key_exists("difficultes", $context) ? $context["difficultes"] : (function () { throw new RuntimeError('Variable "difficultes" does not exist.', 67, $this->source); })())));
         foreach ($context['_seq'] as $context["_key"] => $context["diff"]) {
-            // line 49
+            // line 68
             yield "                                <option value=\"";
             yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["diff"], "html", null, true);
             yield "\" ";
-            if ((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 49, $this->source); })()), "request", [], "any", false, false, false, 49), "query", [], "any", false, false, false, 49), "get", ["difficulte"], "method", false, false, false, 49) == $context["diff"])) {
+            if ((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 68, $this->source); })()), "request", [], "any", false, false, false, 68), "query", [], "any", false, false, false, 68), "get", ["difficulte"], "method", false, false, false, 68) == $context["diff"])) {
                 yield "selected";
             }
             yield ">
                                     ";
-            // line 50
+            // line 69
             yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["diff"], "html", null, true);
             yield "
                                 </option>
@@ -201,43 +244,19 @@ class __TwigTemplate_ba26d7d92bb68eb0de35803935db5df7 extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['diff'], $context['_parent']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 53
+        // line 72
         yield "                        </select>
                     </div>
 
-                    <!-- Seuil min -->
-                    <div class=\"col-lg-3 col-md-6\">
-                        <label class=\"form-label fw-bold text-white\">Seuil score min</label>
-                        <input type=\"number\" name=\"seuil_min\" class=\"form-control form-control-lg\" 
-                               placeholder=\"Ex: 0\" 
-                               value=\"";
-        // line 61
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 61, $this->source); })()), "request", [], "any", false, false, false, 61), "query", [], "any", false, false, false, 61), "get", ["seuil_min"], "method", false, false, false, 61), "html", null, true);
-        yield "\" 
-                               min=\"0\" step=\"0.1\">
-                    </div>
-
-                    <!-- Seuil max -->
-                    <div class=\"col-lg-3 col-md-6\">
-                        <label class=\"form-label fw-bold text-white\">Seuil score max</label>
-                        <input type=\"number\" name=\"seuil_max\" class=\"form-control form-control-lg\" 
-                               placeholder=\"Ex: 100\" 
-                               value=\"";
-        // line 70
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 70, $this->source); })()), "request", [], "any", false, false, false, 70), "query", [], "any", false, false, false, 70), "get", ["seuil_max"], "method", false, false, false, 70), "html", null, true);
-        yield "\" 
-                               min=\"0\" step=\"0.1\">
-                    </div>
-
-                    <!-- Boutons (à droite) -->
-                    <div class=\"col-12 col-lg-auto d-flex flex-wrap gap-3 justify-content-lg-end mt-3 mt-lg-0\">
-                        <button type=\"submit\" class=\"btn btn-primary btn-lg px-5 fw-bold shadow\">
-                            Filtrer
+                    <!-- Boutons filtres -->
+                    <div class=\"col-lg-4 col-12 d-flex flex-wrap gap-3 justify-content-lg-end\">
+                        <button type=\"submit\" class=\"btn btn-primary px-5\">
+                            <i class=\"feather-filter me-2\"></i> Filtrer
                         </button>
                         <a href=\"";
-        // line 79
+        // line 80
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_niveau_index");
-        yield "\" class=\"btn btn-outline-light btn-lg px-5 fw-bold\">
+        yield "\" class=\"btn btn-outline-secondary px-5\">
                             Réinitialiser
                         </a>
                     </div>
@@ -245,126 +264,120 @@ class __TwigTemplate_ba26d7d92bb68eb0de35803935db5df7 extends Template
             </div>
         </div>
 
-        <!-- Messages flash -->
-        ";
-        // line 88
-        $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 88, $this->source); })()), "flashes", [], "any", false, false, false, 88));
-        foreach ($context['_seq'] as $context["label"] => $context["messages"]) {
-            // line 89
-            yield "            ";
-            $context['_parent'] = $context;
-            $context['_seq'] = CoreExtension::ensureTraversable($context["messages"]);
-            foreach ($context['_seq'] as $context["_key"] => $context["message"]) {
-                // line 90
-                yield "                <div class=\"alert alert-";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["label"], "html", null, true);
-                yield " alert-dismissible fade show mb-4 rounded-3\" role=\"alert\">
-                    ";
-                // line 91
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["message"], "html", null, true);
-                yield "
-                    <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\"></button>
-                </div>
-            ";
-            }
-            $_parent = $context['_parent'];
-            unset($context['_seq'], $context['_key'], $context['message'], $context['_parent']);
-            $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 95
-            yield "        ";
-        }
-        $_parent = $context['_parent'];
-        unset($context['_seq'], $context['label'], $context['messages'], $context['_parent']);
-        $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 96
-        yield "
-        <!-- Tableau -->
-        <div class=\"card shadow-lg border-0 rounded-4 overflow-hidden\" style=\"background: rgba(255,255,255,0.95);\">
+        <!-- Tableau des niveaux -->
+        <div class=\"card border-0 shadow-lg rounded-4 overflow-hidden\">
+            <div class=\"card-header bg-light border-bottom\">
+                <h6 class=\"m-0 fw-bold\">
+                    <i class=\"feather-list text-primary me-2\"></i>
+                    Liste des niveaux
+                </h6>
+            </div>
+
             <div class=\"card-body p-0\">
                 <div class=\"table-responsive\">
-                    <table class=\"table table-hover table-striped mb-0 align-middle\">
-                        <thead class=\"table-dark\">
+                    <table class=\"table table-hover align-middle mb-0\">
+                        <thead style=\"background-color: #2872e1; color: white;\">
                             <tr>
                                 <th class=\"ps-4\">ID</th>
                                 <th>Langue</th>
                                 <th>Titre</th>
                                 <th class=\"text-center\">Ordre</th>
                                 <th>Difficulté</th>
-                                <th class=\"text-center\">Image</th>
+                                <th class=\"text-center\">Image couverture</th>
                                 <th class=\"text-center\">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                         ";
-        // line 114
+        // line 112
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["niveaux"]) || array_key_exists("niveaux", $context) ? $context["niveaux"] : (function () { throw new RuntimeError('Variable "niveaux" does not exist.', 114, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["niveaux"]) || array_key_exists("niveaux", $context) ? $context["niveaux"] : (function () { throw new RuntimeError('Variable "niveaux" does not exist.', 112, $this->source); })()));
         $context['_iterated'] = false;
         foreach ($context['_seq'] as $context["_key"] => $context["niveau"]) {
-            // line 115
+            // line 113
             yield "                            <tr>
-                                <td class=\"ps-4 fw-bold\">";
+                                <td class=\"ps-4 fw-medium\">";
+            // line 114
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "id", [], "any", false, false, false, 114), "html", null, true);
+            yield "</td>
+                                <td class=\"fw-medium\">";
+            // line 115
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "IdLangue", [], "any", false, false, false, 115), "nom", [], "any", false, false, false, 115), "html", null, true);
+            yield "</td>
+                                <td class=\"fw-medium\">";
             // line 116
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "id", [], "any", false, false, false, 116), "html", null, true);
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "titre", [], "any", false, false, false, 116), "html", null, true);
             yield "</td>
-                                <td class=\"fw-bold\">";
+                                <td class=\"text-center\">";
             // line 117
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "IdLangue", [], "any", false, false, false, 117), "nom", [], "any", false, false, false, 117), "html", null, true);
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "ordre", [], "any", false, false, false, 117), "html", null, true);
             yield "</td>
-                                <td class=\"fw-bold\">";
+                                <td class=\"text-center\">";
             // line 118
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "titre", [], "any", false, false, false, 118), "html", null, true);
-            yield "</td>
-                                <td class=\"text-center\">";
-            // line 119
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "ordre", [], "any", false, false, false, 119), "html", null, true);
-            yield "</td>
-                                <td class=\"text-center\">";
-            // line 120
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "difficulte", [], "any", false, false, false, 120), "html", null, true);
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "difficulte", [], "any", false, false, false, 118), "html", null, true);
             yield "</td>
                                 <td class=\"text-center\">
                                     ";
-            // line 122
-            if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "imageCouverture", [], "any", false, false, false, 122)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-                // line 123
+            // line 120
+            if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "imageCouverture", [], "any", false, false, false, 120)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                // line 121
                 yield "                                        <img src=\"";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(("uploads/niveaux/" . CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "imageCouverture", [], "any", false, false, false, 123))), "html", null, true);
-                yield "\" alt=\"Couverture\" style=\"max-width: 100px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);\">
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(("uploads/niveaux/" . CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "imageCouverture", [], "any", false, false, false, 121))), "html", null, true);
+                yield "\" 
+                                             alt=\"Couverture ";
+                // line 122
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "titre", [], "any", false, false, false, 122), "html", null, true);
+                yield "\" 
+                                             class=\"rounded shadow-sm\" 
+                                             style=\"max-width: 100px; height: auto;\">
                                     ";
             } else {
-                // line 125
+                // line 126
                 yield "                                        <span class=\"text-muted\">—</span>
                                     ";
             }
-            // line 127
+            // line 128
             yield "                                </td>
                                 <td class=\"text-center\">
                                     <div class=\"btn-group btn-group-sm\" role=\"group\">
                                         <a href=\"";
-            // line 130
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_niveau_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "id", [], "any", false, false, false, 130)]), "html", null, true);
-            yield "\" class=\"btn btn-info\">Voir</a>
-                                        <a href=\"";
             // line 131
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_niveau_edit", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "id", [], "any", false, false, false, 131)]), "html", null, true);
-            yield "\" class=\"btn btn-warning\">Modifier</a>
-                                        <form method=\"post\" action=\"";
-            // line 132
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_niveau_delete", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "id", [], "any", false, false, false, 132)]), "html", null, true);
-            yield "\" onsubmit=\"return confirm('Supprimer ce niveau ?');\" style=\"display:inline;\">
-                                            <input type=\"hidden\" name=\"_token\" value=\"";
-            // line 133
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken(("delete" . CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "id", [], "any", false, false, false, 133))), "html", null, true);
-            yield "\">
-                                            <button class=\"btn btn-danger\">Supprimer</button>
-                                        </form>
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_niveau_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "id", [], "any", false, false, false, 131)]), "html", null, true);
+            yield "\" 
+                                           class=\"btn btn-info\" 
+                                           data-bs-toggle=\"tooltip\" title=\"Voir\">
+                                            <i class=\"feather-eye\"></i>
+                                        </a>
                                         <a href=\"";
             // line 136
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_langue_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "IdLangue", [], "any", false, false, false, 136), "id", [], "any", false, false, false, 136)]), "html", null, true);
-            yield "\" class=\"btn btn-primary\">
-                                            Voir langue
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_niveau_edit", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "id", [], "any", false, false, false, 136)]), "html", null, true);
+            yield "\" 
+                                           class=\"btn btn-warning\" 
+                                           data-bs-toggle=\"tooltip\" title=\"Modifier\">
+                                            <i class=\"feather-edit-2\"></i>
+                                        </a>
+                                        <form method=\"post\" action=\"";
+            // line 141
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_niveau_delete", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "id", [], "any", false, false, false, 141)]), "html", null, true);
+            yield "\" 
+                                              onsubmit=\"return confirm('Supprimer ce niveau ? Cette action est irréversible.');\" 
+                                              class=\"d-inline\">
+                                            <input type=\"hidden\" name=\"_token\" value=\"";
+            // line 144
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken(("delete" . CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "id", [], "any", false, false, false, 144))), "html", null, true);
+            yield "\">
+                                            <button type=\"submit\" class=\"btn btn-danger\" 
+                                                    data-bs-toggle=\"tooltip\" title=\"Supprimer\">
+                                                <i class=\"feather-trash-2\"></i>
+                                            </button>
+                                        </form>
+                                        <a href=\"";
+            // line 150
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_langue_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["niveau"], "IdLangue", [], "any", false, false, false, 150), "id", [], "any", false, false, false, 150)]), "html", null, true);
+            yield "\" 
+                                           class=\"btn btn-primary\" 
+                                           data-bs-toggle=\"tooltip\" title=\"Voir la langue\">
+                                            <i class=\"feather-globe\"></i>
                                         </a>
                                     </div>
                                 </td>
@@ -372,12 +385,21 @@ class __TwigTemplate_ba26d7d92bb68eb0de35803935db5df7 extends Template
                         ";
             $context['_iterated'] = true;
         }
-        // line 142
+        // line 158
         if (!$context['_iterated']) {
-            // line 143
+            // line 159
             yield "                            <tr>
-                                <td colspan=\"7\" class=\"text-center py-5 text-muted fs-4 fw-bold bg-light\">
-                                    Aucun niveau trouvé pour le moment.
+                                <td colspan=\"7\" class=\"text-center py-5 text-muted\">
+                                    <div class=\"d-flex flex-column align-items-center\">
+                                        <i class=\"feather-layers fs-1 mb-3 text-muted\"></i>
+                                        <h5 class=\"mb-3\">Aucun niveau trouvé</h5>
+                                        <a href=\"";
+            // line 164
+            yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_niveau_new");
+            yield "\" class=\"btn btn-primary\">
+                                            <i class=\"feather-plus me-2\"></i> Ajouter un niveau
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         ";
@@ -385,7 +407,7 @@ class __TwigTemplate_ba26d7d92bb68eb0de35803935db5df7 extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['niveau'], $context['_parent'], $context['_iterated']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 149
+        // line 171
         yield "                        </tbody>
                     </table>
                 </div>
@@ -393,7 +415,7 @@ class __TwigTemplate_ba26d7d92bb68eb0de35803935db5df7 extends Template
         </div>
 
     </div>
-</div>
+
 ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -425,37 +447,56 @@ class __TwigTemplate_ba26d7d92bb68eb0de35803935db5df7 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  389 => 149,  378 => 143,  376 => 142,  365 => 136,  359 => 133,  355 => 132,  351 => 131,  347 => 130,  342 => 127,  338 => 125,  332 => 123,  330 => 122,  325 => 120,  321 => 119,  317 => 118,  313 => 117,  309 => 116,  306 => 115,  301 => 114,  281 => 96,  275 => 95,  265 => 91,  260 => 90,  255 => 89,  251 => 88,  239 => 79,  227 => 70,  215 => 61,  205 => 53,  196 => 50,  187 => 49,  182 => 48,  176 => 47,  173 => 46,  170 => 45,  167 => 44,  162 => 43,  160 => 42,  150 => 34,  141 => 31,  132 => 30,  128 => 29,  111 => 15,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  411 => 171,  398 => 164,  391 => 159,  389 => 158,  376 => 150,  367 => 144,  361 => 141,  353 => 136,  345 => 131,  340 => 128,  336 => 126,  329 => 122,  324 => 121,  322 => 120,  317 => 118,  313 => 117,  309 => 116,  305 => 115,  301 => 114,  298 => 113,  293 => 112,  258 => 80,  248 => 72,  239 => 69,  230 => 68,  225 => 67,  219 => 66,  216 => 65,  213 => 64,  210 => 63,  205 => 62,  203 => 61,  193 => 53,  184 => 50,  175 => 49,  171 => 48,  159 => 38,  153 => 37,  143 => 33,  138 => 32,  133 => 31,  129 => 30,  119 => 23,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
     {
-        return new Source("{% extends 'base.html.twig' %}
+        return new Source("{% extends 'dashboard/index.html.twig' %}
 
-{% block title %}Gestion des Niveaux{% endblock %}
+{% block title %}Gestion des Niveaux - Admin{% endblock %}
 
 {% block body %}
-<div style=\"background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); min-height: 100vh; padding: 100px 20px 60px; color: white;\">
-<br><br><br><br>
-    <div class=\"container\" style=\"max-width: 1400px;\">
 
-        <!-- Titre + Ajouter -->
-        <div class=\"d-flex justify-content-between align-items-center mb-5 flex-wrap gap-4\">
-            <h1 class=\"mb-0\" style=\"font-weight: 900; text-shadow: 0 4px 16px rgba(0,0,0,0.5);\">
-                Gestion des Niveaux
-            </h1>
-            <a href=\"{{ path('app_niveau_new') }}\" class=\"btn btn-success btn-lg shadow px-5 py-3 fw-bold\">
-                + Ajouter un niveau
-            </a>
+    <div class=\"nxl-content\">
+
+        <!-- En-tête de page -->
+        <div class=\"page-header\">
+            <div class=\"page-header-left d-flex align-items-center\">
+                <div class=\"page-header-title\">
+                    <h5 class=\"m-b-10 fw-bold\">
+                        <i class=\"feather-layers text-primary me-2\"></i>
+                        Gestion des Niveaux
+                    </h5>
+                    <h6 class=\"m-b-0 text-muted\">
+                        Créer, modifier ou supprimer les niveaux de difficulté
+                    </h6>
+                </div>
+            </div>
+            <div class=\"page-header-right ms-auto\">
+                <a href=\"{{ path('app_niveau_new') }}\" class=\"btn btn-primary px-4\">
+                    <i class=\"feather-plus me-2\"></i> Ajouter un niveau
+                </a>
+            </div>
         </div>
 
-        <!-- Filtres sur une seule ligne (grande taille) -->
-        <div class=\"card mb-5 shadow-lg border-0 rounded-4 overflow-hidden\" style=\"background: rgba(255,255,255,0.12); backdrop-filter: blur(12px);\">
+        <!-- Messages flash -->
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class=\"alert alert-{{ label }} alert-dismissible fade show mb-4 rounded-3\" role=\"alert\">
+                    {{ message }}
+                    <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <!-- Filtres -->
+        <div class=\"card border-0 shadow-sm mb-5\">
             <div class=\"card-body p-4\">
                 <form method=\"get\" class=\"row g-4 align-items-end\">
                     <!-- Langue -->
-                    <div class=\"col-lg-3 col-md-6\">
-                        <label for=\"langue\" class=\"form-label fw-bold text-white\">Langue</label>
+                    <div class=\"col-lg-4 col-md-6\">
+                        <label for=\"langue\" class=\"form-label fw-bold\">Langue</label>
                         <select name=\"langue\" id=\"langue\" class=\"form-select form-select-lg\">
                             <option value=\"\">Toutes les langues</option>
                             {% for langue in langues %}
@@ -467,14 +508,14 @@ class __TwigTemplate_ba26d7d92bb68eb0de35803935db5df7 extends Template
                     </div>
 
                     <!-- Difficulté -->
-                    <div class=\"col-lg-3 col-md-6\">
-                        <label for=\"difficulte\" class=\"form-label fw-bold text-white\">Difficulté</label>
+                    <div class=\"col-lg-4 col-md-6\">
+                        <label for=\"difficulte\" class=\"form-label fw-bold\">Difficulté</label>
                         <select name=\"difficulte\" id=\"difficulte\" class=\"form-select form-select-lg\">
                             <option value=\"\">Toutes</option>
                             {% set difficultes = [] %}
-                            {% for n in niveaux %}
-                                {% if n.difficulte and n.difficulte not in difficultes %}
-                                    {% set difficultes = difficultes|merge([n.difficulte]) %}
+                            {% for niveau in niveaux %}
+                                {% if niveau.difficulte and niveau.difficulte not in difficultes %}
+                                    {% set difficultes = difficultes|merge([niveau.difficulte]) %}
                                 {% endif %}
                             {% endfor %}
                             {% for diff in difficultes|sort %}
@@ -485,30 +526,12 @@ class __TwigTemplate_ba26d7d92bb68eb0de35803935db5df7 extends Template
                         </select>
                     </div>
 
-                    <!-- Seuil min -->
-                    <div class=\"col-lg-3 col-md-6\">
-                        <label class=\"form-label fw-bold text-white\">Seuil score min</label>
-                        <input type=\"number\" name=\"seuil_min\" class=\"form-control form-control-lg\" 
-                               placeholder=\"Ex: 0\" 
-                               value=\"{{ app.request.query.get('seuil_min') }}\" 
-                               min=\"0\" step=\"0.1\">
-                    </div>
-
-                    <!-- Seuil max -->
-                    <div class=\"col-lg-3 col-md-6\">
-                        <label class=\"form-label fw-bold text-white\">Seuil score max</label>
-                        <input type=\"number\" name=\"seuil_max\" class=\"form-control form-control-lg\" 
-                               placeholder=\"Ex: 100\" 
-                               value=\"{{ app.request.query.get('seuil_max') }}\" 
-                               min=\"0\" step=\"0.1\">
-                    </div>
-
-                    <!-- Boutons (à droite) -->
-                    <div class=\"col-12 col-lg-auto d-flex flex-wrap gap-3 justify-content-lg-end mt-3 mt-lg-0\">
-                        <button type=\"submit\" class=\"btn btn-primary btn-lg px-5 fw-bold shadow\">
-                            Filtrer
+                    <!-- Boutons filtres -->
+                    <div class=\"col-lg-4 col-12 d-flex flex-wrap gap-3 justify-content-lg-end\">
+                        <button type=\"submit\" class=\"btn btn-primary px-5\">
+                            <i class=\"feather-filter me-2\"></i> Filtrer
                         </button>
-                        <a href=\"{{ path('app_niveau_index') }}\" class=\"btn btn-outline-light btn-lg px-5 fw-bold\">
+                        <a href=\"{{ path('app_niveau_index') }}\" class=\"btn btn-outline-secondary px-5\">
                             Réinitialiser
                         </a>
                     </div>
@@ -516,65 +539,86 @@ class __TwigTemplate_ba26d7d92bb68eb0de35803935db5df7 extends Template
             </div>
         </div>
 
-        <!-- Messages flash -->
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class=\"alert alert-{{ label }} alert-dismissible fade show mb-4 rounded-3\" role=\"alert\">
-                    {{ message }}
-                    <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\"></button>
-                </div>
-            {% endfor %}
-        {% endfor %}
+        <!-- Tableau des niveaux -->
+        <div class=\"card border-0 shadow-lg rounded-4 overflow-hidden\">
+            <div class=\"card-header bg-light border-bottom\">
+                <h6 class=\"m-0 fw-bold\">
+                    <i class=\"feather-list text-primary me-2\"></i>
+                    Liste des niveaux
+                </h6>
+            </div>
 
-        <!-- Tableau -->
-        <div class=\"card shadow-lg border-0 rounded-4 overflow-hidden\" style=\"background: rgba(255,255,255,0.95);\">
             <div class=\"card-body p-0\">
                 <div class=\"table-responsive\">
-                    <table class=\"table table-hover table-striped mb-0 align-middle\">
-                        <thead class=\"table-dark\">
+                    <table class=\"table table-hover align-middle mb-0\">
+                        <thead style=\"background-color: #2872e1; color: white;\">
                             <tr>
                                 <th class=\"ps-4\">ID</th>
                                 <th>Langue</th>
                                 <th>Titre</th>
                                 <th class=\"text-center\">Ordre</th>
                                 <th>Difficulté</th>
-                                <th class=\"text-center\">Image</th>
+                                <th class=\"text-center\">Image couverture</th>
                                 <th class=\"text-center\">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                         {% for niveau in niveaux %}
                             <tr>
-                                <td class=\"ps-4 fw-bold\">{{ niveau.id }}</td>
-                                <td class=\"fw-bold\">{{ niveau.IdLangue.nom }}</td>
-                                <td class=\"fw-bold\">{{ niveau.titre }}</td>
+                                <td class=\"ps-4 fw-medium\">{{ niveau.id }}</td>
+                                <td class=\"fw-medium\">{{ niveau.IdLangue.nom }}</td>
+                                <td class=\"fw-medium\">{{ niveau.titre }}</td>
                                 <td class=\"text-center\">{{ niveau.ordre }}</td>
                                 <td class=\"text-center\">{{ niveau.difficulte }}</td>
                                 <td class=\"text-center\">
                                     {% if niveau.imageCouverture %}
-                                        <img src=\"{{ asset('uploads/niveaux/' ~ niveau.imageCouverture) }}\" alt=\"Couverture\" style=\"max-width: 100px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);\">
+                                        <img src=\"{{ asset('uploads/niveaux/' ~ niveau.imageCouverture) }}\" 
+                                             alt=\"Couverture {{ niveau.titre }}\" 
+                                             class=\"rounded shadow-sm\" 
+                                             style=\"max-width: 100px; height: auto;\">
                                     {% else %}
                                         <span class=\"text-muted\">—</span>
                                     {% endif %}
                                 </td>
                                 <td class=\"text-center\">
                                     <div class=\"btn-group btn-group-sm\" role=\"group\">
-                                        <a href=\"{{ path('app_niveau_show', {'id': niveau.id}) }}\" class=\"btn btn-info\">Voir</a>
-                                        <a href=\"{{ path('app_niveau_edit', {'id': niveau.id}) }}\" class=\"btn btn-warning\">Modifier</a>
-                                        <form method=\"post\" action=\"{{ path('app_niveau_delete', {'id': niveau.id}) }}\" onsubmit=\"return confirm('Supprimer ce niveau ?');\" style=\"display:inline;\">
+                                        <a href=\"{{ path('app_niveau_show', {'id': niveau.id}) }}\" 
+                                           class=\"btn btn-info\" 
+                                           data-bs-toggle=\"tooltip\" title=\"Voir\">
+                                            <i class=\"feather-eye\"></i>
+                                        </a>
+                                        <a href=\"{{ path('app_niveau_edit', {'id': niveau.id}) }}\" 
+                                           class=\"btn btn-warning\" 
+                                           data-bs-toggle=\"tooltip\" title=\"Modifier\">
+                                            <i class=\"feather-edit-2\"></i>
+                                        </a>
+                                        <form method=\"post\" action=\"{{ path('app_niveau_delete', {'id': niveau.id}) }}\" 
+                                              onsubmit=\"return confirm('Supprimer ce niveau ? Cette action est irréversible.');\" 
+                                              class=\"d-inline\">
                                             <input type=\"hidden\" name=\"_token\" value=\"{{ csrf_token('delete' ~ niveau.id) }}\">
-                                            <button class=\"btn btn-danger\">Supprimer</button>
+                                            <button type=\"submit\" class=\"btn btn-danger\" 
+                                                    data-bs-toggle=\"tooltip\" title=\"Supprimer\">
+                                                <i class=\"feather-trash-2\"></i>
+                                            </button>
                                         </form>
-                                        <a href=\"{{ path('app_langue_show', {'id': niveau.IdLangue.id}) }}\" class=\"btn btn-primary\">
-                                            Voir langue
+                                        <a href=\"{{ path('app_langue_show', {'id': niveau.IdLangue.id}) }}\" 
+                                           class=\"btn btn-primary\" 
+                                           data-bs-toggle=\"tooltip\" title=\"Voir la langue\">
+                                            <i class=\"feather-globe\"></i>
                                         </a>
                                     </div>
                                 </td>
                             </tr>
                         {% else %}
                             <tr>
-                                <td colspan=\"7\" class=\"text-center py-5 text-muted fs-4 fw-bold bg-light\">
-                                    Aucun niveau trouvé pour le moment.
+                                <td colspan=\"7\" class=\"text-center py-5 text-muted\">
+                                    <div class=\"d-flex flex-column align-items-center\">
+                                        <i class=\"feather-layers fs-1 mb-3 text-muted\"></i>
+                                        <h5 class=\"mb-3\">Aucun niveau trouvé</h5>
+                                        <a href=\"{{ path('app_niveau_new') }}\" class=\"btn btn-primary\">
+                                            <i class=\"feather-plus me-2\"></i> Ajouter un niveau
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -585,7 +629,7 @@ class __TwigTemplate_ba26d7d92bb68eb0de35803935db5df7 extends Template
         </div>
 
     </div>
-</div>
+
 {% endblock %}", "niveau/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\niveau\\index.html.twig");
     }
 }

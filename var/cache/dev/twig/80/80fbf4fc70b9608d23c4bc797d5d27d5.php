@@ -38,7 +38,7 @@ class __TwigTemplate_257f16fe5147f4c67aae5f69eb879021 extends Template
     protected function doGetParent(array $context): bool|string|Template|TemplateWrapper
     {
         // line 1
-        return "base.html.twig";
+        return "dashboard/index.html.twig";
     }
 
     protected function doDisplay(array $context, array $blocks = []): iterable
@@ -50,7 +50,7 @@ class __TwigTemplate_257f16fe5147f4c67aae5f69eb879021 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "template", "cours/edit.html.twig"));
 
-        $this->parent = $this->load("base.html.twig", 1);
+        $this->parent = $this->load("dashboard/index.html.twig", 1);
         yield from $this->parent->unwrap()->yield($context, array_merge($this->blocks, $blocks));
         
         $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
@@ -98,100 +98,123 @@ class __TwigTemplate_257f16fe5147f4c67aae5f69eb879021 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
         // line 6
-        yield "<div style=\"background: linear-gradient(135deg, #4f46e5 0%, #5b21b6 100%); min-height: 100vh; padding: 80px 20px; color: #000;\">
-<br><br>
-    <div class=\"container\" style=\"max-width: 900px;\">
-        <h1 class=\"text-center mb-5 text-white fw-bold\">
-            Modifier le cours n°";
-        // line 10
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 10, $this->source); })()), "numero", [], "any", false, false, false, 10), "html", null, true);
         yield "
-        </h1>
+    <div class=\"nxl-content\">
 
-        <div class=\"card shadow-lg border-0 rounded-4\" style=\"background: rgba(255,255,255,0.95);\">
-            <div class=\"card-body p-5\">
-                ";
+        <!-- En-tête de page -->
+        <div class=\"page-header\">
+            <div class=\"page-header-left d-flex align-items-center\">
+                <div class=\"page-header-title\">
+                    <h5 class=\"m-b-10 fw-bold\">
+                        <i class=\"feather-edit-3 text-warning me-2\"></i>
+                        Modifier le cours n°";
         // line 15
-        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 15, $this->source); })()), 'form_start');
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 15, $this->source); })()), "numero", [], "any", false, false, false, 15), "html", null, true);
         yield "
+                    </h5>
+                    <h6 class=\"m-b-0 text-muted\">
+                        ";
+        // line 18
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 18, $this->source); })()), "idNiveau", [], "any", false, false, false, 18), "titre", [], "any", false, false, false, 18), "html", null, true);
+        yield " • ";
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 18, $this->source); })()), "idNiveau", [], "any", false, false, false, 18), "idLangue", [], "any", false, false, false, 18), "nom", [], "any", false, false, false, 18), "html", null, true);
+        yield "
+                    </h6>
+                </div>
+            </div>
+            <div class=\"page-header-right ms-auto\">
+                <a href=\"";
+        // line 23
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_cours_index");
+        yield "\" class=\"btn btn-outline-secondary px-4\">
+                    <i class=\"feather-arrow-left me-2\"></i> Annuler
+                </a>
+            </div>
+        </div>
 
-                    <!-- Langue -->
-                    <div class=\"mb-4\">
-                        ";
-        // line 19
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 19, $this->source); })()), "langue", [], "any", false, false, false, 19), 'label', ["label_attr" => ["class" => "form-label fw-bold"]]);
+        <!-- Formulaire principal -->
+        <div class=\"row justify-content-center\">
+            <div class=\"col-xl-10 col-lg-11\">
+                <div class=\"card border-0 shadow-lg rounded-4 overflow-hidden\">
+                    <div class=\"card-header bg-gradient-warning text-white py-4 px-5 d-flex align-items-center gap-3\">
+                        <div class=\"avatar avatar-lg bg-white text-warning rounded-circle d-flex align-items-center justify-content-center shadow\">
+                            <i class=\"feather-edit-2 fs-4\"></i>
+                        </div>
+                        <div>
+                            <h6 class=\"m-0 fw-bold fs-5\">
+                                Modifier le cours n°";
+        // line 39
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 39, $this->source); })()), "numero", [], "any", false, false, false, 39), "html", null, true);
         yield "
-                        ";
-        // line 20
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 20, $this->source); })()), "langue", [], "any", false, false, false, 20), 'widget', ["attr" => ["class" => "form-select form-select-lg", "id" => "cours_langue"]]);
-        yield "
-                        ";
-        // line 21
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 21, $this->source); })()), "langue", [], "any", false, false, false, 21), 'errors');
-        yield "
-                    </div>
-
-                    <!-- Niveau (lié à la langue) -->
-                    <div class=\"mb-4\">
-                        ";
-        // line 26
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 26, $this->source); })()), "Id_niveau", [], "any", false, false, false, 26), 'label', ["label_attr" => ["class" => "form-label fw-bold"]]);
-        yield "
-                        ";
-        // line 27
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 27, $this->source); })()), "Id_niveau", [], "any", false, false, false, 27), 'widget', ["attr" => ["class" => "form-select form-select-lg", "id" => "niveau-select"]]);
-        yield "
-                        ";
-        // line 28
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 28, $this->source); })()), "Id_niveau", [], "any", false, false, false, 28), 'errors');
-        yield "
-                    </div>
-
-                    <!-- Numéro -->
-                    <div class=\"mb-4\">
-                        ";
-        // line 33
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 33, $this->source); })()), "numero", [], "any", false, false, false, 33), 'label', ["label_attr" => ["class" => "form-label fw-bold"]]);
-        yield "
-                        ";
-        // line 34
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 34, $this->source); })()), "numero", [], "any", false, false, false, 34), 'widget', ["attr" => ["class" => "form-control form-control-lg"]]);
-        yield "
-                        ";
-        // line 35
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 35, $this->source); })()), "numero", [], "any", false, false, false, 35), 'errors');
-        yield "
-                    </div>
-
-                    <!-- Cours précédent -->
-                    <div class=\"mb-4\">
-                        ";
-        // line 40
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 40, $this->source); })()), "cours_precedent_id", [], "any", false, false, false, 40), 'label', ["label_attr" => ["class" => "form-label fw-bold"]]);
-        yield "
-                        ";
-        // line 41
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 41, $this->source); })()), "cours_precedent_id", [], "any", false, false, false, 41), 'widget', ["attr" => ["class" => "form-select form-select-lg"]]);
-        yield "
-                        ";
+                            </h6>
+                            <small class=\"opacity-90\">
+                                ";
         // line 42
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 42, $this->source); })()), "cours_precedent_id", [], "any", false, false, false, 42), 'errors');
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 42, $this->source); })()), "idNiveau", [], "any", false, false, false, 42), "titre", [], "any", false, false, false, 42), "html", null, true);
+        yield " • ";
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 42, $this->source); })()), "idNiveau", [], "any", false, false, false, 42), "idLangue", [], "any", false, false, false, 42), "nom", [], "any", false, false, false, 42), "html", null, true);
         yield "
+                            </small>
+                        </div>
                     </div>
 
-                    <!-- RESSOURCES EXISTANTES (seulement en modification) -->
-                    ";
-        // line 46
-        if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 46, $this->source); })()), "ressource", [], "any", false, false, false, 46) && Twig\Extension\CoreExtension::trim(CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 46, $this->source); })()), "ressource", [], "any", false, false, false, 46)))) {
-            // line 47
-            yield "                    <div class=\"mb-5\">
-                        <label class=\"form-label fw-bold\">Ressources actuelles :</label>
-                        <ul class=\"list-group mb-3\">
+                    <div class=\"card-body p-5\">
+                        ";
+        // line 48
+        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 48, $this->source); })()), 'form_start', ["attr" => ["class" => "row g-4 needs-validation", "novalidate" => "novalidate"]]);
+        yield "
+
+                        <div class=\"row g-4\">
+
+                            <!-- Langue -->
+                            <div class=\"col-md-6\">
+                                <label class=\"form-label fw-bold mb-2\">Langue</label>
+                                ";
+        // line 55
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 55, $this->source); })()), "langue", [], "any", false, false, false, 55), 'widget', ["attr" => ["id" => "cours_langue", "class" => "form-select form-select-lg"]]);
+        yield "
+                            </div>
+
+                            <!-- Niveau -->
+                            <div class=\"col-md-6\">
+                                <label class=\"form-label fw-bold mb-2\">Niveau</label>
+                                ";
+        // line 61
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 61, $this->source); })()), "Id_niveau", [], "any", false, false, false, 61), 'widget', ["attr" => ["id" => "niveau-select", "class" => "form-select form-select-lg"]]);
+        yield "
+                            </div>
+
+                            <!-- Numéro -->
+                            <div class=\"col-md-6\">
+                                <label class=\"form-label fw-bold mb-2\">Numéro de la leçon</label>
+                                ";
+        // line 67
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 67, $this->source); })()), "numero", [], "any", false, false, false, 67), 'widget', ["attr" => ["class" => "form-control form-control-lg"]]);
+        yield "
+                            </div>
+
+                            <!-- Cours précédent -->
+                            <div class=\"col-md-6\">
+                                <label class=\"form-label fw-bold mb-2\">Cours précédent (optionnel)</label>
+                                ";
+        // line 73
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 73, $this->source); })()), "cours_precedent_id", [], "any", false, false, false, 73), 'widget', ["attr" => ["class" => "form-select form-select-lg"]]);
+        yield "
+                            </div>
+
+                            <!-- Ressources existantes -->
                             ";
-            // line 50
+        // line 77
+        if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 77, $this->source); })()), "ressource", [], "any", false, false, false, 77) && Twig\Extension\CoreExtension::trim(CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 77, $this->source); })()), "ressource", [], "any", false, false, false, 77)))) {
+            // line 78
+            yield "                            <div class=\"col-12\">
+                                <h6 class=\"fw-bold mb-3 text-dark\">Ressources actuelles</h6>
+                                <div class=\"list-group border rounded-3 overflow-hidden shadow-sm\">
+                                    ";
+            // line 81
             $context['_parent'] = $context;
-            $context['_seq'] = CoreExtension::ensureTraversable(Twig\Extension\CoreExtension::split($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 50, $this->source); })()), "ressource", [], "any", false, false, false, 50), "
-"));
+            $context['_seq'] = CoreExtension::ensureTraversable(Twig\Extension\CoreExtension::filter($this->env, Twig\Extension\CoreExtension::split($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 81, $this->source); })()), "ressource", [], "any", false, false, false, 81), "
+"), function ($__file__) use ($context, $macros) { $context["file"] = $__file__; return Twig\Extension\CoreExtension::trim($context["file"]); }));
             $context['loop'] = [
               'parent' => $context['_parent'],
               'index0' => 0,
@@ -206,41 +229,35 @@ class __TwigTemplate_257f16fe5147f4c67aae5f69eb879021 extends Template
                 $context['loop']['last'] = 1 === $length;
             }
             foreach ($context['_seq'] as $context["_key"] => $context["file"]) {
-                // line 51
-                yield "                                ";
-                if ((($tmp = Twig\Extension\CoreExtension::trim($context["file"])) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-                    // line 52
-                    yield "                                <li class=\"list-group-item d-flex justify-content-between align-items-center\">
-                                    <span>
-                                        <i class=\"fas fa-file me-2 text-primary\"></i> ";
-                    // line 54
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::trim($context["file"]), "html", null, true);
-                    yield "
-                                    </span>
-                                    <div class=\"form-check\">
-                                        <input class=\"form-check-input\" 
-                                               type=\"checkbox\" 
-                                               name=\"delete_ressources[]\" 
-                                               value=\"";
-                    // line 60
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::trim($context["file"]), "html", null, true);
-                    yield "\" 
-                                               id=\"delete_";
-                    // line 61
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["loop"], "index", [], "any", false, false, false, 61), "html", null, true);
-                    yield "\">
-                                        <label class=\"form-check-label text-danger\" for=\"delete_";
-                    // line 62
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["loop"], "index", [], "any", false, false, false, 62), "html", null, true);
-                    yield "\">
-                                            Supprimer
-                                        </label>
-                                    </div>
-                                </li>
-                                ";
-                }
-                // line 68
-                yield "                            ";
+                // line 82
+                yield "                                        <div class=\"list-group-item d-flex justify-content-between align-items-center px-4 py-3\">
+                                            <div class=\"d-flex align-items-center\">
+                                                <i class=\"feather-file-text text-primary me-3\"></i>
+                                                <span class=\"fw-medium\">";
+                // line 85
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["file"], "html", null, true);
+                yield "</span>
+                                            </div>
+                                            <div class=\"form-check\">
+                                                <input class=\"form-check-input\" type=\"checkbox\" 
+                                                       name=\"delete_ressources[]\" value=\"";
+                // line 89
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["file"], "html", null, true);
+                yield "\" 
+                                                       id=\"delete-";
+                // line 90
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["loop"], "index", [], "any", false, false, false, 90), "html", null, true);
+                yield "\">
+                                                <label class=\"form-check-label text-danger small fw-bold\" 
+                                                       for=\"delete-";
+                // line 92
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["loop"], "index", [], "any", false, false, false, 92), "html", null, true);
+                yield "\">
+                                                    Supprimer
+                                                </label>
+                                            </div>
+                                        </div>
+                                    ";
                 ++$context['loop']['index0'];
                 ++$context['loop']['index'];
                 $context['loop']['first'] = false;
@@ -253,137 +270,116 @@ class __TwigTemplate_257f16fe5147f4c67aae5f69eb879021 extends Template
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_key'], $context['file'], $context['_parent'], $context['loop']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 69
-            yield "                        </ul>
-                    </div>
-                    ";
+            // line 98
+            yield "                                </div>
+                            </div>
+                            ";
         }
-        // line 72
+        // line 101
         yield "
-                    <!-- AJOUT DE NOUVELLES RESSOURCES (identique à la création) -->
-                    <div class=\"mb-5\">
-                        <label class=\"form-label fw-bold\">Ajouter de nouvelles ressources</label>
-                        <div id=\"ressources-list\" 
-                             data-prototype=\"";
-        // line 77
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 77, $this->source); })()), "ressourcesFiles", [], "any", false, false, false, 77), "vars", [], "any", false, false, false, 77), "prototype", [], "any", false, false, false, 77), 'widget'), "html_attr");
-        yield "\">
+                            <!-- Ajout de nouvelles ressources -->
+                            <div class=\"col-12\">
+                                <h6 class=\"fw-bold mb-3 text-dark\">Ajouter de nouvelles ressources</h6>
+                                <div id=\"ressources-list\" 
+                                     data-prototype=\"";
+        // line 106
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 106, $this->source); })()), "ressourcesFiles", [], "any", false, false, false, 106), "vars", [], "any", false, false, false, 106), "prototype", [], "any", false, false, false, 106), 'widget'), "html_attr");
+        yield "\" 
+                                     class=\"mb-3\"></div>
+                                
+                                <button type=\"button\" class=\"btn btn-outline-primary btn-lg px-4\" id=\"add-ressource-btn\">
+                                    <i class=\"feather-plus me-2\"></i> Ajouter une ressource
+                                </button>
+
+                                <div class=\"text-muted small mt-2\">
+                                    Formats acceptés : PDF, MP4, JPG, PNG, MP3, WAV, OGG...
+                                </div>
+                            </div>
+
+                            <!-- Bouton de soumission -->
+                            <div class=\"col-12 text-end mt-5 pt-4 border-top\">
+                                <button type=\"submit\" class=\"btn btn-success btn-lg px-5 py-3 fw-bold shadow-lg transition-all\">
+                                    <i class=\"feather-save me-2\"></i> Mettre à jour le cours
+                                </button>
+                            </div>
+
                         </div>
-                        <button type=\"button\" class=\"btn btn-outline-primary mt-2\" id=\"add-ressource-btn\">
-                            <i class=\"fas fa-plus\"></i> Ajouter une ressource
-                        </button>
-                        <small class=\"form-text text-muted d-block mt-2\">
-                            Formats acceptés : PDF, MP4, JPG, PNG, MP3, WAV, OGG...
-                        </small>
-                    </div>
 
-                    <!-- Boutons -->
-                    <div class=\"d-flex gap-3 justify-content-end\">
-                        <a href=\"";
-        // line 89
-        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_cours_index");
-        yield "\" class=\"btn btn-secondary btn-lg px-5 fw-bold\">Annuler</a>
-                        <button type=\"submit\" class=\"btn btn-success btn-lg px-5 fw-bold shadow\">Mettre à jour</button>
-                    </div>
-
-                ";
-        // line 93
-        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 93, $this->source); })()), 'form_end');
+                        ";
+        // line 127
+        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 127, $this->source); })()), 'form_end');
         yield "
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // 1. Gestion des niveaux par langue (exactement comme dans new)
-    const langueSelect = document.getElementById('cours_langue');
-    const niveauSelect = document.getElementById('niveau-select'); 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Gestion dynamique des niveaux selon la langue
+            const langueSelect = document.getElementById('cours_langue');
+            const niveauSelect = document.getElementById('niveau-select');
 
-    if (langueSelect && niveauSelect) {
-        let allNiveauOptions = Array.from(niveauSelect.options).map(option => ({
-            value: option.value,
-            text: option.text,
-            langueId: option.getAttribute('data-langue')
-        }));
+            if (langueSelect && niveauSelect) {
+                let allOptions = Array.from(niveauSelect.options).map(opt => ({
+                    value: opt.value,
+                    text: opt.text,
+                    langueId: opt.dataset.langue
+                }));
 
-        function filterNiveaux() {
-            const selectedLangueId = langueSelect.value;
-            const currentNiveauId = niveauSelect.value;
-            
-            niveauSelect.innerHTML = ''; 
+                function updateNiveaux() {
+                    const selectedLangue = langueSelect.value;
+                    const currentValue = niveauSelect.value;
+                    niveauSelect.innerHTML = '';
 
-            allNiveauOptions.forEach(opt => {
-                if (opt.value === '') {
-                    const option = new Option(opt.text, opt.value);
-                    niveauSelect.add(option);
-                    return;
+                    allOptions.forEach(opt => {
+                        if (!selectedLangue || opt.langueId == selectedLangue || opt.value === '') {
+                            const option = new Option(opt.text, opt.value);
+                            if (opt.langueId) option.dataset.langue = opt.langueId;
+                            niveauSelect.add(option);
+                        }
+                    });
+
+                    if (currentValue && niveauSelect.querySelector(`option[value=\"\${currentValue}\"]`)) {
+                        niveauSelect.value = currentValue;
+                    }
                 }
-                
-                if (!selectedLangueId || opt.langueId == selectedLangueId) {
-                    const option = new Option(opt.text, opt.value);
-                    option.setAttribute('data-langue', opt.langueId);
-                    niveauSelect.add(option);
-                }
-            });
 
-            if (currentNiveauId) {
-                niveauSelect.value = currentNiveauId;
+                langueSelect.addEventListener('change', updateNiveaux);
+                updateNiveaux(); // Appliquer au chargement
             }
-        }
 
-        langueSelect.addEventListener('change', filterNiveaux);
-        
-        if (langueSelect.value) {
-            filterNiveaux();
-        }
-    }
+            // Ajout dynamique de ressources
+            const collectionHolder = document.getElementById('ressources-list');
+            const addButton = document.getElementById('add-ressource-btn');
+            let index = 0;
 
-    // 2. Gestion de l'ajout dynamique de ressources (exactement comme dans new)
-    const collectionHolder = document.getElementById('ressources-list');
-    const addRessourceBtn = document.getElementById('add-ressource-btn');
-    
-    let index = 0;
+            if (addButton) {
+                addButton.addEventListener('click', function () {
+                    if (!collectionHolder.dataset.prototype) {
+                        console.error(\"Prototype non trouvé\");
+                        return;
+                    }
 
-    if (addRessourceBtn) {
-        addRessourceBtn.addEventListener('click', function() {
-            addElement(collectionHolder);
+                    const newForm = collectionHolder.dataset.prototype.replace(/__name__/g, index++);
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'input-group mb-3 align-items-center';
+                    wrapper.innerHTML = newForm;
+
+                    const removeBtn = document.createElement('button');
+                    removeBtn.type = 'button';
+                    removeBtn.className = 'btn btn-danger';
+                    removeBtn.innerHTML = '<i class=\"feather-trash-2\"></i>';
+                    removeBtn.onclick = () => wrapper.remove();
+
+                    wrapper.appendChild(removeBtn);
+                    collectionHolder.appendChild(wrapper);
+                });
+            }
         });
-    }
+    </script>
 
-    function addElement(holder) {
-        if (!holder || !holder.dataset.prototype) {
-            console.error(\"Prototype non trouvé\");
-            return;
-        }
-
-        const prototype = holder.dataset.prototype;
-        const newForm = prototype.replace(/__name__/g, index);
-        index++;
-
-        const div = document.createElement('div');
-        div.classList.add('d-flex', 'gap-2', 'mb-2', 'align-items-center');
-        div.innerHTML = newForm;
-
-        const removeBtn = document.createElement('button');
-        removeBtn.type = 'button';
-        removeBtn.classList.add('btn', 'btn-danger', 'btn-sm');
-        removeBtn.innerHTML = '<i class=\"fas fa-trash\"></i>';
-        removeBtn.onclick = function() {
-            div.remove();
-        };
-
-        div.appendChild(removeBtn);
-        holder.appendChild(div);
-    }
-
-    // Pas d'ajout automatique au chargement en mode édition (optionnel)
-    // if (collectionHolder.children.length === 0) {
-    //     addElement(collectionHolder);
-    // }
-});
-</script>
 ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -415,198 +411,209 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     public function getDebugInfo(): array
     {
-        return array (  291 => 93,  284 => 89,  269 => 77,  262 => 72,  257 => 69,  243 => 68,  234 => 62,  230 => 61,  226 => 60,  217 => 54,  213 => 52,  210 => 51,  192 => 50,  187 => 47,  185 => 46,  178 => 42,  174 => 41,  170 => 40,  162 => 35,  158 => 34,  154 => 33,  146 => 28,  142 => 27,  138 => 26,  130 => 21,  126 => 20,  122 => 19,  115 => 15,  107 => 10,  101 => 6,  88 => 5,  64 => 3,  41 => 1,);
+        return array (  310 => 127,  286 => 106,  279 => 101,  274 => 98,  254 => 92,  249 => 90,  245 => 89,  238 => 85,  233 => 82,  215 => 81,  210 => 78,  208 => 77,  201 => 73,  192 => 67,  183 => 61,  174 => 55,  164 => 48,  153 => 42,  147 => 39,  128 => 23,  118 => 18,  112 => 15,  101 => 6,  88 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
     {
-        return new Source("{% extends 'base.html.twig' %}
+        return new Source("{% extends 'dashboard/index.html.twig' %}
 
 {% block title %}Modifier le cours n°{{ cour.numero }}{% endblock %}
 
 {% block body %}
-<div style=\"background: linear-gradient(135deg, #4f46e5 0%, #5b21b6 100%); min-height: 100vh; padding: 80px 20px; color: #000;\">
-<br><br>
-    <div class=\"container\" style=\"max-width: 900px;\">
-        <h1 class=\"text-center mb-5 text-white fw-bold\">
-            Modifier le cours n°{{ cour.numero }}
-        </h1>
 
-        <div class=\"card shadow-lg border-0 rounded-4\" style=\"background: rgba(255,255,255,0.95);\">
-            <div class=\"card-body p-5\">
-                {{ form_start(form) }}
+    <div class=\"nxl-content\">
 
-                    <!-- Langue -->
-                    <div class=\"mb-4\">
-                        {{ form_label(form.langue, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                        {{ form_widget(form.langue, {'attr': {'class': 'form-select form-select-lg', 'id': 'cours_langue'}}) }}
-                        {{ form_errors(form.langue) }}
-                    </div>
+        <!-- En-tête de page -->
+        <div class=\"page-header\">
+            <div class=\"page-header-left d-flex align-items-center\">
+                <div class=\"page-header-title\">
+                    <h5 class=\"m-b-10 fw-bold\">
+                        <i class=\"feather-edit-3 text-warning me-2\"></i>
+                        Modifier le cours n°{{ cour.numero }}
+                    </h5>
+                    <h6 class=\"m-b-0 text-muted\">
+                        {{ cour.idNiveau.titre }} • {{ cour.idNiveau.idLangue.nom }}
+                    </h6>
+                </div>
+            </div>
+            <div class=\"page-header-right ms-auto\">
+                <a href=\"{{ path('app_cours_index') }}\" class=\"btn btn-outline-secondary px-4\">
+                    <i class=\"feather-arrow-left me-2\"></i> Annuler
+                </a>
+            </div>
+        </div>
 
-                    <!-- Niveau (lié à la langue) -->
-                    <div class=\"mb-4\">
-                        {{ form_label(form.Id_niveau, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                        {{ form_widget(form.Id_niveau, {'attr': {'class': 'form-select form-select-lg', 'id': 'niveau-select'}}) }}
-                        {{ form_errors(form.Id_niveau) }}
-                    </div>
-
-                    <!-- Numéro -->
-                    <div class=\"mb-4\">
-                        {{ form_label(form.numero, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                        {{ form_widget(form.numero, {'attr': {'class': 'form-control form-control-lg'}}) }}
-                        {{ form_errors(form.numero) }}
-                    </div>
-
-                    <!-- Cours précédent -->
-                    <div class=\"mb-4\">
-                        {{ form_label(form.cours_precedent_id, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                        {{ form_widget(form.cours_precedent_id, {'attr': {'class': 'form-select form-select-lg'}}) }}
-                        {{ form_errors(form.cours_precedent_id) }}
-                    </div>
-
-                    <!-- RESSOURCES EXISTANTES (seulement en modification) -->
-                    {% if cour.ressource and cour.ressource|trim %}
-                    <div class=\"mb-5\">
-                        <label class=\"form-label fw-bold\">Ressources actuelles :</label>
-                        <ul class=\"list-group mb-3\">
-                            {% for file in cour.ressource|split('\\n') %}
-                                {% if file|trim %}
-                                <li class=\"list-group-item d-flex justify-content-between align-items-center\">
-                                    <span>
-                                        <i class=\"fas fa-file me-2 text-primary\"></i> {{ file|trim }}
-                                    </span>
-                                    <div class=\"form-check\">
-                                        <input class=\"form-check-input\" 
-                                               type=\"checkbox\" 
-                                               name=\"delete_ressources[]\" 
-                                               value=\"{{ file|trim }}\" 
-                                               id=\"delete_{{ loop.index }}\">
-                                        <label class=\"form-check-label text-danger\" for=\"delete_{{ loop.index }}\">
-                                            Supprimer
-                                        </label>
-                                    </div>
-                                </li>
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    {% endif %}
-
-                    <!-- AJOUT DE NOUVELLES RESSOURCES (identique à la création) -->
-                    <div class=\"mb-5\">
-                        <label class=\"form-label fw-bold\">Ajouter de nouvelles ressources</label>
-                        <div id=\"ressources-list\" 
-                             data-prototype=\"{{ form_widget(form.ressourcesFiles.vars.prototype)|e('html_attr') }}\">
+        <!-- Formulaire principal -->
+        <div class=\"row justify-content-center\">
+            <div class=\"col-xl-10 col-lg-11\">
+                <div class=\"card border-0 shadow-lg rounded-4 overflow-hidden\">
+                    <div class=\"card-header bg-gradient-warning text-white py-4 px-5 d-flex align-items-center gap-3\">
+                        <div class=\"avatar avatar-lg bg-white text-warning rounded-circle d-flex align-items-center justify-content-center shadow\">
+                            <i class=\"feather-edit-2 fs-4\"></i>
                         </div>
-                        <button type=\"button\" class=\"btn btn-outline-primary mt-2\" id=\"add-ressource-btn\">
-                            <i class=\"fas fa-plus\"></i> Ajouter une ressource
-                        </button>
-                        <small class=\"form-text text-muted d-block mt-2\">
-                            Formats acceptés : PDF, MP4, JPG, PNG, MP3, WAV, OGG...
-                        </small>
+                        <div>
+                            <h6 class=\"m-0 fw-bold fs-5\">
+                                Modifier le cours n°{{ cour.numero }}
+                            </h6>
+                            <small class=\"opacity-90\">
+                                {{ cour.idNiveau.titre }} • {{ cour.idNiveau.idLangue.nom }}
+                            </small>
+                        </div>
                     </div>
 
-                    <!-- Boutons -->
-                    <div class=\"d-flex gap-3 justify-content-end\">
-                        <a href=\"{{ path('app_cours_index') }}\" class=\"btn btn-secondary btn-lg px-5 fw-bold\">Annuler</a>
-                        <button type=\"submit\" class=\"btn btn-success btn-lg px-5 fw-bold shadow\">Mettre à jour</button>
-                    </div>
+                    <div class=\"card-body p-5\">
+                        {{ form_start(form, {'attr': {'class': 'row g-4 needs-validation', 'novalidate': 'novalidate'}}) }}
 
-                {{ form_end(form) }}
+                        <div class=\"row g-4\">
+
+                            <!-- Langue -->
+                            <div class=\"col-md-6\">
+                                <label class=\"form-label fw-bold mb-2\">Langue</label>
+                                {{ form_widget(form.langue, {'attr': {'id': 'cours_langue', 'class': 'form-select form-select-lg'}}) }}
+                            </div>
+
+                            <!-- Niveau -->
+                            <div class=\"col-md-6\">
+                                <label class=\"form-label fw-bold mb-2\">Niveau</label>
+                                {{ form_widget(form.Id_niveau, {'attr': {'id': 'niveau-select', 'class': 'form-select form-select-lg'}}) }}
+                            </div>
+
+                            <!-- Numéro -->
+                            <div class=\"col-md-6\">
+                                <label class=\"form-label fw-bold mb-2\">Numéro de la leçon</label>
+                                {{ form_widget(form.numero, {'attr': {'class': 'form-control form-control-lg'}}) }}
+                            </div>
+
+                            <!-- Cours précédent -->
+                            <div class=\"col-md-6\">
+                                <label class=\"form-label fw-bold mb-2\">Cours précédent (optionnel)</label>
+                                {{ form_widget(form.cours_precedent_id, {'attr': {'class': 'form-select form-select-lg'}}) }}
+                            </div>
+
+                            <!-- Ressources existantes -->
+                            {% if cour.ressource and cour.ressource|trim %}
+                            <div class=\"col-12\">
+                                <h6 class=\"fw-bold mb-3 text-dark\">Ressources actuelles</h6>
+                                <div class=\"list-group border rounded-3 overflow-hidden shadow-sm\">
+                                    {% for file in cour.ressource|split('\\n')|filter(file => file|trim) %}
+                                        <div class=\"list-group-item d-flex justify-content-between align-items-center px-4 py-3\">
+                                            <div class=\"d-flex align-items-center\">
+                                                <i class=\"feather-file-text text-primary me-3\"></i>
+                                                <span class=\"fw-medium\">{{ file }}</span>
+                                            </div>
+                                            <div class=\"form-check\">
+                                                <input class=\"form-check-input\" type=\"checkbox\" 
+                                                       name=\"delete_ressources[]\" value=\"{{ file }}\" 
+                                                       id=\"delete-{{ loop.index }}\">
+                                                <label class=\"form-check-label text-danger small fw-bold\" 
+                                                       for=\"delete-{{ loop.index }}\">
+                                                    Supprimer
+                                                </label>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <!-- Ajout de nouvelles ressources -->
+                            <div class=\"col-12\">
+                                <h6 class=\"fw-bold mb-3 text-dark\">Ajouter de nouvelles ressources</h6>
+                                <div id=\"ressources-list\" 
+                                     data-prototype=\"{{ form_widget(form.ressourcesFiles.vars.prototype)|e('html_attr') }}\" 
+                                     class=\"mb-3\"></div>
+                                
+                                <button type=\"button\" class=\"btn btn-outline-primary btn-lg px-4\" id=\"add-ressource-btn\">
+                                    <i class=\"feather-plus me-2\"></i> Ajouter une ressource
+                                </button>
+
+                                <div class=\"text-muted small mt-2\">
+                                    Formats acceptés : PDF, MP4, JPG, PNG, MP3, WAV, OGG...
+                                </div>
+                            </div>
+
+                            <!-- Bouton de soumission -->
+                            <div class=\"col-12 text-end mt-5 pt-4 border-top\">
+                                <button type=\"submit\" class=\"btn btn-success btn-lg px-5 py-3 fw-bold shadow-lg transition-all\">
+                                    <i class=\"feather-save me-2\"></i> Mettre à jour le cours
+                                </button>
+                            </div>
+
+                        </div>
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // 1. Gestion des niveaux par langue (exactement comme dans new)
-    const langueSelect = document.getElementById('cours_langue');
-    const niveauSelect = document.getElementById('niveau-select'); 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Gestion dynamique des niveaux selon la langue
+            const langueSelect = document.getElementById('cours_langue');
+            const niveauSelect = document.getElementById('niveau-select');
 
-    if (langueSelect && niveauSelect) {
-        let allNiveauOptions = Array.from(niveauSelect.options).map(option => ({
-            value: option.value,
-            text: option.text,
-            langueId: option.getAttribute('data-langue')
-        }));
+            if (langueSelect && niveauSelect) {
+                let allOptions = Array.from(niveauSelect.options).map(opt => ({
+                    value: opt.value,
+                    text: opt.text,
+                    langueId: opt.dataset.langue
+                }));
 
-        function filterNiveaux() {
-            const selectedLangueId = langueSelect.value;
-            const currentNiveauId = niveauSelect.value;
-            
-            niveauSelect.innerHTML = ''; 
+                function updateNiveaux() {
+                    const selectedLangue = langueSelect.value;
+                    const currentValue = niveauSelect.value;
+                    niveauSelect.innerHTML = '';
 
-            allNiveauOptions.forEach(opt => {
-                if (opt.value === '') {
-                    const option = new Option(opt.text, opt.value);
-                    niveauSelect.add(option);
-                    return;
+                    allOptions.forEach(opt => {
+                        if (!selectedLangue || opt.langueId == selectedLangue || opt.value === '') {
+                            const option = new Option(opt.text, opt.value);
+                            if (opt.langueId) option.dataset.langue = opt.langueId;
+                            niveauSelect.add(option);
+                        }
+                    });
+
+                    if (currentValue && niveauSelect.querySelector(`option[value=\"\${currentValue}\"]`)) {
+                        niveauSelect.value = currentValue;
+                    }
                 }
-                
-                if (!selectedLangueId || opt.langueId == selectedLangueId) {
-                    const option = new Option(opt.text, opt.value);
-                    option.setAttribute('data-langue', opt.langueId);
-                    niveauSelect.add(option);
-                }
-            });
 
-            if (currentNiveauId) {
-                niveauSelect.value = currentNiveauId;
+                langueSelect.addEventListener('change', updateNiveaux);
+                updateNiveaux(); // Appliquer au chargement
             }
-        }
 
-        langueSelect.addEventListener('change', filterNiveaux);
-        
-        if (langueSelect.value) {
-            filterNiveaux();
-        }
-    }
+            // Ajout dynamique de ressources
+            const collectionHolder = document.getElementById('ressources-list');
+            const addButton = document.getElementById('add-ressource-btn');
+            let index = 0;
 
-    // 2. Gestion de l'ajout dynamique de ressources (exactement comme dans new)
-    const collectionHolder = document.getElementById('ressources-list');
-    const addRessourceBtn = document.getElementById('add-ressource-btn');
-    
-    let index = 0;
+            if (addButton) {
+                addButton.addEventListener('click', function () {
+                    if (!collectionHolder.dataset.prototype) {
+                        console.error(\"Prototype non trouvé\");
+                        return;
+                    }
 
-    if (addRessourceBtn) {
-        addRessourceBtn.addEventListener('click', function() {
-            addElement(collectionHolder);
+                    const newForm = collectionHolder.dataset.prototype.replace(/__name__/g, index++);
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'input-group mb-3 align-items-center';
+                    wrapper.innerHTML = newForm;
+
+                    const removeBtn = document.createElement('button');
+                    removeBtn.type = 'button';
+                    removeBtn.className = 'btn btn-danger';
+                    removeBtn.innerHTML = '<i class=\"feather-trash-2\"></i>';
+                    removeBtn.onclick = () => wrapper.remove();
+
+                    wrapper.appendChild(removeBtn);
+                    collectionHolder.appendChild(wrapper);
+                });
+            }
         });
-    }
+    </script>
 
-    function addElement(holder) {
-        if (!holder || !holder.dataset.prototype) {
-            console.error(\"Prototype non trouvé\");
-            return;
-        }
-
-        const prototype = holder.dataset.prototype;
-        const newForm = prototype.replace(/__name__/g, index);
-        index++;
-
-        const div = document.createElement('div');
-        div.classList.add('d-flex', 'gap-2', 'mb-2', 'align-items-center');
-        div.innerHTML = newForm;
-
-        const removeBtn = document.createElement('button');
-        removeBtn.type = 'button';
-        removeBtn.classList.add('btn', 'btn-danger', 'btn-sm');
-        removeBtn.innerHTML = '<i class=\"fas fa-trash\"></i>';
-        removeBtn.onclick = function() {
-            div.remove();
-        };
-
-        div.appendChild(removeBtn);
-        holder.appendChild(div);
-    }
-
-    // Pas d'ajout automatique au chargement en mode édition (optionnel)
-    // if (collectionHolder.children.length === 0) {
-    //     addElement(collectionHolder);
-    // }
-});
-</script>
 {% endblock %}", "cours/edit.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\cours\\edit.html.twig");
     }
 }

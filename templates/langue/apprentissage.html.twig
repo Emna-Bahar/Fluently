@@ -4,7 +4,7 @@
 
 {% block body %}
 <div style="background: linear-gradient(135deg, #4f46e5 0%, #6d28d9 100%); min-height: 100vh; padding: 60px 20px; color: white; position: relative; overflow-x: hidden;">
-
+<br><br><br><br><br>
     <!-- Étoiles décoratives pour ambiance jeu -->
     <div style="position: absolute; inset: 0; pointer-events: none; opacity: 0.12; font-size: 3.5rem; user-select: none;">
         <div style="position: absolute; top: 10%; left: 8%; animation: float 14s infinite;">✨</div>
@@ -24,9 +24,7 @@
 
         <!-- Retour + Titre langue -->
         <div style="text-align: center; margin-bottom: 70px;">
-            <a href="{{ path('app_langue_index') }}" style="color: white; font-weight: 700; font-size: 1.4rem; text-decoration: none; display: inline-flex; align-items: center; gap: 12px; margin-bottom: 28px; transition: color 0.3s;" onmouseover="this.style.color='#c4b5fd';" onmouseout="this.style.color='white';">
-                ← Retour aux langues
-            </a>
+            
             <h1 style="font-size: 3.8rem; font-weight: 900; margin: 0; color: white; text-shadow: 0 6px 20px rgba(0,0,0,0.5);">
                 {{ langue.nom }}
             </h1>
@@ -42,6 +40,7 @@
             <div style="position: absolute; top: 0; bottom: 0; left: 50%; width: 10px; background: linear-gradient(to bottom, rgba(255,255,255,0.6), rgba(255,255,255,0.15)); transform: translateX(-50%); border-radius: 5px; z-index: 1;"></div>
 
             <!-- Test de niveau (toujours visible en haut) -->
+            
             <div style="position: relative; margin: 0 auto 180px; text-align: center; z-index: 3; max-width: 240px;">
                 <a href="#" onclick="alert('Lance le test de niveau (module à implémenter)'); return false;" style="text-decoration: none;">
                     <div style="width: 200px; height: 200px; margin: 0 auto; background: linear-gradient(135deg, #fbbf24, #f59e0b); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 16px 60px rgba(251,191,36,0.6); transition: all 0.4s;" onmouseover="this.style.transform='scale(1.15) rotate(12deg)';" onmouseout="this.style.transform='scale(1) rotate(0deg)';">

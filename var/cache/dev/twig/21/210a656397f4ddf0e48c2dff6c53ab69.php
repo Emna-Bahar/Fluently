@@ -147,7 +147,10 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
         // line 71
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_niveau_index");
         yield "\">Niveau</a></li>
-                            
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
+        // line 72
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_admin_langue_stats");
+        yield "\">Statistiques</a></li>
                         </ul>
                     </li>
                     <li class=\"nxl-item nxl-hasmenu\">
@@ -543,7 +546,7 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  498 => 334,  485 => 333,  469 => 371,  463 => 368,  459 => 367,  453 => 364,  449 => 363,  445 => 362,  440 => 360,  430 => 352,  428 => 333,  331 => 239,  323 => 234,  299 => 213,  281 => 198,  263 => 183,  148 => 71,  144 => 70,  140 => 69,  113 => 45,  109 => 44,  87 => 25,  81 => 22,  77 => 21,  71 => 18,  65 => 15,  49 => 1,);
+        return array (  501 => 334,  488 => 333,  472 => 371,  466 => 368,  462 => 367,  456 => 364,  452 => 363,  448 => 362,  443 => 360,  433 => 352,  431 => 333,  334 => 239,  326 => 234,  302 => 213,  284 => 198,  266 => 183,  152 => 72,  148 => 71,  144 => 70,  140 => 69,  113 => 45,  109 => 44,  87 => 25,  81 => 22,  77 => 21,  71 => 18,  65 => 15,  49 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -619,7 +622,7 @@ class __TwigTemplate_5bcbdd80c09b84d9435a3b42e1d154e9 extends Template
                             <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_admin_langue_index') }}\">Langue</a></li>
                             <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_cours_index') }}\">Cours</a></li>
                             <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_niveau_index') }}\">Niveau</a></li>
-                            
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_admin_langue_stats') }}\">Statistiques</a></li>
                         </ul>
                     </li>
                     <li class=\"nxl-item nxl-hasmenu\">

@@ -1,29 +1,48 @@
-{% extends 'base.html.twig' %}
+{% extends 'dashboard/index.html.twig' %}
 
-{% block title %}Gestion des Niveaux{% endblock %}
+{% block title %}Gestion des Niveaux - Admin{% endblock %}
 
 {% block body %}
-<div style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); min-height: 100vh; padding: 100px 20px 60px; color: white;">
-<br><br><br><br>
-    <div class="container" style="max-width: 1400px;">
 
-        <!-- Titre + Ajouter -->
-        <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-4">
-            <h1 class="mb-0" style="font-weight: 900; text-shadow: 0 4px 16px rgba(0,0,0,0.5);">
-                Gestion des Niveaux
-            </h1>
-            <a href="{{ path('app_niveau_new') }}" class="btn btn-success btn-lg shadow px-5 py-3 fw-bold">
-                + Ajouter un niveau
-            </a>
+    <div class="nxl-content">
+
+        <!-- En-tête de page -->
+        <div class="page-header">
+            <div class="page-header-left d-flex align-items-center">
+                <div class="page-header-title">
+                    <h5 class="m-b-10 fw-bold">
+                        <i class="feather-layers text-primary me-2"></i>
+                        Gestion des Niveaux
+                    </h5>
+                    <h6 class="m-b-0 text-muted">
+                        Créer, modifier ou supprimer les niveaux de difficulté
+                    </h6>
+                </div>
+            </div>
+            <div class="page-header-right ms-auto">
+                <a href="{{ path('app_niveau_new') }}" class="btn btn-primary px-4">
+                    <i class="feather-plus me-2"></i> Ajouter un niveau
+                </a>
+            </div>
         </div>
 
-        <!-- Filtres sur une seule ligne (grande taille) -->
-        <div class="card mb-5 shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255,255,255,0.12); backdrop-filter: blur(12px);">
+        <!-- Messages flash -->
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} alert-dismissible fade show mb-4 rounded-3" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <!-- Filtres -->
+        <div class="card border-0 shadow-sm mb-5">
             <div class="card-body p-4">
                 <form method="get" class="row g-4 align-items-end">
                     <!-- Langue -->
-                    <div class="col-lg-3 col-md-6">
-                        <label for="langue" class="form-label fw-bold text-white">Langue</label>
+                    <div class="col-lg-4 col-md-6">
+                        <label for="langue" class="form-label fw-bold">Langue</label>
                         <select name="langue" id="langue" class="form-select form-select-lg">
                             <option value="">Toutes les langues</option>
                             {% for langue in langues %}
@@ -35,14 +54,14 @@
                     </div>
 
                     <!-- Difficulté -->
-                    <div class="col-lg-3 col-md-6">
-                        <label for="difficulte" class="form-label fw-bold text-white">Difficulté</label>
+                    <div class="col-lg-4 col-md-6">
+                        <label for="difficulte" class="form-label fw-bold">Difficulté</label>
                         <select name="difficulte" id="difficulte" class="form-select form-select-lg">
                             <option value="">Toutes</option>
                             {% set difficultes = [] %}
-                            {% for n in niveaux %}
-                                {% if n.difficulte and n.difficulte not in difficultes %}
-                                    {% set difficultes = difficultes|merge([n.difficulte]) %}
+                            {% for niveau in niveaux %}
+                                {% if niveau.difficulte and niveau.difficulte not in difficultes %}
+                                    {% set difficultes = difficultes|merge([niveau.difficulte]) %}
                                 {% endif %}
                             {% endfor %}
                             {% for diff in difficultes|sort %}
@@ -53,30 +72,12 @@
                         </select>
                     </div>
 
-                    <!-- Seuil min -->
-                    <div class="col-lg-3 col-md-6">
-                        <label class="form-label fw-bold text-white">Seuil score min</label>
-                        <input type="number" name="seuil_min" class="form-control form-control-lg" 
-                               placeholder="Ex: 0" 
-                               value="{{ app.request.query.get('seuil_min') }}" 
-                               min="0" step="0.1">
-                    </div>
-
-                    <!-- Seuil max -->
-                    <div class="col-lg-3 col-md-6">
-                        <label class="form-label fw-bold text-white">Seuil score max</label>
-                        <input type="number" name="seuil_max" class="form-control form-control-lg" 
-                               placeholder="Ex: 100" 
-                               value="{{ app.request.query.get('seuil_max') }}" 
-                               min="0" step="0.1">
-                    </div>
-
-                    <!-- Boutons (à droite) -->
-                    <div class="col-12 col-lg-auto d-flex flex-wrap gap-3 justify-content-lg-end mt-3 mt-lg-0">
-                        <button type="submit" class="btn btn-primary btn-lg px-5 fw-bold shadow">
-                            Filtrer
+                    <!-- Boutons filtres -->
+                    <div class="col-lg-4 col-12 d-flex flex-wrap gap-3 justify-content-lg-end">
+                        <button type="submit" class="btn btn-primary px-5">
+                            <i class="feather-filter me-2"></i> Filtrer
                         </button>
-                        <a href="{{ path('app_niveau_index') }}" class="btn btn-outline-light btn-lg px-5 fw-bold">
+                        <a href="{{ path('app_niveau_index') }}" class="btn btn-outline-secondary px-5">
                             Réinitialiser
                         </a>
                     </div>
@@ -84,65 +85,86 @@
             </div>
         </div>
 
-        <!-- Messages flash -->
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert alert-{{ label }} alert-dismissible fade show mb-4 rounded-3" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            {% endfor %}
-        {% endfor %}
+        <!-- Tableau des niveaux -->
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="card-header bg-light border-bottom">
+                <h6 class="m-0 fw-bold">
+                    <i class="feather-list text-primary me-2"></i>
+                    Liste des niveaux
+                </h6>
+            </div>
 
-        <!-- Tableau -->
-        <div class="card shadow-lg border-0 rounded-4 overflow-hidden" style="background: rgba(255,255,255,0.95);">
             <div class="card-body p-0">
                 <div class="table-responsive">
-                    <table class="table table-hover table-striped mb-0 align-middle">
-                        <thead class="table-dark">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead style="background-color: #2872e1; color: white;">
                             <tr>
                                 <th class="ps-4">ID</th>
                                 <th>Langue</th>
                                 <th>Titre</th>
                                 <th class="text-center">Ordre</th>
                                 <th>Difficulté</th>
-                                <th class="text-center">Image</th>
+                                <th class="text-center">Image couverture</th>
                                 <th class="text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                         {% for niveau in niveaux %}
                             <tr>
-                                <td class="ps-4 fw-bold">{{ niveau.id }}</td>
-                                <td class="fw-bold">{{ niveau.IdLangue.nom }}</td>
-                                <td class="fw-bold">{{ niveau.titre }}</td>
+                                <td class="ps-4 fw-medium">{{ niveau.id }}</td>
+                                <td class="fw-medium">{{ niveau.IdLangue.nom }}</td>
+                                <td class="fw-medium">{{ niveau.titre }}</td>
                                 <td class="text-center">{{ niveau.ordre }}</td>
                                 <td class="text-center">{{ niveau.difficulte }}</td>
                                 <td class="text-center">
                                     {% if niveau.imageCouverture %}
-                                        <img src="{{ asset('uploads/niveaux/' ~ niveau.imageCouverture) }}" alt="Couverture" style="max-width: 100px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+                                        <img src="{{ asset('uploads/niveaux/' ~ niveau.imageCouverture) }}" 
+                                             alt="Couverture {{ niveau.titre }}" 
+                                             class="rounded shadow-sm" 
+                                             style="max-width: 100px; height: auto;">
                                     {% else %}
                                         <span class="text-muted">—</span>
                                     {% endif %}
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group btn-group-sm" role="group">
-                                        <a href="{{ path('app_niveau_show', {'id': niveau.id}) }}" class="btn btn-info">Voir</a>
-                                        <a href="{{ path('app_niveau_edit', {'id': niveau.id}) }}" class="btn btn-warning">Modifier</a>
-                                        <form method="post" action="{{ path('app_niveau_delete', {'id': niveau.id}) }}" onsubmit="return confirm('Supprimer ce niveau ?');" style="display:inline;">
+                                        <a href="{{ path('app_niveau_show', {'id': niveau.id}) }}" 
+                                           class="btn btn-info" 
+                                           data-bs-toggle="tooltip" title="Voir">
+                                            <i class="feather-eye"></i>
+                                        </a>
+                                        <a href="{{ path('app_niveau_edit', {'id': niveau.id}) }}" 
+                                           class="btn btn-warning" 
+                                           data-bs-toggle="tooltip" title="Modifier">
+                                            <i class="feather-edit-2"></i>
+                                        </a>
+                                        <form method="post" action="{{ path('app_niveau_delete', {'id': niveau.id}) }}" 
+                                              onsubmit="return confirm('Supprimer ce niveau ? Cette action est irréversible.');" 
+                                              class="d-inline">
                                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ niveau.id) }}">
-                                            <button class="btn btn-danger">Supprimer</button>
+                                            <button type="submit" class="btn btn-danger" 
+                                                    data-bs-toggle="tooltip" title="Supprimer">
+                                                <i class="feather-trash-2"></i>
+                                            </button>
                                         </form>
-                                        <a href="{{ path('app_langue_show', {'id': niveau.IdLangue.id}) }}" class="btn btn-primary">
-                                            Voir langue
+                                        <a href="{{ path('app_langue_show', {'id': niveau.IdLangue.id}) }}" 
+                                           class="btn btn-primary" 
+                                           data-bs-toggle="tooltip" title="Voir la langue">
+                                            <i class="feather-globe"></i>
                                         </a>
                                     </div>
                                 </td>
                             </tr>
                         {% else %}
                             <tr>
-                                <td colspan="7" class="text-center py-5 text-muted fs-4 fw-bold bg-light">
-                                    Aucun niveau trouvé pour le moment.
+                                <td colspan="7" class="text-center py-5 text-muted">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <i class="feather-layers fs-1 mb-3 text-muted"></i>
+                                        <h5 class="mb-3">Aucun niveau trouvé</h5>
+                                        <a href="{{ path('app_niveau_new') }}" class="btn btn-primary">
+                                            <i class="feather-plus me-2"></i> Ajouter un niveau
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -153,5 +175,5 @@
         </div>
 
     </div>
-</div>
+
 {% endblock %}

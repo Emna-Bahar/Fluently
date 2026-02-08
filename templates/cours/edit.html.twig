@@ -1,188 +1,199 @@
-{% extends 'base.html.twig' %}
+{% extends 'dashboard/index.html.twig' %}
 
 {% block title %}Modifier le cours n°{{ cour.numero }}{% endblock %}
 
 {% block body %}
-<div style="background: linear-gradient(135deg, #4f46e5 0%, #5b21b6 100%); min-height: 100vh; padding: 80px 20px; color: #000;">
-<br><br>
-    <div class="container" style="max-width: 900px;">
-        <h1 class="text-center mb-5 text-white fw-bold">
-            Modifier le cours n°{{ cour.numero }}
-        </h1>
 
-        <div class="card shadow-lg border-0 rounded-4" style="background: rgba(255,255,255,0.95);">
-            <div class="card-body p-5">
-                {{ form_start(form) }}
+    <div class="nxl-content">
 
-                    <!-- Langue -->
-                    <div class="mb-4">
-                        {{ form_label(form.langue, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                        {{ form_widget(form.langue, {'attr': {'class': 'form-select form-select-lg', 'id': 'cours_langue'}}) }}
-                        {{ form_errors(form.langue) }}
-                    </div>
+        <!-- En-tête de page -->
+        <div class="page-header">
+            <div class="page-header-left d-flex align-items-center">
+                <div class="page-header-title">
+                    <h5 class="m-b-10 fw-bold">
+                        <i class="feather-edit-3 text-warning me-2"></i>
+                        Modifier le cours n°{{ cour.numero }}
+                    </h5>
+                    <h6 class="m-b-0 text-muted">
+                        {{ cour.idNiveau.titre }} • {{ cour.idNiveau.idLangue.nom }}
+                    </h6>
+                </div>
+            </div>
+            <div class="page-header-right ms-auto">
+                <a href="{{ path('app_cours_index') }}" class="btn btn-outline-secondary px-4">
+                    <i class="feather-arrow-left me-2"></i> Annuler
+                </a>
+            </div>
+        </div>
 
-                    <!-- Niveau (lié à la langue) -->
-                    <div class="mb-4">
-                        {{ form_label(form.Id_niveau, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                        {{ form_widget(form.Id_niveau, {'attr': {'class': 'form-select form-select-lg', 'id': 'niveau-select'}}) }}
-                        {{ form_errors(form.Id_niveau) }}
-                    </div>
-
-                    <!-- Numéro -->
-                    <div class="mb-4">
-                        {{ form_label(form.numero, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                        {{ form_widget(form.numero, {'attr': {'class': 'form-control form-control-lg'}}) }}
-                        {{ form_errors(form.numero) }}
-                    </div>
-
-                    <!-- Cours précédent -->
-                    <div class="mb-4">
-                        {{ form_label(form.cours_precedent_id, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
-                        {{ form_widget(form.cours_precedent_id, {'attr': {'class': 'form-select form-select-lg'}}) }}
-                        {{ form_errors(form.cours_precedent_id) }}
-                    </div>
-
-                    <!-- RESSOURCES EXISTANTES (seulement en modification) -->
-                    {% if cour.ressource and cour.ressource|trim %}
-                    <div class="mb-5">
-                        <label class="form-label fw-bold">Ressources actuelles :</label>
-                        <ul class="list-group mb-3">
-                            {% for file in cour.ressource|split('\n') %}
-                                {% if file|trim %}
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>
-                                        <i class="fas fa-file me-2 text-primary"></i> {{ file|trim }}
-                                    </span>
-                                    <div class="form-check">
-                                        <input class="form-check-input" 
-                                               type="checkbox" 
-                                               name="delete_ressources[]" 
-                                               value="{{ file|trim }}" 
-                                               id="delete_{{ loop.index }}">
-                                        <label class="form-check-label text-danger" for="delete_{{ loop.index }}">
-                                            Supprimer
-                                        </label>
-                                    </div>
-                                </li>
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    {% endif %}
-
-                    <!-- AJOUT DE NOUVELLES RESSOURCES (identique à la création) -->
-                    <div class="mb-5">
-                        <label class="form-label fw-bold">Ajouter de nouvelles ressources</label>
-                        <div id="ressources-list" 
-                             data-prototype="{{ form_widget(form.ressourcesFiles.vars.prototype)|e('html_attr') }}">
+        <!-- Formulaire principal -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-11">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="card-header bg-gradient-warning text-white py-4 px-5 d-flex align-items-center gap-3">
+                        <div class="avatar avatar-lg bg-white text-warning rounded-circle d-flex align-items-center justify-content-center shadow">
+                            <i class="feather-edit-2 fs-4"></i>
                         </div>
-                        <button type="button" class="btn btn-outline-primary mt-2" id="add-ressource-btn">
-                            <i class="fas fa-plus"></i> Ajouter une ressource
-                        </button>
-                        <small class="form-text text-muted d-block mt-2">
-                            Formats acceptés : PDF, MP4, JPG, PNG, MP3, WAV, OGG...
-                        </small>
+                        <div>
+                            <h6 class="m-0 fw-bold fs-5">
+                                Modifier le cours n°{{ cour.numero }}
+                            </h6>
+                            <small class="opacity-90">
+                                {{ cour.idNiveau.titre }} • {{ cour.idNiveau.idLangue.nom }}
+                            </small>
+                        </div>
                     </div>
 
-                    <!-- Boutons -->
-                    <div class="d-flex gap-3 justify-content-end">
-                        <a href="{{ path('app_cours_index') }}" class="btn btn-secondary btn-lg px-5 fw-bold">Annuler</a>
-                        <button type="submit" class="btn btn-success btn-lg px-5 fw-bold shadow">Mettre à jour</button>
-                    </div>
+                    <div class="card-body p-5">
+                        {{ form_start(form, {'attr': {'class': 'row g-4 needs-validation', 'novalidate': 'novalidate'}}) }}
 
-                {{ form_end(form) }}
+                        <div class="row g-4">
+
+                            <!-- Langue -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold mb-2">Langue</label>
+                                {{ form_widget(form.langue, {'attr': {'id': 'cours_langue', 'class': 'form-select form-select-lg'}}) }}
+                            </div>
+
+                            <!-- Niveau -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold mb-2">Niveau</label>
+                                {{ form_widget(form.Id_niveau, {'attr': {'id': 'niveau-select', 'class': 'form-select form-select-lg'}}) }}
+                            </div>
+
+                            <!-- Numéro -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold mb-2">Numéro de la leçon</label>
+                                {{ form_widget(form.numero, {'attr': {'class': 'form-control form-control-lg'}}) }}
+                            </div>
+
+                            <!-- Cours précédent -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold mb-2">Cours précédent (optionnel)</label>
+                                {{ form_widget(form.cours_precedent_id, {'attr': {'class': 'form-select form-select-lg'}}) }}
+                            </div>
+
+                            <!-- Ressources existantes -->
+                            {% if cour.ressource and cour.ressource|trim %}
+                            <div class="col-12">
+                                <h6 class="fw-bold mb-3 text-dark">Ressources actuelles</h6>
+                                <div class="list-group border rounded-3 overflow-hidden shadow-sm">
+                                    {% for file in cour.ressource|split('\n')|filter(file => file|trim) %}
+                                        <div class="list-group-item d-flex justify-content-between align-items-center px-4 py-3">
+                                            <div class="d-flex align-items-center">
+                                                <i class="feather-file-text text-primary me-3"></i>
+                                                <span class="fw-medium">{{ file }}</span>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" 
+                                                       name="delete_ressources[]" value="{{ file }}" 
+                                                       id="delete-{{ loop.index }}">
+                                                <label class="form-check-label text-danger small fw-bold" 
+                                                       for="delete-{{ loop.index }}">
+                                                    Supprimer
+                                                </label>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <!-- Ajout de nouvelles ressources -->
+                            <div class="col-12">
+                                <h6 class="fw-bold mb-3 text-dark">Ajouter de nouvelles ressources</h6>
+                                <div id="ressources-list" 
+                                     data-prototype="{{ form_widget(form.ressourcesFiles.vars.prototype)|e('html_attr') }}" 
+                                     class="mb-3"></div>
+                                
+                                <button type="button" class="btn btn-outline-primary btn-lg px-4" id="add-ressource-btn">
+                                    <i class="feather-plus me-2"></i> Ajouter une ressource
+                                </button>
+
+                                <div class="text-muted small mt-2">
+                                    Formats acceptés : PDF, MP4, JPG, PNG, MP3, WAV, OGG...
+                                </div>
+                            </div>
+
+                            <!-- Bouton de soumission -->
+                            <div class="col-12 text-end mt-5 pt-4 border-top">
+                                <button type="submit" class="btn btn-success btn-lg px-5 py-3 fw-bold shadow-lg transition-all">
+                                    <i class="feather-save me-2"></i> Mettre à jour le cours
+                                </button>
+                            </div>
+
+                        </div>
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // 1. Gestion des niveaux par langue (exactement comme dans new)
-    const langueSelect = document.getElementById('cours_langue');
-    const niveauSelect = document.getElementById('niveau-select'); 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Gestion dynamique des niveaux selon la langue
+            const langueSelect = document.getElementById('cours_langue');
+            const niveauSelect = document.getElementById('niveau-select');
 
-    if (langueSelect && niveauSelect) {
-        let allNiveauOptions = Array.from(niveauSelect.options).map(option => ({
-            value: option.value,
-            text: option.text,
-            langueId: option.getAttribute('data-langue')
-        }));
+            if (langueSelect && niveauSelect) {
+                let allOptions = Array.from(niveauSelect.options).map(opt => ({
+                    value: opt.value,
+                    text: opt.text,
+                    langueId: opt.dataset.langue
+                }));
 
-        function filterNiveaux() {
-            const selectedLangueId = langueSelect.value;
-            const currentNiveauId = niveauSelect.value;
-            
-            niveauSelect.innerHTML = ''; 
+                function updateNiveaux() {
+                    const selectedLangue = langueSelect.value;
+                    const currentValue = niveauSelect.value;
+                    niveauSelect.innerHTML = '';
 
-            allNiveauOptions.forEach(opt => {
-                if (opt.value === '') {
-                    const option = new Option(opt.text, opt.value);
-                    niveauSelect.add(option);
-                    return;
+                    allOptions.forEach(opt => {
+                        if (!selectedLangue || opt.langueId == selectedLangue || opt.value === '') {
+                            const option = new Option(opt.text, opt.value);
+                            if (opt.langueId) option.dataset.langue = opt.langueId;
+                            niveauSelect.add(option);
+                        }
+                    });
+
+                    if (currentValue && niveauSelect.querySelector(`option[value="${currentValue}"]`)) {
+                        niveauSelect.value = currentValue;
+                    }
                 }
-                
-                if (!selectedLangueId || opt.langueId == selectedLangueId) {
-                    const option = new Option(opt.text, opt.value);
-                    option.setAttribute('data-langue', opt.langueId);
-                    niveauSelect.add(option);
-                }
-            });
 
-            if (currentNiveauId) {
-                niveauSelect.value = currentNiveauId;
+                langueSelect.addEventListener('change', updateNiveaux);
+                updateNiveaux(); // Appliquer au chargement
             }
-        }
 
-        langueSelect.addEventListener('change', filterNiveaux);
-        
-        if (langueSelect.value) {
-            filterNiveaux();
-        }
-    }
+            // Ajout dynamique de ressources
+            const collectionHolder = document.getElementById('ressources-list');
+            const addButton = document.getElementById('add-ressource-btn');
+            let index = 0;
 
-    // 2. Gestion de l'ajout dynamique de ressources (exactement comme dans new)
-    const collectionHolder = document.getElementById('ressources-list');
-    const addRessourceBtn = document.getElementById('add-ressource-btn');
-    
-    let index = 0;
+            if (addButton) {
+                addButton.addEventListener('click', function () {
+                    if (!collectionHolder.dataset.prototype) {
+                        console.error("Prototype non trouvé");
+                        return;
+                    }
 
-    if (addRessourceBtn) {
-        addRessourceBtn.addEventListener('click', function() {
-            addElement(collectionHolder);
+                    const newForm = collectionHolder.dataset.prototype.replace(/__name__/g, index++);
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'input-group mb-3 align-items-center';
+                    wrapper.innerHTML = newForm;
+
+                    const removeBtn = document.createElement('button');
+                    removeBtn.type = 'button';
+                    removeBtn.className = 'btn btn-danger';
+                    removeBtn.innerHTML = '<i class="feather-trash-2"></i>';
+                    removeBtn.onclick = () => wrapper.remove();
+
+                    wrapper.appendChild(removeBtn);
+                    collectionHolder.appendChild(wrapper);
+                });
+            }
         });
-    }
+    </script>
 
-    function addElement(holder) {
-        if (!holder || !holder.dataset.prototype) {
-            console.error("Prototype non trouvé");
-            return;
-        }
-
-        const prototype = holder.dataset.prototype;
-        const newForm = prototype.replace(/__name__/g, index);
-        index++;
-
-        const div = document.createElement('div');
-        div.classList.add('d-flex', 'gap-2', 'mb-2', 'align-items-center');
-        div.innerHTML = newForm;
-
-        const removeBtn = document.createElement('button');
-        removeBtn.type = 'button';
-        removeBtn.classList.add('btn', 'btn-danger', 'btn-sm');
-        removeBtn.innerHTML = '<i class="fas fa-trash"></i>';
-        removeBtn.onclick = function() {
-            div.remove();
-        };
-
-        div.appendChild(removeBtn);
-        holder.appendChild(div);
-    }
-
-    // Pas d'ajout automatique au chargement en mode édition (optionnel)
-    // if (collectionHolder.children.length === 0) {
-    //     addElement(collectionHolder);
-    // }
-});
-</script>
 {% endblock %}

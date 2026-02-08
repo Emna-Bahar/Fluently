@@ -98,48 +98,53 @@ class __TwigTemplate_4426915203f2098c8273b95231bb80da extends Template
 
         // line 6
         yield "<div style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 0;\">
-<br><br><br><br>
-    <!-- Zone de recherche et tri (centré et plus esthétique) -->
-    <div style=\"padding: 60px 20px 40px; text-align: center;\">
-        <div style=\"max-width: 900px; margin: 0 auto;\">
-            <div style=\"background: rgba(255,255,255,0.95); border-radius: 20px; padding: 32px; box-shadow: 0 12px 40px rgba(0,0,0,0.25);\">
+<br><br><br><br><br>
+    <!-- Barre de recherche et tri (style premium, proche navbar) -->
+    <div style=\"background: rgba(255,255,255,0.12); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.15); padding: 24px 0;\">
+        <div style=\"max-width: 1200px; margin: 0 auto; padding: 0 20px;\">
+            <div style=\"display: flex; flex-direction: column; align-items: center; gap: 16px;\">
+                <!-- Titre principal (gros, gras, comme navbar) -->
+                <h1 style=\"color: white; font-size: 2.5rem; font-weight: 900; margin: 0 0 8px; text-shadow: 0 4px 12px rgba(0,0,0,0.4);\">
+                    Langues Disponibles
+                </h1>
+
+                <!-- Formulaire recherche + tri -->
                 <form method=\"GET\" action=\"";
-        // line 12
+        // line 18
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_langue_index");
-        yield "\" style=\"display: grid; grid-template-columns: 2fr 1fr 160px; gap: 24px; align-items: end;\">
-                    <div>
-                        <label style=\"font-weight: 700; color: #1e293b; margin-bottom: 12px; display: block; font-size: 1.15rem;\">
-                            Rechercher une langue
-                        </label>
+        yield "\" style=\"display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; align-items: center; width: 100%; max-width: 900px;\">
+                    <!-- Recherche -->
+                    <div style=\"flex: 1; min-width: 280px;\">
                         <input type=\"text\" name=\"search\" value=\"";
-        // line 17
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["search"]) || array_key_exists("search", $context) ? $context["search"] : (function () { throw new RuntimeError('Variable "search" does not exist.', 17, $this->source); })()), "html", null, true);
-        yield "\" placeholder=\"Ex: Français, Anglais...\" 
-                               style=\"width: 100%; padding: 16px 20px; border: 2px solid #d1d5db; border-radius: 12px; font-size: 1.1rem; box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);\">
+        // line 21
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(((array_key_exists("search", $context)) ? (Twig\Extension\CoreExtension::default((isset($context["search"]) || array_key_exists("search", $context) ? $context["search"] : (function () { throw new RuntimeError('Variable "search" does not exist.', 21, $this->source); })()), "")) : ("")), "html", null, true);
+        yield "\" 
+                               placeholder=\"Rechercher une langue (ex: Français, Anglais...)\" 
+                               style=\"width: 100%; padding: 16px 20px; border: none; border-radius: 50px; font-size: 1.1rem; background: rgba(255,255,255,0.95); box-shadow: 0 6px 16px rgba(0,0,0,0.15); outline: none; transition: all 0.3s;\" 
+                               onfocus=\"this.style.boxShadow='0 8px 24px rgba(0,0,0,0.25)';\">
                     </div>
 
-                    <div>
-                        <label style=\"font-weight: 700; color: #1e293b; margin-bottom: 12px; display: block; font-size: 1.15rem;\">
-                            Trier par
-                        </label>
-                        <select name=\"sortBy\" style=\"width: 100%; padding: 16px 20px; border: 2px solid #d1d5db; border-radius: 12px; font-size: 1.1rem; background: white;\">
+                    <!-- Tri -->
+                    <div style=\"min-width: 220px;\">
+                        <select name=\"sortBy\" style=\"width: 100%; padding: 16px 20px; border: none; border-radius: 50px; font-size: 1.1rem; background: rgba(255,255,255,0.95); box-shadow: 0 6px 16px rgba(0,0,0,0.15); outline: none; appearance: none; cursor: pointer; transition: all 0.3s;\">
                             <option value=\"\">-- Aucun tri --</option>
                             <option value=\"nom\"        ";
-        // line 27
-        if (((isset($context["sortBy"]) || array_key_exists("sortBy", $context) ? $context["sortBy"] : (function () { throw new RuntimeError('Variable "sortBy" does not exist.', 27, $this->source); })()) == "nom")) {
+        // line 31
+        if (((isset($context["sortBy"]) || array_key_exists("sortBy", $context) ? $context["sortBy"] : (function () { throw new RuntimeError('Variable "sortBy" does not exist.', 31, $this->source); })()) == "nom")) {
             yield "selected";
         }
         yield ">Nom (A-Z)</option>
                             <option value=\"popularite\" ";
-        // line 28
-        if (((isset($context["sortBy"]) || array_key_exists("sortBy", $context) ? $context["sortBy"] : (function () { throw new RuntimeError('Variable "sortBy" does not exist.', 28, $this->source); })()) == "popularite")) {
+        // line 32
+        if (((isset($context["sortBy"]) || array_key_exists("sortBy", $context) ? $context["sortBy"] : (function () { throw new RuntimeError('Variable "sortBy" does not exist.', 32, $this->source); })()) == "popularite")) {
             yield "selected";
         }
         yield ">Popularité</option>
                         </select>
                     </div>
 
-                    <button type=\"submit\" style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; padding: 16px 28px; font-weight: 700; font-size: 1.15rem; cursor: pointer; box-shadow: 0 6px 16px rgba(102,110,234,0.4); transition: all 0.25s;\" onmouseover=\"this.style.transform='scale(1.05)';\" onmouseout=\"this.style.transform='scale(1)';\">
+                    <!-- Bouton Filtrer -->
+                    <button type=\"submit\" style=\"background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; border: none; border-radius: 50px; padding: 16px 40px; font-size: 1.1rem; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(79,70,229,0.4); transition: all 0.3s;\" onmouseover=\"this.style.transform='scale(1.05)'; this.style.boxShadow='0 12px 28px rgba(79,70,229,0.5)';\" onmouseout=\"this.style.transform='scale(1)'; this.style.boxShadow='0 8px 20px rgba(79,70,229,0.4)';\">
                         Filtrer
                     </button>
                 </form>
@@ -147,76 +152,73 @@ class __TwigTemplate_4426915203f2098c8273b95231bb80da extends Template
         </div>
     </div>
 
-    <!-- Titre principal -->
-    <div style=\"padding: 0 20px 40px; text-align: center;\">
-        <h1 style=\"color: white; font-size: 3rem; font-weight: 900; margin: 0 0 16px; text-shadow: 0 4px 12px rgba(0,0,0,0.4);\">
-            Langues Disponibles
-        </h1>
-        <p style=\"color: rgba(255,255,255,0.95); font-size: 1.35rem; margin: 0;\">
+    <!-- Sous-titre -->
+    <div style=\"padding: 40px 20px 20px; text-align: center;\">
+        <p style=\"color: rgba(255,255,255,0.95); font-size: 1.4rem; margin: 0; max-width: 800px; margin: 0 auto; font-weight: 500;\">
             Choisissez une langue et commencez votre aventure linguistique dès aujourd'hui !
         </p>
     </div>
 
     <!-- Cartes des langues -->
-    <div style=\"padding: 0 20px 80px;\">
-        <div style=\"max-width: 1300px; margin: 0 auto;\">
+    <div style=\"padding: 0 20px 100px;\">
+        <div style=\"max-width: 1400px; margin: 0 auto;\">
             ";
-        // line 53
-        if ((($tmp = (isset($context["langues"]) || array_key_exists("langues", $context) ? $context["langues"] : (function () { throw new RuntimeError('Variable "langues" does not exist.', 53, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-            // line 54
-            yield "                <div style=\"display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px;\">
+        // line 55
+        if ((($tmp = (isset($context["langues"]) || array_key_exists("langues", $context) ? $context["langues"] : (function () { throw new RuntimeError('Variable "langues" does not exist.', 55, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+            // line 56
+            yield "                <div style=\"display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 40px;\">
                     ";
-            // line 55
+            // line 57
             $context['_parent'] = $context;
-            $context['_seq'] = CoreExtension::ensureTraversable((isset($context["langues"]) || array_key_exists("langues", $context) ? $context["langues"] : (function () { throw new RuntimeError('Variable "langues" does not exist.', 55, $this->source); })()));
+            $context['_seq'] = CoreExtension::ensureTraversable((isset($context["langues"]) || array_key_exists("langues", $context) ? $context["langues"] : (function () { throw new RuntimeError('Variable "langues" does not exist.', 57, $this->source); })()));
             foreach ($context['_seq'] as $context["_key"] => $context["langue"]) {
-                // line 56
+                // line 58
                 yield "                        <a href=\"";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_langue_apprentissage", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "id", [], "any", false, false, false, 56)]), "html", null, true);
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_langue_apprentissage", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "id", [], "any", false, false, false, 58)]), "html", null, true);
                 yield "\" style=\"text-decoration: none;\">
-                            <div style=\"background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 36px rgba(0,0,0,0.18); transition: all 0.4s ease; height: 100%; display: flex; flex-direction: column;\" 
-                                 onmouseover=\"this.style.transform='translateY(-12px)'; this.style.boxShadow='0 24px 60px rgba(0,0,0,0.28)';\" 
-                                 onmouseout=\"this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 36px rgba(0,0,0,0.18)';\">
+                            <div style=\"background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.2); transition: all 0.4s ease; height: 100%; display: flex; flex-direction: column;\" 
+                                 onmouseover=\"this.style.transform='translateY(-16px)'; this.style.boxShadow='0 30px 80px rgba(0,0,0,0.3)';\" 
+                                 onmouseout=\"this.style.transform='translateY(0)'; this.style.boxShadow='0 12px 40px rgba(0,0,0,0.2)';\">
                                 
-                                <!-- Drapeau -->
-                                <div style=\"height: 180px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; position: relative;\">
+                                <!-- Drapeau (plus grand et centré) -->
+                                <div style=\"height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center;\">
                                     ";
-                // line 63
-                if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "drapeau", [], "any", false, false, false, 63)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-                    // line 64
+                // line 65
+                if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "drapeau", [], "any", false, false, false, 65)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                    // line 66
                     yield "                                        <img src=\"";
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(("images/langues/" . CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "drapeau", [], "any", false, false, false, 64))), "html", null, true);
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(("images/langues/" . CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "drapeau", [], "any", false, false, false, 66))), "html", null, true);
                     yield "\" 
                                              alt=\"Drapeau ";
-                    // line 65
-                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "nom", [], "any", false, false, false, 65), "html", null, true);
+                    // line 67
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "nom", [], "any", false, false, false, 67), "html", null, true);
                     yield "\" 
-                                             style=\"width: 100%; height: 100%; object-fit: cover; border-bottom: 6px solid rgba(255,255,255,0.3);\">
+                                             style=\"width: 100%; height: 100%; object-fit: cover;\">
                                     ";
                 } else {
-                    // line 68
-                    yield "                                        <span style=\"color: white; font-size: 5rem; opacity: 0.4;\">🌍</span>
+                    // line 70
+                    yield "                                        <span style=\"color: white; font-size: 6rem; opacity: 0.5;\">🌍</span>
                                     ";
                 }
-                // line 70
+                // line 72
                 yield "                                </div>
 
                                 <!-- Contenu -->
-                                <div style=\"padding: 28px; display: flex; flex-direction: column; flex-grow: 1;\">
-                                    <h3 style=\"font-size: 1.9rem; font-weight: 800; color: #111827; margin: 0 0 12px;\">";
-                // line 74
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "nom", [], "any", false, false, false, 74), "html", null, true);
-                yield "</h3>
-                                    <p style=\"color: #4b5563; margin: 0 0 24px; line-height: 1.6; flex-grow: 1; font-size: 1.1rem;\">
-                                        ";
+                                <div style=\"padding: 32px; display: flex; flex-direction: column; flex-grow: 1; text-align: center;\">
+                                    <h3 style=\"font-size: 2.1rem; font-weight: 900; color: #111827; margin: 0 0 16px;\">";
                 // line 76
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::slice($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "description", [], "any", false, false, false, 76), 0, 110), "html", null, true);
-                if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "description", [], "any", false, false, false, 76)) > 110)) {
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "nom", [], "any", false, false, false, 76), "html", null, true);
+                yield "</h3>
+                                    <p style=\"color: #4b5563; margin: 0 0 32px; line-height: 1.6; flex-grow: 1; font-size: 1.15rem;\">
+                                        ";
+                // line 78
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::slice($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "description", [], "any", false, false, false, 78), 0, 140), "html", null, true);
+                if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "description", [], "any", false, false, false, 78)) > 140)) {
                     yield "...";
                 }
-                // line 77
+                // line 79
                 yield "                                    </p>
-                                    <div style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 1.25rem; margin-top: auto; box-shadow: 0 4px 12px rgba(102,110,234,0.3); transition: all 0.3s;\" onmouseover=\"this.style.transform='scale(1.05)';\" onmouseout=\"this.style.transform='scale(1)';\">
+                                    <div style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 18px 40px; border-radius: 50px; font-weight: 800; font-size: 1.3rem; margin-top: auto; box-shadow: 0 6px 20px rgba(102,110,234,0.4); transition: all 0.3s;\" onmouseover=\"this.style.transform='scale(1.08)';\" onmouseout=\"this.style.transform='scale(1)';\">
                                         Commencer →
                                     </div>
                                 </div>
@@ -227,24 +229,24 @@ class __TwigTemplate_4426915203f2098c8273b95231bb80da extends Template
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_key'], $context['langue'], $context['_parent']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 85
+            // line 87
             yield "                </div>
             ";
         } else {
-            // line 87
-            yield "                <div style=\"background: white; border-radius: 20px; padding: 80px 40px; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,0.2);\">
-                    <h3 style=\"color: #1e293b; font-size: 1.8rem; margin-bottom: 20px;\">Aucune langue trouvée</h3>
-                    <p style=\"color: #4b5563; font-size: 1.2rem; margin-bottom: 32px;\">Essayez de modifier vos critères de recherche.</p>
+            // line 89
+            yield "                <div style=\"background: white; border-radius: 24px; padding: 100px 40px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.25);\">
+                    <h3 style=\"color: #1e293b; font-size: 2rem; margin-bottom: 24px;\">Aucune langue trouvée</h3>
+                    <p style=\"color: #4b5563; font-size: 1.3rem; margin-bottom: 40px;\">Essayez de modifier vos critères de recherche.</p>
                     <a href=\"";
-            // line 90
+            // line 92
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_langue_index");
-            yield "\" style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 16px 40px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1.25rem; box-shadow: 0 6px 20px rgba(102,110,234,0.4);\">
+            yield "\" style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 18px 48px; border-radius: 50px; text-decoration: none; font-weight: 800; font-size: 1.3rem; box-shadow: 0 8px 24px rgba(102,110,234,0.4); transition: all 0.3s;\" onmouseover=\"this.style.transform='scale(1.05)';\" onmouseout=\"this.style.transform='scale(1)';\">
                         Réinitialiser les filtres
                     </a>
                 </div>
             ";
         }
-        // line 95
+        // line 97
         yield "        </div>
     </div>
 
@@ -280,7 +282,7 @@ class __TwigTemplate_4426915203f2098c8273b95231bb80da extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  248 => 95,  240 => 90,  235 => 87,  231 => 85,  218 => 77,  213 => 76,  208 => 74,  202 => 70,  198 => 68,  192 => 65,  187 => 64,  185 => 63,  174 => 56,  170 => 55,  167 => 54,  165 => 53,  135 => 28,  129 => 27,  116 => 17,  108 => 12,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  250 => 97,  242 => 92,  237 => 89,  233 => 87,  220 => 79,  215 => 78,  210 => 76,  204 => 72,  200 => 70,  194 => 67,  189 => 66,  187 => 65,  176 => 58,  172 => 57,  169 => 56,  167 => 55,  139 => 32,  133 => 31,  120 => 21,  114 => 18,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -291,32 +293,37 @@ class __TwigTemplate_4426915203f2098c8273b95231bb80da extends Template
 
 {% block body %}
 <div style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 0;\">
-<br><br><br><br>
-    <!-- Zone de recherche et tri (centré et plus esthétique) -->
-    <div style=\"padding: 60px 20px 40px; text-align: center;\">
-        <div style=\"max-width: 900px; margin: 0 auto;\">
-            <div style=\"background: rgba(255,255,255,0.95); border-radius: 20px; padding: 32px; box-shadow: 0 12px 40px rgba(0,0,0,0.25);\">
-                <form method=\"GET\" action=\"{{ path('app_langue_index') }}\" style=\"display: grid; grid-template-columns: 2fr 1fr 160px; gap: 24px; align-items: end;\">
-                    <div>
-                        <label style=\"font-weight: 700; color: #1e293b; margin-bottom: 12px; display: block; font-size: 1.15rem;\">
-                            Rechercher une langue
-                        </label>
-                        <input type=\"text\" name=\"search\" value=\"{{ search }}\" placeholder=\"Ex: Français, Anglais...\" 
-                               style=\"width: 100%; padding: 16px 20px; border: 2px solid #d1d5db; border-radius: 12px; font-size: 1.1rem; box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);\">
+<br><br><br><br><br>
+    <!-- Barre de recherche et tri (style premium, proche navbar) -->
+    <div style=\"background: rgba(255,255,255,0.12); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.15); padding: 24px 0;\">
+        <div style=\"max-width: 1200px; margin: 0 auto; padding: 0 20px;\">
+            <div style=\"display: flex; flex-direction: column; align-items: center; gap: 16px;\">
+                <!-- Titre principal (gros, gras, comme navbar) -->
+                <h1 style=\"color: white; font-size: 2.5rem; font-weight: 900; margin: 0 0 8px; text-shadow: 0 4px 12px rgba(0,0,0,0.4);\">
+                    Langues Disponibles
+                </h1>
+
+                <!-- Formulaire recherche + tri -->
+                <form method=\"GET\" action=\"{{ path('app_langue_index') }}\" style=\"display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; align-items: center; width: 100%; max-width: 900px;\">
+                    <!-- Recherche -->
+                    <div style=\"flex: 1; min-width: 280px;\">
+                        <input type=\"text\" name=\"search\" value=\"{{ search|default('') }}\" 
+                               placeholder=\"Rechercher une langue (ex: Français, Anglais...)\" 
+                               style=\"width: 100%; padding: 16px 20px; border: none; border-radius: 50px; font-size: 1.1rem; background: rgba(255,255,255,0.95); box-shadow: 0 6px 16px rgba(0,0,0,0.15); outline: none; transition: all 0.3s;\" 
+                               onfocus=\"this.style.boxShadow='0 8px 24px rgba(0,0,0,0.25)';\">
                     </div>
 
-                    <div>
-                        <label style=\"font-weight: 700; color: #1e293b; margin-bottom: 12px; display: block; font-size: 1.15rem;\">
-                            Trier par
-                        </label>
-                        <select name=\"sortBy\" style=\"width: 100%; padding: 16px 20px; border: 2px solid #d1d5db; border-radius: 12px; font-size: 1.1rem; background: white;\">
+                    <!-- Tri -->
+                    <div style=\"min-width: 220px;\">
+                        <select name=\"sortBy\" style=\"width: 100%; padding: 16px 20px; border: none; border-radius: 50px; font-size: 1.1rem; background: rgba(255,255,255,0.95); box-shadow: 0 6px 16px rgba(0,0,0,0.15); outline: none; appearance: none; cursor: pointer; transition: all 0.3s;\">
                             <option value=\"\">-- Aucun tri --</option>
                             <option value=\"nom\"        {% if sortBy == 'nom'        %}selected{% endif %}>Nom (A-Z)</option>
                             <option value=\"popularite\" {% if sortBy == 'popularite' %}selected{% endif %}>Popularité</option>
                         </select>
                     </div>
 
-                    <button type=\"submit\" style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; padding: 16px 28px; font-weight: 700; font-size: 1.15rem; cursor: pointer; box-shadow: 0 6px 16px rgba(102,110,234,0.4); transition: all 0.25s;\" onmouseover=\"this.style.transform='scale(1.05)';\" onmouseout=\"this.style.transform='scale(1)';\">
+                    <!-- Bouton Filtrer -->
+                    <button type=\"submit\" style=\"background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; border: none; border-radius: 50px; padding: 16px 40px; font-size: 1.1rem; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(79,70,229,0.4); transition: all 0.3s;\" onmouseover=\"this.style.transform='scale(1.05)'; this.style.boxShadow='0 12px 28px rgba(79,70,229,0.5)';\" onmouseout=\"this.style.transform='scale(1)'; this.style.boxShadow='0 8px 20px rgba(79,70,229,0.4)';\">
                         Filtrer
                     </button>
                 </form>
@@ -324,45 +331,42 @@ class __TwigTemplate_4426915203f2098c8273b95231bb80da extends Template
         </div>
     </div>
 
-    <!-- Titre principal -->
-    <div style=\"padding: 0 20px 40px; text-align: center;\">
-        <h1 style=\"color: white; font-size: 3rem; font-weight: 900; margin: 0 0 16px; text-shadow: 0 4px 12px rgba(0,0,0,0.4);\">
-            Langues Disponibles
-        </h1>
-        <p style=\"color: rgba(255,255,255,0.95); font-size: 1.35rem; margin: 0;\">
+    <!-- Sous-titre -->
+    <div style=\"padding: 40px 20px 20px; text-align: center;\">
+        <p style=\"color: rgba(255,255,255,0.95); font-size: 1.4rem; margin: 0; max-width: 800px; margin: 0 auto; font-weight: 500;\">
             Choisissez une langue et commencez votre aventure linguistique dès aujourd'hui !
         </p>
     </div>
 
     <!-- Cartes des langues -->
-    <div style=\"padding: 0 20px 80px;\">
-        <div style=\"max-width: 1300px; margin: 0 auto;\">
+    <div style=\"padding: 0 20px 100px;\">
+        <div style=\"max-width: 1400px; margin: 0 auto;\">
             {% if langues %}
-                <div style=\"display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px;\">
+                <div style=\"display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 40px;\">
                     {% for langue in langues %}
                         <a href=\"{{ path('app_langue_apprentissage', {'id': langue.id}) }}\" style=\"text-decoration: none;\">
-                            <div style=\"background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 36px rgba(0,0,0,0.18); transition: all 0.4s ease; height: 100%; display: flex; flex-direction: column;\" 
-                                 onmouseover=\"this.style.transform='translateY(-12px)'; this.style.boxShadow='0 24px 60px rgba(0,0,0,0.28)';\" 
-                                 onmouseout=\"this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 36px rgba(0,0,0,0.18)';\">
+                            <div style=\"background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.2); transition: all 0.4s ease; height: 100%; display: flex; flex-direction: column;\" 
+                                 onmouseover=\"this.style.transform='translateY(-16px)'; this.style.boxShadow='0 30px 80px rgba(0,0,0,0.3)';\" 
+                                 onmouseout=\"this.style.transform='translateY(0)'; this.style.boxShadow='0 12px 40px rgba(0,0,0,0.2)';\">
                                 
-                                <!-- Drapeau -->
-                                <div style=\"height: 180px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; position: relative;\">
+                                <!-- Drapeau (plus grand et centré) -->
+                                <div style=\"height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center;\">
                                     {% if langue.drapeau %}
                                         <img src=\"{{ asset('images/langues/' ~ langue.drapeau) }}\" 
                                              alt=\"Drapeau {{ langue.nom }}\" 
-                                             style=\"width: 100%; height: 100%; object-fit: cover; border-bottom: 6px solid rgba(255,255,255,0.3);\">
+                                             style=\"width: 100%; height: 100%; object-fit: cover;\">
                                     {% else %}
-                                        <span style=\"color: white; font-size: 5rem; opacity: 0.4;\">🌍</span>
+                                        <span style=\"color: white; font-size: 6rem; opacity: 0.5;\">🌍</span>
                                     {% endif %}
                                 </div>
 
                                 <!-- Contenu -->
-                                <div style=\"padding: 28px; display: flex; flex-direction: column; flex-grow: 1;\">
-                                    <h3 style=\"font-size: 1.9rem; font-weight: 800; color: #111827; margin: 0 0 12px;\">{{ langue.nom }}</h3>
-                                    <p style=\"color: #4b5563; margin: 0 0 24px; line-height: 1.6; flex-grow: 1; font-size: 1.1rem;\">
-                                        {{ langue.description|slice(0, 110) }}{% if langue.description|length > 110 %}...{% endif %}
+                                <div style=\"padding: 32px; display: flex; flex-direction: column; flex-grow: 1; text-align: center;\">
+                                    <h3 style=\"font-size: 2.1rem; font-weight: 900; color: #111827; margin: 0 0 16px;\">{{ langue.nom }}</h3>
+                                    <p style=\"color: #4b5563; margin: 0 0 32px; line-height: 1.6; flex-grow: 1; font-size: 1.15rem;\">
+                                        {{ langue.description|slice(0, 140) }}{% if langue.description|length > 140 %}...{% endif %}
                                     </p>
-                                    <div style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 1.25rem; margin-top: auto; box-shadow: 0 4px 12px rgba(102,110,234,0.3); transition: all 0.3s;\" onmouseover=\"this.style.transform='scale(1.05)';\" onmouseout=\"this.style.transform='scale(1)';\">
+                                    <div style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 18px 40px; border-radius: 50px; font-weight: 800; font-size: 1.3rem; margin-top: auto; box-shadow: 0 6px 20px rgba(102,110,234,0.4); transition: all 0.3s;\" onmouseover=\"this.style.transform='scale(1.08)';\" onmouseout=\"this.style.transform='scale(1)';\">
                                         Commencer →
                                     </div>
                                 </div>
@@ -371,10 +375,10 @@ class __TwigTemplate_4426915203f2098c8273b95231bb80da extends Template
                     {% endfor %}
                 </div>
             {% else %}
-                <div style=\"background: white; border-radius: 20px; padding: 80px 40px; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,0.2);\">
-                    <h3 style=\"color: #1e293b; font-size: 1.8rem; margin-bottom: 20px;\">Aucune langue trouvée</h3>
-                    <p style=\"color: #4b5563; font-size: 1.2rem; margin-bottom: 32px;\">Essayez de modifier vos critères de recherche.</p>
-                    <a href=\"{{ path('app_langue_index') }}\" style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 16px 40px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1.25rem; box-shadow: 0 6px 20px rgba(102,110,234,0.4);\">
+                <div style=\"background: white; border-radius: 24px; padding: 100px 40px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.25);\">
+                    <h3 style=\"color: #1e293b; font-size: 2rem; margin-bottom: 24px;\">Aucune langue trouvée</h3>
+                    <p style=\"color: #4b5563; font-size: 1.3rem; margin-bottom: 40px;\">Essayez de modifier vos critères de recherche.</p>
+                    <a href=\"{{ path('app_langue_index') }}\" style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 18px 48px; border-radius: 50px; text-decoration: none; font-weight: 800; font-size: 1.3rem; box-shadow: 0 8px 24px rgba(102,110,234,0.4); transition: all 0.3s;\" onmouseover=\"this.style.transform='scale(1.05)';\" onmouseout=\"this.style.transform='scale(1)';\">
                         Réinitialiser les filtres
                     </a>
                 </div>

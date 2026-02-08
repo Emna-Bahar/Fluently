@@ -14,17 +14,22 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/cours')]
 final class CoursController extends AbstractController
 {
-    #[Route(name: 'app_cours_index', methods: ['GET'])]
-public function index(CoursRepository $coursRepository, NiveauRepository $niveauRepository, Request $request): Response
+   #[Route(name: 'app_cours_index', methods: ['GET'])]
+public function index(CoursRepository $coursRepository, NiveauRepository $niveauRepository, Request $request, SessionInterface $session): Response
 {
     $langueId = $request->query->get('langue');
     $difficulte = $request->query->get('difficulte');
+
+    // Récupérer le niveau assigné de l'utilisateur (session)
+    $userNiveauId = $session->get('user_niveau_' . $langueId);
+    $niveauId = $userNiveauId ?: $request->query->get('niveau'); // Fallback pour admin
 
     $niveaux = $niveauRepository->findAll();
 
@@ -40,6 +45,11 @@ public function index(CoursRepository $coursRepository, NiveauRepository $niveau
               ->setParameter('langueId', $langueId);
     }
 
+    if ($niveauId) {
+        $query->andWhere('n.id = :niveauId')
+              ->setParameter('niveauId', $niveauId); // Filtre par niveau assigné
+    }
+
     if ($difficulte) {
         $query->andWhere('n.difficulte = :difficulte')
               ->setParameter('difficulte', $difficulte);
@@ -53,94 +63,128 @@ public function index(CoursRepository $coursRepository, NiveauRepository $niveau
     ]);
 }
 
-    #[Route('/admin/cours/new', name: 'app_admin_cours_new', methods: ['GET', 'POST'])]
-public function new(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
-{
-    $cours = new Cours();
-    $cours->setDateCreation(new \DateTime());
+       #[Route('/admin/cours/new', name: 'app_admin_cours_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
+    {
+        $cours = new Cours();
+        $cours->setDateCreation(new \DateTime());
 
-    $form = $this->createForm(CoursType::class, $cours);
-    $form->handleRequest($request);
+        $form = $this->createForm(CoursType::class, $cours);
+        $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        // 1. Récupérer la langue et le niveau choisis
-        $langue = $form->get('langue')->getData();
-        $niveau = $form->get('Id_niveau')->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $langue = $form->get('langue')->getData();
+            $niveau = $form->get('Id_niveau')->getData();
 
-        if (!$langue || !$niveau || $niveau->getIdLangue()->getId() !== $langue->getId()) {
-            $this->addFlash('danger', 'La langue et le niveau ne correspondent pas.');
-            return $this->render('cours/new.html.twig', [
-                'form' => $form->createView(),
-            ]);
-        }
+            if (!$langue || !$niveau || $niveau->getIdLangue()->getId() !== $langue->getId()) {
+                $this->addFlash('danger', 'La langue et le niveau ne correspondent pas.');
+                return $this->render('cours/new.html.twig', ['form' => $form->createView()]);
+            }
 
-        $cours->setIdNiveau($niveau);
+            $cours->setIdNiveau($niveau);
 
-        // 2. Upload des fichiers
-        $files = $form->get('ressourcesFiles')->getData() ?? [];
+            $allRessources = [];
 
-        if ($files) {
-            $uploadDir = $this->getCoursUploadDir($cours);
+            // 1. Upload des fichiers locaux (comme avant)
+            $files = $form->get('ressourcesFiles')->getData() ?? [];
+            if ($files) {
+                $uploadDir = $this->getCoursUploadDir($cours);
+                foreach ($files as $file) {
+                    if ($file instanceof UploadedFile) {
+                        $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                        $safeName = $slugger->slug($originalName);
+                        $extension = $file->guessExtension();
+                        $newFilename = $safeName . '-' . uniqid() . '.' . $extension;
 
-            $currentRessources = [];
-
-            foreach ($files as $file) {
-                if ($file instanceof UploadedFile) {
-                    $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                    $safeName = $slugger->slug($originalName);
-                    $extension = $file->guessExtension();
-                    $newFilename = $safeName . '-' . uniqid() . '.' . $extension;
-
-                    try {
-                        $file->move($uploadDir, $newFilename);
-                        $currentRessources[] = $newFilename;
-                    } catch (FileException $e) {
-                        $this->addFlash('danger', 'Erreur upload : ' . $file->getClientOriginalName());
+                        try {
+                            $file->move($uploadDir, $newFilename);
+                            $allRessources[] = $newFilename;
+                        } catch (FileException $e) {
+                            $this->addFlash('danger', 'Erreur upload : ' . $file->getClientOriginalName());
+                        }
                     }
                 }
             }
 
-            $cours->setRessource(implode("\n", $currentRessources));
+            // 2. Récupérer et valider les liens YouTube
+            $youtubeLinksInput = $form->get('youtubeLinks')->getData();
+            if ($youtubeLinksInput) {
+                $lines = explode("\n", trim($youtubeLinksInput));
+                foreach ($lines as $line) {
+                    $line = trim($line);
+                    if ($line && filter_var($line, FILTER_VALIDATE_URL) && (str_contains($line, 'youtube.com') || str_contains($line, 'youtu.be'))) {
+                        $allRessources[] = $line; // on stocke le lien tel quel
+                    }
+                }
+            }
+
+            // 3. Enregistrer toutes les ressources (fichiers + liens YouTube)
+            if (!empty($allRessources)) {
+                $cours->setRessource(implode("\n", $allRessources));
+            }
+
+            $em->persist($cours);
+            $em->flush();
+
+            $this->addFlash('success', 'Cours créé avec succès.');
+            return $this->redirectToRoute('app_cours_index');
         }
 
-        $em->persist($cours);
-        $em->flush();
-
-        $this->addFlash('success', 'Cours créé avec succès.');
-        return $this->redirectToRoute('app_cours_index');
+        return $this->render('cours/new.html.twig', ['form' => $form->createView()]);
     }
-
-    return $this->render('cours/new.html.twig', [
-        'form' => $form->createView(),
-    ]);
-}
-
-    #[Route('/{id}', name: 'app_cours_show', methods: ['GET'])]
+    // Pour l'étudiant (front-office)
+// Pour l'étudiant (front-office)
+#[Route('/{id}', name: 'app_cours_show', methods: ['GET'])]
 public function show(Cours $cour): Response
 {
     $niveau = $cour->getIdNiveau();
     $langue = $niveau->getIdLangue();
-    $difficulté = $niveau->getDifficulte(); // ← c'est ce qui est stocké dans $cour->getRessource()
+    $difficulte = $niveau->getDifficulte();
 
-    // Construire le chemin du dossier
     $langSlug = (new \Symfony\Component\String\Slugger\AsciiSlugger())->slug($langue->getNom())->lower();
-    $nivSlug = (new \Symfony\Component\String\Slugger\AsciiSlugger())->slug($difficulté)->lower();
+    $nivSlug = (new \Symfony\Component\String\Slugger\AsciiSlugger())->slug($difficulte)->lower();
 
     $dirPath = $this->getParameter('kernel.project_dir') . "/public/uploads/cours/$langSlug/$nivSlug";
     $publicPath = "/uploads/cours/$langSlug/$nivSlug";
 
-    // Lister tous les fichiers du dossier
-    $files = [];
-    if (is_dir($dirPath)) {
-        $files = array_values(array_diff(scandir($dirPath), ['.', '..']));
-    }
+    // Récupérer les fichiers physiques
+    $files = is_dir($dirPath) ? array_values(array_diff(scandir($dirPath), ['.', '..'])) : [];
+
+    // Récupérer les ressources de l'entité (fichiers + liens YouTube)
+    $dbResources = $cour->getRessource() ? explode("\n", trim($cour->getRessource())) : [];
+    $dbResources = array_filter($dbResources, fn($v) => trim($v) !== '');
+
+    // Fusion + déduplication (array_unique garde la première occurrence)
+    $allResources = array_unique(array_merge($files, $dbResources));
+
+    return $this->render('cours/base_apprentissage.html.twig', [  // ou ton template étudiant
+        'cour' => $cour,
+        'files' => $allResources,  // ← maintenant unique !
+        'public_path' => $publicPath,
+    ]);
+}
+
+// Pour l'ADMIN (back-office)
+#[Route('/admin/{id}', name: 'app_admin_cours_show', methods: ['GET'])]
+public function adminShow(Cours $cour): Response
+{
+    // Tu peux réutiliser la même logique de fichiers si tu veux
+    $niveau = $cour->getIdNiveau();
+    $langue = $niveau->getIdLangue();
+    $difficulte = $niveau->getDifficulte();
+
+    $langSlug = (new \Symfony\Component\String\Slugger\AsciiSlugger())->slug($langue->getNom())->lower();
+    $nivSlug = (new \Symfony\Component\String\Slugger\AsciiSlugger())->slug($difficulte)->lower();
+
+    $dirPath = $this->getParameter('kernel.project_dir') . "/public/uploads/cours/$langSlug/$nivSlug";
+    $publicPath = "/uploads/cours/$langSlug/$nivSlug";
+
+    $files = is_dir($dirPath) ? array_values(array_diff(scandir($dirPath), ['.', '..'])) : [];
 
     return $this->render('cours/show.html.twig', [
         'cour' => $cour,
         'files' => $files,
         'public_path' => $publicPath,
-        'langue' => $langue,
-        'niveau' => $niveau,
     ]);
 }
 

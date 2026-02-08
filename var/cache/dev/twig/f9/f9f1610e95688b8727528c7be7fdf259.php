@@ -106,7 +106,7 @@ class __TwigTemplate_7f89c7a8841dfff9eceb2ec634f8c65f extends Template
             <div class=\"page-header-left d-flex align-items-center\">
                 <div class=\"page-header-title\">
                     <h5 class=\"m-b-10\">Gestion des Langues</h5>
-                    <h6 class=\"m-b-0\">Ajoutez, modifiez ou supprimez les langues disponibles</h6>
+                    
                 </div>
             </div>
             <div class=\"page-header-right ms-auto\">
@@ -341,7 +341,7 @@ class __TwigTemplate_7f89c7a8841dfff9eceb2ec634f8c65f extends Template
 
     public function getSourceContext(): Source
     {
-        return new Source("{% extends 'dashboard/index.html.twig' %}  {# ← ton template dashboard que tu viens de montrer #}
+        return new Source("{% extends 'dashboard/index.html.twig' %}  
 
 {% block title %}Admin - Gestion des langues{% endblock %}
 
@@ -355,7 +355,7 @@ class __TwigTemplate_7f89c7a8841dfff9eceb2ec634f8c65f extends Template
             <div class=\"page-header-left d-flex align-items-center\">
                 <div class=\"page-header-title\">
                     <h5 class=\"m-b-10\">Gestion des Langues</h5>
-                    <h6 class=\"m-b-0\">Ajoutez, modifiez ou supprimez les langues disponibles</h6>
+                    
                 </div>
             </div>
             <div class=\"page-header-right ms-auto\">

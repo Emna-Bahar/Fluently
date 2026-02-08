@@ -469,6 +469,9 @@
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
     </service>
+    <service id="App\Service\LanguageStatsService" class="App\Service\LanguageStatsService" autowire="true" autoconfigure="true">
+      <argument type="service" id="cache.app"/>
+    </service>
     <service id="argument_metadata_factory" class="Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadataFactory"/>
     <service id="argument_resolver.backed_enum_resolver" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\BackedEnumValueResolver">
       <tag priority="100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\BackedEnumValueResolver">controller.argument_value_resolver</tag>
@@ -496,7 +499,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.VqAAqkf"/>
+      <argument type="service" id=".service_locator.HcXAR2g"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -3388,7 +3391,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.VqAAqkf"/>
+      <argument type="service" id=".service_locator.HcXAR2g"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -7706,6 +7709,12 @@
         <argument key="langue" type="service_closure" id=".errored..service_locator.4IoEfhd.App\Entity\Langue"/>
       </argument>
     </service>
+    <service id=".service_locator.VioeEiH" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="statsService" type="service_closure" id="App\Service\LanguageStatsService"/>
+      </argument>
+    </service>
     <service id=".service_locator.FAsumiQ" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -7734,9 +7743,10 @@
         <argument key="niveau" type="service_closure" id=".errored..service_locator.R_PP6y3.App\Entity\Niveau"/>
       </argument>
     </service>
-    <service id=".service_locator.VqAAqkf" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.HcXAR2g" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="App\Controller\CoursController::adminShow" type="service_closure" id=".service_locator.eeiR1bl"/>
         <argument key="App\Controller\CoursController::delete" type="service_closure" id=".service_locator.BHmLGFq"/>
         <argument key="App\Controller\CoursController::edit" type="service_closure" id=".service_locator..aww2xG"/>
         <argument key="App\Controller\CoursController::index" type="service_closure" id=".service_locator.XXl0e8G"/>
@@ -7750,6 +7760,7 @@
         <argument key="App\Controller\LangueController::indexEtudiant" type="service_closure" id=".service_locator.kgHrRwD"/>
         <argument key="App\Controller\LangueController::new" type="service_closure" id=".service_locator.P3uOD4s"/>
         <argument key="App\Controller\LangueController::show" type="service_closure" id=".service_locator.4IoEfhd"/>
+        <argument key="App\Controller\LangueController::statsAdmin" type="service_closure" id=".service_locator.VioeEiH"/>
         <argument key="App\Controller\NiveauController::delete" type="service_closure" id=".service_locator.R_PP6y3"/>
         <argument key="App\Controller\NiveauController::edit" type="service_closure" id=".service_locator.jkbq_QJ"/>
         <argument key="App\Controller\NiveauController::index" type="service_closure" id=".service_locator.FAsumiQ"/>
@@ -7759,6 +7770,7 @@
         <argument key="App\Kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="kernel::loadRoutes" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.y4_Zrx."/>
+        <argument key="App\Controller\CoursController:adminShow" type="service_closure" id=".service_locator.eeiR1bl"/>
         <argument key="App\Controller\CoursController:delete" type="service_closure" id=".service_locator.BHmLGFq"/>
         <argument key="App\Controller\CoursController:edit" type="service_closure" id=".service_locator..aww2xG"/>
         <argument key="App\Controller\CoursController:index" type="service_closure" id=".service_locator.XXl0e8G"/>
@@ -7772,6 +7784,7 @@
         <argument key="App\Controller\LangueController:indexEtudiant" type="service_closure" id=".service_locator.kgHrRwD"/>
         <argument key="App\Controller\LangueController:new" type="service_closure" id=".service_locator.P3uOD4s"/>
         <argument key="App\Controller\LangueController:show" type="service_closure" id=".service_locator.4IoEfhd"/>
+        <argument key="App\Controller\LangueController:statsAdmin" type="service_closure" id=".service_locator.VioeEiH"/>
         <argument key="App\Controller\NiveauController:delete" type="service_closure" id=".service_locator.R_PP6y3"/>
         <argument key="App\Controller\NiveauController:edit" type="service_closure" id=".service_locator.jkbq_QJ"/>
         <argument key="App\Controller\NiveauController:index" type="service_closure" id=".service_locator.FAsumiQ"/>
@@ -10072,7 +10085,7 @@
     <service id="Psr\Log\LoggerInterface" alias="monolog.logger"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.w7.f4fT" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.VqAAqkf"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.HcXAR2g"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id=".Psr\Log\LoggerInterface $request.logger" alias="monolog.logger.request"/>
@@ -10116,7 +10129,7 @@
     <service id=".service_locator.mu7p56s" alias=".service_locator.FAsumiQ"/>
     <service id=".service_locator.B7oiFdv" alias=".service_locator.jkbq_QJ"/>
     <service id=".service_locator.DrK88ZL" alias=".service_locator.R_PP6y3"/>
-    <service id=".service_locator.2FeCNP5" alias=".service_locator.VqAAqkf"/>
+    <service id=".service_locator.Nd9nyal" alias=".service_locator.HcXAR2g"/>
     <service id=".service_locator.BFrsqsn" alias=".service_locator.F9PKc.7"/>
     <service id=".service_locator.dfWLZDx" alias=".service_locator.LAipDgM"/>
     <service id=".service_locator.XtmiKbi" alias=".service_locator.MfxSDRP"/>
@@ -10153,6 +10166,7 @@
     <service id=".service_locator.az_7qMn" alias=".service_locator.kSXKpxN"/>
     <service id=".service_locator.1HJGlMd" alias=".service_locator.BPUmrO7"/>
     <service id=".service_locator.TO2dXRQ" alias=".service_locator.4IoEfhd"/>
+    <service id=".service_locator.xJKaAJU" alias=".service_locator.VioeEiH"/>
     <service id=".service_locator.ZF9ZEWa" alias=".service_locator.FAsumiQ"/>
     <service id=".service_locator.7QUztyN" alias=".service_locator.o5jMG29"/>
     <service id=".service_locator.GV3KDAC" alias=".service_locator.jkbq_QJ"/>
