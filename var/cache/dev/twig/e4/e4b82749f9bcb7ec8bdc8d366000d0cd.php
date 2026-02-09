@@ -125,7 +125,70 @@ class __TwigTemplate_dcb6dc92af86ced20e31e3e6b981cfa5 extends Template
     <!-- Instructors Grid -->
     <section class=\"ftco-section bg-light\">
         <div class=\"container\">
-            
+            <div class=\"row\">
+  ";
+        // line 29
+        $context['_parent'] = $context;
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["groupes"]) || array_key_exists("groupes", $context) ? $context["groupes"] : (function () { throw new RuntimeError('Variable "groupes" does not exist.', 29, $this->source); })()));
+        $context['_iterated'] = false;
+        foreach ($context['_seq'] as $context["_key"] => $context["g"]) {
+            // line 30
+            yield "    <div class=\"col-md-4 d-flex align-items-stretch ftco-animate mb-4\">
+      <div class=\"staff bg-white\">
+        <div class=\"text pt-3 px-3 pb-4 text-center\">
+          <h3 class=\"mb-2\">";
+            // line 33
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["g"], "nom", [], "any", false, false, false, 33), "html", null, true);
+            yield "</h3>
+
+          <p class=\"mb-2\">
+            <strong>Niveau:</strong>
+            ";
+            // line 37
+            yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["g"], "idNiveau", [], "any", false, false, false, 37)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["g"], "idNiveau", [], "any", false, false, false, 37), "titre", [], "any", false, false, false, 37), "html", null, true)) : ("—"));
+            yield "
+          </p>
+
+          <p class=\"mb-2\">
+            <strong>Langue:</strong>
+            ";
+            // line 42
+            yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["g"], "IDLangue", [], "any", false, false, false, 42)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["g"], "IDLangue", [], "any", false, false, false, 42), "nom", [], "any", false, false, false, 42), "html", null, true)) : ("—"));
+            yield "
+          </p>
+
+          <p class=\"mb-3\">";
+            // line 45
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["g"], "description", [], "any", false, false, false, 45), "html", null, true);
+            yield "</p>
+
+          <a class=\"btn btn-primary\"
+             href=\"";
+            // line 48
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_groupe_details", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["g"], "id", [], "any", false, false, false, 48)]), "html", null, true);
+            yield "\">
+            Ouvrir le groupe
+          </a>
+        </div>
+      </div>
+    </div>
+  ";
+            $context['_iterated'] = true;
+        }
+        // line 54
+        if (!$context['_iterated']) {
+            // line 55
+            yield "    <div class=\"col-12\">
+      <p>Aucun groupe.</p>
+    </div>
+  ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_key'], $context['g'], $context['_parent'], $context['_iterated']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 59
+        yield "</div>
+
         </div>
     </section>
 ";
@@ -138,7 +201,7 @@ class __TwigTemplate_dcb6dc92af86ced20e31e3e6b981cfa5 extends Template
         yield from [];
     }
 
-    // line 33
+    // line 65
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -151,7 +214,7 @@ class __TwigTemplate_dcb6dc92af86ced20e31e3e6b981cfa5 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "css"));
 
-        // line 34
+        // line 66
         yield "    ";
         yield from $this->yieldParentBlock("css", $context, $blocks);
         yield "
@@ -203,7 +266,7 @@ class __TwigTemplate_dcb6dc92af86ced20e31e3e6b981cfa5 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  155 => 34,  142 => 33,  114 => 15,  104 => 8,  101 => 7,  88 => 6,  65 => 4,  42 => 2,);
+        return array (  218 => 66,  205 => 65,  190 => 59,  181 => 55,  179 => 54,  168 => 48,  162 => 45,  156 => 42,  148 => 37,  141 => 33,  136 => 30,  131 => 29,  114 => 15,  104 => 8,  101 => 7,  88 => 6,  65 => 4,  42 => 2,);
     }
 
     public function getSourceContext(): Source
@@ -235,7 +298,39 @@ class __TwigTemplate_dcb6dc92af86ced20e31e3e6b981cfa5 extends Template
     <!-- Instructors Grid -->
     <section class=\"ftco-section bg-light\">
         <div class=\"container\">
-            
+            <div class=\"row\">
+  {% for g in groupes %}
+    <div class=\"col-md-4 d-flex align-items-stretch ftco-animate mb-4\">
+      <div class=\"staff bg-white\">
+        <div class=\"text pt-3 px-3 pb-4 text-center\">
+          <h3 class=\"mb-2\">{{ g.nom }}</h3>
+
+          <p class=\"mb-2\">
+            <strong>Niveau:</strong>
+            {{ g.idNiveau ? g.idNiveau.titre : '—' }}
+          </p>
+
+          <p class=\"mb-2\">
+            <strong>Langue:</strong>
+            {{ g.IDLangue ? g.IDLangue.nom : '—' }}
+          </p>
+
+          <p class=\"mb-3\">{{ g.description }}</p>
+
+          <a class=\"btn btn-primary\"
+             href=\"{{ path('app_groupe_details', {id: g.id}) }}\">
+            Ouvrir le groupe
+          </a>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <div class=\"col-12\">
+      <p>Aucun groupe.</p>
+    </div>
+  {% endfor %}
+</div>
+
         </div>
     </section>
 {% endblock %}
@@ -259,6 +354,6 @@ class __TwigTemplate_dcb6dc92af86ced20e31e3e6b981cfa5 extends Template
             background-position: center;
         }
     </style>
-{% endblock %}", "groupe/index.html.twig", "C:\\Users\\emnab\\Documents\\Main\\Fluently\\templates\\groupe\\index.html.twig");
+{% endblock %}", "groupe/index.html.twig", "C:\\Users\\Retr0\\Desktop\\FLUENTLY_WORK\\Fluently\\templates\\groupe\\index.html.twig");
     }
 }

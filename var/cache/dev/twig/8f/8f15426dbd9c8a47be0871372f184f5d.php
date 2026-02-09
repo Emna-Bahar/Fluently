@@ -898,6 +898,6 @@ class __TwigTemplate_1418ecf4ef48647bcc04a6719ecea471 extends Template
     </table>
     {% endfor %}
 {% endmacro %}
-", "@WebProfiler/Collector/messenger.html.twig", "C:\\Users\\emnab\\Documents\\Main\\Fluently\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Collector\\messenger.html.twig");
+", "@WebProfiler/Collector/messenger.html.twig", "C:\\Users\\Retr0\\Desktop\\FLUENTLY_WORK\\Fluently\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Collector\\messenger.html.twig");
     }
 }

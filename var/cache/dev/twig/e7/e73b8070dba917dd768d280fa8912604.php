@@ -191,6 +191,6 @@ class __TwigTemplate_ee4793c4217061ad0e12f0993997051b extends Template
     
 </div>
 </section>
-{% endblock %}", "session/index.html.twig", "C:\\Users\\emnab\\Documents\\Main\\Fluently\\templates\\session\\index.html.twig");
+{% endblock %}", "session/index.html.twig", "C:\\Users\\Retr0\\Desktop\\FLUENTLY_WORK\\Fluently\\templates\\session\\index.html.twig");
     }
 }

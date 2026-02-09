@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Groupe{% endblock %}
+
+{% block body %}
+<section class="ftco-section">
+  <div class="container">
+
+    <h2 class="mb-3">{{ groupe.nom }}</h2>
+
+    <p>
+      <strong>Niveau :</strong>
+      {{ groupe.idNiveau ? groupe.idNiveau.titre : '—' }}
+    </p>
+
+    <p>
+      <strong>Langue :</strong>
+      {{ groupe.IDLangue ? groupe.IDLangue.nom : '—' }}
+    </p>
+
+    <hr>
+
+    <h4>Membres du groupe</h4>
+    <ul>
+      {% for user in groupe.getIdUser() %}
+        <li>{{ user.nom }} {{ user.prenom }}</li>
+      {% else %}
+        <li>Aucun membre</li>
+      {% endfor %}
+    </ul>
+
+    <hr>
+
+    <h4>Discussion</h4>
+
+    <div class="border p-3 mb-3" style="height: 250px; overflow-y: auto;">
+      {% for message in messages %}
+        <p>
+          <strong>  {{ message.getIdUser() ? (message.getIdUser().nom ~ ' ' ~ message.getIdUser().prenom) : 'Utilisateur inconnu' }} :</strong>
+          {{ message.contenu }}
+        </p>
+      {% else %}
+        <p>Aucun message pour le moment.</p>
+      {% endfor %}
+    </div>
+
+    <form method="post" action="{{ path('app_groupe_message', {id: groupe.id}) }}">
+      <div class="form-group">
+        <textarea class="form-control" name="contenu" rows="3" required></textarea>
+      </div>
+      <button class="btn btn-primary mt-2">Envoyer</button>
+    </form>
+
+  </div>
+</section>
+{% endblock %}

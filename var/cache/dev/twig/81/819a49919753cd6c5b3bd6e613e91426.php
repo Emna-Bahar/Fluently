@@ -647,6 +647,6 @@ class __TwigTemplate_432d7a90ff9bba53cdbd01282f208e1b extends Template
     <script src=\"{{ asset('assets/js/main.js') }}\"></script>
     {% endblock %}
 </body>
-</html>", "base.html.twig", "C:\\Users\\emnab\\Documents\\Main\\Fluently\\templates\\base.html.twig");
+</html>", "base.html.twig", "C:\\Users\\Retr0\\Desktop\\FLUENTLY_WORK\\Fluently\\templates\\base.html.twig");
     }
 }
