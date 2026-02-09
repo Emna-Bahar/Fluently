@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ReservationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 class Reservation
@@ -15,33 +16,43 @@ class Reservation
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTime $date_reservation = null;
+    #[Assert\NotBlank(message: "La date de réservation est obligatoire")]
+    private ?\DateTimeInterface $dateReservation = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $statut = null;
+    #[Assert\NotBlank(message: "Le statut est obligatoire")]
+    #[Assert\Choice(choices: ['en_attente', 'confirmee', 'annulee', 'terminee'], message: "Statut invalide")]
+    private ?string $statut = 'en_attente';
 
-    #[ORM\ManyToOne(inversedBy: 'reservations')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Session $Id_session = null;
+    #[ORM\ManyToOne(targetEntity: Session::class)]
+    #[ORM\JoinColumn(name: "id_session_id", referencedColumnName: "id", nullable: false)]
+    #[Assert\NotNull(message: "La session est obligatoire")]
+    private ?Session $session = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reservations')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $Id_user = null;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "id_user_id", referencedColumnName: "id", nullable: false)]
+    #[Assert\NotNull(message: "L'utilisateur est obligatoire")]
+    private ?User $user = null;
+
+    public function __construct()
+    {
+        $this->dateReservation = new \DateTime();
+        $this->statut = 'en_attente';
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDateReservation(): ?\DateTime
+    public function getDateReservation(): ?\DateTimeInterface
     {
-        return $this->date_reservation;
+        return $this->dateReservation;
     }
 
-    public function setDateReservation(\DateTime $date_reservation): static
+    public function setDateReservation(\DateTimeInterface $dateReservation): static
     {
-        $this->date_reservation = $date_reservation;
-
+        $this->dateReservation = $dateReservation;
         return $this;
     }
 
@@ -53,31 +64,28 @@ class Reservation
     public function setStatut(string $statut): static
     {
         $this->statut = $statut;
-
         return $this;
     }
 
-    public function getIdSession(): ?Session
+    public function getSession(): ?Session
     {
-        return $this->Id_session;
+        return $this->session;
     }
 
-    public function setIdSession(?Session $Id_session): static
+    public function setSession(?Session $session): static
     {
-        $this->Id_session = $Id_session;
-
+        $this->session = $session;
         return $this;
     }
 
-    public function getIdUser(): ?User
+    public function getUser(): ?User
     {
-        return $this->Id_user;
+        return $this->user;
     }
 
-    public function setIdUser(?User $Id_user): static
+    public function setUser(?User $user): static
     {
-        $this->Id_user = $Id_user;
-
+        $this->user = $user;
         return $this;
     }
 }

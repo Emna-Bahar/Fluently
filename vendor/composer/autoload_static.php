@@ -135,6 +135,11 @@ class ComposerStaticInit54c05e64f01f49eb136e9af7b3075bdd
             'Monolog\\' => 8,
             'Masterminds\\' => 12,
         ),
+        'K' =>
+        array (
+            'Knp\\Component\\' => 14,
+            'Knp\\Bundle\\PaginatorBundle\\' => 27,
+        ),
         'G' =>
         array (
             'GuzzleHttp\\Psr7\\' => 16,
@@ -524,6 +529,14 @@ class ComposerStaticInit54c05e64f01f49eb136e9af7b3075bdd
         'Masterminds\\' =>
         array (
             0 => __DIR__ . '/..' . '/masterminds/html5/src',
+        ),
+        'Knp\\Component\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/knplabs/knp-components/src/Knp/Component',
+        ),
+        'Knp\\Bundle\\PaginatorBundle\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/knplabs/knp-paginator-bundle/src',
         ),
         'GuzzleHttp\\Psr7\\' =>
         array (

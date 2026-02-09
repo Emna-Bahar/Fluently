@@ -1,0 +1,15 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block body %}
+  <h3>Gestion Groupes</h3>
+  <ul>
+    {% for g in groupes %}
+      <li>
+        {{ g.nom }}
+        <a href="{{ path('admin_group_manage', {id: g.id}) }}">Gérer</a>
+      </li>
+    {% else %}
+      <li>Aucun groupe</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

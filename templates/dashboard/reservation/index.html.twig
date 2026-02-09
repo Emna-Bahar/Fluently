@@ -1,0 +1,105 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block body %}
+<div class="nxl-content">
+    <div class="page-header">
+        <div class="page-header-left d-flex align-items-center">
+            <div class="page-header-title">
+                <h5 class="m-b-10">Reservations</h5>
+            </div>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('app_dashboard') }}">Dashboard</a></li>
+                <li class="breadcrumb-item">Reservations</li>
+            </ul>
+        </div>
+        <div class="page-header-right ms-auto">
+            <a href="{{ path('admin_reservation_new') }}" class="btn btn-primary">
+                <i class="feather-plus me-2"></i>
+                <span>Nouvelle Reservation</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card stretch-card">
+                    <div class="card-header">
+                        <h5 class="card-title">Liste des Reservations</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="reservationTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Date Reservation</th>
+                                        <th>Statut</th>
+                                        <th>Session</th>
+                                        <th>Utilisateur</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for reservation in reservations %}
+                                    <tr>
+                                        <td>{{ reservation.id }}</td>
+                                        <td>{{ reservation.dateReservation|date('d/m/Y') }}</td>
+                                        <td>
+                                            {% if reservation.statut == 'en_attente' %}
+                                                <span class="badge bg-soft-secondary text-secondary">En attente</span>
+                                            {% elseif reservation.statut == 'confirmée' %}
+                                                <span class="badge bg-soft-success text-success">Confirmee</span>
+                                            {% elseif reservation.statut == 'annulée' %}
+                                                <span class="badge bg-soft-danger text-danger">Annulee</span>
+                                            {% elseif reservation.statut == 'terminée' %}
+                                                <span class="badge bg-soft-info text-info">Terminee</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{{ path('admin_session_show', {'id': reservation.session.id}) }}" class="text-primary">
+                                                Session #{{ reservation.session.id }} - {{ reservation.session.dateHeure|date('d/m/Y H:i') }}
+                                            </a>
+                                        </td>
+                                        <td>{{ reservation.user ? reservation.user.email : 'N/A' }}</td>
+                                        <td>
+                                            <div class="hstack gap-2">
+                                                <a href="{{ path('admin_reservation_show', {'id': reservation.id}) }}" class="avatar-text avatar-md" data-bs-toggle="tooltip" title="Voir">
+                                                    <i class="feather-eye"></i>
+                                                </a>
+                                                <a href="{{ path('admin_reservation_edit', {'id': reservation.id}) }}" class="avatar-text avatar-md" data-bs-toggle="tooltip" title="Modifier">
+                                                    <i class="feather-edit"></i>
+                                                </a>
+                                                <form method="post" action="{{ path('admin_reservation_delete', {'id': reservation.id}) }}" style="display:inline;" onsubmit="return confirm('Supprimer cette reservation ?');">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ reservation.id) }}">
+                                                    <button type="submit" class="avatar-text avatar-md bg-soft-danger" data-bs-toggle="tooltip" title="Supprimer" style="border:none;cursor:pointer;">
+                                                        <i class="feather-trash-2 text-danger"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted py-4">Aucune reservation trouvee.</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

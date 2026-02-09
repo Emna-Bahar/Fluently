@@ -1,0 +1,180 @@
+{% extends 'base.html.twig' %}
+{% block css %}
+{{ parent() }}
+<style>
+.chat-msg{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:8px 10px;
+  border-radius:6px;
+}
+
+.chat-msg:hover{ background:rgba(0,0,0,0.04); }
+
+.chat-left{ flex:1; min-width:0; }
+.chat-line{ display:flex; gap:6px; align-items:baseline; }
+.chat-text{ overflow-wrap:anywhere; }
+
+.chat-right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  white-space:nowrap;
+}
+
+.chat-time{ font-size:12px; opacity:.6; }
+
+.chat-actions{
+  display:flex;
+  gap:6px;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .12s ease;
+}
+
+.chat-msg:hover .chat-actions{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.chat-btn{
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  padding:2px 4px;
+  line-height:1;
+}
+
+.chat-btn:hover{
+  background:rgba(0,0,0,0.08);
+  border-radius:4px;
+}
+
+</style>
+{% endblock %}
+
+
+
+{% block title %}Groupe{% endblock %}
+
+{% block body %}
+<section class="ftco-section">
+  <div class="container">
+
+    <h2 class="mb-3">{{ groupe.nom }}</h2>
+
+    <p>
+      <strong>Niveau :</strong>
+      {{ groupe.idNiveau ? groupe.idNiveau.titre : '—' }}
+    </p>
+
+    <p>
+      <strong>Langue :</strong>
+      {{ groupe.IDLangue ? groupe.IDLangue.nom : '—' }}
+    </p>
+
+    <hr>
+
+    <h4>Membres du groupe</h4>
+    <ul>
+      {% for user in groupe.getIdUser() %}
+        <li>{{ user.nom }} {{ user.prenom }}</li>
+      {% else %}
+        <li>Aucun membre</li>
+      {% endfor %}
+    </ul>
+
+    <hr>
+
+    <h4>Discussion</h4>
+
+    <div class="border p-3 mb-3" style="height: 250px; overflow-y: auto;">
+      {% for message in messages %}
+    <div class="chat-msg">
+  <div class="chat-left">
+    <div class="chat-line">
+      <strong class="chat-author">
+        {{ message.getIdUser()
+          ? (message.getIdUser().nom ~ ' ' ~ message.getIdUser().prenom)
+          : 'Utilisateur inconnu'
+        }}
+      </strong>
+      <span class="chat-sep">:</span>
+      <span class="chat-text" data-text>{{ message.contenu }}</span>
+    </div>
+
+    {# inline edit form (hidden by default) #}
+    <form class="chat-edit" data-edit-form method="post"
+          action="{{ path('app_message_edit', {id: message.id}) }}"
+          style="display:none;">
+      <input type="hidden" name="groupeId" value="{{ groupe.id }}">
+      <textarea class="form-control" name="contenu" rows="2" data-edit-input>{{ message.contenu }}</textarea>
+      <div class="mt-2">
+        <button class="btn btn-primary btn-sm" type="submit">Save</button>
+        <button class="btn btn-secondary btn-sm" type="button" data-cancel>Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="chat-right">
+    <span class="chat-time" title="{{ message.dateCreation ? message.dateCreation|date('d/m/Y H:i') : '' }}">
+      {{ message.dateCreation ? message.dateCreation|date('H:i') : '' }}
+    </span>
+
+    {% if currentUserId and message.getIdUser() and message.getIdUser().id == currentUserId %}
+      <div class="chat-actions">
+        <button type="button" class="chat-btn" data-edit-btn>✏️</button>
+
+        <form method="post" action="{{ path('app_message_delete', {id: message.id}) }}">
+          <input type="hidden" name="groupeId" value="{{ groupe.id }}">
+          <input type="hidden" name="_token" value="{{ csrf_token('del_msg_' ~ message.id) }}">
+          <button class="chat-btn" type="submit" onclick="return confirm('Supprimer ?')">🗑️</button>
+        </form>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+      {% else %}
+        <p>Aucun message pour le moment.</p>
+      {% endfor %}
+
+
+    </div>
+
+    <form method="post" action="{{ path('app_groupe_message', {id: groupe.id}) }}">
+      <div class="form-group">
+        <textarea class="form-control" name="contenu" rows="3" required></textarea>
+      </div>
+      <button class="btn btn-primary mt-2">Envoyer</button>
+    </form>
+
+  </div>
+</section>
+{% endblock %}
+{% block js %}
+  {{ parent() }}
+    <script>
+    document.addEventListener('click', function (e) {
+      const editBtn = e.target.closest('[data-edit-btn]');
+      if (editBtn) {
+        const msg = editBtn.closest('.chat-msg');
+        msg.querySelector('[data-text]').style.display = 'none';
+        const form = msg.querySelector('[data-edit-form]');
+        form.style.display = '';
+        const input = msg.querySelector('[data-edit-input]');
+        input.focus();
+        return;
+      }
+
+      const cancelBtn = e.target.closest('[data-cancel]');
+      if (cancelBtn) {
+        const msg = cancelBtn.closest('.chat-msg');
+        msg.querySelector('[data-edit-form]').style.display = 'none';
+        msg.querySelector('[data-text]').style.display = '';
+      }
+    });
+    </script>
+
+{% endblock %}

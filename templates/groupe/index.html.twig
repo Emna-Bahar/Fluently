@@ -25,7 +25,39 @@
     <!-- Instructors Grid -->
     <section class="ftco-section bg-light">
         <div class="container">
-            
+            <div class="row">
+  {% for g in groupes %}
+    <div class="col-md-4 d-flex align-items-stretch ftco-animate mb-4">
+      <div class="staff bg-white">
+        <div class="text pt-3 px-3 pb-4 text-center">
+          <h3 class="mb-2">{{ g.nom }}</h3>
+
+          <p class="mb-2">
+            <strong>Niveau:</strong>
+            {{ g.idNiveau ? g.idNiveau.titre : '—' }}
+          </p>
+
+          <p class="mb-2">
+            <strong>Langue:</strong>
+            {{ g.IDLangue ? g.IDLangue.nom : '—' }}
+          </p>
+
+          <p class="mb-3">{{ g.description }}</p>
+
+          <a class="btn btn-primary"
+             href="{{ path('app_groupe_details', {id: g.id}) }}">
+            Ouvrir le groupe
+          </a>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <div class="col-12">
+      <p>Aucun groupe.</p>
+    </div>
+  {% endfor %}
+</div>
+
         </div>
     </section>
 {% endblock %}

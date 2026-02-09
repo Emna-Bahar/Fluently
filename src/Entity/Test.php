@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TestRepository::class)]
 class Test
@@ -16,35 +17,37 @@ class Test
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTime $date_passage = null;
-
-    #[ORM\Column]
-    private ?float $resultat = null;
-
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?\DateTime $duree = null;
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le titre est obligatoire")]
+    private ?string $titre = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: "Le type est obligatoire")]
     private ?string $type = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tests')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Langue $Id_langue = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $dureeEstimee = null; // en minutes
 
     #[ORM\ManyToOne(inversedBy: 'tests')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $Id_user = null;
+    private ?Langue $langue = null;
 
     /**
      * @var Collection<int, Question>
      */
-    #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'Id_test')]
+    #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'Id_test', cascade: ['persist', 'remove'])]
     private Collection $questions;
+
+    /**
+     * @var Collection<int, TestPassage>
+     */
+    #[ORM\OneToMany(targetEntity: TestPassage::class, mappedBy: 'test', cascade: ['remove'])]
+    private Collection $passages;
 
     public function __construct()
     {
         $this->questions = new ArrayCollection();
+        $this->passages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -52,39 +55,14 @@ class Test
         return $this->id;
     }
 
-    public function getDatePassage(): ?\DateTime
+    public function getTitre(): ?string
     {
-        return $this->date_passage;
+        return $this->titre;
     }
 
-    public function setDatePassage(\DateTime $date_passage): static
+    public function setTitre(string $titre): static
     {
-        $this->date_passage = $date_passage;
-
-        return $this;
-    }
-
-    public function getResultat(): ?float
-    {
-        return $this->resultat;
-    }
-
-    public function setResultat(float $resultat): static
-    {
-        $this->resultat = $resultat;
-
-        return $this;
-    }
-
-    public function getDuree(): ?\DateTime
-    {
-        return $this->duree;
-    }
-
-    public function setDuree(\DateTime $duree): static
-    {
-        $this->duree = $duree;
-
+        $this->titre = $titre;
         return $this;
     }
 
@@ -96,31 +74,28 @@ class Test
     public function setType(string $type): static
     {
         $this->type = $type;
-
         return $this;
     }
 
-    public function getIdLangue(): ?Langue
+    public function getDureeEstimee(): ?int
     {
-        return $this->Id_langue;
+        return $this->dureeEstimee;
     }
 
-    public function setIdLangue(?Langue $Id_langue): static
+    public function setDureeEstimee(?int $dureeEstimee): static
     {
-        $this->Id_langue = $Id_langue;
-
+        $this->dureeEstimee = $dureeEstimee;
         return $this;
     }
 
-    public function getIdUser(): ?User
+    public function getLangue(): ?Langue
     {
-        return $this->Id_user;
+        return $this->langue;
     }
 
-    public function setIdUser(?User $Id_user): static
+    public function setLangue(?Langue $langue): static
     {
-        $this->Id_user = $Id_user;
-
+        $this->langue = $langue;
         return $this;
     }
 
@@ -138,19 +113,65 @@ class Test
             $this->questions->add($question);
             $question->setIdTest($this);
         }
-
         return $this;
     }
 
     public function removeQuestion(Question $question): static
     {
         if ($this->questions->removeElement($question)) {
-            // set the owning side to null (unless already changed)
             if ($question->getIdTest() === $this) {
                 $question->setIdTest(null);
             }
         }
+        return $this;
+    }
 
+    /**
+     * @return Collection<int, TestPassage>
+     */
+    public function getPassages(): Collection
+    {
+        return $this->passages;
+    }
+
+    public function addPassage(TestPassage $passage): static
+    {
+        if (!$this->passages->contains($passage)) {
+            $this->passages->add($passage);
+            $passage->setTest($this);
+        }
+        return $this;
+    }
+
+    public function removePassage(TestPassage $passage): static
+    {
+        if ($this->passages->removeElement($passage)) {
+            if ($passage->getTest() === $this) {
+                $passage->setTest(null);
+            }
+        }
+        return $this;
+    }
+
+    // Méthodes utiles pour les templates
+    public function getScoreMax(): int
+    {
+        $total = 0;
+        foreach ($this->questions as $question) {
+            $total += $question->getScoreMax();
+        }
+        return $total;
+    }
+
+    // COMPATIBILITÉ TEMPORAIRE (pour les anciens templates)
+    public function getIdLangue(): ?Langue
+    {
+        return $this->langue;
+    }
+
+    public function setIdLangue(?Langue $langue): static
+    {
+        $this->langue = $langue;
         return $this;
     }
 }

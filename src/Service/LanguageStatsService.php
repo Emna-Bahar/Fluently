@@ -4,13 +4,12 @@ namespace App\Service;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
-use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
 /**
- * Service qui récupère le classement des langues les plus parlées
- * depuis Wikipédia via scraping (données Ethnologue récentes)
+ * Service qui récupère les langues les plus parlées
+ * Sources multiples + fallback pour éviter les pages vides
  */
 class LanguageStatsService
 {
@@ -21,11 +20,11 @@ class LanguageStatsService
     {
         $this->client = new Client([
             'headers' => [
-                'User-Agent'      => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
-                'Accept'          => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-                'Accept-Language' => 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
+                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
+                'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Language' => 'en-US,en;q=0.5',
             ],
-            'timeout'         => 15,
+            'timeout' => 20,
             'connect_timeout' => 10,
         ]);
 
@@ -33,99 +32,114 @@ class LanguageStatsService
     }
 
     /**
-     * Récupère le top des langues les plus parlées
-     *
-     * @param int $limit Nombre maximum de langues à retourner (défaut 20)
-     * @return array Liste des langues avec rang, nom, locuteurs totaux et natifs
+     * Récupère le top 20 des langues les plus parlées
+     * Utilise plusieurs sources + cache long
      */
     public function getTopLanguages(int $limit = 20): array
     {
-        return $this->cache->get('global_languages_stats', function (ItemInterface $item) use ($limit) {
-            // Cache pendant 30 jours (les données ne changent pas tous les jours)
-            $item->expiresAfter(2592000);
+        return $this->cache->get('global_languages_top_20', function (ItemInterface $item) use ($limit) {
+            // Cache 15 jours (les données changent très lentement)
+            $item->expiresAfter(1296000);
+
+            // Source principale : Wikipédia (version anglaise, très stable)
+            $url = 'https://en.wikipedia.org/wiki/List_of_languages_by_total_number_of_speakers';
 
             try {
-                // Page actuelle la plus fiable (2025)
-                $response = $this->client->get('https://en.wikipedia.org/wiki/List_of_languages_by_total_number_of_speakers');
+                $response = $this->client->get($url);
                 $html = (string) $response->getBody();
 
-                $crawler = new Crawler($html);
+                $languages = $this->parseWikipediaTable($html, $limit);
 
-                // On cible le tableau principal (wikitable sortable)
-                $rows = $crawler->filter('table.wikitable.sortable tbody tr');
-
-                $languages = [];
-                $count = 0;
-
-                foreach ($rows as $rowNode) {
-                    if ($count >= $limit) {
-                        break;
-                    }
-
-                    $row = new Crawler($rowNode);
-                    $cells = $row->filter('td');
-
-                    // Le tableau a généralement 7+ colonnes, on vérifie qu'on a assez
-                    if ($cells->count() < 7) {
-                        continue;
-                    }
-
-                    // Index des colonnes (vérifiés sur la page actuelle - 2025)
-                    $rank   = trim($cells->eq(0)->text(''));          // Rang (1, 2, 3...)
-                    $name   = trim($cells->eq(1)->text(''));          // Nom de la langue
-                    $native = trim($cells->eq(2)->text(''));          // Locuteurs natifs (L1)
-                    $total  = trim($cells->eq(6)->text(''));          // Total L1 + L2
-
-                    // Nettoyage et conversion en nombre
-                    $totalNum  = $this->parseNumber($total);
-                    $nativeNum = $this->parseNumber($native);
-
-                    // On ignore les lignes invalides
-                    if ($totalNum <= 0 || empty($name)) {
-                        continue;
-                    }
-
-                    $languages[] = [
-                        'rank'            => $rank,
-                        'name'            => $name,
-                        'total_speakers'  => $totalNum,
-                        'native_speakers' => $nativeNum,
-                    ];
-
-                    $count++;
+                // Si on a assez de données, on retourne
+                if (count($languages) >= $limit) {
+                    return $languages;
                 }
 
-                return $languages;
-
             } catch (RequestException $e) {
-                // Log silencieux en production, ici on retourne vide
-                return [];
-            } catch (\Exception $e) {
-                return [];
+                // On passe au fallback si Wikipédia bloque ou échoue
             }
+
+            // Fallback : source alternative (Ethnologue résumé ou autre)
+            return $this->getFallbackData($limit);
         });
     }
 
-    /**
-     * Convertit les nombres écrits comme "1,452" ou "1.452 million" en entier
-     *
-     * @param string $str Chaîne à convertir
-     * @return int Nombre en unités (ex: 1452000000)
-     */
+    private function parseWikipediaTable(string $html, int $limit): array
+    {
+        $crawler = new \Symfony\Component\DomCrawler\Crawler($html);
+
+        $rows = $crawler->filter('table.wikitable.sortable tbody tr');
+
+        $languages = [];
+        $count = 0;
+
+        foreach ($rows as $rowNode) {
+            if ($count >= $limit) {
+                break;
+            }
+
+            $row = new \Symfony\Component\DomCrawler\Crawler($rowNode);
+            $cells = $row->filter('td');
+
+            if ($cells->count() < 5) {
+                continue;
+            }
+
+            $rank = trim($cells->eq(0)->text(''));
+            $name = trim($cells->eq(1)->text(''));
+            $total = trim($cells->eq(2)->text(''));
+
+            // Nettoyage du nombre (ex: 1,452 million → 1452000000)
+            $totalNum = $this->parseNumber($total);
+
+            if ($totalNum <= 0 || empty($name)) {
+                continue;
+            }
+
+            $languages[] = [
+                'rank' => $rank ?: ($count + 1),
+                'name' => $name,
+                'total_speakers' => $totalNum,
+            ];
+
+            $count++;
+        }
+
+        return $languages;
+    }
+
     private function parseNumber(string $str): int
     {
-        // Supprime espaces, virgules, tirets
-        $str = str_replace([' ', ',', '–', '−'], '', $str);
-
-        // Remplace "million" → ×1 000 000, "billion" → ×1 000 000 000
+        $str = str_replace([' ', ',', '–', '−', '(', ')'], '', $str);
         $str = str_ireplace(['million', 'billion'], ['000000', '000000000'], $str);
 
-        // Si c'est juste un nombre décimal (ex: 1.452 → 1452000000)
         if (preg_match('/^[\d.]+$/', $str)) {
             return (int) ((float) $str * 1000000);
         }
 
-        // Sinon on prend tel quel (cas où c'est déjà un grand nombre)
         return (int) $str;
+    }
+
+    /**
+     * Données de secours si scraping échoue (à mettre à jour manuellement tous les 6-12 mois)
+     */
+    private function getFallbackData(int $limit): array
+    {
+        // Données approximatives 2024-2025 (source Ethnologue/Wikipedia)
+        $fallback = [
+            ['rank' => 1, 'name' => 'English', 'total_speakers' => 1500000000],
+            ['rank' => 2, 'name' => 'Mandarin Chinese', 'total_speakers' => 1120000000],
+            ['rank' => 3, 'name' => 'Hindi', 'total_speakers' => 615000000],
+            ['rank' => 4, 'name' => 'Spanish', 'total_speakers' => 560000000],
+            ['rank' => 5, 'name' => 'French', 'total_speakers' => 310000000],
+            ['rank' => 6, 'name' => 'Arabic', 'total_speakers' => 274000000],
+            ['rank' => 7, 'name' => 'Bengali', 'total_speakers' => 272000000],
+            ['rank' => 8, 'name' => 'Portuguese', 'total_speakers' => 264000000],
+            ['rank' => 9, 'name' => 'Russian', 'total_speakers' => 255000000],
+            ['rank' => 10, 'name' => 'Urdu', 'total_speakers' => 232000000],
+            // ... tu peux compléter jusqu'à 20 si besoin
+        ];
+
+        return array_slice($fallback, 0, $limit);
     }
 }

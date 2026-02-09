@@ -1,0 +1,61 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block body %}
+<div class="nxl-content">
+    <div class="page-header">
+        <div class="page-header-left d-flex align-items-center">
+            <div class="page-header-title">
+                <h5 class="m-b-10">Modifier Reservation #{{ reservation.id }}</h5>
+            </div>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('app_dashboard') }}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('app_reservation_index') }}">Reservations</a></li>
+                <li class="breadcrumb-item">Modifier</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card stretch-card">
+                    <div class="card-header">
+                        <h5 class="card-title">Modifier la Reservation</h5>
+                    </div>
+                    <div class="card-body">
+                        {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+                            <div class="mb-3">
+                                {{ form_label(form.dateReservation, null, {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_widget(form.dateReservation, {'attr': {'class': 'form-control'}}) }}
+                                <div class="text-danger fs-12 mt-1">{{ form_errors(form.dateReservation) }}</div>
+                            </div>
+                            <div class="mb-3">
+                                {{ form_label(form.statut, null, {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_widget(form.statut, {'attr': {'class': 'form-select'}}) }}
+                                <div class="text-danger fs-12 mt-1">{{ form_errors(form.statut) }}</div>
+                            </div>
+                            <div class="mb-3">
+                                {{ form_label(form.session, null, {'label_attr': {'class': 'form-label'}}) }}
+{{ form_widget(form.session) }}                                <div class="text-danger fs-12 mt-1">{{ form_errors(form.session) }}</div>
+                            </div>
+                            <div class="mb-3">
+                                {{ form_label(form.user, null, {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_widget(form.user, {'attr': {'class': 'form-select'}}) }}
+                                <div class="text-danger fs-12 mt-1">{{ form_errors(form.user) }}</div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="feather-save me-2"></i>Enregistrer
+                                </button>
+                                <a href="{{ path('app_reservation_index') }}" class="btn btn-secondary">
+                                    <i class="feather-x me-2"></i>Annuler
+                                </a>
+                            </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

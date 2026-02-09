@@ -5,7 +5,7 @@
 {% block body %}
     <div class="nxl-content">
 
-        <!-- Header principal -->
+        <!-- Header -->
         <div class="page-header mb-5">
             <div class="page-header-left d-flex align-items-center">
                 <div class="page-header-title">
@@ -14,7 +14,7 @@
                         Statistiques Mondiales des Langues
                     </h3>
                     <small class="text-muted">
-                        Aperçu des langues les plus parlées dans le monde (estimations récentes)
+                        Classement des langues les plus parlées dans le monde (estimations 2024–2025)
                     </small>
                 </div>
             </div>
@@ -25,25 +25,24 @@
             </div>
         </div>
 
+        <!-- Alerte si données vides -->
         {% if globalLanguages is empty %}
             <div class="alert alert-warning alert-dismissible fade show mb-5" role="alert">
                 <strong>Données momentanément indisponibles</strong><br>
-                Les statistiques mondiales ne peuvent pas être chargées pour le moment. Veuillez réessayer plus tard.
+                Les statistiques mondiales ne peuvent pas être chargées pour le moment.<br>
+                Veuillez réessayer dans quelques minutes ou contactez l'administrateur.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         {% endif %}
 
-        <!-- === SECTION 1 : Tableau de classement === -->
+        <!-- Tableau principal -->
         <div class="card border-0 shadow-lg rounded-4 mb-5 overflow-hidden">
             <div class="card-header bg-gradient-primary text-white d-flex justify-content-between align-items-center py-4">
                 <div>
                     <h5 class="m-0 fw-bold">
                         <i class="feather-list me-2"></i>
-                        Classement des 20 langues les plus parlées
+                        Top 20 des langues les plus parlées
                     </h5>
-                    <small class="opacity-75">
-                        Nombre de locuteurs totaux (langue maternelle + seconde langue)
-                    </small>
                 </div>
                 <small class="opacity-75">Données approximatives 2024–2025</small>
             </div>
@@ -54,9 +53,8 @@
                         <thead class="bg-light">
                             <tr>
                                 <th class="text-center" style="width: 80px;">Rang</th>
-                                <th>Family_Langue</th>
+                                <th>Langue</th>
                                 <th class="text-end">Locuteurs totaux</th>
-                                <th class="text-end">Locuteurs natifs</th>
                                 <th class="text-center">Part mondiale approx.</th>
                             </tr>
                         </thead>
@@ -66,10 +64,7 @@
                                 <td class="text-center fw-bold text-primary">{{ lang.rank }}</td>
                                 <td class="fw-medium">{{ lang.name }}</td>
                                 <td class="text-end fw-bold">
-                                    {{ (lang.total_speakers / 1000000)|number_format(1, ',', ' ') }} M
-                                </td>
-                                <td class="text-end text-muted">
-                                    {{ (lang.native_speakers / 1000000)|number_format(1, ',', ' ') }} M
+                                    {{ (lang.total_speakers / 1000000)|number_format(0, ',', ' ') }} M
                                 </td>
                                 <td class="text-center">
                                     {% set percent = (lang.total_speakers / 8000000000 * 100) %}
@@ -80,7 +75,7 @@
                             </tr>
                         {% else %}
                             <tr>
-                                <td colspan="5" class="text-center py-5 text-muted">
+                                <td colspan="4" class="text-center py-5 text-muted">
                                     <i class="feather-alert-circle fs-1 d-block mb-3 opacity-50"></i>
                                     Aucune donnée disponible pour le moment
                                 </td>
@@ -96,17 +91,14 @@
             </div>
         </div>
 
-        <!-- === SECTION 2 : Graphique === -->
+        <!-- Graphique (seulement si données présentes) -->
         {% if globalLanguages is not empty %}
             <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
                 <div class="card-header bg-gradient-info text-white py-4">
                     <h5 class="m-0 fw-bold">
                         <i class="feather-bar-chart-2 me-2"></i>
-                        Comparaison visuelle – Top 10 langues
+                        Comparaison visuelle – Top 10
                     </h5>
-                    <small class="opacity-75">
-                        Visualisation du nombre de locuteurs totaux (en millions)
-                    </small>
                 </div>
 
                 <div class="card-body p-4">
@@ -114,54 +106,28 @@
                         <canvas id="languagesChart"></canvas>
                     </div>
                 </div>
-
-                <div class="card-footer bg-light text-center text-muted small py-3">
-                    Barre horizontale = nombre de locuteurs totaux (plus la barre est longue, plus la langue est parlée)
-                </div>
             </div>
         {% endif %}
 
     </div>
 
-    <!-- === Chart.js === -->
+    <!-- Chart.js -->
     {% if globalLanguages is not empty %}
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const ctx = document.getElementById('languagesChart').getContext('2d');
-                const top10 = {{ globalLanguages|slice(0, 10)|json_encode|raw }};
+                const data = {{ globalLanguages|slice(0, 10)|json_encode|raw }};
 
                 new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: top10.map(lang => lang.rank),
+                        labels: data.map(lang => lang.name),
                         datasets: [{
                             label: 'Locuteurs totaux (millions)',
-                            data: top10.map(lang => lang.total_speakers / 1000000),
-                            backgroundColor: [
-                                'rgba(54, 162, 235, 0.8)',
-                                'rgba(255, 99, 132, 0.8)',
-                                'rgba(75, 192, 192, 0.8)',
-                                'rgba(255, 159, 64, 0.8)',
-                                'rgba(153, 102, 255, 0.8)',
-                                'rgba(255, 205, 86, 0.8)',
-                                'rgba(201, 203, 207, 0.8)',
-                                'rgba(83, 109, 254, 0.8)',
-                                'rgba(255, 99, 71, 0.8)',
-                                'rgba(46, 204, 113, 0.8)'
-                            ],
-                            borderColor: [
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(255, 159, 64, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 205, 86, 1)',
-                                'rgba(201, 203, 207, 1)',
-                                'rgba(83, 109, 254, 1)',
-                                'rgba(255, 99, 71, 1)',
-                                'rgba(46, 204, 113, 1)'
-                            ],
+                            data: data.map(lang => lang.total_speakers / 1000000),
+                            backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
                             borderWidth: 1
                         }]
                     },
@@ -172,11 +138,7 @@
                         scales: {
                             x: {
                                 beginAtZero: true,
-                                title: { display: true, text: 'Millions de locuteurs', font: { size: 14 } },
-                                ticks: { callback: value => value.toLocaleString() }
-                            },
-                            y: {
-                                ticks: { font: { size: 13 } }
+                                title: { display: true, text: 'Millions de locuteurs' }
                             }
                         },
                         plugins: {

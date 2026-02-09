@@ -1,0 +1,95 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Liste des Tâches{% endblock %}
+
+{% block body %}
+<div class="nxl-content">
+    <div class="page-header">
+        <div class="page-header-left d-flex align-items-center">
+            <div class="page-header-title">
+                <h5 class="m-b-10">Gestion des Tâches</h5>
+            </div>
+        </div>
+       <!-- <div class="page-header-right ms-auto">
+            <a href="{{ path('app_tache_admin_new') }}" class="btn btn-primary">
+                <i class="feather-plus"></i> Créer une tâche
+            </a>
+        </div>  -->
+        <div class="page-header-right ms-auto">
+    <a href="{{ path('app_tache_admin_export_pdf') }}"
+       class="btn btn-danger">
+        <i class="feather-download"></i> Exporter PDF
+    </a>
+</div>
+
+    </div>
+
+    <div class="main-content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card stretch stretch-full">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Titre</th>
+                                        <th>Description</th>
+                                        <th>Date limite</th>
+                                        <th>Statut</th>
+                                        <th>Priorité</th>
+                                        <th class="text-end">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for tache in taches %}
+                                    <tr>
+                                        <td>{{ tache.id }}</td>
+                                        <td>{{ tache.titre }}</td>
+                                        <td>{{ tache.description|slice(0, 40) }}...</td>
+                                        <td>{{ tache.dateLimite ? tache.dateLimite|date('d/m/Y') : '-' }}</td>
+                                        <td>
+                                            {% if tache.statut == 'terminee' %}
+                                                <span class="badge bg-success">Terminée</span>
+                                            {% elseif tache.statut == 'en_cours' %}
+                                                <span class="badge bg-primary">En cours</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">{{ tache.statut }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if tache.priorite == 'urgente' %}
+                                                <span class="badge bg-danger">Urgente</span>
+                                            {% elseif tache.priorite == 'haute' %}
+                                                <span class="badge bg-warning">Haute</span>
+                                            {% else %}
+                                                <span class="badge bg-info">{{ tache.priorite }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-end">
+                                            <a href="{{ path('app_tache_admin_show', {'id': tache.id}) }}" class="btn btn-sm btn-light" title="Voir">
+                                                <i class="feather-eye"></i>
+                                            </a>
+                                            <a href="{{ path('app_tache_admin_edit', {'id': tache.id}) }}" class="btn btn-sm btn-light" title="Modifier">
+                                                <i class="feather-edit"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="7" class="text-center py-4">
+                                            <p class="text-muted mb-0">Aucune tâche trouvée</p>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

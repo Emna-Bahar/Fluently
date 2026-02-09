@@ -5,7 +5,10 @@ namespace App\Entity;
 use App\Repository\SessionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SessionRepository::class)]
 class Session
@@ -15,27 +18,30 @@ class Session
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?\DateTime $date_heure = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotBlank(message: "La date et heure sont obligatoires")]
+    private ?\DateTimeInterface $dateHeure = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: "Le statut est obligatoire")]
+    #[Assert\Choice(choices: ['planifiée', 'en_cours', 'terminée', 'annulée'], message: "Statut invalide")]
     private ?string $statut = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $lien_reunion = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $lienReunion = null;
 
-    #[ORM\ManyToOne(inversedBy: 'sessions')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Groupe $Id_group = null;
+    #[ORM\ManyToOne(targetEntity: Groupe::class, inversedBy: 'sessions')]
+    #[ORM\JoinColumn(name: "id_group_id", referencedColumnName: "id", nullable: true)]
+    private ?Groupe $groupe = null;
 
-    #[ORM\ManyToOne(inversedBy: 'sessions')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $Id_user = null;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "id_user_id", referencedColumnName: "id", nullable: true)]
+    private ?User $user = null;
 
     /**
      * @var Collection<int, Reservation>
      */
-    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'Id_session')]
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'session')]
     private Collection $reservations;
 
     public function __construct()
@@ -43,20 +49,22 @@ class Session
         $this->reservations = new ArrayCollection();
     }
 
+    /*#[ORM\Column(nullable: true)]
+    private ?float $rating = null;*/
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDateHeure(): ?\DateTime
+    public function getDateHeure(): ?\DateTimeInterface
     {
-        return $this->date_heure;
+        return $this->dateHeure;
     }
 
-    public function setDateHeure(\DateTime $date_heure): static
+    public function setDateHeure(\DateTimeInterface $dateHeure): static
     {
-        $this->date_heure = $date_heure;
-
+        $this->dateHeure = $dateHeure;
         return $this;
     }
 
@@ -68,46 +76,52 @@ class Session
     public function setStatut(string $statut): static
     {
         $this->statut = $statut;
-
         return $this;
     }
 
     public function getLienReunion(): ?string
     {
-        return $this->lien_reunion;
+        return $this->lienReunion;
     }
 
-    public function setLienReunion(string $lien_reunion): static
+    public function setLienReunion(?string $lienReunion): static
     {
-        $this->lien_reunion = $lien_reunion;
-
+        $this->lienReunion = $lienReunion;
         return $this;
     }
 
-    public function getIdGroup(): ?Groupe
+    public function getGroupe(): ?Groupe
     {
-        return $this->Id_group;
+        return $this->groupe;
     }
 
-    public function setIdGroup(?Groupe $Id_group): static
+    public function setGroupe(?Groupe $groupe): static
     {
-        $this->Id_group = $Id_group;
-
+        $this->groupe = $groupe;
         return $this;
     }
 
-    public function getIdUser(): ?User
+    public function getUser(): ?User
     {
-        return $this->Id_user;
+        return $this->user;
     }
 
-    public function setIdUser(?User $Id_user): static
+    public function setUser(?User $user): static
     {
-        $this->Id_user = $Id_user;
-
+        $this->user = $user;
         return $this;
     }
 
+  /*  public function getRating(): ?float
+    {
+        return $this->rating;
+    }
+
+    public function setRating(?float $rating): static
+    {
+        $this->rating = $rating;
+        return $this;
+    }*/
     /**
      * @return Collection<int, Reservation>
      */
@@ -120,7 +134,7 @@ class Session
     {
         if (!$this->reservations->contains($reservation)) {
             $this->reservations->add($reservation);
-            $reservation->setIdSession($this);
+            $reservation->setSession($this);
         }
 
         return $this;
@@ -130,8 +144,8 @@ class Session
     {
         if ($this->reservations->removeElement($reservation)) {
             // set the owning side to null (unless already changed)
-            if ($reservation->getIdSession() === $this) {
-                $reservation->setIdSession(null);
+            if ($reservation->getSession() === $this) {
+                $reservation->setSession(null);
             }
         }
 

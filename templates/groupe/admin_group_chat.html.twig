@@ -1,0 +1,34 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block body %}
+  <h3>Admin: {{ groupe.nom }}</h3>
+
+  <form method="get">
+    <input name="q" value="{{ q }}" placeholder="Rechercher contenu / nom / prénom">
+    <button type="submit">Rechercher</button>
+  </form>
+
+  <hr>
+
+  {% for message in messages %}
+    <div class="chat-msg">
+      <div>
+        <strong>
+          {{ message.idUser ? (message.idUser.nom ~ ' ' ~ message.idUser.prenom) : 'Utilisateur inconnu' }}
+        </strong>
+        <span style="float:right; opacity:.6;">
+          {{ message.dateCreation ? message.dateCreation|date('d/m/Y H:i') : '' }}
+        </span>
+        <div>{{ message.contenu }}</div>
+      </div>
+
+      <form method="post" action="{{ path('admin_message_delete', {id: message.id}) }}"
+            onsubmit="return confirm('Supprimer ce message ?');">
+        <input type="hidden" name="_token" value="{{ csrf_token('admin_del_msg_' ~ message.id) }}">
+        <button type="submit">🗑️</button>
+      </form>
+    </div>
+  {% else %}
+    <p>Aucun message.</p>
+  {% endfor %}
+{% endblock %}

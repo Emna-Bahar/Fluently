@@ -99,7 +99,7 @@ class Groupe
         return $this->capacite;
     }
 
-    public function setCapacite(Number $capacite): static
+    public function setCapacite(int $capacite): static
     {
         $this->capacite = $capacite;
 

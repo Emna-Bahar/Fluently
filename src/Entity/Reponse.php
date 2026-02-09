@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ReponseRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReponseRepository::class)]
 class Reponse
@@ -15,6 +16,8 @@ class Reponse
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Contenu obligatoire")]
+    #[Assert\Length(min: 2, max: 255)]
     private ?string $contenu_rep = null;
 
     #[ORM\Column]
@@ -30,6 +33,10 @@ class Reponse
     #[ORM\JoinColumn(nullable: false)]
     private ?Question $Id_question = null;
 
+    public function __construct()
+    {
+        $this->date_reponse = new \DateTime();
+    }
     public function getId(): ?int
     {
         return $this->id;

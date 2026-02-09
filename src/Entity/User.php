@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,11 +24,52 @@ class User
     #[ORM\Column(length: 50)]
     private ?string $prenom = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $password = null;
+
     #[ORM\Column(length: 100)]
     private ?string $role = null;
 
     #[ORM\Column(length: 100)]
     private ?string $statut = null;
+
+    /**
+    * @var Collection<int, Langue>
+    */
+    #[ORM\ManyToMany(targetEntity: Langue::class, mappedBy: 'Id_user')]
+    private Collection $langues;
+
+    /**
+     * @var Collection<int, Groupe>
+     */
+    #[ORM\ManyToMany(targetEntity: Groupe::class, mappedBy: 'Id_user')]
+    private Collection $groupes;
+
+    public function __construct()
+    {
+        $this->langues = new ArrayCollection();
+        $this->groupes = new ArrayCollection();
+    }
+
+    // Getters / adders / removers pour langues
+    public function getLangues(): Collection
+    {
+        return $this->langues;
+    }
+
+    public function addLangue(Langue $langue): static
+    {
+        if (!$this->langues->contains($langue)) {
+            $this->langues->add($langue);
+        }
+        return $this;
+    }
+
+    public function removeLangue(Langue $langue): static
+    {
+        $this->langues->removeElement($langue);
+        return $this;
+    }
 
     public function getId(): ?int
     {
@@ -92,4 +135,7 @@ class User
 
         return $this;
     }
+     
+    public function getPassword(): ?string { return $this->password; }
+    public function setPassword(string $password): static { $this->password = $password; return $this; }
 }

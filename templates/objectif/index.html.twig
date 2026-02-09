@@ -1,139 +1,198 @@
-{# templates/contact/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Contact - Fluently{% endblock %}
+{% block title %}Nos Objectifs - Fluently{% endblock %}
 
 {% block body %}
-    <!-- Hero Section -->
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('assets/images/bg_2.jpg') }}');">
-        <div class="overlay"></div>
-        <div class="container">
-            <div class="row no-gutters slider-text align-items-end justify-content-center">
-                <div class="col-md-9 ftco-animate pb-5 text-center">
-                    <p class="breadcrumbs">
-                        <span class="mr-2">
-                            <a href="{{ path('app_home') }}">Home <i class="fa fa-chevron-right"></i></a>
-                        </span> 
-                        <span>Objectifs<i class="fa fa-chevron-right"></i></span>
-                    </p>
-                    <h1 class="mb-0 bread">Nos Objectifs</h1>
-                </div>
+{# Hero Section #}
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('assets/images/bg_1.jpg') }}');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <h1 class="mb-2 bread">Mes Objectifs d'Apprentissage</h1>
+                <p class="breadcrumbs">
+                    <span class="mr-2"><a href="{{ path('app_home') }}">Accueil <i class="fa fa-chevron-right"></i></a></span>
+                    <span>Objectifs</span>
+                </p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Contact Form & Info -->
-    <section class="ftco-section">
-        <div class="container">
-            
+{# Main Content #}
+<section class="ftco-section bg-light">
+    <div class="container">
+        {# Header avec bouton #}
+        <div class="row mb-5">
+            <div class="col-md-8">
+                <h2 class="heading-section">Gérez vos objectifs</h2>
+                <p class="text-muted">Suivez votre progression et atteignez vos objectifs d'apprentissage</p>
+            </div>
+            <div class="col-md-4 text-right">
+                <a href="{{ path('app_objectif_new') }}" class="btn btn-primary btn-lg shadow">
+                    <i class="fa fa-plus-circle"></i> Nouvel Objectif
+                </a>
+            </div>
         </div>
-    </section>
 
-    <!-- Additional Contact Info -->
-    <section class="ftco-section bg-light">
-        <div class="container">
-            
-        </div>
-    </section>
-{% endblock %}
+        {% if objectifs is empty %}
+            {# État vide #}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card border-0 shadow-lg text-center p-5" style="border-radius: 15px;">
+                        <div class="card-body">
+                            <i class="fa fa-bullseye fa-5x text-primary mb-4" style="opacity: 0.3;"></i>
+                            <h3 class="mb-3">Aucun objectif pour le moment</h3>
+                            <p class="text-muted mb-4">Commencez votre parcours d'apprentissage en définissant votre premier objectif !</p>
+                            <a href="{{ path('app_objectif_new') }}" class="btn btn-primary btn-lg">
+                                <i class="fa fa-plus-circle"></i> Créer mon premier objectif
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            {# Liste des objectifs en cartes #}
+            <div class="row">
+                {% for objectif in objectifs %}
+                    <div class="col-md-6 col-lg-4 ftco-animate fadeInUp ftco-animated">
+                        <div class="card h-100 border-0 shadow-sm hover-card" style="border-radius: 15px; overflow: hidden;">
+                            {# Header coloré selon le statut #}
+                            <div class="card-header text-white 
+                                {% if objectif.statut == 'complete' %}bg-success{% elseif objectif.statut == 'en_cours' %}bg-primary{% elseif objectif.statut == 'abandonne' %}bg-danger{% else %}bg-warning{% endif %}" 
+                                style="padding: 1.5rem;">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <h5 class="card-title mb-0 font-weight-bold">{{ objectif.titre }}</h5>
+                                    {% if objectif.statut == 'complete' %}
+                                        <i class="fa fa-check-circle fa-2x"></i>
+                                    {% elseif objectif.statut == 'en_cours' %}
+                                        <i class="fa fa-spinner fa-2x"></i>
+                                    {% elseif objectif.statut == 'abandonne' %}
+                                        <i class="fa fa-times-circle fa-2x"></i>
+                                    {% else %}
+                                        <i class="fa fa-pause-circle fa-2x"></i>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="card-body p-4">
+                                {# Description #}
+                                <p class="card-text text-muted mb-3">
+                                    {{ objectif.description|length > 100 ? objectif.description|slice(0, 100) ~ '...' : objectif.description }}
+                                </p>
+                                
+                                {# Dates #}
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="fa fa-calendar text-primary mr-2"></i>
+                                        <small class="text-muted">
+                                            <strong>Début:</strong> {{ objectif.dateDeb ? objectif.dateDeb|date('d/m/Y') : 'Non défini' }}
+                                        </small>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <i class="fa fa-calendar-check-o text-danger mr-2"></i>
+                                        <small class="text-muted">
+                                            <strong>Fin:</strong> {{ objectif.dateFin ? objectif.dateFin|date('d/m/Y') : 'Non défini' }}
+                                        </small>
+                                    </div>
+                                </div>
 
-{% block js %}
-    {{ parent() }}
-    <script>
-        // Initialisation de la carte Google
-        function initMap() {
-            var location = {lat: 48.8566, lng: 2.3522}; // Paris
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 12,
-                center: location,
-                styles: [
-                    {
-                        featureType: "all",
-                        elementType: "labels.text.fill",
-                        stylers: [{color: "#7c7c7c"}]
-                    }
-                ]
-            });
-            
-            var marker = new google.maps.Marker({
-                position: location,
-                map: map,
-                title: 'Fluently - Paris',
-                icon: {
-                    url: '{{ asset('assets/images/marker.png') }}',
-                    scaledSize: new google.maps.Size(40, 40)
-                }
-            });
-            
-            var infoWindow = new google.maps.InfoWindow({
-                content: '<h5>Fluently</h5><p>123 Avenue des Langues<br>75000 Paris, France</p>'
-            });
-            
-            marker.addListener('click', function() {
-                infoWindow.open(map, marker);
-            });
-        }
-        
-        // Soumission du formulaire
-        $(document).ready(function() {
-            $('#contactForm').on('submit', function(e) {
-                e.preventDefault();
-                
-                var $form = $(this);
-                var $submitBtn = $form.find('input[type="submit"]');
-                var originalText = $submitBtn.val();
-                
-                $submitBtn.val('Envoi en cours...').prop('disabled', true);
-                
-                // Simulation d'envoi (à remplacer par AJAX réel)
-                setTimeout(function() {
-                    alert('Message envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.');
-                    $form[0].reset();
-                    $submitBtn.val(originalText).prop('disabled', false);
-                }, 1500);
-            });
-        });
-    </script>
-    
-    <!-- Google Maps API -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&callback=initMap"></script>
-{% endblock %}
+                                {# Utilisateur #}
+                                <div class="mb-3 pb-3 border-bottom">
+                                    <i class="fa fa-user text-muted mr-2"></i>
+                                    <small class="text-muted">{{ objectif.idUser.prenom }} {{ objectif.idUser.nom }}</small>
+                                </div>
 
-{% block css %}
-    {{ parent() }}
-    <style>
-        .info-wrap {
-            border-radius: 10px;
-        }
-        .info-wrap .icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            margin-right: 15px;
-        }
-        .info-wrap .text p {
-            margin-bottom: 5px;
-        }
-        .info-wrap .text span {
-            font-weight: 600;
-            color: #fff;
-        }
-        .info-wrap a {
-            color: rgba(255, 255, 255, 0.8);
-        }
-        .info-wrap a:hover {
-            color: #fff;
-            text-decoration: underline;
-        }
-        #map {
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        .contact-wrap {
-            border-radius: 10px;
-            background: #fff;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-    </style>
+                                {# Badge de statut #}
+                                <div class="mb-3">
+                                    {% if objectif.statut == 'complete' %}
+                                        <span class="badge badge-success badge-pill p-2">✓ Complété</span>
+                                    {% elseif objectif.statut == 'en_cours' %}
+                                        <span class="badge badge-primary badge-pill p-2">⟳ En cours</span>
+                                    {% elseif objectif.statut == 'abandonne' %}
+                                        <span class="badge badge-danger badge-pill p-2">✗ Abandonné</span>
+                                    {% else %}
+                                        <span class="badge badge-warning badge-pill p-2">⏸ En pause</span>
+                                    {% endif %}
+                                </div>
+
+                                {# Actions #}
+                                <div class="btn-group d-flex" role="group">
+                                    <a href="{{ path('app_objectif_show', {'id': objectif.id}) }}" 
+                                       class="btn btn-info btn-sm flex-fill" title="Voir les détails">
+                                        <i class="fa fa-eye"></i> Voir
+                                    </a>
+                                    <a href="{{ path('app_objectif_edit', {'id': objectif.id}) }}" 
+                                       class="btn btn-warning btn-sm flex-fill" title="Modifier">
+                                        <i class="fa fa-edit"></i> Modifier
+                                    </a>
+                                    <button type="button" class="btn btn-danger btn-sm flex-fill" 
+                                            data-toggle="modal" data-target="#deleteModal{{ objectif.id }}" title="Supprimer">
+                                        <i class="fa fa-trash"></i> Supprimer
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {# Modal de suppression #}
+                    <div class="modal fade" id="deleteModal{{ objectif.id }}" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content" style="border-radius: 15px; border: none;">
+                                <div class="modal-header bg-danger text-white" style="border-radius: 15px 15px 0 0;">
+                                    <h5 class="modal-title">
+                                        <i class="fa fa-exclamation-triangle"></i> Confirmer la suppression
+                                    </h5>
+                                    <button type="button" class="close text-white" data-dismiss="modal">
+                                        <span>&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body p-4">
+                                    <p class="mb-2">Êtes-vous sûr de vouloir supprimer l'objectif :</p>
+                                    <p class="font-weight-bold text-primary">"{{ objectif.titre }}"</p>
+                                    <div class="alert alert-warning mt-3">
+                                        <i class="fa fa-warning"></i> <small>Cette action est irréversible et supprimera toutes les tâches associées.</small>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                        <i class="fa fa-times"></i> Annuler
+                                    </button>
+                                    <form method="post" action="{{ path('app_objectif_delete', {'id': objectif.id}) }}" style="display: inline;">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ objectif.id) }}">
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="fa fa-trash"></i> Supprimer définitivement
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+    .hover-card {
+        transition: all 0.3s ease;
+    }
+    .hover-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.15) !important;
+    }
+    .badge-pill {
+        font-size: 0.85rem;
+    }
+    .btn-group .btn {
+        border-radius: 0;
+    }
+    .btn-group .btn:first-child {
+        border-radius: 0.25rem 0 0 0.25rem;
+    }
+    .btn-group .btn:last-child {
+        border-radius: 0 0.25rem 0.25rem 0;
+    }
+</style>
 {% endblock %}
