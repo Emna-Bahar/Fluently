@@ -1,0 +1,212 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Liste des Objectifs{% endblock %}
+
+{% block body %}
+<div class="nxl-content">
+    <div class="page-header">
+        <div class="page-header-left d-flex align-items-center">
+            <div class="page-header-title">
+                <h5 class="m-b-10">Gestion des Objectifs</h5>
+            </div>
+        </div>
+        <div class="page-header-right ms-auto">
+            <a href="{{ path('app_objectif_admin_new') }}" class="btn btn-primary">
+                <i class="feather-plus"></i> Créer un objectif
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card stretch stretch-full">
+                    <div class="card-header">
+                        <div class="row g-3">
+                            {# Barre de recherche #}
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="feather-search"></i></span>
+                                    <input type="text" id="searchInput" class="form-control" placeholder="Rechercher par titre ou description...">
+                                </div>
+                            </div>
+                            
+                            {# Filtre par statut #}
+                            <div class="col-md-4">
+                                <select id="statusFilter" class="form-select">
+                                    <option value="">Tous les statuts</option>
+                                    <option value="en_cours">En cours</option>
+                                    <option value="complete">Complété</option>
+                                    <option value="abandonne">Abandonné</option>
+                                    <option value="en_pause">En pause</option>
+                                </select>
+                            </div>
+
+                            {# Bouton réinitialiser #}
+                            <div class="col-md-2">
+                                <button type="button" id="resetFilters" class="btn btn-outline-danger w-200">
+    <i class="feather-refresh-cw me-1"></i> Réinitialiser
+</button>
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+    <a href="{{ path('app_objectif_admin_stats') }}" class="btn btn-primary w-100">
+        <i class="feather-bar-chart-2 me-1"></i> Statistiques
+    </a>
+</div>
+
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0" id="objectifsTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Titre</th>
+                                        <th>Description</th>
+                                        <th>Date début</th>
+                                        <th>Date fin</th>
+                                        <th>Statut</th>
+                                        <th class="text-end">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for objectif in objectifs %}
+                                    <tr class="objectif-row" 
+                                        data-titre="{{ objectif.titre|lower }}" 
+                                        data-description="{{ objectif.description|lower }}" 
+                                        data-statut="{{ objectif.statut }}">
+                                        <td>{{ objectif.id }}</td>
+                                        <td class="fw-semibold">{{ objectif.titre }}</td>
+                                        <td>{{ objectif.description|slice(0, 50) }}...</td>
+                                        <td>{{ objectif.dateDeb ? objectif.dateDeb|date('d/m/Y') : '-' }}</td>
+                                        <td>{{ objectif.dateFin ? objectif.dateFin|date('d/m/Y') : '-' }}</td>
+                                        <td>
+                                            {% if objectif.statut == 'complete' %}
+                                                <span class="badge bg-soft-success text-success">
+                                                    <i class="feather-check-circle fs-10 me-1"></i>Complété
+                                                </span>
+                                            {% elseif objectif.statut == 'en_cours' %}
+                                                <span class="badge bg-soft-primary text-primary">
+                                                    <i class="feather-activity fs-10 me-1"></i>En cours
+                                                </span>
+                                            {% elseif objectif.statut == 'abandonne' %}
+                                                <span class="badge bg-soft-danger text-danger">
+                                                    <i class="feather-x-circle fs-10 me-1"></i>Abandonné
+                                                </span>
+                                            {% else %}
+                                                <span class="badge bg-soft-warning text-warning">
+                                                    <i class="feather-pause-circle fs-10 me-1"></i>En pause
+                                                </span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-end">
+                                            <div class="hstack gap-2 justify-content-end">
+                                                <a href="{{ path('app_objectif_admin_show', {'id': objectif.id}) }}" 
+                                                   class="avatar-text avatar-md" 
+                                                   data-bs-toggle="tooltip" 
+                                                   title="Voir les détails">
+                                                    <i class="feather-eye"></i>
+                                                </a>
+                                                <a href="{{ path('app_objectif_admin_edit', {'id': objectif.id}) }}" 
+                                                   class="avatar-text avatar-md" 
+                                                   data-bs-toggle="tooltip" 
+                                                   title="Modifier">
+                                                    <i class="feather-edit"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr id="noResults">
+                                        <td colspan="7" class="text-center py-5">
+                                            <div class="text-muted">
+                                                <i class="feather-inbox fs-2 mb-2"></i>
+                                                <p class="mb-0">Aucun objectif trouvé</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    {# Compteur de résultats #}
+                    <div class="card-footer">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span id="resultCount" class="text-muted">
+                                Total : <strong>{{ objectifs|length }}</strong> objectif(s)
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# Script de recherche et filtre #}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const statusFilter = document.getElementById('statusFilter');
+    const resetBtn = document.getElementById('resetFilters');
+    const rows = document.querySelectorAll('.objectif-row');
+    const noResults = document.getElementById('noResults');
+    const resultCount = document.getElementById('resultCount');
+
+    function filterTable() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const selectedStatus = statusFilter.value;
+        let visibleCount = 0;
+
+        rows.forEach(row => {
+            const titre = row.dataset.titre;
+            const description = row.dataset.description;
+            const statut = row.dataset.statut;
+
+            // Vérifier la recherche
+            const matchesSearch = titre.includes(searchTerm) || description.includes(searchTerm);
+            
+            // Vérifier le filtre statut
+            const matchesStatus = !selectedStatus || statut === selectedStatus;
+
+            // Afficher ou masquer la ligne
+            if (matchesSearch && matchesStatus) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        // Afficher "Aucun résultat" si nécessaire
+        if (noResults) {
+            noResults.style.display = visibleCount === 0 ? '' : 'none';
+        }
+
+        // Mettre à jour le compteur
+        resultCount.innerHTML = `Affichage : <strong>${visibleCount}</strong> sur {{ objectifs|length }} objectif(s)`;
+    }
+
+    // Événements
+    searchInput.addEventListener('keyup', filterTable);
+    statusFilter.addEventListener('change', filterTable);
+    
+    resetBtn.addEventListener('click', function() {
+        searchInput.value = '';
+        statusFilter.value = '';
+        filterTable();
+    });
+
+    // Initialiser les tooltips
+    const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltips.forEach(tooltip => {
+        new bootstrap.Tooltip(tooltip);
+    });
+});
+</script>
+{% endblock %}

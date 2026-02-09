@@ -5,194 +5,148 @@
 {% block body %}
 
 <style>
-/* Décalage du navbar */
-.task-page {
-    margin-top: 120px;
-}
-
-/* Card principale */
-.task-card {
-    border-radius: 20px;
-    box-shadow: 0 18px 40px rgba(0,0,0,0.08);
-}
-
-/* Header */
-.task-header h3 {
-    color: #4f6df5;
-    font-weight: 600;
-}
-
-/* Filtres */
-.task-filters select {
-    border-radius: 20px;
-    padding: 6px 14px;
-}
-
-/* Table */
-.table thead {
-    background: #343a40;
-}
-
-.table tbody tr {
-    transition: all 0.2s ease;
-}
-
-.table tbody tr:hover {
-    background: #f5f7fb;
-}
-
-/* Badges */
+.task-page { margin-top: 120px; }
+.task-card { border-radius: 20px; box-shadow: 0 18px 40px rgba(0,0,0,0.08); }
+.task-header h3 { color: #4f6df5; font-weight: 600; }
+.task-filters select { border-radius: 20px; padding: 6px 14px; }
+.table thead { background: #343a40; }
+.table tbody tr:hover { background: #f5f7fb; }
 .badge-priority-high { background: #e74c3c; }
 .badge-priority-medium { background: #f1c40f; color: #000; }
 .badge-priority-low { background: #2ecc71; }
-
 .badge-status-done { background: #2ecc71; }
 .badge-status-progress { background: #4f6df5; }
-
-/* Objectif */
 .objectif-badge {
-    background: #eef3ff;
-    color: #4f6df5;
-    padding: 5px 12px;
-    border-radius: 16px;
-    font-size: 13px;
+    background: #eef3ff; color: #4f6df5;
+    padding: 5px 12px; border-radius: 16px; font-size: 13px;
 }
-
-/* Progress bar */
-.progress {
-    height: 7px;
-    border-radius: 20px;
-}
-
-.progress-bar {
-    background: linear-gradient(135deg, #4f6df5, #6a82fb);
-}
-
-/* Actions */
-.btn-action {
-    border-radius: 10px;
-    padding: 6px 10px;
-}
+.progress { height: 7px; border-radius: 20px; }
+.progress-bar { background: linear-gradient(135deg, #4f6df5, #6a82fb); }
+.btn-action { border-radius: 10px; padding: 6px 10px; }
 </style>
 
 <section class="ftco-section task-page">
-    <div class="container">
+<div class="container">
 
-        <div class="card task-card border-0">
-            <div class="card-body p-4">
+<div class="card task-card border-0">
+<div class="card-body p-4">
 
-                <!-- HEADER -->
-                <div class="d-flex justify-content-between align-items-center mb-4 task-header">
-                    <h3 class="mb-0">
-                        <i class="fa fa-tasks"></i> Liste des tâches
-                    </h3>
+<!-- HEADER -->
+<div class="d-flex justify-content-between align-items-center mb-4 task-header">
+    <h3><i class="fa fa-tasks"></i> Liste des tâches</h3>
 
-                    <a href="{{ path('app_tache_new') }}" class="btn btn-primary rounded-pill">
-                        <i class="fa fa-plus"></i> Nouvelle tâche
-                    </a>
-                </div>
+    <a href="{{ path('app_tache_new') }}" class="btn btn-primary rounded-pill">
+        <i class="fa fa-plus"></i> Nouvelle tâche
+    </a>
+</div>
 
-                <!-- FILTRES -->
-                <div class="task-filters d-flex gap-3 mb-4">
-                    <select id="filterStatut" class="form-select w-auto">
-                        <option value="">Tous les statuts</option>
-                        <option value="terminee">Terminée</option>
-                        <option value="en_cours">En cours</option>
-                    </select>
+<!-- FILTRES -->
+<div class="task-filters d-flex gap-3 mb-4">
+    <select id="filterStatut" class="form-select w-auto">
+        <option value="">Tous les statuts</option>
+        <option value="terminee">Terminée</option>
+        <option value="en_cours">En cours</option>
+    </select>
 
-                    <select id="filterPriorite" class="form-select w-auto">
-                        <option value="">Toutes priorités</option>
-                        <option value="haute">Haute</option>
-                        <option value="moyenne">Moyenne</option>
-                        <option value="basse">Basse</option>
-                    </select>
-                </div>
+    <select id="filterPriorite" class="form-select w-auto">
+        <option value="">Toutes priorités</option>
+        <option value="haute">Haute</option>
+        <option value="moyenne">Moyenne</option>
+        <option value="basse">Basse</option>
+    </select>
+</div>
 
-                <!-- TABLE -->
-                <div class="table-responsive">
-                    <table class="table align-middle">
-                        <thead class="text-white">
-                        <tr>
-                            <th>Titre</th>
-                            <th>Objectif</th>
-                            <th>Date limite</th>
-                            <th>Priorité</th>
-                            <th>Statut</th>
-                            <th>Progression</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
+<!-- TABLE -->
+<div class="table-responsive">
+<table class="table align-middle">
+<thead class="text-white">
+<tr>
+    <th>Titre</th>
+    <th>Objectif</th>
+    <th>Date limite</th>
+    <th>Priorité</th>
+    <th>Statut</th>
+    <th>Progression</th>
+    <th>Actions</th>
+</tr>
+</thead>
 
-                        <tbody id="taskTable">
-                        {% for tache in taches %}
-                            <tr data-statut="{{ tache.statut }}" data-priorite="{{ tache.priorite }}">
+<tbody id="taskTable">
+{% for tache in taches %}
+<tr data-statut="{{ tache.statut }}" data-priorite="{{ tache.priorite }}">
 
-                                <td>{{ tache.titre }}</td>
+<td>{{ tache.titre }}</td>
 
-                                <td>
-                                    {% if tache.idObjectif %}
-                                        <span class="objectif-badge">
-                                            🎯 {{ tache.idObjectif.titre }}
-                                        </span>
-                                    {% else %}
-                                        -
-                                    {% endif %}
-                                </td>
+<td>
+{% if tache.idObjectif %}
+<span class="objectif-badge">🎯 {{ tache.idObjectif.titre }}</span>
+{% else %}-{% endif %}
+</td>
 
-                                <td>{{ tache.dateLimite|date('d/m/Y') }}</td>
+<td>{{ tache.dateLimite|date('d/m/Y') }}</td>
 
-                                <td>
-                                    {% if tache.priorite == 'haute' %}
-                                        <span class="badge badge-priority-high">Haute</span>
-                                    {% elseif tache.priorite == 'moyenne' %}
-                                        <span class="badge badge-priority-medium">Moyenne</span>
-                                    {% else %}
-                                        <span class="badge badge-priority-low">Basse</span>
-                                    {% endif %}
-                                </td>
+<td>
+{% if tache.priorite == 'haute' %}
+<span class="badge badge-priority-high">Haute</span>
+{% elseif tache.priorite == 'moyenne' %}
+<span class="badge badge-priority-medium">Moyenne</span>
+{% else %}
+<span class="badge badge-priority-low">Basse</span>
+{% endif %}
+</td>
 
-                                <td>
-                                    {% if tache.statut == 'terminee' %}
-                                        <span class="badge badge-status-done">✔ Terminée</span>
-                                    {% else %}
-                                        <span class="badge badge-status-progress">⏳ En cours</span>
-                                    {% endif %}
-                                </td>
+<td>
+{% if tache.statut == 'terminee' %}
+<span class="badge badge-status-done">✔ Terminée</span>
+{% else %}
+<span class="badge badge-status-progress">⏳ En cours</span>
+{% endif %}
+</td>
 
-                                <td style="width:140px">
-                                    <div class="progress">
-                                        <div class="progress-bar"
-                                             style="width: {{ tache.statut == 'terminee' ? 100 : 45 }}%">
-                                        </div>
-                                    </div>
-                                </td>
+<td style="width:140px">
+<div class="progress">
+<div class="progress-bar" style="width: {{ tache.statut == 'terminee' ? 100 : 45 }}%"></div>
+</div>
+</td>
 
-                                <td>
-                                    <a href="{{ path('app_tache_show', {'id': tache.id}) }}"
-                                       class="btn btn-info btn-sm btn-action">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-                                    <a href="{{ path('app_tache_edit', {'id': tache.id}) }}"
-                                       class="btn btn-warning btn-sm btn-action">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        {% else %}
-                            <tr>
-                                <td colspan="7" class="text-center text-muted">
-                                    Aucune tâche trouvée
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+<!-- ACTIONS -->
+<td class="d-flex gap-1">
 
-            </div>
-        </div>
+<a href="{{ path('app_tache_show', {'id': tache.id}) }}"
+   class="btn btn-info btn-sm btn-action">
+<i class="fa fa-eye"></i>
+</a>
 
-    </div>
+<a href="{{ path('app_tache_edit', {'id': tache.id}) }}"
+   class="btn btn-warning btn-sm btn-action">
+<i class="fa fa-edit"></i>
+</a>
+
+<form method="post"
+      action="{{ path('app_tache_delete', {'id': tache.id}) }}"
+      onsubmit="return confirm('Supprimer cette tâche ?');">
+<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ tache.id) }}">
+<button class="btn btn-danger btn-sm btn-action">
+<i class="fa fa-trash"></i>
+</button>
+</form>
+
+</td>
+
+</tr>
+{% else %}
+<tr>
+<td colspan="7" class="text-center text-muted">Aucune tâche trouvée</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+</div>
+</div>
+
+</div>
 </section>
 
 <script>
@@ -201,15 +155,14 @@ const filterPriorite = document.getElementById('filterPriorite');
 const rows = document.querySelectorAll('#taskTable tr');
 
 function applyFilters() {
-    rows.forEach(row => {
-        const statut = row.dataset.statut;
-        const priorite = row.dataset.priorite;
-
-        const okStatut = !filterStatut.value || statut === filterStatut.value;
-        const okPriorite = !filterPriorite.value || priorite === filterPriorite.value;
-
-        row.style.display = (okStatut && okPriorite) ? '' : 'none';
-    });
+rows.forEach(row => {
+const statut = row.dataset.statut;
+const priorite = row.dataset.priorite;
+row.style.display =
+(!filterStatut.value || statut === filterStatut.value) &&
+(!filterPriorite.value || priorite === filterPriorite.value)
+? '' : 'none';
+});
 }
 
 filterStatut.addEventListener('change', applyFilters);

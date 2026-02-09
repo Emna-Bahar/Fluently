@@ -1,0 +1,205 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Créer un Objectif{% endblock %}
+
+{% block body %}
+<div class="nxl-content">
+    <div class="page-header">
+        <div class="page-header-left d-flex align-items-center">
+            <div class="page-header-title">
+                <h5 class="m-b-10">Créer un Objectif</h5>
+            </div>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('app_objectif_admin_index') }}">Objectifs</a></li>
+                <li class="breadcrumb-item active">Créer</li>
+            </ul>
+        </div>
+        <div class="page-header-right ms-auto">
+            <a href="{{ path('app_objectif_admin_index') }}" class="btn btn-light">
+                <i class="feather-arrow-left me-2"></i>Retour à la liste
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="row justify-content-center">
+            <div class="col-xxl-8 col-lg-10">
+                <div class="card stretch stretch-full">
+                    <div class="card-header">
+                        <h5 class="card-title">
+                            <i class="feather-target me-2"></i>Nouvel Objectif
+                        </h5>
+                        <p class="text-muted mb-0">Remplissez les informations ci-dessous pour créer un nouvel objectif</p>
+                    </div>
+                    
+                    <div class="card-body">
+                        {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'needs-validation'}}) }}
+                        
+                        <div class="row">
+                            {# Titre #}
+                            <div class="col-12 mb-4">
+                                <label class="form-label">
+                                    {{ form_label(form.titre) }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                {{ form_widget(form.titre, {
+                                    'attr': {
+                                        'class': 'form-control' ~ (form.titre.vars.errors|length > 0 ? ' is-invalid' : ''),
+                                        'placeholder': 'Ex: Apprendre l\'espagnol'
+                                    }
+                                }) }}
+                                {% if form.titre.vars.errors|length > 0 %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form_errors(form.titre) }}
+                                    </div>
+                                {% else %}
+                                    <small class="form-text text-muted">
+                                        <i class="feather-info fs-12 me-1"></i>Entre 3 et 50 caractères
+                                    </small>
+                                {% endif %}
+                            </div>
+
+                            {# Description #}
+                            <div class="col-12 mb-4">
+                                <label class="form-label">
+                                    {{ form_label(form.description) }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                {{ form_widget(form.description, {
+                                    'attr': {
+                                        'class': 'form-control' ~ (form.description.vars.errors|length > 0 ? ' is-invalid' : ''),
+                                        'rows': 4,
+                                        'placeholder': 'Décrivez votre objectif en détail...'
+                                    }
+                                }) }}
+                                {% if form.description.vars.errors|length > 0 %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form_errors(form.description) }}
+                                    </div>
+                                {% else %}
+                                    <small class="form-text text-muted">
+                                        <i class="feather-info fs-12 me-1"></i>Entre 10 et 255 caractères
+                                    </small>
+                                {% endif %}
+                            </div>
+
+                            {# Dates #}
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label">
+                                    {{ form_label(form.date_deb) }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="feather-calendar"></i></span>
+                                    {{ form_widget(form.date_deb, {
+                                        'attr': {
+                                            'class': 'form-control' ~ (form.date_deb.vars.errors|length > 0 ? ' is-invalid' : '')
+                                        }
+                                    }) }}
+                                </div>
+                                {% if form.date_deb.vars.errors|length > 0 %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form_errors(form.date_deb) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label">
+                                    {{ form_label(form.date_fin) }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="feather-calendar"></i></span>
+                                    {{ form_widget(form.date_fin, {
+                                        'attr': {
+                                            'class': 'form-control' ~ (form.date_fin.vars.errors|length > 0 ? ' is-invalid' : '')
+                                        }
+                                    }) }}
+                                </div>
+                                {% if form.date_fin.vars.errors|length > 0 %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form_errors(form.date_fin) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            {# Statut et Utilisateur #}
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label">
+                                    {{ form_label(form.statut) }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="feather-activity"></i></span>
+                                    {{ form_widget(form.statut, {
+                                        'attr': {
+                                            'class': 'form-select' ~ (form.statut.vars.errors|length > 0 ? ' is-invalid' : '')
+                                        }
+                                    }) }}
+                                </div>
+                                {% if form.statut.vars.errors|length > 0 %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form_errors(form.statut) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label">
+                                    {{ form_label(form.Id_user) }}
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="feather-user"></i></span>
+                                    {{ form_widget(form.Id_user, {
+                                        'attr': {
+                                            'class': 'form-select' ~ (form.Id_user.vars.errors|length > 0 ? ' is-invalid' : '')
+                                        }
+                                    }) }}
+                                </div>
+                                {% if form.Id_user.vars.errors|length > 0 %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ form_errors(form.Id_user) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        {# Boutons d'action #}
+                        <div class="d-flex gap-2 justify-content-end">
+                            <a href="{{ path('app_objectif_admin_index') }}" class="btn btn-light">
+                                <i class="feather-x me-2"></i>Annuler
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="feather-save me-2"></i>Enregistrer l'objectif
+                            </button>
+                        </div>
+
+                        {{ form_end(form) }}
+                    </div>
+
+                    {# Aide #}
+                    <div class="card-footer bg-soft-primary">
+                        <div class="d-flex align-items-start">
+                            <i class="feather-info text-primary fs-4 me-3"></i>
+                            <div>
+                                <h6 class="text-dark mb-1">Conseils pour définir un objectif SMART</h6>
+                                <ul class="mb-0 ps-3">
+                                    <li class="text-muted fs-12">Spécifique : Définissez clairement ce que vous voulez accomplir</li>
+                                    <li class="text-muted fs-12">Mesurable : Assurez-vous de pouvoir suivre vos progrès</li>
+                                    <li class="text-muted fs-12">Atteignable : Fixez un objectif réaliste</li>
+                                    <li class="text-muted fs-12">Relevant : Assurez-vous qu'il soit pertinent pour vous</li>
+                                    <li class="text-muted fs-12">Temporel : Définissez une échéance claire</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

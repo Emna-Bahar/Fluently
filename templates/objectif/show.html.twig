@@ -54,6 +54,7 @@
                                     <p class="h5 mb-0">{{ objectif.dateDeb ? objectif.dateDeb|date('d/m/Y') : 'Non définie' }}</p>
                                 </div>
                             </div>
+                            
                             <div class="col-md-6 mb-4">
                                 <div class="info-box p-3" style="background: #f8f9fa; border-radius: 10px;">
                                     <h6 class="text-muted mb-2">
@@ -160,6 +161,11 @@
                         <h5 class="mb-0"><i class="fa fa-cog"></i> Actions</h5>
                     </div>
                     <div class="card-body p-3">
+                    <a href="{{ path('app_tache_index', {'objectif': objectif.id}) }}" 
+   class="btn btn-success btn-block mb-2">
+    <i class="fa fa-tasks"></i> Consulter les tâches
+</a>
+
                         <a href="{{ path('app_objectif_edit', {'id': objectif.id}) }}" class="btn btn-warning btn-block mb-2">
                             <i class="fa fa-edit"></i> Modifier l'objectif
                         </a>

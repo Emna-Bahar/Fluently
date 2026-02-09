@@ -104,13 +104,22 @@ public function newFromObjectif(
     }
 
     #[Route('/{id}', name: 'app_tache_delete', methods: ['POST'])]
-    public function delete(Request $request, Tache $tache, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$tache->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($tache);
-            $entityManager->flush();
-        }
+public function delete(Request $request, Tache $tache, EntityManagerInterface $entityManager): Response
+{
+    $objectif = $tache->getIdObjectif();
 
-        return $this->redirectToRoute('app_tache_index', [], Response::HTTP_SEE_OTHER);
+    if ($this->isCsrfTokenValid('delete'.$tache->getId(), $request->getPayload()->getString('_token'))) {
+        $entityManager->remove($tache);
+        $entityManager->flush();
     }
+
+    if ($objectif) {
+        return $this->redirectToRoute('app_objectif_show', [
+            'id' => $objectif->getId()
+        ]);
+    }
+
+    return $this->redirectToRoute('app_tache_index');
+}
+
 }
