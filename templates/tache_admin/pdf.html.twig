@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Tâches</title>
+    <style>
+        body {
+            font-family: 'DejaVu Sans', Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 15px;
+        }
+        
+        h1 {
+            color: #333;
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+        
+        .date {
+            text-align: right;
+            margin-bottom: 20px;
+            color: #666;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        
+        td {
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .badge {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            color: white;
+            display: inline-block;
+        }
+        
+        .badge-success {
+            background-color: #28a745;
+        }
+        
+        .badge-primary {
+            background-color: #007bff;
+        }
+        
+        .badge-warning {
+            background-color: #ffc107;
+            color: #333;
+        }
+        
+        .badge-danger {
+            background-color: #dc3545;
+        }
+        
+        .badge-info {
+            background-color: #17a2b8;
+        }
+        
+        .badge-secondary {
+            background-color: #6c757d;
+        }
+        
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            color: #666;
+            font-size: 10px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+        
+        .summary {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .text-danger {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .page-break {
+            page-break-before: always;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Rapport des Tâches</h1>
+        <div class="subtitle">Système de Gestion Fluently</div>
+    </div>
+    
+    <div class="date">
+        Généré le : {{ date|date('d/m/Y à H:i') }}
+    </div>
+    
+    <div class="summary">
+        <strong>Résumé :</strong> {{ taches|length }} tâche(s) au total
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th width="5%">ID</th>
+                <th width="20%">Titre</th>
+                <th width="25%">Description</th>
+                <th width="12%">Date limite</th>
+                <th width="10%">Statut</th>
+                <th width="10%">Priorité</th>
+                <th width="18%">Objectif</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tache in taches %}
+                {% set isLate = tache.dateLimite < date() and tache.statut != 'terminee' %}
+                <tr>
+                    <td>{{ tache.id }}</td>
+                    <td><strong>{{ tache.titre }}</strong></td>
+                    <td>{{ tache.description|slice(0, 80) }}{% if tache.description|length > 80 %}...{% endif %}</td>
+                    <td {% if isLate %}class="text-danger"{% endif %}>
+                        {{ tache.dateLimite ? tache.dateLimite|date('d/m/Y') : '-' }}
+                        {% if isLate %} ⚠{% endif %}
+                    </td>
+                    <td>
+                        {% if tache.statut == 'terminee' %}
+                            <span class="badge badge-success">Terminée</span>
+                        {% elseif tache.statut == 'en_cours' %}
+                            <span class="badge badge-primary">En cours</span>
+                        {% else %}
+                            <span class="badge badge-secondary">{{ tache.statut }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if tache.priorite == 'urgente' %}
+                            <span class="badge badge-danger">Urgente</span>
+                        {% elseif tache.priorite == 'haute' %}
+                            <span class="badge badge-warning">Haute</span>
+                        {% else %}
+                            <span class="badge badge-info">{{ tache.priorite }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ tache.idObjectif.titre|slice(0, 40) }}{% if tache.idObjectif.titre|length > 40 %}...{% endif %}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7" style="text-align: center; padding: 20px;">
+                        Aucune tâche trouvée
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <div class="footer">
+        <p>Document généré automatiquement par le système de gestion Fluently</p>
+        <p>Page 1/1</p>
+    </div>
+</body>
+</html>

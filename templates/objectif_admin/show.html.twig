@@ -1,0 +1,86 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Détails Objectif{% endblock %}
+
+{% block body %}
+<div class="nxl-content">
+    <div class="page-header">
+        <div class="page-header-left d-flex align-items-center">
+            <div class="page-header-title">
+                <h5 class="m-b-10">Détails de l'Objectif</h5>
+            </div>
+        </div>
+        <div class="page-header-right ms-auto">
+            <a href="{{ path('app_objectif_admin_index') }}" class="btn btn-secondary">
+                <i class="feather-arrow-left"></i> Retour
+            </a>
+            <a href="{{ path('app_objectif_admin_edit', {'id': objectif.id}) }}" class="btn btn-warning">
+                <i class="feather-edit"></i> Modifier
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">{{ objectif.titre }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th width="200">ID</th>
+                                    <td>{{ objectif.id }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Titre</th>
+                                    <td>{{ objectif.titre }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Description</th>
+                                    <td>{{ objectif.description }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date de début</th>
+                                    <td>{{ objectif.dateDeb ? objectif.dateDeb|date('d/m/Y') : '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date de fin</th>
+                                    <td>{{ objectif.dateFin ? objectif.dateFin|date('d/m/Y') : '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Statut</th>
+                                    <td>
+                                        {% if objectif.statut == 'complete' %}
+                                            <span class="badge bg-success">Complété</span>
+                                        {% elseif objectif.statut == 'en_cours' %}
+                                            <span class="badge bg-primary">En cours</span>
+                                        {% else %}
+                                            <span class="badge bg-warning">{{ objectif.statut }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Utilisateur</th>
+                                    <td>{{ objectif.idUser.prenom }} {{ objectif.idUser.nom }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="mt-4">
+                            <form method="post" action="{{ path('app_objectif_admin_delete', {'id': objectif.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet objectif ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ objectif.id) }}">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="feather-trash"></i> Supprimer
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
