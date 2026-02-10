@@ -195,9 +195,14 @@ class __TwigTemplate_34750f01b54ad90a84d64eb7400b0374 extends Template
                             <span class=\"nxl-mtext\">Sessions</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"payment.html\">Payment</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"invoice-view.html\">Invoice View</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"invoice-create.html\">Invoice Create</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
+        // line 105
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("admin_session_index");
+        yield "\">Session</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
+        // line 106
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("admin_reservation_index");
+        yield "\">reservation</a></li>
                         </ul>
                     </li>
                     <li class=\"nxl-item nxl-hasmenu\">
@@ -206,10 +211,34 @@ class __TwigTemplate_34750f01b54ad90a84d64eb7400b0374 extends Template
                             <span class=\"nxl-mtext\">Objectifs</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"customers.html\">Customers</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"customers-view.html\">Customers View</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"customers-create.html\">Customers Create</a></li>
-                        </ul>
+        <li class=\"nxl-item\">
+            <a class=\"nxl-link\" href=\"";
+        // line 116
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_objectif_admin_index");
+        yield "\">
+                Liste des objectifs
+            </a>
+        </li>
+       
+    </ul>
+    <li class=\"nxl-item nxl-hasmenu\">
+    <a href=\"javascript:void(0);\" class=\"nxl-link\">
+        <span class=\"nxl-micon\"><i class=\"feather-check-square\"></i></span>
+        <span class=\"nxl-mtext\">Tâches</span>
+        <span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
+    </a>
+    <ul class=\"nxl-submenu\">
+        <li class=\"nxl-item\">
+            <a class=\"nxl-link\" href=\"";
+        // line 130
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_tache_admin_index");
+        yield "\">
+                Liste des tâches
+            </a>
+        </li>
+       
+    </ul>
+</li>
                     </li>
                     
                 </ul>
@@ -265,7 +294,7 @@ class __TwigTemplate_34750f01b54ad90a84d64eb7400b0374 extends Template
                             </div>
                             <div class=\"notifications-item\">
                                 <img src=\"";
-        // line 174
+        // line 191
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/images/avatar/2.png"), "html", null, true);
         yield "\" alt=\"\" class=\"rounded me-3 border\" />
                                 <div class=\"notifications-desc\">
@@ -283,7 +312,7 @@ class __TwigTemplate_34750f01b54ad90a84d64eb7400b0374 extends Template
                             </div>
                             <div class=\"notifications-item\">
                                 <img src=\"";
-        // line 189
+        // line 206
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/images/avatar/3.png"), "html", null, true);
         yield "\" alt=\"\" class=\"rounded me-3 border\" />
                                 <div class=\"notifications-desc\">
@@ -301,7 +330,7 @@ class __TwigTemplate_34750f01b54ad90a84d64eb7400b0374 extends Template
                             </div>
                             <div class=\"notifications-item\">
                                 <img src=\"";
-        // line 204
+        // line 221
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/images/avatar/4.png"), "html", null, true);
         yield "\" alt=\"\" class=\"rounded me-3 border\" />
                                 <div class=\"notifications-desc\">
@@ -325,7 +354,7 @@ class __TwigTemplate_34750f01b54ad90a84d64eb7400b0374 extends Template
                     <div class=\"dropdown nxl-h-item\">
                         <a href=\"javascript:void(0);\" data-bs-toggle=\"dropdown\" role=\"button\" data-bs-auto-close=\"outside\">
                             <img src=\"";
-        // line 225
+        // line 242
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/images/avatar/1.png"), "html", null, true);
         yield "\" alt=\"user-image\" class=\"img-fluid user-avtar me-0\" />
                         </a>
@@ -333,7 +362,7 @@ class __TwigTemplate_34750f01b54ad90a84d64eb7400b0374 extends Template
                             <div class=\"dropdown-header\">
                                 <div class=\"d-flex align-items-center\">
                                     <img src=\"";
-        // line 230
+        // line 247
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/images/avatar/1.png"), "html", null, true);
         yield "\" alt=\"user-image\" class=\"img-fluid user-avtar\" />
                                     <div>
@@ -430,9 +459,9 @@ class __TwigTemplate_34750f01b54ad90a84d64eb7400b0374 extends Template
     <!--! ================================================================ !-->
     <main class=\"nxl-container\">
       ";
-        // line 324
+        // line 341
         yield from $this->unwrap()->yieldBlock('body', $context, $blocks);
-        // line 343
+        // line 360
         yield "    </main>
     
             </div>
@@ -442,36 +471,36 @@ class __TwigTemplate_34750f01b54ad90a84d64eb7400b0374 extends Template
    
     <!--! BEGIN: Vendors JS !-->
     <script src=\"";
-        // line 351
+        // line 368
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/vendors/js/vendors.min.js"), "html", null, true);
         yield "\"></script>
     <!-- vendors.min.js {always must need to be top} -->
     <script src=\"";
-        // line 353
+        // line 370
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/vendors/js/daterangepicker.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 354
+        // line 371
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/vendors/js/apexcharts.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 355
+        // line 372
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/vendors/js/circle-progress.min.js"), "html", null, true);
         yield "\"></script>
     <!--! END: Vendors JS !-->
     <!--! BEGIN: Apps Init  !-->
     <script src=\"";
-        // line 358
+        // line 375
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/common-init.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 359
+        // line 376
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/dashboard-init.min.js"), "html", null, true);
         yield "\"></script>
     <!--! END: Apps Init !-->
     <!--! BEGIN: Theme Customizer  !-->
     <script src=\"";
-        // line 362
+        // line 379
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/theme-customizer-init.min.js"), "html", null, true);
         yield "\"></script>
    
@@ -487,7 +516,7 @@ class __TwigTemplate_34750f01b54ad90a84d64eb7400b0374 extends Template
         yield from [];
     }
 
-    // line 324
+    // line 341
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -500,7 +529,7 @@ class __TwigTemplate_34750f01b54ad90a84d64eb7400b0374 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
-        // line 325
+        // line 342
         yield "        
         <!-- [ Footer ] start -->
         <footer class=\"footer\">
@@ -549,7 +578,7 @@ class __TwigTemplate_34750f01b54ad90a84d64eb7400b0374 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  504 => 325,  491 => 324,  475 => 362,  469 => 359,  465 => 358,  459 => 355,  455 => 354,  451 => 353,  446 => 351,  436 => 343,  434 => 324,  337 => 230,  329 => 225,  305 => 204,  287 => 189,  269 => 174,  175 => 83,  171 => 82,  167 => 81,  155 => 72,  151 => 71,  147 => 70,  143 => 69,  130 => 59,  113 => 45,  109 => 44,  87 => 25,  81 => 22,  77 => 21,  71 => 18,  65 => 15,  49 => 1,);
+        return array (  533 => 342,  520 => 341,  504 => 379,  498 => 376,  494 => 375,  488 => 372,  484 => 371,  480 => 370,  475 => 368,  465 => 360,  463 => 341,  366 => 247,  358 => 242,  334 => 221,  316 => 206,  298 => 191,  234 => 130,  217 => 116,  204 => 106,  200 => 105,  175 => 83,  171 => 82,  167 => 81,  155 => 72,  151 => 71,  147 => 70,  143 => 69,  130 => 59,  113 => 45,  109 => 44,  87 => 25,  81 => 22,  77 => 21,  71 => 18,  65 => 15,  49 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -658,9 +687,8 @@ class __TwigTemplate_34750f01b54ad90a84d64eb7400b0374 extends Template
                             <span class=\"nxl-mtext\">Sessions</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"payment.html\">Payment</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"invoice-view.html\">Invoice View</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"invoice-create.html\">Invoice Create</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('admin_session_index') }}\">Session</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('admin_reservation_index') }}\">reservation</a></li>
                         </ul>
                     </li>
                     <li class=\"nxl-item nxl-hasmenu\">
@@ -669,10 +697,28 @@ class __TwigTemplate_34750f01b54ad90a84d64eb7400b0374 extends Template
                             <span class=\"nxl-mtext\">Objectifs</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"customers.html\">Customers</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"customers-view.html\">Customers View</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"customers-create.html\">Customers Create</a></li>
-                        </ul>
+        <li class=\"nxl-item\">
+            <a class=\"nxl-link\" href=\"{{ path('app_objectif_admin_index') }}\">
+                Liste des objectifs
+            </a>
+        </li>
+       
+    </ul>
+    <li class=\"nxl-item nxl-hasmenu\">
+    <a href=\"javascript:void(0);\" class=\"nxl-link\">
+        <span class=\"nxl-micon\"><i class=\"feather-check-square\"></i></span>
+        <span class=\"nxl-mtext\">Tâches</span>
+        <span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
+    </a>
+    <ul class=\"nxl-submenu\">
+        <li class=\"nxl-item\">
+            <a class=\"nxl-link\" href=\"{{ path('app_tache_admin_index') }}\">
+                Liste des tâches
+            </a>
+        </li>
+       
+    </ul>
+</li>
                     </li>
                     
                 </ul>
@@ -919,6 +965,6 @@ class __TwigTemplate_34750f01b54ad90a84d64eb7400b0374 extends Template
    
 </body>
 
-</html>", "dashboard/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\dashboard\\index.html.twig");
+</html>", "dashboard/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\dashboard\\index.html.twig");
     }
 }

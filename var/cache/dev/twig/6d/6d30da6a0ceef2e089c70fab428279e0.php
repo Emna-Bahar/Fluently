@@ -79,17 +79,11 @@ class __TwigTemplate_7d6bd8cd80a3fcaaf791229956cf1d72 extends Template
             <div class=\"page-header-title\">
                 <h5 class=\"m-b-10\">Sessions</h5>
             </div>
-            <ul class=\"breadcrumb\">
-                <li class=\"breadcrumb-item\"><a href=\"";
-        // line 11
-        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_dashboard");
-        yield "\">Dashboard</a></li>
-                <li class=\"breadcrumb-item\">Sessions</li>
-            </ul>
+            
         </div>
         <div class=\"page-header-right ms-auto\">
             <a href=\"";
-        // line 16
+        // line 13
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("admin_session_new");
         yield "\" class=\"btn btn-primary\">
                 <i class=\"feather-plus me-2\"></i>
@@ -100,21 +94,21 @@ class __TwigTemplate_7d6bd8cd80a3fcaaf791229956cf1d72 extends Template
 
     <div class=\"main-content\">
         ";
-        // line 24
+        // line 21
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 24, $this->source); })()), "flashes", [], "any", false, false, false, 24));
+        $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 21, $this->source); })()), "flashes", [], "any", false, false, false, 21));
         foreach ($context['_seq'] as $context["label"] => $context["messages"]) {
-            // line 25
+            // line 22
             yield "            ";
             $context['_parent'] = $context;
             $context['_seq'] = CoreExtension::ensureTraversable($context["messages"]);
             foreach ($context['_seq'] as $context["_key"] => $context["message"]) {
-                // line 26
+                // line 23
                 yield "                <div class=\"alert alert-";
                 yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["label"], "html", null, true);
                 yield " alert-dismissible fade show\" role=\"alert\">
                     ";
-                // line 27
+                // line 24
                 yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["message"], "html", null, true);
                 yield "
                     <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>
@@ -124,13 +118,13 @@ class __TwigTemplate_7d6bd8cd80a3fcaaf791229956cf1d72 extends Template
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_key'], $context['message'], $context['_parent']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 31
+            // line 28
             yield "        ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['label'], $context['messages'], $context['_parent']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 32
+        // line 29
         yield "
         <div class=\"row\">
             <div class=\"col-12\">
@@ -155,61 +149,61 @@ class __TwigTemplate_7d6bd8cd80a3fcaaf791229956cf1d72 extends Template
                                 </thead>
                                 <tbody>
                                 ";
-        // line 55
+        // line 52
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["sessions"]) || array_key_exists("sessions", $context) ? $context["sessions"] : (function () { throw new RuntimeError('Variable "sessions" does not exist.', 55, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["sessions"]) || array_key_exists("sessions", $context) ? $context["sessions"] : (function () { throw new RuntimeError('Variable "sessions" does not exist.', 52, $this->source); })()));
         $context['_iterated'] = false;
         foreach ($context['_seq'] as $context["_key"] => $context["session"]) {
-            // line 56
+            // line 53
             yield "                                    <tr>
                                         <td>";
-            // line 57
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["session"], "id", [], "any", false, false, false, 57), "html", null, true);
+            // line 54
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["session"], "id", [], "any", false, false, false, 54), "html", null, true);
             yield "</td>
                                         <td>";
-            // line 58
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["session"], "dateHeure", [], "any", false, false, false, 58), "d/m/Y H:i"), "html", null, true);
+            // line 55
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["session"], "dateHeure", [], "any", false, false, false, 55), "d/m/Y H:i"), "html", null, true);
             yield "</td>
                                         <td>
                                             ";
-            // line 60
-            if ((CoreExtension::getAttribute($this->env, $this->source, $context["session"], "statut", [], "any", false, false, false, 60) == "planifiée")) {
-                // line 61
+            // line 57
+            if ((CoreExtension::getAttribute($this->env, $this->source, $context["session"], "statut", [], "any", false, false, false, 57) == "planifiée")) {
+                // line 58
                 yield "                                                <span class=\"badge bg-soft-info text-info\">Planifiee</span>
                                             ";
-            } elseif ((CoreExtension::getAttribute($this->env, $this->source,             // line 62
-$context["session"], "statut", [], "any", false, false, false, 62) == "en_cours")) {
-                // line 63
+            } elseif ((CoreExtension::getAttribute($this->env, $this->source,             // line 59
+$context["session"], "statut", [], "any", false, false, false, 59) == "en_cours")) {
+                // line 60
                 yield "                                                <span class=\"badge bg-soft-warning text-warning\">En cours</span>
                                             ";
-            } elseif ((CoreExtension::getAttribute($this->env, $this->source,             // line 64
-$context["session"], "statut", [], "any", false, false, false, 64) == "terminée")) {
-                // line 65
+            } elseif ((CoreExtension::getAttribute($this->env, $this->source,             // line 61
+$context["session"], "statut", [], "any", false, false, false, 61) == "terminée")) {
+                // line 62
                 yield "                                                <span class=\"badge bg-soft-success text-success\">Terminee</span>
                                             ";
-            } elseif ((CoreExtension::getAttribute($this->env, $this->source,             // line 66
-$context["session"], "statut", [], "any", false, false, false, 66) == "annulée")) {
-                // line 67
+            } elseif ((CoreExtension::getAttribute($this->env, $this->source,             // line 63
+$context["session"], "statut", [], "any", false, false, false, 63) == "annulée")) {
+                // line 64
                 yield "                                                <span class=\"badge bg-soft-danger text-danger\">Annulee</span>
                                             ";
             }
-            // line 69
+            // line 66
             yield "                                        </td>
                                         <td>
                                             <a href=\"";
-            // line 71
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["session"], "lienReunion", [], "any", false, false, false, 71), "html", null, true);
+            // line 68
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["session"], "lienReunion", [], "any", false, false, false, 68), "html", null, true);
             yield "\" target=\"_blank\" class=\"text-primary\">
                                                 <i class=\"feather-link me-1\"></i>Rejoindre
                                             </a>
                                         </td>
 <td>";
-            // line 75
-            yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["session"], "groupe", [], "any", false, false, false, 75)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["session"], "groupe", [], "any", false, false, false, 75), "nom", [], "any", false, false, false, 75), "html", null, true)) : ("N/A"));
+            // line 72
+            yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["session"], "groupe", [], "any", false, false, false, 72)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["session"], "groupe", [], "any", false, false, false, 72), "nom", [], "any", false, false, false, 72), "html", null, true)) : ("N/A"));
             yield "</td>
 <td>";
-            // line 76
-            yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["session"], "user", [], "any", false, false, false, 76)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["session"], "user", [], "any", false, false, false, 76), "email", [], "any", false, false, false, 76), "html", null, true)) : ("N/A"));
+            // line 73
+            yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["session"], "user", [], "any", false, false, false, 73)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["session"], "user", [], "any", false, false, false, 73), "email", [], "any", false, false, false, 73), "html", null, true)) : ("N/A"));
             yield "</td>
                                         <td>
 ```plaintext
@@ -217,20 +211,20 @@ $context["session"], "statut", [], "any", false, false, false, 66) == "annulée"
                                         <td>
                                             <div class=\"hstack gap-2\">
                                                 <a href=\"";
-            // line 82
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("admin_session_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["session"], "id", [], "any", false, false, false, 82)]), "html", null, true);
+            // line 79
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("admin_session_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["session"], "id", [], "any", false, false, false, 79)]), "html", null, true);
             yield "\" class=\"avatar-text avatar-md\">
 <a href=\"";
-            // line 83
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("admin_session_edit", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["session"], "id", [], "any", false, false, false, 83)]), "html", null, true);
+            // line 80
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("admin_session_edit", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["session"], "id", [], "any", false, false, false, 80)]), "html", null, true);
             yield "\" class=\"avatar-text avatar-md\">
 <form method=\"post\" action=\"";
-            // line 84
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("admin_session_delete", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["session"], "id", [], "any", false, false, false, 84)]), "html", null, true);
+            // line 81
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("admin_session_delete", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["session"], "id", [], "any", false, false, false, 81)]), "html", null, true);
             yield "\">
     <input type=\"hidden\" name=\"_token\" value=\"";
-            // line 85
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken(("delete" . CoreExtension::getAttribute($this->env, $this->source, $context["session"], "id", [], "any", false, false, false, 85))), "html", null, true);
+            // line 82
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken(("delete" . CoreExtension::getAttribute($this->env, $this->source, $context["session"], "id", [], "any", false, false, false, 82))), "html", null, true);
             yield "\">
                                                     <button type=\"submit\" class=\"avatar-text avatar-md bg-soft-danger\" data-bs-toggle=\"tooltip\" title=\"Supprimer\" style=\"border:none;cursor:pointer;\">
                                                         <i class=\"feather-trash-2 text-danger\"></i>
@@ -242,9 +236,9 @@ $context["session"], "statut", [], "any", false, false, false, 66) == "annulée"
                                 ";
             $context['_iterated'] = true;
         }
-        // line 93
+        // line 90
         if (!$context['_iterated']) {
-            // line 94
+            // line 91
             yield "                                    <tr>
                                         <td colspan=\"8\" class=\"text-center text-muted py-4\">Aucune session trouvee.</td>
                                     </tr>
@@ -253,7 +247,7 @@ $context["session"], "statut", [], "any", false, false, false, 66) == "annulée"
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['session'], $context['_parent'], $context['_iterated']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 98
+        // line 95
         yield "                                </tbody>
                             </table>
                         </div>
@@ -294,7 +288,7 @@ $context["session"], "statut", [], "any", false, false, false, 66) == "annulée"
      */
     public function getDebugInfo(): array
     {
-        return array (  257 => 98,  248 => 94,  246 => 93,  233 => 85,  229 => 84,  225 => 83,  221 => 82,  212 => 76,  208 => 75,  201 => 71,  197 => 69,  193 => 67,  191 => 66,  188 => 65,  186 => 64,  183 => 63,  181 => 62,  178 => 61,  176 => 60,  171 => 58,  167 => 57,  164 => 56,  159 => 55,  134 => 32,  128 => 31,  118 => 27,  113 => 26,  108 => 25,  104 => 24,  93 => 16,  85 => 11,  76 => 4,  63 => 3,  40 => 1,);
+        return array (  251 => 95,  242 => 91,  240 => 90,  227 => 82,  223 => 81,  219 => 80,  215 => 79,  206 => 73,  202 => 72,  195 => 68,  191 => 66,  187 => 64,  185 => 63,  182 => 62,  180 => 61,  177 => 60,  175 => 59,  172 => 58,  170 => 57,  165 => 55,  161 => 54,  158 => 53,  153 => 52,  128 => 29,  122 => 28,  112 => 24,  107 => 23,  102 => 22,  98 => 21,  87 => 13,  76 => 4,  63 => 3,  40 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -308,10 +302,7 @@ $context["session"], "statut", [], "any", false, false, false, 66) == "annulée"
             <div class=\"page-header-title\">
                 <h5 class=\"m-b-10\">Sessions</h5>
             </div>
-            <ul class=\"breadcrumb\">
-                <li class=\"breadcrumb-item\"><a href=\"{{ path('app_dashboard') }}\">Dashboard</a></li>
-                <li class=\"breadcrumb-item\">Sessions</li>
-            </ul>
+            
         </div>
         <div class=\"page-header-right ms-auto\">
             <a href=\"{{ path('admin_session_new') }}\" class=\"btn btn-primary\">
@@ -405,6 +396,6 @@ $context["session"], "statut", [], "any", false, false, false, 66) == "annulée"
         </div>
     </div>
 </div>
-{% endblock %}", "dashboard/session/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\dashboard\\session\\index.html.twig");
+{% endblock %}", "dashboard/session/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\dashboard\\session\\index.html.twig");
     }
 }

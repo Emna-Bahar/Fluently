@@ -91,7 +91,7 @@ public function index(
     ]);
 }
 
-    #[Route('/new', name: 'app_session_new', methods: ['GET', 'POST'])]
+   
     #[Route('/new', name: 'app_session_new', methods: ['GET', 'POST'])]
 public function new(Request $request, EntityManagerInterface $entityManager): Response
 {

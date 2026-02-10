@@ -102,9 +102,8 @@
                             <span class="nxl-mtext">Sessions</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
                         </a>
                         <ul class="nxl-submenu">
-                            <li class="nxl-item"><a class="nxl-link" href="payment.html">Payment</a></li>
-                            <li class="nxl-item"><a class="nxl-link" href="invoice-view.html">Invoice View</a></li>
-                            <li class="nxl-item"><a class="nxl-link" href="invoice-create.html">Invoice Create</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="{{ path('admin_session_index') }}">Session</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="{{ path('admin_reservation_index') }}">reservation</a></li>
                         </ul>
                     </li>
                     <li class="nxl-item nxl-hasmenu">
@@ -113,10 +112,28 @@
                             <span class="nxl-mtext">Objectifs</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
                         </a>
                         <ul class="nxl-submenu">
-                            <li class="nxl-item"><a class="nxl-link" href="customers.html">Customers</a></li>
-                            <li class="nxl-item"><a class="nxl-link" href="customers-view.html">Customers View</a></li>
-                            <li class="nxl-item"><a class="nxl-link" href="customers-create.html">Customers Create</a></li>
-                        </ul>
+        <li class="nxl-item">
+            <a class="nxl-link" href="{{ path('app_objectif_admin_index') }}">
+                Liste des objectifs
+            </a>
+        </li>
+       
+    </ul>
+    <li class="nxl-item nxl-hasmenu">
+    <a href="javascript:void(0);" class="nxl-link">
+        <span class="nxl-micon"><i class="feather-check-square"></i></span>
+        <span class="nxl-mtext">Tâches</span>
+        <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+    </a>
+    <ul class="nxl-submenu">
+        <li class="nxl-item">
+            <a class="nxl-link" href="{{ path('app_tache_admin_index') }}">
+                Liste des tâches
+            </a>
+        </li>
+       
+    </ul>
+</li>
                     </li>
                     
                 </ul>
