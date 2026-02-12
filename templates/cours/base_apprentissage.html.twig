@@ -164,7 +164,7 @@
         // Afficher tout au chargement
         document.querySelector('[data-filter="all"]').click();
 
-        // Terminer cours
+        // Terminer cours - VERSION CORRIGÉE
         function terminerCours(coursId) {
             if (confirm("Voulez-vous marquer cette leçon comme terminée ?\nVous passerez automatiquement à la suivante.")) {
                 fetch('/cours/' + coursId + '/terminer', {
@@ -176,7 +176,8 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        window.location.href = '/langue/{{ cour.idNiveau.idLangue.id }}/apprentissage';
+                        // CORRECTION: Utilisation du path Twig au lieu de URL en dur
+                        window.location.href = '{{ path('app_langue_apprentissage', {id: cour.idNiveau.idLangue.id}) }}';
                     } else {
                         alert("Une erreur est survenue : " + (data.message || 'Inconnu'));
                     }
@@ -185,4 +186,5 @@
             }
         }
     </script>
+</div>
 {% endblock %}

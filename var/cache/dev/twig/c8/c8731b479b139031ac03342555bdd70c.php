@@ -148,6 +148,6 @@ class __TwigTemplate_592db286624e450d76ec4bb817c076de extends Template
     {{ include('tache/_form.html.twig') }}
 </div>
 {% endblock %}
-", "tache/new.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\tache\\new.html.twig");
+", "tache/new.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\tache\\new.html.twig");
     }
 }

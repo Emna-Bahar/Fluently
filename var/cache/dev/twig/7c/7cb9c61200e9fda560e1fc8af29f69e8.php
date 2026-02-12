@@ -145,6 +145,6 @@ class __TwigTemplate_468d9b79ce5fdc60e84e2e203547562c extends Template
     </span>
     {{- title -}}
 </a>
-", "@KnpPaginator/Pagination/twitter_bootstrap_v4_font_awesome_sortable_link.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\vendor\\knplabs\\knp-paginator-bundle\\templates\\Pagination\\twitter_bootstrap_v4_font_awesome_sortable_link.html.twig");
+", "@KnpPaginator/Pagination/twitter_bootstrap_v4_font_awesome_sortable_link.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\vendor\\knplabs\\knp-paginator-bundle\\templates\\Pagination\\twitter_bootstrap_v4_font_awesome_sortable_link.html.twig");
     }
 }

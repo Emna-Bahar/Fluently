@@ -901,6 +901,6 @@ class __TwigTemplate_913d7617195ad47f2c00b1b995736457 extends Template
             }, 300);
         });
     </script>
-{% endblock %}", "test/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\test\\index.html.twig");
+{% endblock %}", "test/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\test\\index.html.twig");
     }
 }

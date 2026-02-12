@@ -174,7 +174,10 @@ class __TwigTemplate_34750f01b54ad90a84d64eb7400b0374 extends Template
         // line 83
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_reponse_index");
         yield "\">Reponse</a></li>
-                            
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
+        // line 84
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_admin_test_passages");
+        yield "\">Test Passage</a></li>
                         </ul>
                     </li>
                     <li class=\"nxl-item nxl-hasmenu\">
@@ -578,7 +581,7 @@ class __TwigTemplate_34750f01b54ad90a84d64eb7400b0374 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  533 => 342,  520 => 341,  504 => 379,  498 => 376,  494 => 375,  488 => 372,  484 => 371,  480 => 370,  475 => 368,  465 => 360,  463 => 341,  366 => 247,  358 => 242,  334 => 221,  316 => 206,  298 => 191,  234 => 130,  217 => 116,  204 => 106,  200 => 105,  175 => 83,  171 => 82,  167 => 81,  155 => 72,  151 => 71,  147 => 70,  143 => 69,  130 => 59,  113 => 45,  109 => 44,  87 => 25,  81 => 22,  77 => 21,  71 => 18,  65 => 15,  49 => 1,);
+        return array (  536 => 342,  523 => 341,  507 => 379,  501 => 376,  497 => 375,  491 => 372,  487 => 371,  483 => 370,  478 => 368,  468 => 360,  466 => 341,  369 => 247,  361 => 242,  337 => 221,  319 => 206,  301 => 191,  237 => 130,  220 => 116,  207 => 106,  203 => 105,  179 => 84,  175 => 83,  171 => 82,  167 => 81,  155 => 72,  151 => 71,  147 => 70,  143 => 69,  130 => 59,  113 => 45,  109 => 44,  87 => 25,  81 => 22,  77 => 21,  71 => 18,  65 => 15,  49 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -666,7 +669,7 @@ class __TwigTemplate_34750f01b54ad90a84d64eb7400b0374 extends Template
                             <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_test_index') }}\">Tests</a></li>
                             <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_question_index') }}\">Questions</a></li>
                             <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_reponse_index') }}\">Reponse</a></li>
-                            
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_admin_test_passages') }}\">Test Passage</a></li>
                         </ul>
                     </li>
                     <li class=\"nxl-item nxl-hasmenu\">

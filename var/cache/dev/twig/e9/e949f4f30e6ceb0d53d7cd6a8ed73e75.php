@@ -1309,6 +1309,6 @@ class __TwigTemplate_9623d03caa06b01e345e7bba1c31f61f extends Template
             });
         });
     </script>
-{% endblock %}", "objectif_admin/stats.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\objectif_admin\\stats.html.twig");
+{% endblock %}", "objectif_admin/stats.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\objectif_admin\\stats.html.twig");
     }
 }

@@ -108,7 +108,7 @@ class __TwigTemplate_da90a83ee7ade46a077c7152569a78bc extends Template
                         <h2 class=\"fs-20 fw-bolder mb-4 text-center\">Login</h2>
                         <h4 class=\"fs-13 fw-bold mb-2 text-center\">Login to your account</h4>
                         <p class=\"fs-12 fw-medium text-muted text-center mb-4\">
-                            Welcome back to <strong>Nelel</strong> web applications.
+                            Welcome back to <strong>Fluently</strong> web applications.
                         </p>
 
                         ";
@@ -281,7 +281,7 @@ class __TwigTemplate_da90a83ee7ade46a077c7152569a78bc extends Template
                         <h2 class=\"fs-20 fw-bolder mb-4 text-center\">Login</h2>
                         <h4 class=\"fs-13 fw-bold mb-2 text-center\">Login to your account</h4>
                         <p class=\"fs-12 fw-medium text-muted text-center mb-4\">
-                            Welcome back to <strong>Nelel</strong> web applications.
+                            Welcome back to <strong>Fluently</strong> web applications.
                         </p>
 
                         {# Flash error messages #}
@@ -330,6 +330,6 @@ class __TwigTemplate_da90a83ee7ade46a077c7152569a78bc extends Template
 
 </body>
 </html>
-", "login/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\login\\index.html.twig");
+", "login/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\login\\index.html.twig");
     }
 }

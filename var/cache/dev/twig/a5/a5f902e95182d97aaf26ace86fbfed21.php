@@ -1187,6 +1187,6 @@ class __TwigTemplate_4b196870da178e764bf6a90367272cf1 extends Template
    
 </body>
 
-</html>", "dashboard/user_show.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\dashboard\\user_show.html.twig");
+</html>", "dashboard/user_show.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\dashboard\\user_show.html.twig");
     }
 }

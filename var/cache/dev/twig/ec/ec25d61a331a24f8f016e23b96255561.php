@@ -56,7 +56,7 @@ class __TwigTemplate_fece51c0d61b6c903078f921ab3cf618 extends Template
     <meta name=\"keyword\" content=\"\">
     <meta name=\"author\" content=\"theme_ocean\">
 
-    <title>Duralux || Register Minimal</title>
+    <title>Fluently || Register Minimal</title>
 
     <!-- Favicon -->
     <link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"";
@@ -106,7 +106,7 @@ class __TwigTemplate_fece51c0d61b6c903078f921ab3cf618 extends Template
 
                 <div class=\"card-body p-sm-5\">
                     <h2 class=\"fs-20 fw-bolder mb-4\">Register</h2>
-                    <h4 class=\"fs-13 fw-bold mb-2\">Manage all your Duralux CRM</h4>
+                    <h4 class=\"fs-13 fw-bold mb-2\">Manage all your Fluently </h4>
                     <p class=\"fs-12 fw-medium text-muted\">
                         Let's get you all setup, so you can verify your personal account and begin setting up your profile.
                     </p>
@@ -377,7 +377,7 @@ class __TwigTemplate_fece51c0d61b6c903078f921ab3cf618 extends Template
     <meta name=\"keyword\" content=\"\">
     <meta name=\"author\" content=\"theme_ocean\">
 
-    <title>Duralux || Register Minimal</title>
+    <title>Fluently || Register Minimal</title>
 
     <!-- Favicon -->
     <link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"{{ asset('assets/images/favicon.ico') }}\">
@@ -406,7 +406,7 @@ class __TwigTemplate_fece51c0d61b6c903078f921ab3cf618 extends Template
 
                 <div class=\"card-body p-sm-5\">
                     <h2 class=\"fs-20 fw-bolder mb-4\">Register</h2>
-                    <h4 class=\"fs-13 fw-bold mb-2\">Manage all your Duralux CRM</h4>
+                    <h4 class=\"fs-13 fw-bold mb-2\">Manage all your Fluently </h4>
                     <p class=\"fs-12 fw-medium text-muted\">
                         Let's get you all setup, so you can verify your personal account and begin setting up your profile.
                     </p>
@@ -524,6 +524,6 @@ class __TwigTemplate_fece51c0d61b6c903078f921ab3cf618 extends Template
 
 </body>
 </html>
-", "register/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\register\\index.html.twig");
+", "register/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\register\\index.html.twig");
     }
 }

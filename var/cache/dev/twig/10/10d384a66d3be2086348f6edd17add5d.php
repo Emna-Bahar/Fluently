@@ -337,6 +337,6 @@ class __TwigTemplate_60c1fff7dcde48051a69f9d8cde15aae extends Template
         {% block body '' %}
     </body>
 </html>
-", "@WebProfiler/Profiler/base.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\base.html.twig");
+", "@WebProfiler/Profiler/base.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Profiler\\base.html.twig");
     }
 }

@@ -800,6 +800,6 @@ class __TwigTemplate_2309c4205f55e9af5548897c830dd77e extends Template
 
     updateProgress();
 </script>
-{% endblock %}", "test_student/show.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\test_student\\show.html.twig");
+{% endblock %}", "test_student/show.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\test_student\\show.html.twig");
     }
 }

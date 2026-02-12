@@ -676,6 +676,6 @@ class __TwigTemplate_4441a3fc02806418cbb6374a7cb0e5d0 extends Template
         </div>
     {% endfor %}
 {% endblock %}
-", "@WebProfiler/Collector/notifier.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Collector\\notifier.html.twig");
+", "@WebProfiler/Collector/notifier.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Collector\\notifier.html.twig");
     }
 }

@@ -479,6 +479,6 @@ class __TwigTemplate_a30cf84a0f7993577e8b3244c6f1cf89 extends Template
         </div>
     </div>
 
-{% endblock %}", "langue/index_admin.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\langue\\index_admin.html.twig");
+{% endblock %}", "langue/index_admin.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\langue\\index_admin.html.twig");
     }
 }

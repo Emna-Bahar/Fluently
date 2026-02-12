@@ -466,6 +466,6 @@ class __TwigTemplate_edda1ba578ffecd18bfd2df7d2d7bd13 extends Template
         </div>
     </div>
 
-{% endblock %}", "cours/show.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\cours\\show.html.twig");
+{% endblock %}", "cours/show.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\cours\\show.html.twig");
     }
 }

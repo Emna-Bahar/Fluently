@@ -124,7 +124,6 @@ final class TestController extends AbstractController
         TestPassageRepository $testPassageRepository
     ): Response
     {
-        // Vérifier si l'utilisateur est connecté via session
         $session = $request->getSession();
         $userId = $session->get('user_id');
 
@@ -140,7 +139,6 @@ final class TestController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        // Vérifier si le test a déjà été terminé
         $existingTermine = $testPassageRepository->findOneBy([
             'test'   => $test,
             'user'   => $user,
@@ -152,7 +150,6 @@ final class TestController extends AbstractController
             return $this->redirectToRoute('app_test_student_result', ['id' => $existingTermine->getId()]);
         }
 
-        // Vérifier s'il y a un test en cours
         $passageEnCours = $testPassageRepository->findOneBy([
             'test'   => $test,
             'user'   => $user,
@@ -173,7 +170,6 @@ final class TestController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response
     {
-        // Vérifier si l'utilisateur est connecté via session
         $session = $request->getSession();
         $userId = $session->get('user_id');
 
@@ -189,7 +185,6 @@ final class TestController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        // Vérifier s'il y a déjà un test en cours
         $existing = $entityManager->getRepository(TestPassage::class)
             ->findOneBy(['test' => $test, 'user' => $user, 'statut' => 'en_cours']);
 
@@ -220,7 +215,6 @@ final class TestController extends AbstractController
         ReponseRepository $reponseRepository
     ): Response
     {
-        // Vérifier si l'utilisateur est connecté via session
         $session = $request->getSession();
         $userId = $session->get('user_id');
 
@@ -278,19 +272,18 @@ final class TestController extends AbstractController
             $niveau
         ));
 
-        return $this->redirectToRoute('app_test_student_result', [
-            'id' => $passage->getId()
+        return $this->redirectToRoute('app_langue_apprentissage', [
+            'id' => $test->getLangue()->getId()
         ]);
     }
 
-    #[Route('/etudiant/results/{id}', name: 'app_test_student_result', methods: ['GET'])]
+    #[Route('/etudiant/result/{id}', name: 'app_test_student_result', methods: ['GET'])]
     public function studentResults(
         TestPassage $passage,
         Request $request,
         EntityManagerInterface $entityManager
     ): Response
     {
-        // Vérifier si l'utilisateur est connecté via session
         $session = $request->getSession();
         $userId = $session->get('user_id');
 
@@ -306,7 +299,6 @@ final class TestController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        // Vérifier que le passage appartient bien à l'utilisateur connecté
         if ($passage->getUser()->getId() !== $user->getId()) {
             throw $this->createAccessDeniedException('Vous ne pouvez pas voir les résultats d\'un autre utilisateur.');
         }
@@ -330,77 +322,69 @@ final class TestController extends AbstractController
         if ($score >= 50) return 'A2';
         return 'A1';
     }
+
     #[Route('/admin/test/passages', name: 'app_admin_test_passages', methods: ['GET'])]
-public function adminTestPassages(
-    Request $request,
-    TestPassageRepository $testPassageRepository
-): Response
-{
-   // $this->denyAccessUnlessGranted('ROLE_ADMIN'); // ou ton rôle admin
+    public function adminTestPassages(
+        Request $request,
+        TestPassageRepository $testPassageRepository
+    ): Response
+    {
+        $search = $request->query->get('search', '');
+        $statut = $request->query->get('statut', '');
+        $langueId = $request->query->get('langue', '');
+        $testId = $request->query->get('test', '');
 
-    // Recherche et filtres
-    $search = $request->query->get('search', '');
-    $statut = $request->query->get('statut', '');
-    $langueId = $request->query->get('langue', '');
-    $testId = $request->query->get('test', '');
+        $queryBuilder = $testPassageRepository->createQueryBuilder('tp')
+            ->leftJoin('tp.test', 't')
+            ->leftJoin('t.langue', 'l')
+            ->leftJoin('tp.user', 'u');
 
-    $queryBuilder = $testPassageRepository->createQueryBuilder('tp')
-        ->leftJoin('tp.test', 't')
-        ->leftJoin('t.langue', 'l')
-        ->leftJoin('tp.user', 'u');
+        if ($search) {
+            $queryBuilder->andWhere('
+                LOWER(u.email) LIKE :search OR 
+                LOWER(t.titre) LIKE :search OR 
+                LOWER(l.nom) LIKE :search
+            ')
+            ->setParameter('search', '%' . strtolower($search) . '%');
+        }
 
-    // Filtre recherche (sur utilisateur, test, langue, score)
-    if ($search) {
-        $queryBuilder->andWhere('
-            LOWER(u.email) LIKE :search OR 
-            LOWER(t.titre) LIKE :search OR 
-            LOWER(l.nom) LIKE :search
-        ')
-        ->setParameter('search', '%' . strtolower($search) . '%');
+        if ($statut) {
+            $queryBuilder->andWhere('tp.statut = :statut')
+                         ->setParameter('statut', $statut);
+        }
+
+        if ($langueId) {
+            $queryBuilder->andWhere('l.id = :langue')
+                         ->setParameter('langue', $langueId);
+        }
+
+        if ($testId) {
+            $queryBuilder->andWhere('t.id = :test')
+                         ->setParameter('test', $testId);
+        }
+
+        $queryBuilder->orderBy('tp.dateFin', 'DESC');
+
+        $passages = $queryBuilder->getQuery()->getResult();
+
+        $totalPassages = $testPassageRepository->count([]);
+        $termineCount = $testPassageRepository->count(['statut' => 'termine']);
+        $enCoursCount = $testPassageRepository->count(['statut' => 'en_cours']);
+        $scoreMoyen = $testPassageRepository->createQueryBuilder('tp')
+            ->select('AVG(tp.resultat)')
+            ->getQuery()
+            ->getSingleScalarResult() ?? 0;
+
+        return $this->render('test/passages.html.twig', [
+            'passages'      => $passages,
+            'totalPassages' => $totalPassages,
+            'termineCount'  => $termineCount,
+            'enCoursCount'  => $enCoursCount,
+            'scoreMoyen'    => round($scoreMoyen, 1),
+            'search'        => $search,
+            'statut'        => $statut,
+            'langueId'      => $langueId,
+            'testId'        => $testId,
+        ]);
     }
-
-    // Filtre statut
-    if ($statut) {
-        $queryBuilder->andWhere('tp.statut = :statut')
-                     ->setParameter('statut', $statut);
-    }
-
-    // Filtre langue
-    if ($langueId) {
-        $queryBuilder->andWhere('l.id = :langue')
-                     ->setParameter('langue', $langueId);
-    }
-
-    // Filtre test spécifique
-    if ($testId) {
-        $queryBuilder->andWhere('t.id = :test')
-                     ->setParameter('test', $testId);
-    }
-
-    // Tri par date descendante
-    $queryBuilder->orderBy('tp.dateFin', 'DESC');
-
-    $passages = $queryBuilder->getQuery()->getResult();
-
-    // Statistiques rapides
-    $totalPassages = $testPassageRepository->count([]);
-    $termineCount = $testPassageRepository->count(['statut' => 'termine']);
-    $enCoursCount = $testPassageRepository->count(['statut' => 'en_cours']);
-    $scoreMoyen = $testPassageRepository->createQueryBuilder('tp')
-        ->select('AVG(tp.resultat)')
-        ->getQuery()
-        ->getSingleScalarResult() ?? 0;
-
-    return $this->render('test/passages.html.twig', [
-        'passages'      => $passages,
-        'totalPassages' => $totalPassages,
-        'termineCount'  => $termineCount,
-        'enCoursCount'  => $enCoursCount,
-        'scoreMoyen'    => round($scoreMoyen, 1),
-        'search'        => $search,
-        'statut'        => $statut,
-        'langueId'      => $langueId,
-        'testId'        => $testId,
-    ]);
-}
 }

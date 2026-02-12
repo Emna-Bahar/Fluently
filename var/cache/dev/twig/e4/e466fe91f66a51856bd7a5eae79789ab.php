@@ -146,6 +146,6 @@ class __TwigTemplate_4b2e778a359b66bf8f88fdc1d0a7c0d4 extends Template
     </span>
     {{- title -}}
 </a>
-", "@KnpPaginator/Pagination/bootstrap_v5_bi_sortable_link.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\vendor\\knplabs\\knp-paginator-bundle\\templates\\Pagination\\bootstrap_v5_bi_sortable_link.html.twig");
+", "@KnpPaginator/Pagination/bootstrap_v5_bi_sortable_link.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\vendor\\knplabs\\knp-paginator-bundle\\templates\\Pagination\\bootstrap_v5_bi_sortable_link.html.twig");
     }
 }

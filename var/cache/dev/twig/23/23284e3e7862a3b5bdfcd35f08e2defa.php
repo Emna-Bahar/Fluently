@@ -444,7 +444,7 @@ class __TwigTemplate_a24881e35adca9bc47c3b2f153aef817 extends Template
         // Afficher tout au chargement
         document.querySelector('[data-filter=\"all\"]').click();
 
-        // Terminer cours
+        // Terminer cours - VERSION CORRIGÉE
         function terminerCours(coursId) {
             if (confirm(\"Voulez-vous marquer cette leçon comme terminée ?\\nVous passerez automatiquement à la suivante.\")) {
                 fetch('/cours/' + coursId + '/terminer', {
@@ -459,10 +459,11 @@ class __TwigTemplate_a24881e35adca9bc47c3b2f153aef817 extends Template
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        window.location.href = '/langue/";
-        // line 179
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 179, $this->source); })()), "idNiveau", [], "any", false, false, false, 179), "idLangue", [], "any", false, false, false, 179), "id", [], "any", false, false, false, 179), "html", null, true);
-        yield "/apprentissage';
+                        // CORRECTION: Utilisation du path Twig au lieu de URL en dur
+                        window.location.href = '";
+        // line 180
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_langue_apprentissage", ["id" => CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 180, $this->source); })()), "idNiveau", [], "any", false, false, false, 180), "idLangue", [], "any", false, false, false, 180), "id", [], "any", false, false, false, 180)]), "html", null, true);
+        yield "';
                     } else {
                         alert(\"Une erreur est survenue : \" + (data.message || 'Inconnu'));
                     }
@@ -471,6 +472,7 @@ class __TwigTemplate_a24881e35adca9bc47c3b2f153aef817 extends Template
             }
         }
     </script>
+</div>
 ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -502,7 +504,7 @@ class __TwigTemplate_a24881e35adca9bc47c3b2f153aef817 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  464 => 179,  455 => 173,  417 => 138,  411 => 134,  405 => 130,  402 => 129,  386 => 126,  383 => 125,  375 => 120,  370 => 118,  367 => 117,  358 => 113,  355 => 112,  353 => 111,  346 => 108,  344 => 107,  336 => 104,  333 => 103,  331 => 102,  326 => 101,  324 => 100,  321 => 99,  318 => 98,  314 => 96,  307 => 92,  303 => 90,  292 => 82,  288 => 80,  286 => 79,  283 => 78,  280 => 77,  277 => 76,  274 => 75,  271 => 74,  268 => 73,  265 => 72,  263 => 71,  260 => 70,  257 => 69,  254 => 68,  252 => 67,  250 => 66,  241 => 62,  237 => 60,  234 => 59,  229 => 58,  225 => 57,  221 => 56,  217 => 55,  213 => 54,  206 => 50,  203 => 49,  200 => 48,  197 => 47,  193 => 46,  189 => 45,  185 => 44,  181 => 43,  178 => 42,  175 => 41,  172 => 40,  169 => 39,  167 => 38,  164 => 37,  161 => 36,  143 => 35,  141 => 34,  118 => 16,  112 => 13,  103 => 6,  90 => 5,  64 => 3,  41 => 1,);
+        return array (  465 => 180,  455 => 173,  417 => 138,  411 => 134,  405 => 130,  402 => 129,  386 => 126,  383 => 125,  375 => 120,  370 => 118,  367 => 117,  358 => 113,  355 => 112,  353 => 111,  346 => 108,  344 => 107,  336 => 104,  333 => 103,  331 => 102,  326 => 101,  324 => 100,  321 => 99,  318 => 98,  314 => 96,  307 => 92,  303 => 90,  292 => 82,  288 => 80,  286 => 79,  283 => 78,  280 => 77,  277 => 76,  274 => 75,  271 => 74,  268 => 73,  265 => 72,  263 => 71,  260 => 70,  257 => 69,  254 => 68,  252 => 67,  250 => 66,  241 => 62,  237 => 60,  234 => 59,  229 => 58,  225 => 57,  221 => 56,  217 => 55,  213 => 54,  206 => 50,  203 => 49,  200 => 48,  197 => 47,  193 => 46,  189 => 45,  185 => 44,  181 => 43,  178 => 42,  175 => 41,  172 => 40,  169 => 39,  167 => 38,  164 => 37,  161 => 36,  143 => 35,  141 => 34,  118 => 16,  112 => 13,  103 => 6,  90 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -673,7 +675,7 @@ class __TwigTemplate_a24881e35adca9bc47c3b2f153aef817 extends Template
         // Afficher tout au chargement
         document.querySelector('[data-filter=\"all\"]').click();
 
-        // Terminer cours
+        // Terminer cours - VERSION CORRIGÉE
         function terminerCours(coursId) {
             if (confirm(\"Voulez-vous marquer cette leçon comme terminée ?\\nVous passerez automatiquement à la suivante.\")) {
                 fetch('/cours/' + coursId + '/terminer', {
@@ -685,7 +687,8 @@ class __TwigTemplate_a24881e35adca9bc47c3b2f153aef817 extends Template
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        window.location.href = '/langue/{{ cour.idNiveau.idLangue.id }}/apprentissage';
+                        // CORRECTION: Utilisation du path Twig au lieu de URL en dur
+                        window.location.href = '{{ path('app_langue_apprentissage', {id: cour.idNiveau.idLangue.id}) }}';
                     } else {
                         alert(\"Une erreur est survenue : \" + (data.message || 'Inconnu'));
                     }
@@ -694,6 +697,7 @@ class __TwigTemplate_a24881e35adca9bc47c3b2f153aef817 extends Template
             }
         }
     </script>
-{% endblock %}", "cours/base_apprentissage.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\cours\\base_apprentissage.html.twig");
+</div>
+{% endblock %}", "cours/base_apprentissage.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\cours\\base_apprentissage.html.twig");
     }
 }

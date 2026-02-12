@@ -503,6 +503,6 @@ class __TwigTemplate_fade834e9ed7608a40489b75bf1cb972 extends Template
         </div>
     </div>
 
-{% endblock %}", "niveau/new.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\niveau\\new.html.twig");
+{% endblock %}", "niveau/new.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\niveau\\new.html.twig");
     }
 }

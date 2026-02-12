@@ -296,6 +296,6 @@ class __TwigTemplate_ee5fff30b7f0dfc29f8d84921ac6cd3a extends Template
             margin-bottom: 0.5rem;
         }
     </style>
-{% endblock %}", "reservation/new.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\reservation\\new.html.twig");
+{% endblock %}", "reservation/new.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\reservation\\new.html.twig");
     }
 }
