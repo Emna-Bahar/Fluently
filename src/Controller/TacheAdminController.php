@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -25,6 +26,38 @@ final class TacheAdminController extends AbstractController
         ]);
     }
 
+    // ===================== RECHERCHE AJAX =====================
+    #[Route('/search', name: 'app_tache_admin_search', methods: ['POST'])]
+    public function search(Request $request, TacheRepository $tacheRepository): JsonResponse
+    {
+        $search = $request->request->get('search', '');
+        $statut = $request->request->get('statut', '');
+        $priorite = $request->request->get('priorite', '');
+
+        $taches = $tacheRepository->searchTaches($search, $statut, $priorite);
+
+        $data = [];
+        foreach ($taches as $tache) {
+            $data[] = [
+                'id' => $tache->getId(),
+                'titre' => $tache->getTitre(),
+                'description' => $tache->getDescription(),
+                'dateLimite' => $tache->getDateLimite() ? $tache->getDateLimite()->format('d/m/Y') : '-',
+                'statut' => $tache->getStatut(),
+                'priorite' => $tache->getPriorite(),
+                'objectif' => $tache->getIdObjectif() ? $tache->getIdObjectif()->getTitre() : '-',
+                'urlShow' => $this->generateUrl('app_tache_admin_show', ['id' => $tache->getId()]),
+                'urlEdit' => $this->generateUrl('app_tache_admin_edit', ['id' => $tache->getId()])
+            ];
+        }
+
+        return new JsonResponse([
+            'success' => true,
+            'count' => count($data),
+            'taches' => $data
+        ]);
+    }
+
     // ===================== AJOUT =====================
     #[Route('/new', name: 'app_tache_admin_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -37,10 +70,14 @@ final class TacheAdminController extends AbstractController
             $entityManager->persist($tache);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Tâche créée avec succès!');
             return $this->redirectToRoute('app_tache_admin_index');
+        } elseif ($form->isSubmitted()) {
+            $this->addFlash('error', 'Veuillez corriger les erreurs dans le formulaire');
         }
 
         return $this->render('tache_admin/new.html.twig', [
+            'tache' => $tache,
             'form' => $form,
         ]);
     }
@@ -63,7 +100,11 @@ final class TacheAdminController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            
+            $this->addFlash('success', 'Tâche modifiée avec succès!');
             return $this->redirectToRoute('app_tache_admin_index');
+        } elseif ($form->isSubmitted()) {
+            $this->addFlash('error', 'Veuillez corriger les erreurs dans le formulaire');
         }
 
         return $this->render('tache_admin/edit.html.twig', [
@@ -79,6 +120,8 @@ final class TacheAdminController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$tache->getId(), $request->request->get('_token'))) {
             $entityManager->remove($tache);
             $entityManager->flush();
+            
+            $this->addFlash('success', 'Tâche supprimée avec succès!');
         }
 
         return $this->redirectToRoute('app_tache_admin_index');
@@ -111,7 +154,7 @@ final class TacheAdminController extends AbstractController
             200,
             [
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'attachment; filename="taches.pdf"',
+                'Content-Disposition' => 'attachment; filename="taches_' . date('Y-m-d') . '.pdf"',
             ]
         );
     }

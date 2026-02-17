@@ -1,9 +1,227 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouvelle tâche{% endblock %}
+{% block title %}Nouvelle Tâche{% endblock %}
 
 {% block body %}
-<div class="container mt-4">
-    {{ include('tache/_form.html.twig') }}
+
+<style>
+.task-wrapper {
+    max-width: 850px;
+    margin: 120px auto 60px auto;
+}
+.task-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 40px 45px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+.task-title {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 600;
+    color: #4f6df5;
+    margin-bottom: 32px;
+}
+
+/* ── Inputs ── */
+.form-control, .form-select {
+    height: 52px;
+    border-radius: 12px;
+    border: 1px solid #dde3f0;
+    padding: 10px 16px;
+    font-size: 15px;
+    background-color: #fafbff;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+textarea.form-control { height: auto; }
+.form-control:focus, .form-select:focus {
+    border: 2px solid #4f6df5;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(79,109,245,0.12);
+    outline: none;
+}
+
+/* ── État invalide (PHP) ── */
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: #e74c3c;
+    background-color: #fff8f8;
+}
+.form-control.is-invalid:focus,
+.form-select.is-invalid:focus {
+    box-shadow: 0 0 0 4px rgba(231,76,60,0.12);
+}
+
+/* ── Message d'erreur ── */
+.error-msg {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #e74c3c;
+    font-size: 13px;
+    margin-top: 5px;
+}
+.error-msg i { font-size: 14px; }
+
+/* ── Labels ── */
+label {
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #444;
+    display: block;
+}
+
+/* ── Boutons ── */
+.btn-save {
+    background: linear-gradient(135deg, #4f6df5, #6a82fb);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 40px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+.btn-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(79,109,245,0.35);
+    color: white;
+}
+.btn-back {
+    background: #6c757d;
+    color: white;
+    border-radius: 30px;
+    padding: 12px 30px;
+    border: none;
+    transition: all 0.2s;
+}
+.btn-back:hover { background: #5a6268; color: white; }
+</style>
+
+<div class="task-wrapper">
+    <div class="task-card">
+
+        <div class="task-title">
+            📝 {% if objectif is defined and objectif %}
+                Nouvelle tâche — <span style="font-size:18px;color:#6a82fb">{{ objectif.titre }}</span>
+            {% else %}
+                Nouvelle tâche
+            {% endif %}
+        </div>
+
+        {#
+            novalidate → désactive TOUTE validation HTML5 du navigateur.
+            La validation est gérée entièrement côté serveur (PHP / Symfony).
+        #}
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+        {# ── Titre ── #}
+        <div class="mb-4">
+            {{ form_label(form.titre) }}
+            {{ form_widget(form.titre, {
+                'attr': {
+                    'class': 'form-control' ~ (form.titre.vars.errors|length > 0 ? ' is-invalid' : ''),
+                    'placeholder': 'Ex : Pratiquer la conjugaison'
+                }
+            }) }}
+            {% for error in form.titre.vars.errors %}
+                <p class="error-msg">
+                    <i class="fa fa-exclamation-circle"></i> {{ error.message }}
+                </p>
+            {% endfor %}
+        </div>
+
+        {# ── Description ── #}
+        <div class="mb-4">
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description, {
+                'attr': {
+                    'class': 'form-control' ~ (form.description.vars.errors|length > 0 ? ' is-invalid' : ''),
+                    'rows': 4,
+                    'placeholder': 'Décrivez la tâche en détail…'
+                }
+            }) }}
+            {% for error in form.description.vars.errors %}
+                <p class="error-msg">
+                    <i class="fa fa-exclamation-circle"></i> {{ error.message }}
+                </p>
+            {% endfor %}
+        </div>
+
+        {# ── Date limite + Priorité ── #}
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                {{ form_label(form.date_limite) }}
+                {{ form_widget(form.date_limite, {
+                    'attr': {
+                        'class': 'form-control' ~ (form.date_limite.vars.errors|length > 0 ? ' is-invalid' : '')
+                    }
+                }) }}
+                {% for error in form.date_limite.vars.errors %}
+                    <p class="error-msg">
+                        <i class="fa fa-exclamation-circle"></i> {{ error.message }}
+                    </p>
+                {% endfor %}
+            </div>
+
+            <div class="col-md-6 mb-4">
+                {{ form_label(form.priorite) }}
+                {{ form_widget(form.priorite, {
+                    'attr': {
+                        'class': 'form-select' ~ (form.priorite.vars.errors|length > 0 ? ' is-invalid' : '')
+                    }
+                }) }}
+                {% for error in form.priorite.vars.errors %}
+                    <p class="error-msg">
+                        <i class="fa fa-exclamation-circle"></i> {{ error.message }}
+                    </p>
+                {% endfor %}
+            </div>
+        </div>
+
+        {# ── Statut ── #}
+        <div class="mb-4">
+            {{ form_label(form.statut) }}
+            {{ form_widget(form.statut, {
+                'attr': {
+                    'class': 'form-select' ~ (form.statut.vars.errors|length > 0 ? ' is-invalid' : '')
+                }
+            }) }}
+            {% for error in form.statut.vars.errors %}
+                <p class="error-msg">
+                    <i class="fa fa-exclamation-circle"></i> {{ error.message }}
+                </p>
+            {% endfor %}
+        </div>
+
+        {# ── Objectif associé ── #}
+        <div class="mb-4">
+            {{ form_label(form.Id_objectif) }}
+            {{ form_widget(form.Id_objectif, {
+                'attr': {
+                    'class': 'form-select' ~ (form.Id_objectif.vars.errors|length > 0 ? ' is-invalid' : '')
+                }
+            }) }}
+            {% for error in form.Id_objectif.vars.errors %}
+                <p class="error-msg">
+                    <i class="fa fa-exclamation-circle"></i> {{ error.message }}
+                </p>
+            {% endfor %}
+        </div>
+
+        {# ── Boutons ── #}
+        <div class="d-flex justify-content-between align-items-center mt-2">
+            <button type="button" class="btn-back" onclick="history.back()">
+                ⬅ Retour
+            </button>
+            <button type="submit" class="btn-save">
+                💾 Enregistrer
+            </button>
+        </div>
+
+        {{ form_end(form) }}
+
+    </div>
 </div>
+
 {% endblock %}
