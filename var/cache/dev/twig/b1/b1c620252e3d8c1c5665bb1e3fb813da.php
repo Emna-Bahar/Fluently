@@ -129,17 +129,39 @@ class __TwigTemplate_b4fe556aef6d904c1c14246d84f041ae extends Template
         yield "
             </div>
         </div>
+
+        ";
+        // line 42
+        yield "        <div class=\"col-md-12\">
+            <div class=\"form-group\">
+                ";
+        // line 44
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 44, $this->source); })()), "niveau", [], "any", false, false, false, 44), 'label', ["label_attr" => ["class" => "form-label"]]);
+        yield "
+                ";
+        // line 45
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 45, $this->source); })()), "niveau", [], "any", false, false, false, 45), 'widget', ["attr" => ["class" => "form-select"]]);
+        yield "
+                <div class=\"form-help text-muted small\">
+                    (Optionnel - À utiliser uniquement pour les tests de fin de niveau)
+                </div>
+                ";
+        // line 49
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 49, $this->source); })()), "niveau", [], "any", false, false, false, 49), 'errors');
+        yield "
+            </div>
+        </div>
     </div>
 
     <div class=\"d-flex gap-3 mt-5\">
         <button type=\"submit\" class=\"btn btn-primary\">
             <i class=\"fas fa-save me-2\"></i> ";
-        // line 44
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(((array_key_exists("button_label", $context)) ? (Twig\Extension\CoreExtension::default((isset($context["button_label"]) || array_key_exists("button_label", $context) ? $context["button_label"] : (function () { throw new RuntimeError('Variable "button_label" does not exist.', 44, $this->source); })()), "Enregistrer")) : ("Enregistrer")), "html", null, true);
+        // line 56
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(((array_key_exists("button_label", $context)) ? (Twig\Extension\CoreExtension::default((isset($context["button_label"]) || array_key_exists("button_label", $context) ? $context["button_label"] : (function () { throw new RuntimeError('Variable "button_label" does not exist.', 56, $this->source); })()), "Enregistrer")) : ("Enregistrer")), "html", null, true);
         yield "
         </button>
         <a href=\"";
-        // line 46
+        // line 58
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_test_index");
         yield "\" class=\"btn btn-secondary\">
             <i class=\"fas fa-arrow-left me-2\"></i> Retour à la liste
@@ -147,8 +169,8 @@ class __TwigTemplate_b4fe556aef6d904c1c14246d84f041ae extends Template
     </div>
 
     ";
-        // line 51
-        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 51, $this->source); })()), 'form_end');
+        // line 63
+        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 63, $this->source); })()), 'form_end');
         yield "
 </div>";
         
@@ -181,7 +203,7 @@ class __TwigTemplate_b4fe556aef6d904c1c14246d84f041ae extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  151 => 51,  143 => 46,  138 => 44,  128 => 37,  124 => 36,  120 => 35,  111 => 29,  106 => 27,  102 => 26,  93 => 20,  89 => 19,  85 => 18,  76 => 12,  72 => 11,  68 => 10,  64 => 9,  56 => 4,  51 => 2,  48 => 1,);
+        return array (  173 => 63,  165 => 58,  160 => 56,  150 => 49,  143 => 45,  139 => 44,  135 => 42,  128 => 37,  124 => 36,  120 => 35,  111 => 29,  106 => 27,  102 => 26,  93 => 20,  89 => 19,  85 => 18,  76 => 12,  72 => 11,  68 => 10,  64 => 9,  56 => 4,  51 => 2,  48 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -225,6 +247,18 @@ class __TwigTemplate_b4fe556aef6d904c1c14246d84f041ae extends Template
                 {{ form_errors(form.langue) }}
             </div>
         </div>
+
+        {# AJOUT DU CHAMP NIVEAU ICI (dans la grille) #}
+        <div class=\"col-md-12\">
+            <div class=\"form-group\">
+                {{ form_label(form.niveau, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.niveau, {'attr': {'class': 'form-select'}}) }}
+                <div class=\"form-help text-muted small\">
+                    (Optionnel - À utiliser uniquement pour les tests de fin de niveau)
+                </div>
+                {{ form_errors(form.niveau) }}
+            </div>
+        </div>
     </div>
 
     <div class=\"d-flex gap-3 mt-5\">
@@ -237,6 +271,6 @@ class __TwigTemplate_b4fe556aef6d904c1c14246d84f041ae extends Template
     </div>
 
     {{ form_end(form) }}
-</div>", "test/_form.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\test\\_form.html.twig");
+</div>", "test/_form.html.twig", "C:\\Users\\emnab\\Documents\\Integration1\\templates\\test\\_form.html.twig");
     }
 }

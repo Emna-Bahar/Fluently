@@ -540,6 +540,6 @@ class __TwigTemplate_65806bb75f38075c90e9ef288deed790 extends Template
         });
     });
     </script>
-{% endblock %}", "session/new.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\session\\new.html.twig");
+{% endblock %}", "session/new.html.twig", "C:\\Users\\emnab\\Documents\\Integration1\\templates\\session\\new.html.twig");
     }
 }

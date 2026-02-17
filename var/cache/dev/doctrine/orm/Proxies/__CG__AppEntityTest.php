@@ -7,7 +7,7 @@ namespace Proxies\__CG__\App\Entity;
  */
 class Test extends \App\Entity\Test implements \Doctrine\ORM\Proxy\InternalProxy
 {
-    use \Symfony\Component\VarExporter\LazyGhostTrait {
+     use \Symfony\Component\VarExporter\LazyGhostTrait {
         initializeLazyObject as private;
         setLazyObjectAsInitialized as public __setInitialized;
         isLazyObjectInitialized as private;
@@ -25,6 +25,7 @@ class Test extends \App\Entity\Test implements \Doctrine\ORM\Proxy\InternalProxy
         "\0".parent::class."\0".'dureeEstimee' => [parent::class, 'dureeEstimee', null, 16],
         "\0".parent::class."\0".'id' => [parent::class, 'id', null, 16],
         "\0".parent::class."\0".'langue' => [parent::class, 'langue', null, 16],
+        "\0".parent::class."\0".'niveau' => [parent::class, 'niveau', null, 16],
         "\0".parent::class."\0".'passages' => [parent::class, 'passages', null, 16],
         "\0".parent::class."\0".'questions' => [parent::class, 'questions', null, 16],
         "\0".parent::class."\0".'titre' => [parent::class, 'titre', null, 16],
@@ -32,11 +33,12 @@ class Test extends \App\Entity\Test implements \Doctrine\ORM\Proxy\InternalProxy
         'dureeEstimee' => [parent::class, 'dureeEstimee', null, 16],
         'id' => [parent::class, 'id', null, 16],
         'langue' => [parent::class, 'langue', null, 16],
+        'niveau' => [parent::class, 'niveau', null, 16],
         'passages' => [parent::class, 'passages', null, 16],
         'questions' => [parent::class, 'questions', null, 16],
         'titre' => [parent::class, 'titre', null, 16],
         'type' => [parent::class, 'type', null, 16],
-    ];
+    ];
 
     public function __isInitialized(): bool
     {

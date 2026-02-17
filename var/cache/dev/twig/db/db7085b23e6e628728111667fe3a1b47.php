@@ -1390,6 +1390,6 @@ const actionButtons = document.querySelectorAll('.btn-see, .btn-modify, .btn-res
     });
 });
 </script>
-{% endblock %}", "session/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\session\\index.html.twig");
+{% endblock %}", "session/index.html.twig", "C:\\Users\\emnab\\Documents\\Integration1\\templates\\session\\index.html.twig");
     }
 }

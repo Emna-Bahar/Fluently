@@ -1216,6 +1216,6 @@ class __TwigTemplate_b82d2cc5591ccf671749e9a180a6cadf extends Template
    
 </body>
 
-</html>", "dashboard/user_profile.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\dashboard\\user_profile.html.twig");
+</html>", "dashboard/user_profile.html.twig", "C:\\Users\\emnab\\Documents\\Integration1\\templates\\dashboard\\user_profile.html.twig");
     }
 }

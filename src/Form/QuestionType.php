@@ -22,7 +22,7 @@ class Question1Type extends AbstractType
                 'choices' => [
                     'QCM' => 'qcm',
                     'Texte libre' => 'texte_libre',
-                    'Vrai/Faux' => 'vrai_faux',
+                    '🎤 Question orale' => 'oral',
                 ],
                 'placeholder' => 'Choisir un type',
                 'required' => true,

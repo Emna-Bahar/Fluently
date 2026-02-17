@@ -1174,6 +1174,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
-{% endblock %}", "session/edit.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\session\\edit.html.twig");
+{% endblock %}", "session/edit.html.twig", "C:\\Users\\emnab\\Documents\\Integration1\\templates\\session\\edit.html.twig");
     }
 }

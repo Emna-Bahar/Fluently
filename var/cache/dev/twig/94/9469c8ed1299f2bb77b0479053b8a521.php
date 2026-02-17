@@ -99,6 +99,6 @@ class __TwigTemplate_a870a61d20aefb8c70950f34a7f457d9 extends Template
     {{ form_widget(form) }}
     <button class=\"btn\">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
-", "langue/_form.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\langue\\_form.html.twig");
+", "langue/_form.html.twig", "C:\\Users\\emnab\\Documents\\Integration1\\templates\\langue\\_form.html.twig");
     }
 }

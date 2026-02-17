@@ -461,6 +461,6 @@ $context["reservation"], "statut", [], "any", false, false, false, 104) == "term
         </div>
     </div>
 </div>
-{% endblock %}", "dashboard/session/show.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\dashboard\\session\\show.html.twig");
+{% endblock %}", "dashboard/session/show.html.twig", "C:\\Users\\emnab\\Documents\\Integration1\\templates\\dashboard\\session\\show.html.twig");
     }
 }

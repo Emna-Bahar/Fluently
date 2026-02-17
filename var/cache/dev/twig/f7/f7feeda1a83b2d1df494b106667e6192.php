@@ -94,6 +94,6 @@ class __TwigTemplate_c09138f04bfdd06c6e68a594b1fc9981 extends Template
     <input type=\"hidden\" name=\"_token\" value=\"{{ csrf_token('delete' ~ langue.id) }}\">
     <button class=\"btn\">Delete</button>
 </form>
-", "langue/_delete_form.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\langue\\_delete_form.html.twig");
+", "langue/_delete_form.html.twig", "C:\\Users\\emnab\\Documents\\Integration1\\templates\\langue\\_delete_form.html.twig");
     }
 }

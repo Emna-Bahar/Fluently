@@ -246,7 +246,174 @@
                         </div>
                     {% endfor %}
                 {% endif %}
+                
+                                {# ============ TEST DE FIN DE NIVEAU ============ #}
+                {% if niveauEntity %}
+                    {# Récupérer le test de fin de niveau pour ce niveau spécifique #}
+                    {% set testFinNiveau = null %}
+                    {% for test in testsLangue %}
+                        {% if test.type == 'Test de fin de niveau' and test.niveau and test.niveau.id == niveauEntity.id %}
+                            {% set testFinNiveau = test %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if testFinNiveau %}
+                        {# Vérifier si tous les cours du niveau sont terminés #}
+                        {% set tousCoursTermines = true %}
+                        {% for cours in coursDuNiveau|slice(0, 3) %}
+                            {% set coursReelNumero = cours.numero %}
+                            {% if niveauOrdre == niveauActuelOrdre and dernierCoursTermine < coursReelNumero %}
+                                {% set tousCoursTermines = false %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {# Vérifier si le test est déjà passé #}
+                        {# Vérifier si le test est déjà passé #}
+                        {% set testDejaPassé = false %}
+                        {% for passage in testFinNiveau.passages %}
+                            {% if passage.user.id == user.id and passage.statut == 'termine' %}
+                                {% set testDejaPassé = true %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {# Afficher le cercle de test #}
+                        <div style="position: relative; margin: 100px 0; text-align: center; z-index: 3;">
+                            {% if tousCoursTermines or testDejaPassé %}
+                                <a href="{{ path('app_test_student_show', {id: testFinNiveau.id}) }}" style="text-decoration: none;">
+                            {% endif %}
+                            
+                            <div style="
+                                width: 200px;
+                                height: 200px;
+                                margin: 0 auto;
+                                background: {% if testDejaPassé %}linear-gradient(135deg, #10b981, #059669){% elseif tousCoursTermines %}linear-gradient(135deg, #fbbf24, #f59e0b){% else %}#6b7280{% endif %};
+                                border-radius: 50%;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                                box-shadow: 0 20px 70px rgba(0,0,0,0.5);
+                                transition: all 0.45s ease;
+                                position: relative;
+                                border: 10px solid {{ (tousCoursTermines or testDejaPassé) ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.25)' }};
+                                opacity: {{ (tousCoursTermines or testDejaPassé) ? '1' : '0.5' }};
+                                cursor: {{ (tousCoursTermines or testDejaPassé) ? 'pointer' : 'default' }};
+                            " 
+                            {% if tousCoursTermines or testDejaPassé %}
+                                onmouseover="this.style.transform='scale(1.15) rotate(5deg)'; this.style.boxShadow='0 40px 90px rgba(0,0,0,0.7)';" 
+                                onmouseout="this.style.transform='scale(1) rotate(0deg)'; this.style.boxShadow='0 20px 70px rgba(0,0,0,0.5)';"
+                            {% endif %}>
+                                
+                                <span style="font-size: 6rem; line-height: 1;">
+                                    {% if testDejaPassé %}✅{% else %}📝{% endif %}
+                                </span>
+                                <span style="font-size: 1.3rem; font-weight: 900; color: white; margin-top: 10px; text-align: center; padding: 0 20px;">
+                                    TEST<br>FIN NIVEAU
+                                </span>
+
+                                {% if testDejaPassé %}
+                                    <div style="position: absolute; top: -10px; right: -10px; background: #10b981; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 10px 24px rgba(16,185,129,0.6); border: 4px solid white;">
+                                        ✓
+                                    </div>
+                                {% elseif not tousCoursTermines %}
+                                    <div style="position: absolute; top: -10px; right: -10px; background: #ef4444; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 10px 24px rgba(239,68,68,0.6); border: 4px solid white;">
+                                        🔒
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <p style="margin-top: 20px; font-size: 1.4rem; font-weight: 700; color: white; text-shadow: 0 3px 10px rgba(0,0,0,0.5);">
+                                {% if testDejaPassé %}
+                                    ✓ Validé
+                                {% elseif tousCoursTermines %}
+                                    Débloqué !
+                                {% else %}
+                                    Termine tous les cours d'abord
+                                {% endif %}
+                            </p>
+
+                            {% if tousCoursTermines or testDejaPassé %}
+                                </a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endif %}
             {% endfor %}
+            
+                        {# ============ TESTS HORS PARCOURS (À DROITE) ============ #}
+            <div style="position: fixed; right: 30px; top: 50%; transform: translateY(-50%); z-index: 10; display: flex; flex-direction: column; gap: 30px;">
+
+                {% set testsHorsParcours = [] %}
+                {% for test in testsLangue %}  
+                    {% if test.type not in ['Test de niveau', 'Test de fin de niveau'] %}
+                        {% set testsHorsParcours = testsHorsParcours|merge([test]) %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if testsHorsParcours|length > 0 %}
+                    {% for test in testsHorsParcours %}
+                        {# Vérifier si déjà passé #}
+                        {% set testPassé = false %}
+                        {% if app.user %}
+                            {% for passage in test.passages %}
+                                {% if passage.user.id == app.user.id and passage.statut == 'termine' %}
+                                    {% set testPassé = true %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                        <a href="{{ path('app_test_student_show', {id: test.id}) }}" 
+                        style="text-decoration: none; display: block;"
+                        title="{{ test.titre }}">
+                            <div style="
+                                width: 120px;
+                                height: 120px;
+                                background: {% if testPassé %}linear-gradient(135deg, #10b981, #059669){% else %}linear-gradient(135deg, #3b82f6, #1d4ed8){% endif %};
+                                border-radius: 50%;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                                box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+                                transition: all 0.3s ease;
+                                border: 6px solid rgba(255,255,255,0.8);
+                                position: relative;
+                                cursor: pointer;
+                            " 
+                            onmouseover="this.style.transform='scale(1.15) rotate(10deg)'; this.style.boxShadow='0 20px 60px rgba(0,0,0,0.6)';" 
+                            onmouseout="this.style.transform='scale(1) rotate(0deg)'; this.style.boxShadow='0 10px 40px rgba(0,0,0,0.4)';">
+                                
+                                <span style="font-size: 3.5rem; line-height: 1;">
+                                    {% if testPassé %}✅{% else %}📝{% endif %}
+                                </span>
+                                <span style="font-size: 0.9rem; font-weight: 800; color: white; margin-top: 5px; text-align: center; line-height: 1.1;">
+                                    TEST
+                                </span>
+
+                                {% if testPassé %}
+                                    <div style="position: absolute; top: -8px; right: -8px; background: #10b981; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 8px 20px rgba(16,185,129,0.6); border: 3px solid white;">
+                                        ✓
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <div style="
+                        width: 120px;
+                        height: 120px;
+                        background: linear-gradient(135deg, #9ca3af, #6b7280);
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border: 6px solid rgba(255,255,255,0.5);
+                        opacity: 0.6;
+                    ">
+                        <span style="font-size: 3rem;">🔒</span>
+                    </div>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>

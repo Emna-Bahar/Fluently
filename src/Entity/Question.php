@@ -23,7 +23,7 @@ class Question
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank(message: "Le type est obligatoire")]
-    #[Assert\Choice(choices: ['qcm', 'texte_libre', 'vrai_faux'], message: "Type invalide (qcm, texte_libre, vrai_faux)")]
+    #[Assert\Choice(choices: ['qcm', 'texte_libre', 'oral'], message: "Type invalide (qcm, texte_libre, oral)")]
     private ?string $type = null;
 
     #[ORM\Column]

@@ -177,6 +177,8 @@ final class CoursController extends AbstractController
             $this->addFlash('warning', 'Ce cours n\'est pas encore débloqué.');
             return $this->redirectToRoute('app_langue_apprentissage', ['id' => $langue->getId()]);
         }
+        $dbResources = $cour->getRessource() ? explode("\n", trim($cour->getRessource())) : [];
+        $dbResources = array_filter($dbResources, fn($v) => trim($v) !== '');
 
         $difficulte = $cour->getIdNiveau()->getDifficulte();
 
@@ -186,14 +188,11 @@ final class CoursController extends AbstractController
         $dirPath = $this->getParameter('kernel.project_dir') . "/public/uploads/cours/$langSlug/$nivSlug";
         $publicPath = "/uploads/cours/$langSlug/$nivSlug";
 
-        $files = is_dir($dirPath) ? array_values(array_diff(scandir($dirPath), ['.', '..'])) : [];
-        $dbResources = $cour->getRessource() ? explode("\n", trim($cour->getRessource())) : [];
-        $dbResources = array_filter($dbResources, fn($v) => trim($v) !== '');
-        $allResources = array_unique(array_merge($files, $dbResources));
+        
 
         return $this->render('cours/base_apprentissage.html.twig', [  
             'cour' => $cour,
-            'files' => $allResources,  
+            'files' => $dbResources,  
             'public_path' => $publicPath,
             'progress' => $progress,
         ]);

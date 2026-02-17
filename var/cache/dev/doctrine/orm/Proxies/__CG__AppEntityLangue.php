@@ -7,7 +7,7 @@ namespace Proxies\__CG__\App\Entity;
  */
 class Langue extends \App\Entity\Langue implements \Doctrine\ORM\Proxy\InternalProxy
 {
-    use \Symfony\Component\VarExporter\LazyGhostTrait {
+     use \Symfony\Component\VarExporter\LazyGhostTrait {
         initializeLazyObject as private;
         setLazyObjectAsInitialized as public __setInitialized;
         isLazyObjectInitialized as private;
@@ -44,7 +44,7 @@ class Langue extends \App\Entity\Langue implements \Doctrine\ORM\Proxy\InternalP
         'nom' => [parent::class, 'nom', null, 16],
         'popularite' => [parent::class, 'popularite', null, 16],
         'tests' => [parent::class, 'tests', null, 16],
-    ];
+    ];
 
     public function __isInitialized(): bool
     {

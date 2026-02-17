@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Test;
 use App\Entity\Langue;
+use App\Entity\Niveau;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -26,9 +27,7 @@ class TestType extends AbstractType
                 'choices'  => [
                     'Test de niveau' => 'Test de niveau',
                     'Quiz débutant' => 'quiz_debutant',
-                    'Test intermédiaire' => 'test_intermediaire',
-                    'Examen final' => 'examen_final',
-                    'Quiz gamifié' => 'quiz_gamifie',
+                    'Test de fin de niveau' => 'Test de fin de niveau',
                 ],
                 'placeholder' => 'Choisir un type de test',
                 'required' => true,
@@ -46,6 +45,15 @@ class TestType extends AbstractType
                 'label' => 'Langue',
                 'placeholder' => 'Choisir une langue',
                 'required' => true,
+            ])
+            ->add('niveau', EntityType::class, [
+                'class' => Niveau::class,
+                'choice_label' => function(Niveau $niveau) {
+                    return $niveau->getIdLangue()->getNom() . ' - ' . $niveau->getTitre();
+                },
+                'required' => false,
+                'placeholder' => '(Optionnel - Pour test de fin de niveau uniquement)',
+                'label' => 'Niveau associé',
             ])
         ;
     }

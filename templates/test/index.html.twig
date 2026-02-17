@@ -1,282 +1,159 @@
 {% extends 'dashboard/index.html.twig' %}
 
-{% block title %}Gestion des Tests - Fluently{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    <style>
-        /* Ton style reste IDENTIQUE – je ne le répète pas ici pour gagner de la place */
-        /* ... colle tout ton <style> précédent ici ... */
-    </style>
-{% endblock %}
+{% block title %}Admin - Gestion des Tests{% endblock %}
 
 {% block body %}
-    <div class="container-fluid mt-4">
 
-        <!-- En-tête principal -->
+    <!-- Contenu principal -->
+    <div class="nxl-content">
+
+        <!-- Header de la page -->
         <div class="page-header">
-            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-                <div>
-                    <h1>
-                        <i class="fas fa-clipboard-list me-3"></i>
-                        Gestion des Tests
-                    </h1>
-                    <p>Créer, modifier et superviser tous vos tests d'évaluation</p>
+            <div class="page-header-left d-flex align-items-center">
+                <div class="page-header-title">
+                    <h5 class="m-b-10">Gestion des Tests</h5>
                 </div>
-                <a href="{{ path('app_test_new') }}" class="btn btn-light btn-lg px-4 py-3">
-                    <i class="fas fa-plus-circle me-2"></i> Créer un nouveau test
+            </div>
+            <div class="page-header-right ms-auto">
+                <a href="{{ path('app_test_new') }}" class="btn btn-primary btn-lg">
+                    <i class="feather-plus me-2"></i> Nouveau test
                 </a>
             </div>
         </div>
 
-        <!-- Cartes statistiques – version corrigée -->
-        <div class="stats-grid">
-            <div class="stats-card">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="stats-label">
-                            <i class="fas fa-clipboard-list stats-icon text-primary"></i>
-                            Tests au total
-                        </div>
-                        <div class="stats-number text-primary">{{ tests|length }}</div>
+        <!-- Card principale -->
+        <div class="main-content">
+
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-bottom">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <h6 class="m-0">Liste des tests</h6>
+                        
+                        <!-- Filtres -->
+                        <form method="GET" class="d-flex align-items-center gap-3 flex-wrap">
+                            <!-- Recherche texte -->
+                            <div class="input-group" style="width: 280px;">
+                                <span class="input-group-text bg-white border-end-0">
+                                    <i class="feather-search"></i>
+                                </span>
+                                <input type="text" 
+                                    name="search" 
+                                    value="{{ search }}" 
+                                    class="form-control" 
+                                    placeholder="Rechercher un test...">
+                            </div>
+
+                            <!-- Filtre par type -->
+                            <div class="input-group" style="width: 220px;">
+                                <select name="type" class="form-select">
+                                    <option value="">Tous les types</option>
+                                    <option value="Test de niveau"        {% if type == 'Test de niveau'        %}selected{% endif %}>Test de niveau</option>
+                                    <option value="Test de fin de niveau" {% if type == 'Test de fin de niveau' %}selected{% endif %}>Test de fin de niveau</option>
+                                    <option value="quiz_debutant"         {% if type == 'quiz_debutant'         %}selected{% endif %}>Quiz débutant</option>
+                                    <!-- Ajoute ici tous les autres types que tu utilises -->
+                                </select>
+                            </div>
+
+                            <!-- Filtre par langue -->
+                            <div class="input-group" style="width: 220px;">
+                                <select name="langue" class="form-select">
+                                    <option value="">Toutes les langues</option>
+                                    {% for langue in langues %}
+                                        <option value="{{ langue.id }}" 
+                                                {% if langue.id == langueId|default(0) %}selected{% endif %}
+                                            {{ langue.nom }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-outline-primary">
+                                <i class="feather-filter me-2"></i> Filtrer
+                            </button>
+                        </form>
                     </div>
                 </div>
-            </div>
 
-            <div class="stats-card">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="stats-label">
-                            <i class="fas fa-check-circle stats-icon text-success"></i>
-                            Tentatives terminées
-                        </div>
-                        <div class="stats-number text-success">
-                            {% set totalPassages = 0 %}
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Titre</th>
+                                    <th>Type</th>
+                                    <th>Langue</th>
+                                    <th>Durée estimée</th>
+                                    <th>Questions</th>
+                                    <th>Score max</th>
+                                    <th>Tentatives</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                             {% for test in tests %}
-                                {% set totalPassages = totalPassages + test.passages|length %}
+                                <tr>
+                                    <td class="fw-medium">{{ test.id }}</td>
+                                    <td class="fw-bold">{{ test.titre ?: 'Sans titre' }}</td>
+                                    <td>
+                                        <span class="badge bg-primary-subtle text-primary px-3 py-2">
+                                            {{ test.type ?: 'Non défini' }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {% if test.langue %}
+                                            {{ test.langue.nom }}
+                                        {% else %}
+                                            —
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ test.dureeEstimee ?: '—' }} min</td>
+                                    <td class="text-center">{{ test.questions|length }}</td>
+                                    <td class="text-center">{{ test.scoreMax ?: '—' }} pts</td>
+                                    <td class="text-center">{{ test.passages|length }}</td>
+                                    <td class="text-center">
+                                        <div class="d-flex gap-2 justify-content-center">
+                                            <a href="{{ path('app_test_show', {id: test.id}) }}" 
+                                               class="btn btn-sm btn-outline-info" 
+                                               data-bs-toggle="tooltip" title="Voir">
+                                                <i class="feather-eye"></i>
+                                            </a>
+
+                                            <a href="{{ path('app_test_edit', {id: test.id}) }}" 
+                                               class="btn btn-sm btn-outline-warning" 
+                                               data-bs-toggle="tooltip" title="Modifier">
+                                                <i class="feather-edit-2"></i>
+                                            </a>
+
+                                            <form method="post" action="{{ path('app_test_delete', {id: test.id}) }}" 
+                                                  onsubmit="return confirm('Confirmer la suppression de ce test ?');" 
+                                                  style="display: inline;">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ test.id) }}">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                        data-bs-toggle="tooltip" title="Supprimer">
+                                                    <i class="feather-trash-2"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="9" class="text-center py-5 text-muted">
+                                        <h5 class="mb-3">Aucun test trouvé</h5>
+                                        <a href="{{ path('app_test_new') }}" class="btn btn-primary">
+                                            <i class="feather-plus me-2"></i> Ajouter un test
+                                        </a>
+                                    </td>
+                                </tr>
                             {% endfor %}
-                            {{ totalPassages }}
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
 
-            <div class="stats-card">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="stats-label">
-                            <i class="fas fa-clock stats-icon text-warning"></i>
-                            En attente
-                        </div>
-                        <div class="stats-number text-warning">
-                            {# Pour l'instant on affiche 0 car on n'a plus de "en attente" direct #}
-                            0
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="stats-card">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="stats-label">
-                            <i class="fas fa-question-circle stats-icon text-info"></i>
-                            Questions totales
-                        </div>
-                        <div class="stats-number text-info">
-                            {% set totalQ = 0 %}
-                            {% for test in tests %}
-                                {% set totalQ = totalQ + test.questions|length %}
-                            {% endfor %}
-                            {{ totalQ }}
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-
-        <!-- Filtres – corrigé -->
-        <div class="filter-card">
-            <form method="get" action="{{ path('app_test_index') }}" id="filterForm" class="row g-4">
-                <div class="col-lg-4 col-md-6">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" class="form-control" name="search" placeholder="Titre, type, langue..." value="{{ app.request.get('search') }}">
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6">
-                    <label class="form-label fw-bold">
-                        <i class="fas fa-filter text-primary me-1"></i> Type de test
-                    </label>
-                    <select class="form-select filter-select" name="type">
-                        <option value="">Tous les types</option>
-                        <option value="Test de niveau" {{ app.request.get('type') == 'Test de niveau' ? 'selected' : '' }}>Test de niveau</option>
-                        <option value="quiz_debutant" {{ app.request.get('type') == 'quiz_debutant' ? 'selected' : '' }}>Quiz débutant</option>
-                        <option value="test_intermediaire" {{ app.request.get('type') == 'test_intermediaire' ? 'selected' : '' }}>Test intermédiaire</option>
-                        <option value="examen_final" {{ app.request.get('type') == 'examen_final' ? 'selected' : '' }}>Examen final</option>
-                        <option value="quiz_gamifie" {{ app.request.get('type') == 'quiz_gamifie' ? 'selected' : '' }}>Quiz gamifié</option>
-                    </select>
-                </div>
-
-                <div class="col-lg-3 col-md-6">
-                    <label class="form-label fw-bold">
-                        <i class="fas fa-language text-primary me-1"></i> Langue
-                    </label>
-                    <select class="form-select filter-select" name="langue">
-                        <option value="">Toutes les langues</option>
-                        {% set languesAffichees = [] %}
-                        {% for test in tests %}
-                            {% if test.langue and test.langue.nom not in languesAffichees %}
-                                {% set languesAffichees = languesAffichees|merge([test.langue.nom]) %}
-                                <option value="{{ test.langue.id }}" {{ app.request.get('langue') == test.langue.id ? 'selected' : '' }}>
-                                    {{ test.langue.nom }}
-                                </option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="col-lg-2 col-md-6 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary w-100 btn-lg">
-                        <i class="fas fa-filter me-2"></i> Filtrer
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <!-- Tableau corrigé -->
-        <div class="test-table">
-            <table class="table mb-0">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Titre</th>
-                        <th>Type</th>
-                        <th>Langue</th>
-                        <th>Durée</th>
-                        <th>Questions</th>
-                        <th>Score max</th>
-                        <th>Tentatives</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for test in tests %}
-                        <tr class="test-row" data-type="{{ test.type|lower }}" data-langue="{{ test.langue ? test.langue.id : '' }}">
-                            <td class="fw-bold text-primary">#{{ test.id }}</td>
-
-                            <td>{{ test.titre ?: 'Sans titre' }}</td>
-
-                            <td>
-                                <span class="badge badge-type bg-primary-subtle text-primary">
-                                    {{ test.type ?: 'Non défini' }}
-                                </span>
-                            </td>
-
-                            <td>
-                                {% if test.langue %}
-                                    <span class="badge bg-info-subtle text-info">
-                                        <i class="fas fa-language me-1"></i> {{ test.langue.nom }}
-                                    </span>
-                                {% else %}
-                                    <span class="text-muted">—</span>
-                                {% endif %}
-                            </td>
-
-                            <td>
-                                {% if test.dureeEstimee %}
-                                    <i class="fas fa-stopwatch text-muted me-2"></i>
-                                    {{ test.dureeEstimee }} min
-                                {% else %}
-                                    <span class="text-muted">—</span>
-                                {% endif %}
-                            </td>
-
-                            <td class="text-center">
-                                <span class="badge bg-secondary">
-                                    {{ test.questions|length }}
-                                </span>
-                            </td>
-
-                            <td class="text-center">
-                                <span class="badge bg-dark">
-                                    {{ test.scoreMax }} pts
-                                </span>
-                            </td>
-
-                            <td class="text-center">
-                                <span class="badge bg-warning text-dark">
-                                    {{ test.passages|length }}
-                                </span>
-                            </td>
-
-                            <td>
-                                <div class="btn-group" role="group">
-                                    <a href="{{ path('app_test_show', {'id': test.id}) }}" 
-                                       class="btn btn-info btn-action" 
-                                       title="Voir les détails">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="{{ path('app_test_edit', {'id': test.id}) }}" 
-                                       class="btn btn-warning btn-action" 
-                                       title="Modifier">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <form method="post" action="{{ path('app_test_delete', {'id': test.id}) }}" 
-                                          onsubmit="return confirm('Supprimer ce test ?\n\nTitre: {{ test.titre }}\nType: {{ test.type }}\nCette action est irréversible.');" 
-                                          style="display:inline;">
-                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ test.id) }}">
-                                        <button type="submit" class="btn btn-danger btn-action" title="Supprimer">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="9">
-                                <div class="empty-state text-center py-5">
-                                    <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
-                                    <h4>Aucun test trouvé</h4>
-                                    <p>Commencez par créer votre premier test d'évaluation</p>
-                                    <a href="{{ path('app_test_new') }}" class="btn btn-primary mt-4 px-5 py-3">
-                                        <i class="fas fa-plus-circle me-2"></i> Créer un test
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
     </div>
-{% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        // Soumission automatique des filtres (inchangé)
-        document.querySelectorAll('#filterType, #filterLangue').forEach(el => {
-            el.addEventListener('change', () => {
-                document.getElementById('filterForm').submit();
-            });
-        });
-
-        // Recherche en temps réel (inchangé)
-        const searchInput = document.getElementById('searchInput');
-        let timeout;
-        searchInput.addEventListener('input', () => {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                const value = searchInput.value.toLowerCase().trim();
-                document.querySelectorAll('.test-row').forEach(row => {
-                    const text = row.textContent.toLowerCase();
-                    row.style.display = text.includes(value) ? '' : 'none';
-                });
-            }, 300);
-        });
-    </script>
 {% endblock %}

@@ -805,6 +805,6 @@ function logoutUser(event) {
 {% endblock %}
 
 </body>
-</html>", "base.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\base.html.twig");
+</html>", "base.html.twig", "C:\\Users\\emnab\\Documents\\Integration1\\templates\\base.html.twig");
     }
 }

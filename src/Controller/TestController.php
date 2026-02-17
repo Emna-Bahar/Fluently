@@ -7,9 +7,11 @@ use App\Entity\TestPassage;
 use App\Entity\Question;
 use App\Entity\Reponse;
 use App\Form\TestType;
+use App\Service\TestScoringService;
 use App\Repository\TestRepository;
 use App\Repository\ReponseRepository;
 use App\Repository\TestPassageRepository;
+use App\Repository\LangueRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +25,7 @@ final class TestController extends AbstractController
     // ==================== PARTIE ADMIN ====================
     
     #[Route('', name: 'app_test_index', methods: ['GET'])]
-    public function index(Request $request, TestRepository $testRepository): Response
+    public function index(Request $request, TestRepository $testRepository,LangueRepository $langueRepository): Response
     {
         $search = $request->query->get('search', '');
         $type = $request->query->get('type', '');
@@ -31,7 +33,8 @@ final class TestController extends AbstractController
 
         $queryBuilder = $testRepository->createQueryBuilder('t')
             ->leftJoin('t.langue', 'l')
-            ->leftJoin('t.questions', 'q');
+            ->leftJoin('t.questions', 'q')
+            ->orderBy('t.titre', 'ASC'); // Tri par défaut sur le titre
 
         if ($search) {
             $queryBuilder->andWhere('LOWER(t.titre) LIKE :search OR LOWER(t.type) LIKE :search')
@@ -50,8 +53,15 @@ final class TestController extends AbstractController
 
         $tests = $queryBuilder->getQuery()->getResult();
 
+        // Récupérer toutes les langues pour le select
+        $langues = $langueRepository->findBy([], ['nom' => 'ASC']);
+
         return $this->render('test/index.html.twig', [
             'tests' => $tests,
+            'langues' => $langues,           // ← Passé au template
+            'search'  => $search,             // Pour garder la valeur dans l'input
+            'type'    => $type,
+            'langue'  => $langueId,
         ]);
     }
 
@@ -156,6 +166,26 @@ final class TestController extends AbstractController
             'statut' => 'en_cours'
         ]);
 
+        // 🔴 VÉRIFIER SI LE TEMPS EST ÉCOULÉ
+        if ($passageEnCours) {
+            $dureeMinutes = $test->getDureeEstimee() ?: 15;
+            $dureeSecondes = $dureeMinutes * 60;
+            $tempsEcoule = (new \DateTime())->getTimestamp() - $passageEnCours->getDateDebut()->getTimestamp();
+            
+            if ($tempsEcoule >= $dureeSecondes) {
+                // Soumettre automatiquement avec score 0
+                $passageEnCours->setScore(0);
+                $passageEnCours->setResultat(0);
+                $passageEnCours->setDateFin(new \DateTime());
+                $passageEnCours->setTempsPasse($tempsEcoule);
+                $passageEnCours->setStatut('termine');
+                $entityManager->flush();
+                
+                $this->addFlash('warning', '⏰ Le temps était écoulé. Le test a été soumis automatiquement avec un score de 0.');
+                return $this->redirectToRoute('app_test_student_result', ['id' => $passageEnCours->getId()]);
+            }
+        }
+
         return $this->render('test_student/show.html.twig', [
             'test'           => $test,
             'langue'         => $test->getLangue(),
@@ -208,74 +238,64 @@ final class TestController extends AbstractController
     }
 
     #[Route('/etudiant/{id}/submit', name: 'app_test_student_submit', methods: ['POST'])]
-    public function studentSubmit(
-        Request $request,
-        Test $test,
-        EntityManagerInterface $entityManager,
-        ReponseRepository $reponseRepository
-    ): Response
-    {
-        $session = $request->getSession();
-        $userId = $session->get('user_id');
+        public function studentSubmit(
+            Request $request,
+            Test $test,
+            EntityManagerInterface $entityManager,
+            TestScoringService $scoringService // ✅ Injection du service
+        ): Response
+        {
+            $session = $request->getSession();
+            $userId = $session->get('user_id');
 
-        if (!$userId) {
-            $this->addFlash('error', 'Vous devez être connecté.');
-            return $this->redirectToRoute('app_login');
-        }
-
-        $user = $entityManager->getRepository(\App\Entity\User::class)->find($userId);
-
-        if (!$user) {
-            $this->addFlash('error', 'Utilisateur introuvable.');
-            return $this->redirectToRoute('app_login');
-        }
-
-        $passage = $entityManager->getRepository(TestPassage::class)
-            ->findOneBy([
-                'test'   => $test,
-                'user'   => $user,
-                'statut' => 'en_cours'
-            ]);
-
-        if (!$passage) {
-            $this->addFlash('error', 'Aucun test en cours trouvé.');
-            return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
-        }
-
-        $scoreTotal = 0;
-        $questions = $test->getQuestions();
-
-        foreach ($questions as $question) {
-            $reponseId = $request->request->get('question_' . $question->getId());
-
-            if ($reponseId) {
-                $reponse = $reponseRepository->find($reponseId);
-                if ($reponse && $reponse->isCorrect()) {
-                    $scoreTotal += $question->getScoreMax();
-                }
+            if (!$userId) {
+                $this->addFlash('error', 'Vous devez être connecté.');
+                return $this->redirectToRoute('app_login');
             }
+
+            $user = $entityManager->getRepository(\App\Entity\User::class)->find($userId);
+
+            if (!$user) {
+                $this->addFlash('error', 'Utilisateur introuvable.');
+                return $this->redirectToRoute('app_login');
+            }
+
+            $passage = $entityManager->getRepository(TestPassage::class)
+                ->findOneBy([
+                    'test'   => $test,
+                    'user'   => $user,
+                    'statut' => 'en_cours'
+                ]);
+
+            if (!$passage) {
+                $this->addFlash('error', 'Aucun test en cours trouvé.');
+                return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
+            }
+
+            // ✅ Utiliser le service pour calculer le score
+            $scoringResult = $scoringService->calculateTestScore($test, $request);
+
+            $passage->setScore($scoringResult['total_score']);
+            $passage->setResultat($scoringResult['percentage']);
+            $passage->setDateFin(new \DateTime());
+            $passage->setTempsPasse((new \DateTime())->getTimestamp() - $passage->getDateDebut()->getTimestamp());
+            $passage->setStatut('termine');
+
+            $entityManager->flush();
+
+            $niveau = $this->determinerNiveau($passage->getResultat());
+
+            $this->addFlash('success', sprintf(
+                'Test terminé ! Score : %.1f%% → Niveau estimé : %s',
+                $passage->getResultat(),
+                $niveau
+            ));
+
+            return $this->redirectToRoute('app_langue_apprentissage', [
+                'id' => $test->getLangue()->getId()
+            ]);
         }
 
-        $passage->setScore($scoreTotal);
-        $passage->setResultat($passage->getScoreMax() > 0 ? ($scoreTotal / $passage->getScoreMax()) * 100 : 0);
-        $passage->setDateFin(new DateTime());
-        $passage->setTempsPasse((new DateTime())->getTimestamp() - $passage->getDateDebut()->getTimestamp());
-        $passage->setStatut('termine');
-
-        $entityManager->flush();
-
-        $niveau = $this->determinerNiveau($passage->getResultat());
-
-        $this->addFlash('success', sprintf(
-            'Test terminé ! Score : %.1f%% → Niveau estimé : %s',
-            $passage->getResultat(),
-            $niveau
-        ));
-
-        return $this->redirectToRoute('app_langue_apprentissage', [
-            'id' => $test->getLangue()->getId()
-        ]);
-    }
 
     #[Route('/etudiant/result/{id}', name: 'app_test_student_result', methods: ['GET'])]
     public function studentResults(

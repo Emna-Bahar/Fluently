@@ -698,6 +698,6 @@ class __TwigTemplate_a24881e35adca9bc47c3b2f153aef817 extends Template
         }
     </script>
 </div>
-{% endblock %}", "cours/base_apprentissage.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\cours\\base_apprentissage.html.twig");
+{% endblock %}", "cours/base_apprentissage.html.twig", "C:\\Users\\emnab\\Documents\\Integration1\\templates\\cours\\base_apprentissage.html.twig");
     }
 }
