@@ -519,6 +519,6 @@ class __TwigTemplate_7944a0afe67c0f7b7525c867db1a2965 extends Template
         </div>
     </div>
 </div>
-{% endblock %}", "test/passages.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\test\\passages.html.twig");
+{% endblock %}", "test/passages.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\test\\passages.html.twig");
     }
 }

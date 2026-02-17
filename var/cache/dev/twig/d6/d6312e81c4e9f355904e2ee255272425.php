@@ -162,6 +162,6 @@ class __TwigTemplate_6b54a1c0bd172ff798dbc08dc8cf0260 extends Template
 
     {{ include('question/_delete_form.html.twig') }}
 {% endblock %}
-", "question/edit.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\question\\edit.html.twig");
+", "question/edit.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\question\\edit.html.twig");
     }
 }

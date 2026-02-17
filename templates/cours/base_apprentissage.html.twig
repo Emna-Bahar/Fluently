@@ -7,14 +7,22 @@
     <div style="max-width: 1100px; margin: 0 auto;">
         <br><br><br><br>
 
-        <!-- En-tête -->
+        <!-- En-tête avec bouton générer -->
         <div style="text-align: center; margin-bottom: 60px;">
             <h1 style="font-size: 3rem; font-weight: 900; color: white; margin: 0 0 12px; text-shadow: 0 4px 12px rgba(0,0,0,0.4);">
                 Leçon {{ cour.numero }}
             </h1>
-            <p style="font-size: 1.5rem; color: rgba(255,255,255,0.9); margin: 0;">
+            <p style="font-size: 1.5rem; color: rgba(255,255,255,0.9); margin: 0 0 30px;">
                 {{ cour.idNiveau.titre }} • {{ cour.idNiveau.idLangue.nom }}
             </p>
+            
+            <!-- BOUTON GÉNÉRER UN COURS PERSONNALISÉ -->
+            <a href="{{ path('app_cours_personnalise_generer', {id: cour.id}) }}" 
+               style="display: inline-block; background: linear-gradient(135deg, #f97316, #ea580c); color: white; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 1.2rem; box-shadow: 0 8px 20px rgba(249,115,22,0.4); transition: all 0.3s; margin-bottom: 30px;"
+               onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 12px 30px rgba(249,115,22,0.6)';"
+               onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 20px rgba(249,115,22,0.4)';">
+                🎓 Générer un cours personnalisé
+            </a>
         </div>
 
         <!-- Filtrage -->
@@ -31,6 +39,8 @@
 
         <!-- Conteneur ressources -->
         <div id="ressources-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 32px;">
+            
+            {# ============ RESSOURCES NORMALES ============ #}
             {% if files|length > 0 %}
                 {% for res in files %}
                     {% set isYoutube = res matches '/(youtube\\.com|youtu\\.be)/i' %}
@@ -126,7 +136,37 @@
                         </div>
                     </div>
                 {% endfor %}
-            {% else %}
+            {% endif %}
+
+            {# ============ RESSOURCES PERSONNALISÉES (PDF) ============ #}
+            {% if ressources_personnalisees is defined and ressources_personnalisees|length > 0 %}
+                {% for res in ressources_personnalisees %}
+                    <div class="ressource-card" data-type="pdf" style="background: rgba(255,255,255,0.95); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); transition: all 0.3s; transform: translateY(0); display: none;">
+                        <div style="padding: 32px;">
+                            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+                                <span style="font-size: 2.8rem;">📄</span>
+                                <h3 style="margin: 0; color: #1e293b; font-size: 1.5rem; font-weight: 800;">
+                                    Cours personnalisé {{ loop.index }}
+                                </h3>
+                            </div>
+                            
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <p style="color: #475569; margin-bottom: 15px;">
+                                    <strong>📝 Contenu généré par IA</strong><br>
+                                    <small>Ce cours a été créé spécialement pour vous</small>
+                                </p>
+                            </div>
+                            
+                            <a href="{{ res }}" target="_blank" style="display: flex; align-items: center; gap: 16px; background: linear-gradient(135deg, #f97316, #ea580c); color: white; padding: 18px 36px; border-radius: 14px; text-decoration: none; font-weight: 700; font-size: 1.2rem; box-shadow: 0 8px 24px rgba(249,115,22,0.4); transition: all 0.3s; width: fit-content; margin: 0 auto;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">
+                                📄 Ouvrir le PDF personnalisé
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {# ============ MESSAGE SI AUCUNE RESSOURCE ============ #}
+            {% if files|length == 0 and (ressources_personnalisees is not defined or ressources_personnalisees|length == 0) %}
                 <div style="grid-column: 1 / -1; text-align: center; padding: 100px 40px; background: rgba(255,255,255,0.9); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); color: #475569; font-size: 1.5rem; font-weight: 600;">
                     Aucune ressource disponible pour cette leçon pour le moment.
                 </div>
@@ -164,7 +204,7 @@
         // Afficher tout au chargement
         document.querySelector('[data-filter="all"]').click();
 
-        // Terminer cours - VERSION CORRIGÉE
+        // Terminer cours
         function terminerCours(coursId) {
             if (confirm("Voulez-vous marquer cette leçon comme terminée ?\nVous passerez automatiquement à la suivante.")) {
                 fetch('/cours/' + coursId + '/terminer', {
@@ -176,7 +216,6 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // CORRECTION: Utilisation du path Twig au lieu de URL en dur
                         window.location.href = '{{ path('app_langue_apprentissage', {id: cour.idNiveau.idLangue.id}) }}';
                     } else {
                         alert("Une erreur est survenue : " + (data.message || 'Inconnu'));

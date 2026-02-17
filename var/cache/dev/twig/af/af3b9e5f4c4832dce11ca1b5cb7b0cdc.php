@@ -265,6 +265,6 @@ class __TwigTemplate_818d995c2e93ee37b9b470a0671f5cc6 extends Template
         </div>
     </div>
 </div>
-{% endblock %}", "dashboard/reservation/edit.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\dashboard\\reservation\\edit.html.twig");
+{% endblock %}", "dashboard/reservation/edit.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\dashboard\\reservation\\edit.html.twig");
     }
 }

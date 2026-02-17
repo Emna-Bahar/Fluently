@@ -138,66 +138,100 @@ final class CoursController extends AbstractController
     }
     
     // Pour l'étudiant (front-office)
-    #[Route('/{id}', name: 'app_cours_show', methods: ['GET'])]
-    public function show(Cours $cour, Request $request, EntityManagerInterface $em): Response
-    {
-        // Vérifier si l'utilisateur a le droit d'accéder à ce cours
-        $session = $request->getSession();
-        $userId = $session->get('user_id');
-        $user = $userId ? $em->getRepository(\App\Entity\User::class)->find($userId) : null;
+#[Route('/{id}', name: 'app_cours_show', methods: ['GET'])]
+public function show(Cours $cour, Request $request, EntityManagerInterface $em): Response
+{
+    // Vérifier si l'utilisateur a le droit d'accéder à ce cours
+    $session = $request->getSession();
+    $userId = $session->get('user_id');
+    $user = $userId ? $em->getRepository(\App\Entity\User::class)->find($userId) : null;
 
-        if (!$user) {
-            $this->addFlash('error', 'Vous devez être connecté.');
-            return $this->redirectToRoute('app_login');
-        }
-
-        $langue = $cour->getIdNiveau()->getIdLangue();
-        
-        // Récupérer la progression
-        $progressRepo = $em->getRepository(UserProgress::class);
-        $progress = $progressRepo->findOneBy([
-            'user' => $user,
-            'langue' => $langue
-        ]);
-
-        // Vérifier si le cours est débloqué
-        $estDebloque = false;
-        
-        if ($progress) {
-            $niveauActuel = $progress->getNiveauActuel();
-            $niveauCours = $cour->getIdNiveau();
-            
-            if ($niveauActuel && $niveauActuel->getId() === $niveauCours->getId()) {
-                // Même niveau → vérifier le numéro
-                $estDebloque = $cour->getNumero() <= $progress->getDernierNumeroCours() + 1;
-            }
-        }
-
-        if (!$estDebloque) {
-            $this->addFlash('warning', 'Ce cours n\'est pas encore débloqué.');
-            return $this->redirectToRoute('app_langue_apprentissage', ['id' => $langue->getId()]);
-        }
-
-        $difficulte = $cour->getIdNiveau()->getDifficulte();
-
-        $langSlug = (new \Symfony\Component\String\Slugger\AsciiSlugger())->slug($langue->getNom())->lower();
-        $nivSlug = (new \Symfony\Component\String\Slugger\AsciiSlugger())->slug($difficulte)->lower();
-
-        $dirPath = $this->getParameter('kernel.project_dir') . "/public/uploads/cours/$langSlug/$nivSlug";
-        $publicPath = "/uploads/cours/$langSlug/$nivSlug";
-
-        $files = is_dir($dirPath) ? array_values(array_diff(scandir($dirPath), ['.', '..'])) : [];
-        $dbResources = $cour->getRessource() ? explode("\n", trim($cour->getRessource())) : [];
-        $dbResources = array_filter($dbResources, fn($v) => trim($v) !== '');
-        $allResources = array_unique(array_merge($files, $dbResources));
-
-        return $this->render('cours/base_apprentissage.html.twig', [  
-            'cour' => $cour,
-            'files' => $allResources,  
-            'public_path' => $publicPath,
-            'progress' => $progress,
-        ]);
+    if (!$user) {
+        $this->addFlash('error', 'Vous devez être connecté.');
+        return $this->redirectToRoute('app_login');
     }
+
+    $langue = $cour->getIdNiveau()->getIdLangue();
+    
+    // Récupérer la progression
+    $progressRepo = $em->getRepository(UserProgress::class);
+    $progress = $progressRepo->findOneBy([
+        'user' => $user,
+        'langue' => $langue
+    ]);
+
+    // Vérifier si le cours est débloqué
+    $estDebloque = false;
+    
+    if ($progress) {
+        $niveauActuel = $progress->getNiveauActuel();
+        $niveauCours = $cour->getIdNiveau();
+        
+        if ($niveauActuel && $niveauActuel->getId() === $niveauCours->getId()) {
+            // Même niveau → vérifier le numéro
+            $estDebloque = $cour->getNumero() <= $progress->getDernierNumeroCours() + 1;
+        }
+    }
+
+    if (!$estDebloque) {
+        $this->addFlash('warning', 'Ce cours n\'est pas encore débloqué.');
+        return $this->redirectToRoute('app_langue_apprentissage', ['id' => $langue->getId()]);
+    }
+
+    $difficulte = $cour->getIdNiveau()->getDifficulte();
+
+    $langSlug = (new \Symfony\Component\String\Slugger\AsciiSlugger())->slug($langue->getNom())->lower();
+    $nivSlug = (new \Symfony\Component\String\Slugger\AsciiSlugger())->slug($difficulte)->lower();
+
+    $dirPath = $this->getParameter('kernel.project_dir') . "/public/uploads/cours/$langSlug/$nivSlug";
+    $publicPath = "/uploads/cours/$langSlug/$nivSlug";
+
+    // ✅ Récupérer les fichiers physiques du dossier cours normal (admin)
+    $filesAdmin = is_dir($dirPath) ? array_values(array_diff(scandir($dirPath), ['.', '..'])) : [];
+    
+    // ✅ Récupérer les ressources de l'entité (liens YouTube et autres)
+    $dbResources = $cour->getRessource() ? explode("\n", trim($cour->getRessource())) : [];
+    $dbResources = array_filter($dbResources, fn($v) => trim($v) !== '');
+    
+    // ✅ Initialiser les tableaux
+    $ressourcesNormales = [];      // Fichiers admin + liens YouTube
+    $ressourcesPersonnalisees = []; // PDF personnalisés
+    
+    // ✅ Ajouter les fichiers admin
+    foreach ($filesAdmin as $file) {
+        $ressourcesNormales[] = $file;
+    }
+    
+    // ✅ Trier les ressources de l'entité
+    foreach ($dbResources as $res) {
+        $res = trim($res);
+        if (strpos($res, '/uploads/cours_personnalises/') === 0) {
+            // C'est un PDF personnalisé
+            $ressourcesPersonnalisees[] = $res;
+        } elseif (strpos($res, 'youtube.com') !== false || strpos($res, 'youtu.be') !== false) {
+            // C'est une vidéo YouTube
+            $ressourcesNormales[] = $res;
+        } elseif (file_exists($dirPath . '/' . $res)) {
+            // C'est un fichier normal qui existe dans le dossier du cours
+            $ressourcesNormales[] = $res;
+        } else {
+            // Autre ressource (peut-être un lien)
+            $ressourcesNormales[] = $res;
+        }
+    }
+    
+    // ✅ Supprimer les doublons
+    $ressourcesNormales = array_unique($ressourcesNormales);
+    $ressourcesPersonnalisees = array_unique($ressourcesPersonnalisees);
+
+    return $this->render('cours/base_apprentissage.html.twig', [  
+        'cour' => $cour,
+        'files' => $ressourcesNormales,               // PDF admin + vidéos YouTube
+        'ressources_personnalisees' => $ressourcesPersonnalisees, // PDF personnalisés
+        'public_path' => $publicPath,
+        'progress' => $progress,
+    ]);
+}
 
     #[Route('/admin/{id}', name: 'app_admin_cours_show', methods: ['GET'])]
     public function adminShow(Cours $cour): Response
@@ -395,4 +429,14 @@ public function terminer(Cours $cours, Request $request, EntityManagerInterface 
 
         return $dir;
     }
+
+    // src/Controller/CoursController.php - À AJOUTER À LA FIN
+
+#[Route('/{id}/ressources-personnalisees', name: 'app_cours_ressources_personnalisees', methods: ['GET'])]
+public function ressourcesPersonnalisees(Cours $cour): Response
+{
+    // Cette route affiche les ressources personnalisées
+    // Elle est utilisée après la génération
+    return $this->redirectToRoute('app_cours_show', ['id' => $cour->getId()]);
+}
 }

@@ -242,6 +242,6 @@ class __TwigTemplate_23efd7909847514eef4162fc6c20ff78 extends Template
 
     <a href=\"{{ path('app_question_new') }}\">Create new</a>
 {% endblock %}
-", "question/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\question\\index.html.twig");
+", "question/index.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\question\\index.html.twig");
     }
 }

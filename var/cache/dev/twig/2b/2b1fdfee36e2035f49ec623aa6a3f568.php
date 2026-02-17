@@ -926,6 +926,6 @@ class __TwigTemplate_be7aa9b2907eb2784a2f16085b2b766b extends Template
         </div>
     </div>
 </div>
-{% endblock %}", "langue/apprentissage.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\langue\\apprentissage.html.twig");
+{% endblock %}", "langue/apprentissage.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\langue\\apprentissage.html.twig");
     }
 }

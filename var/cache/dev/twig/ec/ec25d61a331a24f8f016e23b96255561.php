@@ -524,6 +524,6 @@ class __TwigTemplate_fece51c0d61b6c903078f921ab3cf618 extends Template
 
 </body>
 </html>
-", "register/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\register\\index.html.twig");
+", "register/index.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\register\\index.html.twig");
     }
 }

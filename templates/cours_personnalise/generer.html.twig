@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Générer un cours personnalisé{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="h4 mb-0">📝 Générer un cours personnalisé</h2>
+                    <p class="mb-0 small">Pour la leçon {{ cours.numero }} - {{ cours.idNiveau.titre }}</p>
+                </div>
+                
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                    
+                    <div class="mb-4">
+                        <label class="fw-bold mb-2">🎯 Vocabulaire à travailler</label>
+                        {{ form_widget(form.vocabulaire) }}
+                        <small class="text-muted">Laissez vide si vous n'avez pas de thème spécifique</small>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="fw-bold mb-2">📚 Points de grammaire</label>
+                        {{ form_widget(form.grammaire) }}
+                        <small class="text-muted">Ex: Le présent simple, les prépositions...</small>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="fw-bold mb-2">🔤 Nouveaux mots</label>
+                        {{ form_widget(form.nouveauxMots) }}
+                        <small class="text-muted">Un mot par ligne</small>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="fw-bold mb-2">🎥 Thèmes YouTube</label>
+                        {{ form_widget(form.themesYoutube) }}
+                        <small class="text-muted">Des vidéos seront ajoutées automatiquement</small>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <strong>🤖 L'IA va générer</strong> un cours personnalisé avec :
+                        <ul class="mb-0 mt-2">
+                            <li>Un PDF avec explications et exercices</li>
+                            <li>Des vidéos YouTube recommandées</li>
+                            <li>Du contenu adapté à votre niveau {{ cours.idNiveau.difficulte }}</li>
+                        </ul>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                        🚀 Générer mon cours
+                    </button>
+                    
+                    <div class="text-center mt-3">
+                        <a href="{{ path('app_cours_show', {id: cours.id}) }}" class="text-muted">
+                            ← Retour à la leçon
+                        </a>
+         a           </div>
+                    
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

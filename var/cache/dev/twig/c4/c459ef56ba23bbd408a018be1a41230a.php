@@ -616,6 +616,6 @@ $context["message"], "getIdUser", [], "method", false, false, false, 99), "nom",
     });
     </script>
 
-{% endblock %}", "groupe/details.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\groupe\\details.html.twig");
+{% endblock %}", "groupe/details.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\groupe\\details.html.twig");
     }
 }
