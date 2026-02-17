@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réservation #{{ reservation.id }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-5 pt-5">
+        <h1 class="text-center fw-bold text-primary mb-5">
+            <i class="fa fa-eye me-2"></i> Détails de la réservation #{{ reservation.id }}
+        </h1>
+
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">Date de réservation</dt>
+                    <dd class="col-sm-9">{{ reservation.dateReservation ? reservation.dateReservation|date('d/m/Y') : '-' }}</dd>
+
+                    <dt class="col-sm-3">Statut</dt>
+                    <dd class="col-sm-9">{{ reservation.statut|capitalize }}</dd>
+
+                    <dt class="col-sm-3">Session</dt>
+                    <dd class="col-sm-9">
+                        {% if reservation.session %}
+                            {{ reservation.session.dateHeure|date('d/m/Y H:i') }} — {{ reservation.session.group ? reservation.session.group.nom : '-' }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </dd>
+
+                    <dt class="col-sm-3">Étudiant</dt>
+                    <dd class="col-sm-9">{{ reservation.user ? reservation.user.prenom ~ ' ' ~ reservation.user.nom : '-' }}</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}" class="btn btn-warning">
+                <i class="fa fa-edit me-2"></i> Modifier
+            </a>
+            {{ include('reservation/_delete_form.html.twig') }}
+            <a href="{{ path('reservation_professeur') }}" class="btn btn-secondary ms-2">
+                <i class="fa fa-arrow-left me-2"></i> Retour à la liste professeur
+            </a>
+        </div>
+    </div>
+{% endblock %}

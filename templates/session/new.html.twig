@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Session{% endblock %}
+
+{% block body %}
+    <div class="container mt-5 pt-5">
+        <h1 class="text-center fw-bold text-primary mb-5">
+            <i class="fa fa-plus-circle me-2"></i> Créer une nouvelle session
+        </h1>
+
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <div class="mt-4 text-center">
+                <button type="submit" class="btn btn-primary btn-lg px-5">
+                    <i class="fa fa-save me-2"></i> Enregistrer
+                </button>
+                <a href="{{ path('session_professeur') }}" class="btn btn-secondary btn-lg px-5 ms-3">
+                    <i class="fa fa-arrow-left me-2"></i> Annuler
+                </a>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

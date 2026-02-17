@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if edit %}Modifier{% else %}Nouvelle{% endif %} Réservation
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5 pt-5">
+        <h1 class="text-center fw-bold text-primary mb-5">
+            <i class="fa fa-{% if edit %}edit{% else %}plus-circle{% endif %} me-2"></i>
+            {% if edit %}Modifier la réservation{% else %}Créer une nouvelle réservation{% endif %}
+        </h1>
+
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <div class="mt-4 text-center">
+                <button type="submit" class="btn btn-primary btn-lg px-5">
+                    <i class="fa fa-save me-2"></i> 
+                    {% if edit %}Enregistrer les modifications{% else %}Enregistrer{% endif %}
+                </button>
+                <a href="{{ path('reservation_professeur') }}" class="btn btn-secondary btn-lg px-5 ms-3">
+                    <i class="fa fa-arrow-left me-2"></i> Annuler
+                </a>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

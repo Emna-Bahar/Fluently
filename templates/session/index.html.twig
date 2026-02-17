@@ -1,30 +1,275 @@
-{# templates/blog/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Blog - Fluently{% endblock %}
+{% block title %}Sessions{% endblock %}
 
 {% block body %}
- 
- <section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('assets/images/bg_2.jpg') }}');">
-  <div class="overlay"></div>
-  <div class="container">
-    <div class="row no-gutters slider-text align-items-end justify-content-center">
-      <div class="col-md-9 ftco-animate pb-5 text-center">
-       <p class="breadcrumbs">
-         <span class="mr-2">
-           <a href="{{ path('app_home') }}">Home <i class="fa fa-chevron-right"></i></a>
-         </span> 
-         <span>Sessions<i class="fa fa-chevron-right"></i></span>
-       </p>
-       <h1 class="mb-0 bread">Nos Sessions</h1>
-     </div>
-   </div>
- </div>
-</section>
+    <div class="container mt-4">
+        <h1 class="fw-bold text-primary mb-4 text-center">
+            <i class="fa fa-calendar-check-o me-2"></i> Liste des Sessions
+        </h1>
+<style>
+    /* Tuer le loader qui bloque probablement les clics */
+    #ftco-loader {
+        display: none !important;
+        pointer-events: none !important;
+        z-index: -1 !important;
+    }
 
-<section class="ftco-section bg-light">
-  <div class="container">
-    
-</div>
-</section>
+    /* Forcer la modale et ses enfants à être cliquables */
+    #ratingModal,
+    #ratingModal *,
+    .modal-backdrop,
+    .rating-star,
+    #confirm-rating-btn,
+    .btn-secondary[data-dismiss="modal"] {
+        pointer-events: auto !important;
+        z-index: 999999 !important;
+    }
+
+    /* Debug : bordure rouge sur étoiles pour confirmer qu'elles sont cliquables */
+    .rating-star {
+        border: 2px solid red !important;
+        box-sizing: border-box;
+        cursor: pointer !important;
+    }
+
+    /* Forcer le backdrop à laisser passer les clics */
+    .modal-backdrop {
+        pointer-events: none !important;
+    }
+</style>
+        {# Filtres #}
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <form method="get" class="row g-3" id="filter-form">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Statut</label>
+                        <select name="statut" class="form-select">
+                            <option value="">Tous</option>
+                            <option value="planifiée" {{ app.request.query.get('statut') == 'planifiée' ? 'selected' : '' }}>Planifiée</option>
+                            <option value="en cours" {{ app.request.query.get('statut') == 'en cours' ? 'selected' : '' }}>En cours</option>
+                            <option value="terminée" {{ app.request.query.get('statut') == 'terminée' ? 'selected' : '' }}>Terminée</option>
+                            <option value="annulée" {{ app.request.query.get('statut') == 'annulée' ? 'selected' : '' }}>Annulée</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Groupe</label>
+                        <select name="groupe" class="form-select">
+                            <option value="">Tous</option>
+                            {% for groupe in groupes %}
+                                <option value="{{ groupe.id }}" {{ app.request.query.get('groupe') == groupe.id ? 'selected' : '' }}>
+                                    {{ groupe.nom }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {# Tableau #}
+        <div class="table-responsive shadow-sm">
+            <table class="table table-hover table-bordered table-sm">
+                <thead class="table-dark text-center">
+                    <tr>
+                        <th>Date & Heure</th>
+                        <th>Statut</th>
+                        <th>Groupe</th>
+                        <th>Réunion</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for session in pagination %}
+                        <tr>
+                            <td class="text-center">{{ session.dateHeure ? session.dateHeure|date('d/m/Y H:i') : '—' }}</td>
+                            <td class="text-center">
+                                <span class="badge rounded-pill px-3 py-2
+                                    {% if session.statut == 'planifiée' %}bg-warning text-dark
+                                    {% elseif session.statut == 'en cours' %}bg-success text-white
+                                    {% elseif session.statut == 'terminée' %}bg-secondary text-white
+                                    {% else %}bg-danger text-white{% endif %}">
+                                    {{ session.statut|capitalize }}
+                                </span>
+                            </td>
+                            <td>{{ session.group ? session.group.nom : '—' }}</td>
+                            <td class="text-center">
+                                {% if session.lienReunion %}
+                                    <a href="{{ session.lienReunion }}" target="_blank" class="btn btn-sm btn-success">
+                                        <i class="fa fa-video me-1"></i> Rejoindre
+                                    </a>
+                                {% else %}
+                                    —
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group btn-group-sm">
+                                    <button type="button"
+                                            class="btn btn-primary note-session-btn"
+                                            data-toggle="modal"
+                                            data-target="#ratingModal"
+                                            data-session-id="{{ session.id }}"
+                                            data-current-rating="{{ session.rating|default(0) }}">
+                                        <i class="fa fa-star"></i> Note
+                                    </button>
+
+                                    {% set maReservation = null %}
+                                    {% for reservation in myReservations %}
+                                        {% if reservation.session.id == session.id %}
+                                            {% set maReservation = reservation %}
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {% if maReservation %}
+                                        <span class="badge ms-2 px-3 py-2
+                                            {% if maReservation.statut == 'confirmée' %}bg-success text-white
+                                            {% elseif maReservation.statut == 'en attente' %}bg-warning text-dark
+                                            {% else %}bg-danger text-white{% endif %}">
+                                            {{ maReservation.statut|capitalize }}
+                                        </span>
+                                    {% else %}
+                                        <a href="{{ path('app_reservation_new', {'session_id': session.id}) }}" class="btn btn-success ms-2">
+                                            <i class="fa fa-bookmark"></i> Réserver
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center py-4 text-muted">
+                                <i class="fa fa-folder-open fa-2x mb-3 d-block"></i>
+                                Aucune session trouvée
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {# Pagination #}
+        <div class="d-flex justify-content-center mt-4">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+        {# Modale Bootstrap 4 #}
+        <div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="ratingModalLabel">Noter cette session</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <p id="modal-session-info" class="mb-4 fw-bold">Session du ...</p>
+
+                        <div class="star-rating mb-4 d-inline-block">
+                            {% for i in 1..5 %}
+                                <i class="fa fa-star fa-3x text-muted rating-star mx-2 cursor-pointer" 
+                                   data-value="{{ i }}"></i>
+                            {% endfor %}
+                        </div>
+
+                        <input type="hidden" id="selected-rating" value="0">
+                        <div id="rating-message" class="mt-3 fw-bold" style="min-height: 24px;"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="button" class="btn btn-success" id="confirm-rating-btn" disabled>Confirmer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# ─────────────────────────────────────────────── #}
+    {# JAVASCRIPT – LA VERSION QUI MARCHE #}
+    {# ─────────────────────────────────────────────── #}
+    <script>
+$(document).ready(function() {
+
+    console.log("Script notation chargé");
+
+    var selectedRating = 0;
+
+    function updateStars(rating) {
+        $('#ratingModal .rating-star').each(function(index) {
+            if (index + 1 <= rating) {
+                $(this).removeClass('text-muted').addClass('text-warning');
+            } else {
+                $(this).removeClass('text-warning').addClass('text-muted');
+            }
+        });
+    }
+
+    // Quand on clique sur le bouton "Note"
+    $('.note-session-btn').on('click', function(e) {
+        e.preventDefault();
+        console.log("Bouton Note cliqué");
+
+        var sessionId = $(this).data('session-id');
+        var current = parseInt($(this).data('current-rating')) || 0;
+
+        selectedRating = current;
+        $('#selected-rating').val(selectedRating);
+        $('#rating-message').text('').removeClass('text-success text-danger');
+        $('#confirm-rating-btn').prop('disabled', selectedRating === 0);
+
+        updateStars(selectedRating);
+
+        var date = $(this).closest('tr').find('td:first').text().trim();
+        $('#modal-session-info').text(date ? 'Session du ' + date : 'Noter cette session');
+
+        $('#confirm-rating-btn').data('session-id', sessionId);
+
+        $('#ratingModal').modal('show');
+    });
+
+    // IMPORTANT : attacher les événements seulement quand la modale est affichée
+    $('#ratingModal').on('shown.bs.modal', function () {
+        console.log("Modale affichée → clics activés sur étoiles et boutons");
+
+        // Clic sur étoile
+        $('#ratingModal .rating-star').on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+
+            selectedRating = parseInt($(this).data('value'));
+            $('#selected-rating').val(selectedRating);
+            updateStars(selectedRating);
+            $('#confirm-rating-btn').prop('disabled', false);
+            console.log("Étoile cliquée → " + selectedRating);
+        });
+
+        // Survol
+        $('#ratingModal .rating-star').on('mouseenter', function() {
+            var val = parseInt($(this).data('value'));
+            updateStars(val);
+        }).on('mouseleave', function() {
+            updateStars(selectedRating);
+        });
+
+        // Clic sur Confirmer (test simple pour vérifier)
+        $('#confirm-rating-btn').on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("Bouton Confirmer cliqué");
+            alert("Confirmer cliqué ! Note sélectionnée : " + selectedRating);
+        });
+    });
+
+    // Clic sur Annuler (test)
+    $('.btn-secondary[data-dismiss="modal"]').on('click', function() {
+        console.log("Annuler cliqué");
+    });
+});
+</script>
 {% endblock %}

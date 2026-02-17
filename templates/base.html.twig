@@ -35,6 +35,10 @@
             padding-top: 1rem !important;
             padding-bottom: 1rem !important;
         }
+        /* Dans ton CSS (ex. assets/styles/app.css) */
+.container.mt-5.pt-5 {
+    padding-top: 80px; /* Ajuste selon la hauteur de ton navbar */
+}
     }
     
     /* Pour la navbar en mode scrolled */
@@ -42,6 +46,20 @@
         padding-top: 0.5rem !important;
         padding-bottom: 0.5rem !important;
     }
+    /* public/css/app.css ou dans base.html.twig */
+body {
+    padding-top: 80px; /* Ajuste selon la hauteur réelle de ton navbar */
+}
+
+.navbar.fixed-top {
+    z-index: 1030; /* Valeur standard Bootstrap pour navbar */
+}
+
+.card.filters-card {
+    position: relative;
+    z-index: 1050; /* Plus haut que le navbar → select passe au-dessus */
+    margin-top: 20px;
+}
     </style>
     <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.min.css') }}">
@@ -79,9 +97,9 @@
                     <li class="nav-item {{ app.request.get('_route') == 'app_groupe' ? 'active' : '' }}">
                         <a href="{{ path('app_groupe') }}" class="nav-link">Groupes</a>
                     </li>
-                    <li class="nav-item {{ app.request.get('_route') == 'app_session' ? 'active' : '' }}">
-                        <a href="{{ path('app_session') }}" class="nav-link">Sessions</a>
-                    </li>
+                    <li class="nav-item {{ app.request.get('_route') starts with 'app_session' ? 'active' : '' }}">
+    <a href="{{ path('app_session_index') }}" class="nav-link">Sessions</a>
+</li>
                     <li class="nav-item {{ app.request.get('_route') == 'app_objectif' ? 'active' : '' }}">
                         <a href="{{ path('app_objectif') }}" class="nav-link">Objectifs</a></li>
                 {# Boutons utilisateur #}
