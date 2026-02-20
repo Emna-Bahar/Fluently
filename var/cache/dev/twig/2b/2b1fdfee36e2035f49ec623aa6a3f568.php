@@ -629,13 +629,392 @@ class __TwigTemplate_be7aa9b2907eb2784a2f16085b2b766b extends Template
                 yield "                ";
             }
             // line 249
+            yield "                
+                                ";
+            // line 251
+            yield "                ";
+            if ((($tmp = (isset($context["niveauEntity"]) || array_key_exists("niveauEntity", $context) ? $context["niveauEntity"] : (function () { throw new RuntimeError('Variable "niveauEntity" does not exist.', 251, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                // line 252
+                yield "                    ";
+                // line 253
+                yield "                    ";
+                $context["testFinNiveau"] = null;
+                // line 254
+                yield "                    ";
+                $context['_parent'] = $context;
+                $context['_seq'] = CoreExtension::ensureTraversable((isset($context["testsLangue"]) || array_key_exists("testsLangue", $context) ? $context["testsLangue"] : (function () { throw new RuntimeError('Variable "testsLangue" does not exist.', 254, $this->source); })()));
+                foreach ($context['_seq'] as $context["_key"] => $context["test"]) {
+                    // line 255
+                    yield "                        ";
+                    if ((((CoreExtension::getAttribute($this->env, $this->source, $context["test"], "type", [], "any", false, false, false, 255) == "Test de fin de niveau") && CoreExtension::getAttribute($this->env, $this->source, $context["test"], "niveau", [], "any", false, false, false, 255)) && (CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["test"], "niveau", [], "any", false, false, false, 255), "id", [], "any", false, false, false, 255) == CoreExtension::getAttribute($this->env, $this->source, (isset($context["niveauEntity"]) || array_key_exists("niveauEntity", $context) ? $context["niveauEntity"] : (function () { throw new RuntimeError('Variable "niveauEntity" does not exist.', 255, $this->source); })()), "id", [], "any", false, false, false, 255)))) {
+                        // line 256
+                        yield "                            ";
+                        $context["testFinNiveau"] = $context["test"];
+                        // line 257
+                        yield "                        ";
+                    }
+                    // line 258
+                    yield "                    ";
+                }
+                $_parent = $context['_parent'];
+                unset($context['_seq'], $context['_key'], $context['test'], $context['_parent']);
+                $context = array_intersect_key($context, $_parent) + $_parent;
+                // line 259
+                yield "
+                    ";
+                // line 260
+                if ((($tmp = (isset($context["testFinNiveau"]) || array_key_exists("testFinNiveau", $context) ? $context["testFinNiveau"] : (function () { throw new RuntimeError('Variable "testFinNiveau" does not exist.', 260, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                    // line 261
+                    yield "                        ";
+                    // line 262
+                    yield "                        ";
+                    $context["tousCoursTermines"] = true;
+                    // line 263
+                    yield "                        ";
+                    $context['_parent'] = $context;
+                    $context['_seq'] = CoreExtension::ensureTraversable(Twig\Extension\CoreExtension::slice($this->env->getCharset(), (isset($context["coursDuNiveau"]) || array_key_exists("coursDuNiveau", $context) ? $context["coursDuNiveau"] : (function () { throw new RuntimeError('Variable "coursDuNiveau" does not exist.', 263, $this->source); })()), 0, 3));
+                    foreach ($context['_seq'] as $context["_key"] => $context["cours"]) {
+                        // line 264
+                        yield "                            ";
+                        $context["coursReelNumero"] = CoreExtension::getAttribute($this->env, $this->source, $context["cours"], "numero", [], "any", false, false, false, 264);
+                        // line 265
+                        yield "                            ";
+                        if ((((isset($context["niveauOrdre"]) || array_key_exists("niveauOrdre", $context) ? $context["niveauOrdre"] : (function () { throw new RuntimeError('Variable "niveauOrdre" does not exist.', 265, $this->source); })()) == (isset($context["niveauActuelOrdre"]) || array_key_exists("niveauActuelOrdre", $context) ? $context["niveauActuelOrdre"] : (function () { throw new RuntimeError('Variable "niveauActuelOrdre" does not exist.', 265, $this->source); })())) && ((isset($context["dernierCoursTermine"]) || array_key_exists("dernierCoursTermine", $context) ? $context["dernierCoursTermine"] : (function () { throw new RuntimeError('Variable "dernierCoursTermine" does not exist.', 265, $this->source); })()) < (isset($context["coursReelNumero"]) || array_key_exists("coursReelNumero", $context) ? $context["coursReelNumero"] : (function () { throw new RuntimeError('Variable "coursReelNumero" does not exist.', 265, $this->source); })())))) {
+                            // line 266
+                            yield "                                ";
+                            $context["tousCoursTermines"] = false;
+                            // line 267
+                            yield "                            ";
+                        }
+                        // line 268
+                        yield "                        ";
+                    }
+                    $_parent = $context['_parent'];
+                    unset($context['_seq'], $context['_key'], $context['cours'], $context['_parent']);
+                    $context = array_intersect_key($context, $_parent) + $_parent;
+                    // line 269
+                    yield "
+                        ";
+                    // line 271
+                    yield "                        ";
+                    // line 272
+                    yield "                        ";
+                    $context["testDejaPassé"] = false;
+                    // line 273
+                    yield "                        ";
+                    $context['_parent'] = $context;
+                    $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["testFinNiveau"]) || array_key_exists("testFinNiveau", $context) ? $context["testFinNiveau"] : (function () { throw new RuntimeError('Variable "testFinNiveau" does not exist.', 273, $this->source); })()), "passages", [], "any", false, false, false, 273));
+                    foreach ($context['_seq'] as $context["_key"] => $context["passage"]) {
+                        // line 274
+                        yield "                            ";
+                        if (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["passage"], "user", [], "any", false, false, false, 274), "id", [], "any", false, false, false, 274) == CoreExtension::getAttribute($this->env, $this->source, (isset($context["user"]) || array_key_exists("user", $context) ? $context["user"] : (function () { throw new RuntimeError('Variable "user" does not exist.', 274, $this->source); })()), "id", [], "any", false, false, false, 274)) && (CoreExtension::getAttribute($this->env, $this->source, $context["passage"], "statut", [], "any", false, false, false, 274) == "termine"))) {
+                            // line 275
+                            yield "                                ";
+                            $context["testDejaPassé"] = true;
+                            // line 276
+                            yield "                            ";
+                        }
+                        // line 277
+                        yield "                        ";
+                    }
+                    $_parent = $context['_parent'];
+                    unset($context['_seq'], $context['_key'], $context['passage'], $context['_parent']);
+                    $context = array_intersect_key($context, $_parent) + $_parent;
+                    // line 278
+                    yield "
+                        ";
+                    // line 280
+                    yield "                        <div style=\"position: relative; margin: 100px 0; text-align: center; z-index: 3;\">
+                            ";
+                    // line 281
+                    if (((isset($context["tousCoursTermines"]) || array_key_exists("tousCoursTermines", $context) ? $context["tousCoursTermines"] : (function () { throw new RuntimeError('Variable "tousCoursTermines" does not exist.', 281, $this->source); })()) || (isset($context["testDejaPassé"]) || array_key_exists("testDejaPassé", $context) ? $context["testDejaPassé"] : (function () { throw new RuntimeError('Variable "testDejaPassé" does not exist.', 281, $this->source); })()))) {
+                        // line 282
+                        yield "                                <a href=\"";
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_test_student_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, (isset($context["testFinNiveau"]) || array_key_exists("testFinNiveau", $context) ? $context["testFinNiveau"] : (function () { throw new RuntimeError('Variable "testFinNiveau" does not exist.', 282, $this->source); })()), "id", [], "any", false, false, false, 282)]), "html", null, true);
+                        yield "\" style=\"text-decoration: none;\">
+                            ";
+                    }
+                    // line 284
+                    yield "                            
+                            <div style=\"
+                                width: 200px;
+                                height: 200px;
+                                margin: 0 auto;
+                                background: ";
+                    // line 289
+                    if ((($tmp = (isset($context["testDejaPassé"]) || array_key_exists("testDejaPassé", $context) ? $context["testDejaPassé"] : (function () { throw new RuntimeError('Variable "testDejaPassé" does not exist.', 289, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                        yield "linear-gradient(135deg, #10b981, #059669)";
+                    } elseif ((($tmp = (isset($context["tousCoursTermines"]) || array_key_exists("tousCoursTermines", $context) ? $context["tousCoursTermines"] : (function () { throw new RuntimeError('Variable "tousCoursTermines" does not exist.', 289, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                        yield "linear-gradient(135deg, #fbbf24, #f59e0b)";
+                    } else {
+                        yield "#6b7280";
+                    }
+                    yield ";
+                                border-radius: 50%;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                                box-shadow: 0 20px 70px rgba(0,0,0,0.5);
+                                transition: all 0.45s ease;
+                                position: relative;
+                                border: 10px solid ";
+                    // line 298
+                    yield ((((isset($context["tousCoursTermines"]) || array_key_exists("tousCoursTermines", $context) ? $context["tousCoursTermines"] : (function () { throw new RuntimeError('Variable "tousCoursTermines" does not exist.', 298, $this->source); })()) || (isset($context["testDejaPassé"]) || array_key_exists("testDejaPassé", $context) ? $context["testDejaPassé"] : (function () { throw new RuntimeError('Variable "testDejaPassé" does not exist.', 298, $this->source); })()))) ? ("rgba(255,255,255,0.8)") : ("rgba(255,255,255,0.25)"));
+                    yield ";
+                                opacity: ";
+                    // line 299
+                    yield ((((isset($context["tousCoursTermines"]) || array_key_exists("tousCoursTermines", $context) ? $context["tousCoursTermines"] : (function () { throw new RuntimeError('Variable "tousCoursTermines" does not exist.', 299, $this->source); })()) || (isset($context["testDejaPassé"]) || array_key_exists("testDejaPassé", $context) ? $context["testDejaPassé"] : (function () { throw new RuntimeError('Variable "testDejaPassé" does not exist.', 299, $this->source); })()))) ? ("1") : ("0.5"));
+                    yield ";
+                                cursor: ";
+                    // line 300
+                    yield ((((isset($context["tousCoursTermines"]) || array_key_exists("tousCoursTermines", $context) ? $context["tousCoursTermines"] : (function () { throw new RuntimeError('Variable "tousCoursTermines" does not exist.', 300, $this->source); })()) || (isset($context["testDejaPassé"]) || array_key_exists("testDejaPassé", $context) ? $context["testDejaPassé"] : (function () { throw new RuntimeError('Variable "testDejaPassé" does not exist.', 300, $this->source); })()))) ? ("pointer") : ("default"));
+                    yield ";
+                            \" 
+                            ";
+                    // line 302
+                    if (((isset($context["tousCoursTermines"]) || array_key_exists("tousCoursTermines", $context) ? $context["tousCoursTermines"] : (function () { throw new RuntimeError('Variable "tousCoursTermines" does not exist.', 302, $this->source); })()) || (isset($context["testDejaPassé"]) || array_key_exists("testDejaPassé", $context) ? $context["testDejaPassé"] : (function () { throw new RuntimeError('Variable "testDejaPassé" does not exist.', 302, $this->source); })()))) {
+                        // line 303
+                        yield "                                onmouseover=\"this.style.transform='scale(1.15) rotate(5deg)'; this.style.boxShadow='0 40px 90px rgba(0,0,0,0.7)';\" 
+                                onmouseout=\"this.style.transform='scale(1) rotate(0deg)'; this.style.boxShadow='0 20px 70px rgba(0,0,0,0.5)';\"
+                            ";
+                    }
+                    // line 305
+                    yield ">
+                                
+                                <span style=\"font-size: 6rem; line-height: 1;\">
+                                    ";
+                    // line 308
+                    if ((($tmp = (isset($context["testDejaPassé"]) || array_key_exists("testDejaPassé", $context) ? $context["testDejaPassé"] : (function () { throw new RuntimeError('Variable "testDejaPassé" does not exist.', 308, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                        yield "✅";
+                    } else {
+                        yield "📝";
+                    }
+                    // line 309
+                    yield "                                </span>
+                                <span style=\"font-size: 1.3rem; font-weight: 900; color: white; margin-top: 10px; text-align: center; padding: 0 20px;\">
+                                    TEST<br>FIN NIVEAU
+                                </span>
+
+                                ";
+                    // line 314
+                    if ((($tmp = (isset($context["testDejaPassé"]) || array_key_exists("testDejaPassé", $context) ? $context["testDejaPassé"] : (function () { throw new RuntimeError('Variable "testDejaPassé" does not exist.', 314, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                        // line 315
+                        yield "                                    <div style=\"position: absolute; top: -10px; right: -10px; background: #10b981; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 10px 24px rgba(16,185,129,0.6); border: 4px solid white;\">
+                                        ✓
+                                    </div>
+                                ";
+                    } elseif ((($tmp =  !                    // line 318
+(isset($context["tousCoursTermines"]) || array_key_exists("tousCoursTermines", $context) ? $context["tousCoursTermines"] : (function () { throw new RuntimeError('Variable "tousCoursTermines" does not exist.', 318, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                        // line 319
+                        yield "                                    <div style=\"position: absolute; top: -10px; right: -10px; background: #ef4444; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 10px 24px rgba(239,68,68,0.6); border: 4px solid white;\">
+                                        🔒
+                                    </div>
+                                ";
+                    }
+                    // line 323
+                    yield "                            </div>
+
+                            <p style=\"margin-top: 20px; font-size: 1.4rem; font-weight: 700; color: white; text-shadow: 0 3px 10px rgba(0,0,0,0.5);\">
+                                ";
+                    // line 326
+                    if ((($tmp = (isset($context["testDejaPassé"]) || array_key_exists("testDejaPassé", $context) ? $context["testDejaPassé"] : (function () { throw new RuntimeError('Variable "testDejaPassé" does not exist.', 326, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                        // line 327
+                        yield "                                    ✓ Validé
+                                ";
+                    } elseif ((($tmp =                     // line 328
+(isset($context["tousCoursTermines"]) || array_key_exists("tousCoursTermines", $context) ? $context["tousCoursTermines"] : (function () { throw new RuntimeError('Variable "tousCoursTermines" does not exist.', 328, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                        // line 329
+                        yield "                                    Débloqué !
+                                ";
+                    } else {
+                        // line 331
+                        yield "                                    Termine tous les cours d'abord
+                                ";
+                    }
+                    // line 333
+                    yield "                            </p>
+
+                            ";
+                    // line 335
+                    if (((isset($context["tousCoursTermines"]) || array_key_exists("tousCoursTermines", $context) ? $context["tousCoursTermines"] : (function () { throw new RuntimeError('Variable "tousCoursTermines" does not exist.', 335, $this->source); })()) || (isset($context["testDejaPassé"]) || array_key_exists("testDejaPassé", $context) ? $context["testDejaPassé"] : (function () { throw new RuntimeError('Variable "testDejaPassé" does not exist.', 335, $this->source); })()))) {
+                        // line 336
+                        yield "                                </a>
+                            ";
+                    }
+                    // line 338
+                    yield "                        </div>
+                    ";
+                }
+                // line 340
+                yield "                ";
+            }
+            // line 341
             yield "            ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['niveauIndex'], $context['_parent']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 250
-        yield "        </div>
+        // line 342
+        yield "            
+                        ";
+        // line 344
+        yield "            <div style=\"position: fixed; right: 30px; top: 50%; transform: translateY(-50%); z-index: 10; display: flex; flex-direction: column; gap: 30px;\">
+
+                ";
+        // line 346
+        $context["testsHorsParcours"] = [];
+        // line 347
+        yield "                ";
+        $context['_parent'] = $context;
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["testsLangue"]) || array_key_exists("testsLangue", $context) ? $context["testsLangue"] : (function () { throw new RuntimeError('Variable "testsLangue" does not exist.', 347, $this->source); })()));
+        foreach ($context['_seq'] as $context["_key"] => $context["test"]) {
+            yield "  
+                    ";
+            // line 348
+            if (!CoreExtension::inFilter(CoreExtension::getAttribute($this->env, $this->source, $context["test"], "type", [], "any", false, false, false, 348), ["Test de niveau", "Test de fin de niveau"])) {
+                // line 349
+                yield "                        ";
+                $context["testsHorsParcours"] = Twig\Extension\CoreExtension::merge((isset($context["testsHorsParcours"]) || array_key_exists("testsHorsParcours", $context) ? $context["testsHorsParcours"] : (function () { throw new RuntimeError('Variable "testsHorsParcours" does not exist.', 349, $this->source); })()), [$context["test"]]);
+                // line 350
+                yield "                    ";
+            }
+            // line 351
+            yield "                ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_key'], $context['test'], $context['_parent']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 352
+        yield "
+                ";
+        // line 353
+        if ((Twig\Extension\CoreExtension::length($this->env->getCharset(), (isset($context["testsHorsParcours"]) || array_key_exists("testsHorsParcours", $context) ? $context["testsHorsParcours"] : (function () { throw new RuntimeError('Variable "testsHorsParcours" does not exist.', 353, $this->source); })())) > 0)) {
+            // line 354
+            yield "                    ";
+            $context['_parent'] = $context;
+            $context['_seq'] = CoreExtension::ensureTraversable((isset($context["testsHorsParcours"]) || array_key_exists("testsHorsParcours", $context) ? $context["testsHorsParcours"] : (function () { throw new RuntimeError('Variable "testsHorsParcours" does not exist.', 354, $this->source); })()));
+            foreach ($context['_seq'] as $context["_key"] => $context["test"]) {
+                // line 355
+                yield "                        ";
+                // line 356
+                yield "                        ";
+                $context["testPassé"] = false;
+                // line 357
+                yield "                        ";
+                if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 357, $this->source); })()), "user", [], "any", false, false, false, 357)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                    // line 358
+                    yield "                            ";
+                    $context['_parent'] = $context;
+                    $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, $context["test"], "passages", [], "any", false, false, false, 358));
+                    foreach ($context['_seq'] as $context["_key"] => $context["passage"]) {
+                        // line 359
+                        yield "                                ";
+                        if (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["passage"], "user", [], "any", false, false, false, 359), "id", [], "any", false, false, false, 359) == CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 359, $this->source); })()), "user", [], "any", false, false, false, 359), "id", [], "any", false, false, false, 359)) && (CoreExtension::getAttribute($this->env, $this->source, $context["passage"], "statut", [], "any", false, false, false, 359) == "termine"))) {
+                            // line 360
+                            yield "                                    ";
+                            $context["testPassé"] = true;
+                            // line 361
+                            yield "                                ";
+                        }
+                        // line 362
+                        yield "                            ";
+                    }
+                    $_parent = $context['_parent'];
+                    unset($context['_seq'], $context['_key'], $context['passage'], $context['_parent']);
+                    $context = array_intersect_key($context, $_parent) + $_parent;
+                    // line 363
+                    yield "                        ";
+                }
+                // line 364
+                yield "
+                        <a href=\"";
+                // line 365
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_test_student_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["test"], "id", [], "any", false, false, false, 365)]), "html", null, true);
+                yield "\" 
+                        style=\"text-decoration: none; display: block;\"
+                        title=\"";
+                // line 367
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["test"], "titre", [], "any", false, false, false, 367), "html", null, true);
+                yield "\">
+                            <div style=\"
+                                width: 120px;
+                                height: 120px;
+                                background: ";
+                // line 371
+                if ((($tmp = (isset($context["testPassé"]) || array_key_exists("testPassé", $context) ? $context["testPassé"] : (function () { throw new RuntimeError('Variable "testPassé" does not exist.', 371, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                    yield "linear-gradient(135deg, #10b981, #059669)";
+                } else {
+                    yield "linear-gradient(135deg, #3b82f6, #1d4ed8)";
+                }
+                yield ";
+                                border-radius: 50%;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                                box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+                                transition: all 0.3s ease;
+                                border: 6px solid rgba(255,255,255,0.8);
+                                position: relative;
+                                cursor: pointer;
+                            \" 
+                            onmouseover=\"this.style.transform='scale(1.15) rotate(10deg)'; this.style.boxShadow='0 20px 60px rgba(0,0,0,0.6)';\" 
+                            onmouseout=\"this.style.transform='scale(1) rotate(0deg)'; this.style.boxShadow='0 10px 40px rgba(0,0,0,0.4)';\">
+                                
+                                <span style=\"font-size: 3.5rem; line-height: 1;\">
+                                    ";
+                // line 387
+                if ((($tmp = (isset($context["testPassé"]) || array_key_exists("testPassé", $context) ? $context["testPassé"] : (function () { throw new RuntimeError('Variable "testPassé" does not exist.', 387, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                    yield "✅";
+                } else {
+                    yield "📝";
+                }
+                // line 388
+                yield "                                </span>
+                                <span style=\"font-size: 0.9rem; font-weight: 800; color: white; margin-top: 5px; text-align: center; line-height: 1.1;\">
+                                    TEST
+                                </span>
+
+                                ";
+                // line 393
+                if ((($tmp = (isset($context["testPassé"]) || array_key_exists("testPassé", $context) ? $context["testPassé"] : (function () { throw new RuntimeError('Variable "testPassé" does not exist.', 393, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                    // line 394
+                    yield "                                    <div style=\"position: absolute; top: -8px; right: -8px; background: #10b981; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 8px 20px rgba(16,185,129,0.6); border: 3px solid white;\">
+                                        ✓
+                                    </div>
+                                ";
+                }
+                // line 398
+                yield "                            </div>
+                        </a>
+                    ";
+            }
+            $_parent = $context['_parent'];
+            unset($context['_seq'], $context['_key'], $context['test'], $context['_parent']);
+            $context = array_intersect_key($context, $_parent) + $_parent;
+            // line 401
+            yield "                ";
+        } else {
+            // line 402
+            yield "                    <div style=\"
+                        width: 120px;
+                        height: 120px;
+                        background: linear-gradient(135deg, #9ca3af, #6b7280);
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border: 6px solid rgba(255,255,255,0.5);
+                        opacity: 0.6;
+                    \">
+                        <span style=\"font-size: 3rem;\">🔒</span>
+                    </div>
+                ";
+        }
+        // line 416
+        yield "            </div>
+        </div>
     </div>
 </div>
 ";
@@ -669,7 +1048,7 @@ class __TwigTemplate_be7aa9b2907eb2784a2f16085b2b766b extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  638 => 250,  632 => 249,  629 => 248,  614 => 246,  610 => 244,  604 => 242,  598 => 240,  596 => 239,  593 => 238,  589 => 236,  587 => 235,  583 => 233,  579 => 231,  577 => 230,  573 => 229,  568 => 226,  562 => 222,  560 => 221,  555 => 218,  553 => 217,  547 => 214,  542 => 211,  535 => 209,  533 => 208,  528 => 206,  524 => 205,  520 => 204,  502 => 195,  495 => 190,  489 => 188,  487 => 187,  483 => 186,  480 => 185,  477 => 184,  474 => 183,  471 => 182,  468 => 181,  465 => 180,  462 => 179,  459 => 178,  456 => 176,  453 => 175,  450 => 174,  447 => 173,  444 => 171,  441 => 170,  438 => 169,  435 => 168,  432 => 167,  429 => 166,  426 => 165,  423 => 164,  421 => 163,  418 => 162,  415 => 161,  412 => 160,  410 => 159,  407 => 158,  404 => 156,  401 => 155,  398 => 154,  395 => 153,  392 => 151,  389 => 150,  386 => 148,  383 => 147,  380 => 146,  362 => 145,  359 => 143,  356 => 142,  353 => 140,  347 => 139,  344 => 138,  341 => 137,  338 => 136,  333 => 135,  330 => 134,  323 => 129,  314 => 127,  310 => 125,  307 => 124,  304 => 122,  298 => 121,  295 => 120,  292 => 119,  289 => 118,  284 => 117,  281 => 116,  278 => 114,  275 => 113,  272 => 112,  269 => 111,  264 => 110,  261 => 108,  258 => 107,  255 => 105,  252 => 104,  249 => 102,  246 => 101,  243 => 100,  241 => 99,  238 => 98,  236 => 97,  232 => 94,  219 => 83,  216 => 82,  208 => 79,  191 => 66,  181 => 59,  176 => 57,  172 => 56,  162 => 49,  159 => 48,  156 => 47,  154 => 46,  145 => 39,  138 => 35,  133 => 32,  131 => 31,  122 => 25,  101 => 6,  88 => 5,  64 => 3,  41 => 1,);
+        return array (  1016 => 416,  1000 => 402,  997 => 401,  989 => 398,  983 => 394,  981 => 393,  974 => 388,  968 => 387,  945 => 371,  938 => 367,  933 => 365,  930 => 364,  927 => 363,  921 => 362,  918 => 361,  915 => 360,  912 => 359,  907 => 358,  904 => 357,  901 => 356,  899 => 355,  894 => 354,  892 => 353,  889 => 352,  883 => 351,  880 => 350,  877 => 349,  875 => 348,  868 => 347,  866 => 346,  862 => 344,  859 => 342,  853 => 341,  850 => 340,  846 => 338,  842 => 336,  840 => 335,  836 => 333,  832 => 331,  828 => 329,  826 => 328,  823 => 327,  821 => 326,  816 => 323,  810 => 319,  808 => 318,  803 => 315,  801 => 314,  794 => 309,  788 => 308,  783 => 305,  778 => 303,  776 => 302,  771 => 300,  767 => 299,  763 => 298,  745 => 289,  738 => 284,  732 => 282,  730 => 281,  727 => 280,  724 => 278,  718 => 277,  715 => 276,  712 => 275,  709 => 274,  704 => 273,  701 => 272,  699 => 271,  696 => 269,  690 => 268,  687 => 267,  684 => 266,  681 => 265,  678 => 264,  673 => 263,  670 => 262,  668 => 261,  666 => 260,  663 => 259,  657 => 258,  654 => 257,  651 => 256,  648 => 255,  643 => 254,  640 => 253,  638 => 252,  635 => 251,  632 => 249,  629 => 248,  614 => 246,  610 => 244,  604 => 242,  598 => 240,  596 => 239,  593 => 238,  589 => 236,  587 => 235,  583 => 233,  579 => 231,  577 => 230,  573 => 229,  568 => 226,  562 => 222,  560 => 221,  555 => 218,  553 => 217,  547 => 214,  542 => 211,  535 => 209,  533 => 208,  528 => 206,  524 => 205,  520 => 204,  502 => 195,  495 => 190,  489 => 188,  487 => 187,  483 => 186,  480 => 185,  477 => 184,  474 => 183,  471 => 182,  468 => 181,  465 => 180,  462 => 179,  459 => 178,  456 => 176,  453 => 175,  450 => 174,  447 => 173,  444 => 171,  441 => 170,  438 => 169,  435 => 168,  432 => 167,  429 => 166,  426 => 165,  423 => 164,  421 => 163,  418 => 162,  415 => 161,  412 => 160,  410 => 159,  407 => 158,  404 => 156,  401 => 155,  398 => 154,  395 => 153,  392 => 151,  389 => 150,  386 => 148,  383 => 147,  380 => 146,  362 => 145,  359 => 143,  356 => 142,  353 => 140,  347 => 139,  344 => 138,  341 => 137,  338 => 136,  333 => 135,  330 => 134,  323 => 129,  314 => 127,  310 => 125,  307 => 124,  304 => 122,  298 => 121,  295 => 120,  292 => 119,  289 => 118,  284 => 117,  281 => 116,  278 => 114,  275 => 113,  272 => 112,  269 => 111,  264 => 110,  261 => 108,  258 => 107,  255 => 105,  252 => 104,  249 => 102,  246 => 101,  243 => 100,  241 => 99,  238 => 98,  236 => 97,  232 => 94,  219 => 83,  216 => 82,  208 => 79,  191 => 66,  181 => 59,  176 => 57,  172 => 56,  162 => 49,  159 => 48,  156 => 47,  154 => 46,  145 => 39,  138 => 35,  133 => 32,  131 => 31,  122 => 25,  101 => 6,  88 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -922,10 +1301,177 @@ class __TwigTemplate_be7aa9b2907eb2784a2f16085b2b766b extends Template
                         </div>
                     {% endfor %}
                 {% endif %}
+                
+                                {# ============ TEST DE FIN DE NIVEAU ============ #}
+                {% if niveauEntity %}
+                    {# Récupérer le test de fin de niveau pour ce niveau spécifique #}
+                    {% set testFinNiveau = null %}
+                    {% for test in testsLangue %}
+                        {% if test.type == 'Test de fin de niveau' and test.niveau and test.niveau.id == niveauEntity.id %}
+                            {% set testFinNiveau = test %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if testFinNiveau %}
+                        {# Vérifier si tous les cours du niveau sont terminés #}
+                        {% set tousCoursTermines = true %}
+                        {% for cours in coursDuNiveau|slice(0, 3) %}
+                            {% set coursReelNumero = cours.numero %}
+                            {% if niveauOrdre == niveauActuelOrdre and dernierCoursTermine < coursReelNumero %}
+                                {% set tousCoursTermines = false %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {# Vérifier si le test est déjà passé #}
+                        {# Vérifier si le test est déjà passé #}
+                        {% set testDejaPassé = false %}
+                        {% for passage in testFinNiveau.passages %}
+                            {% if passage.user.id == user.id and passage.statut == 'termine' %}
+                                {% set testDejaPassé = true %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {# Afficher le cercle de test #}
+                        <div style=\"position: relative; margin: 100px 0; text-align: center; z-index: 3;\">
+                            {% if tousCoursTermines or testDejaPassé %}
+                                <a href=\"{{ path('app_test_student_show', {id: testFinNiveau.id}) }}\" style=\"text-decoration: none;\">
+                            {% endif %}
+                            
+                            <div style=\"
+                                width: 200px;
+                                height: 200px;
+                                margin: 0 auto;
+                                background: {% if testDejaPassé %}linear-gradient(135deg, #10b981, #059669){% elseif tousCoursTermines %}linear-gradient(135deg, #fbbf24, #f59e0b){% else %}#6b7280{% endif %};
+                                border-radius: 50%;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                                box-shadow: 0 20px 70px rgba(0,0,0,0.5);
+                                transition: all 0.45s ease;
+                                position: relative;
+                                border: 10px solid {{ (tousCoursTermines or testDejaPassé) ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.25)' }};
+                                opacity: {{ (tousCoursTermines or testDejaPassé) ? '1' : '0.5' }};
+                                cursor: {{ (tousCoursTermines or testDejaPassé) ? 'pointer' : 'default' }};
+                            \" 
+                            {% if tousCoursTermines or testDejaPassé %}
+                                onmouseover=\"this.style.transform='scale(1.15) rotate(5deg)'; this.style.boxShadow='0 40px 90px rgba(0,0,0,0.7)';\" 
+                                onmouseout=\"this.style.transform='scale(1) rotate(0deg)'; this.style.boxShadow='0 20px 70px rgba(0,0,0,0.5)';\"
+                            {% endif %}>
+                                
+                                <span style=\"font-size: 6rem; line-height: 1;\">
+                                    {% if testDejaPassé %}✅{% else %}📝{% endif %}
+                                </span>
+                                <span style=\"font-size: 1.3rem; font-weight: 900; color: white; margin-top: 10px; text-align: center; padding: 0 20px;\">
+                                    TEST<br>FIN NIVEAU
+                                </span>
+
+                                {% if testDejaPassé %}
+                                    <div style=\"position: absolute; top: -10px; right: -10px; background: #10b981; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 10px 24px rgba(16,185,129,0.6); border: 4px solid white;\">
+                                        ✓
+                                    </div>
+                                {% elseif not tousCoursTermines %}
+                                    <div style=\"position: absolute; top: -10px; right: -10px; background: #ef4444; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 10px 24px rgba(239,68,68,0.6); border: 4px solid white;\">
+                                        🔒
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <p style=\"margin-top: 20px; font-size: 1.4rem; font-weight: 700; color: white; text-shadow: 0 3px 10px rgba(0,0,0,0.5);\">
+                                {% if testDejaPassé %}
+                                    ✓ Validé
+                                {% elseif tousCoursTermines %}
+                                    Débloqué !
+                                {% else %}
+                                    Termine tous les cours d'abord
+                                {% endif %}
+                            </p>
+
+                            {% if tousCoursTermines or testDejaPassé %}
+                                </a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endif %}
             {% endfor %}
+            
+                        {# ============ TESTS HORS PARCOURS (À DROITE) ============ #}
+            <div style=\"position: fixed; right: 30px; top: 50%; transform: translateY(-50%); z-index: 10; display: flex; flex-direction: column; gap: 30px;\">
+
+                {% set testsHorsParcours = [] %}
+                {% for test in testsLangue %}  
+                    {% if test.type not in ['Test de niveau', 'Test de fin de niveau'] %}
+                        {% set testsHorsParcours = testsHorsParcours|merge([test]) %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if testsHorsParcours|length > 0 %}
+                    {% for test in testsHorsParcours %}
+                        {# Vérifier si déjà passé #}
+                        {% set testPassé = false %}
+                        {% if app.user %}
+                            {% for passage in test.passages %}
+                                {% if passage.user.id == app.user.id and passage.statut == 'termine' %}
+                                    {% set testPassé = true %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                        <a href=\"{{ path('app_test_student_show', {id: test.id}) }}\" 
+                        style=\"text-decoration: none; display: block;\"
+                        title=\"{{ test.titre }}\">
+                            <div style=\"
+                                width: 120px;
+                                height: 120px;
+                                background: {% if testPassé %}linear-gradient(135deg, #10b981, #059669){% else %}linear-gradient(135deg, #3b82f6, #1d4ed8){% endif %};
+                                border-radius: 50%;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                                box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+                                transition: all 0.3s ease;
+                                border: 6px solid rgba(255,255,255,0.8);
+                                position: relative;
+                                cursor: pointer;
+                            \" 
+                            onmouseover=\"this.style.transform='scale(1.15) rotate(10deg)'; this.style.boxShadow='0 20px 60px rgba(0,0,0,0.6)';\" 
+                            onmouseout=\"this.style.transform='scale(1) rotate(0deg)'; this.style.boxShadow='0 10px 40px rgba(0,0,0,0.4)';\">
+                                
+                                <span style=\"font-size: 3.5rem; line-height: 1;\">
+                                    {% if testPassé %}✅{% else %}📝{% endif %}
+                                </span>
+                                <span style=\"font-size: 0.9rem; font-weight: 800; color: white; margin-top: 5px; text-align: center; line-height: 1.1;\">
+                                    TEST
+                                </span>
+
+                                {% if testPassé %}
+                                    <div style=\"position: absolute; top: -8px; right: -8px; background: #10b981; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 8px 20px rgba(16,185,129,0.6); border: 3px solid white;\">
+                                        ✓
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <div style=\"
+                        width: 120px;
+                        height: 120px;
+                        background: linear-gradient(135deg, #9ca3af, #6b7280);
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border: 6px solid rgba(255,255,255,0.5);
+                        opacity: 0.6;
+                    \">
+                        <span style=\"font-size: 3rem;\">🔒</span>
+                    </div>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
-{% endblock %}", "langue/apprentissage.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\langue\\apprentissage.html.twig");
+{% endblock %}", "langue/apprentissage.html.twig", "C:\\Users\\emnab\\Documents\\FluentlyLangue\\templates\\langue\\apprentissage.html.twig");
     }
 }

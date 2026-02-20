@@ -97,7 +97,7 @@
         background: #f8f9fa;
         border-radius: 0 0 20px 20px;
     }
-    .btn-start, .btn-resume {
+    .btn-start, .btn-resume, .btn-submit {
         background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         color: white;
         border: none;
@@ -108,7 +108,7 @@
         box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
         transition: all 0.3s;
     }
-    .btn-start:hover, .btn-resume:hover {
+    .btn-start:hover, .btn-resume:hover, .btn-submit:hover {
         transform: translateY(-3px);
         box-shadow: 0 15px 40px rgba(16, 185, 129, 0.5);
     }
@@ -125,11 +125,89 @@
         width: 0%;
         transition: width 0.5s;
     }
+    .timer-container {
+        position: fixed;
+        top: 100px;
+        right: 30px;
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: white;
+        padding: 20px 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);
+        z-index: 1000;
+        text-align: center;
+        min-width: 150px;
+    }
+    .timer-container.warning {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        animation: pulse 1s infinite;
+    }
+    .timer-container.critical {
+        background: linear-gradient(135deg, #dc2626, #991b1b);
+        animation: shake 0.5s infinite;
+    }
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+    }
+    .timer-icon {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+    .timer-time {
+        font-size: 2rem;
+        font-weight: 900;
+        margin: 10px 0;
+    }
+    .timer-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+    .btn-microphone {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: white;
+        border: none;
+        padding: 20px 50px;
+        font-size: 1.3rem;
+        font-weight: bold;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);
+    }
+    .btn-microphone:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 40px rgba(239, 68, 68, 0.6);
+    }
+    .btn-microphone.recording {
+        background: linear-gradient(135deg, #10b981, #059669);
+        animation: pulse 1.5s infinite;
+    }
+    .oral-result {
+        margin-top: 20px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 12px;
+    }
 </style>
 {% endblock %}
 
 {% block body %}
 <div class="test-container">
+    {# MINUTEUR - Affiché seulement si le test est démarré #}
+    {% if passageEnCours %}
+        <div class="timer-container" id="timerContainer">
+            <div class="timer-icon">⏱️</div>
+            <div class="timer-time" id="timerDisplay">{{ test.dureeEstimee ?: '15' }}:00</div>
+            <div class="timer-label">Temps restant</div>
+        </div>
+    {% endif %}
+
     <div class="test-card">
         <div class="test-header">
             <h1 class="mb-3">
@@ -159,29 +237,7 @@
         </div>
 
         {% if passageEnCours %}
-            <div class="text-center py-4">
-                <p class="lead text-warning mb-3">
-                    <i class="fas fa-play-circle"></i> Test déjà commencé...
-                </p>
-                <a href="{{ path('app_test_student_show', {id: test.id}) }}" class="btn btn-resume btn-lg">
-                    Reprendre le test
-                </a>
-            </div>
-        {% else %}
-            <div class="text-center py-4">
-                <form method="post" action="{{ path('app_test_student_start', {id: test.id}) }}">
-                    <button type="submit" class="btn btn-start btn-lg">
-                        <i class="fas fa-play"></i> Démarrer le test
-                    </button>
-                </form>
-                <p class="text-muted mt-3">
-                    Une fois commencé, tu pourras le reprendre plus tard si besoin.
-                </p>
-            </div>
-        {% endif %}
-
-        <!-- Questions (affichées seulement si test démarré ou en cours) -->
-        {% if passageEnCours or app.request.query.get('started') %}
+            <!-- Questions affichées si test en cours -->
             <form method="post" action="{{ path('app_test_student_submit', {id: test.id}) }}" id="testForm">
                 <div class="progress-bar-container">
                     <div class="progress-bar-fill" id="progressBar"></div>
@@ -194,10 +250,51 @@
                             <div class="question-text flex-grow-1">
                                 {{ question.enonce }}
                                 <span class="badge bg-primary ms-2">{{ question.scoreMax }} pts</span>
+                                {% if question.type == 'oral' %}
+                                    <span class="badge bg-danger ms-2">🎤 Question orale</span>
+                                {% endif %}
                             </div>
                         </div>
 
-                        {% if question.reponses|length > 0 %}
+                        {% if question.type == 'oral' %}
+                            {# QUESTION ORALE #}
+                            <div class="oral-question-container" id="oral_{{ question.id }}">
+                                <div class="oral-text" style="background: white; border: 3px solid #4f46e5; border-radius: 12px; padding: 25px; margin-bottom: 20px; text-align: center;">
+                                    <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px;">
+                                        <i class="fas fa-volume-up" 
+                                           style="font-size: 2rem; color: #4f46e5; cursor: pointer;" 
+                                           data-text="{{ question.enonce|e('html_attr') }}"
+                                           data-lang="{{ test.langue.nom|e('html_attr') }}"
+                                           onclick="speakText(this.dataset.text, this.dataset.lang)"></i>
+                                        <p style="margin: 0; font-size: 1.8rem; font-weight: 700; color: #1e293b;">
+                                            {{ question.enonce }}
+                                        </p>
+                                    </div>
+                                    <small style="color: #64748b;">Lis cette phrase à haute voix</small>
+                                </div>
+
+                                <div style="text-align: center; margin-bottom: 20px;">
+                                    <button type="button" 
+                                            class="btn-microphone" 
+                                            id="mic_btn_{{ question.id }}"
+                                            data-question-id="{{ question.id }}"
+                                            data-expected="{{ question.enonce|e('html_attr') }}"
+                                            data-lang="{{ test.langue.nom|e('html_attr') }}"
+                                            onclick="startRecognition(this.dataset.questionId, this.dataset.expected, this.dataset.lang)">
+                                        <i class="fas fa-microphone"></i> TAP TO SPEAK
+                                    </button>
+                                </div>
+
+                                <div class="oral-result" id="result_{{ question.id }}" style="display: none;">
+                                    <div class="alert" id="alert_{{ question.id }}"></div>
+                                    <p><strong>Tu as dit :</strong> <span id="transcript_{{ question.id }}"></span></p>
+                                    <p><strong>Attendu :</strong> {{ question.enonce }}</p>
+                                </div>
+
+                                <input type="hidden" name="oral_{{ question.id }}" id="oral_answer_{{ question.id }}" value="">
+                            </div>
+                        {% elseif question.reponses|length > 0 %}
+                            {# QUESTION QCM #}
                             {% for reponse in question.reponses %}
                                 <div class="answer-option">
                                     <input class="form-check-input" 
@@ -221,11 +318,23 @@
                 {% endfor %}
 
                 <div class="submit-section">
-                    <button type="submit" class="btn btn-submit" id="submitBtn">
+                    <button type="submit" class="btn-submit" id="submitBtn">
                         <i class="fas fa-paper-plane"></i> Soumettre mes réponses
                     </button>
                 </div>
             </form>
+        {% else %}
+            <!-- Bouton pour démarrer le test -->
+            <div class="text-center py-4">
+                <form method="post" action="{{ path('app_test_student_start', {id: test.id}) }}">
+                    <button type="submit" class="btn-start btn-lg">
+                        <i class="fas fa-play"></i> Démarrer le test
+                    </button>
+                </form>
+                <p class="text-muted mt-3">
+                    Une fois commencé, tu pourras le reprendre plus tard si besoin.
+                </p>
+            </div>
         {% endif %}
     </div>
 </div>
@@ -234,24 +343,216 @@
 {% block js %}
 {{ parent() }}
 <script>
-    const totalQuestions = {{ test.questions|length }};
-    
-    function updateProgress() {
-        const answered = document.querySelectorAll('input[type="radio"]:checked').length;
-        const progress = (answered / totalQuestions) * 100;
-        document.getElementById('progressBar').style.width = progress + '%';
-        
-        document.getElementById('submitBtn').disabled = answered < totalQuestions;
-    }
+const totalQuestions = {{ test.questions|length }};
 
-    document.getElementById('testForm')?.addEventListener('submit', function(e) {
-        const answered = document.querySelectorAll('input[type="radio"]:checked').length;
-        if (answered < totalQuestions) {
+function updateProgress() {
+    const answeredQCM = document.querySelectorAll('input[type="radio"]:checked').length;
+    const oralInputs = document.querySelectorAll('input[id^="oral_answer_"]');
+    // ✅ Maintenant on vérifie juste si un transcript existe (pas vide)
+    const validOral = Array.from(oralInputs).filter(input => input.value && input.value.trim().length > 0).length;
+    
+    const totalAnswered = answeredQCM + validOral;
+    const progress = (totalAnswered / totalQuestions) * 100;
+    
+    const progressBar = document.getElementById('progressBar');
+    if (progressBar) {
+        progressBar.style.width = progress + '%';
+    }
+    
+    const submitBtn = document.getElementById('submitBtn');
+    if (submitBtn) {
+        submitBtn.disabled = totalAnswered < totalQuestions;
+    }
+}
+
+const testForm = document.getElementById('testForm');
+if (testForm) {
+    testForm.addEventListener('submit', function(e) {
+        const answeredQCM = document.querySelectorAll('input[type="radio"]:checked').length;
+        const oralInputs = document.querySelectorAll('input[id^="oral_answer_"]');
+        // ✅ Vérifier que toutes les questions orales ont une transcription
+        const validOral = Array.from(oralInputs).filter(input => input.value && input.value.trim().length > 0).length;
+        
+        if (answeredQCM + validOral < totalQuestions) {
             e.preventDefault();
             alert('Veuillez répondre à toutes les questions !');
         }
     });
-
+    
     updateProgress();
+}
+
+// ========== MINUTEUR ==========
+{% if passageEnCours %}
+const dureeMinutes = {{ test.dureeEstimee ?: 15 }};
+const dateDebut = new Date("{{ passageEnCours.dateDebut|date('Y-m-d H:i:s') }}");
+const now = new Date();
+
+const tempsEcoule = Math.floor((now - dateDebut) / 1000);
+const dureeSecondes = dureeMinutes * 60;
+let tempsRestant = dureeSecondes - tempsEcoule;
+
+if (tempsRestant <= 0 && testForm) {
+    alert('⏰ Temps écoulé ! Le test va être soumis automatiquement.');
+    testForm.submit();
+}
+
+const timerDisplay = document.getElementById('timerDisplay');
+const timerContainer = document.getElementById('timerContainer');
+
+function updateTimer() {
+    if (tempsRestant <= 0) {
+        timerDisplay.textContent = '00:00';
+        alert('⏰ Temps écoulé ! Le test est soumis automatiquement.');
+        if (testForm) testForm.submit();
+        return;
+    }
+    
+    const minutes = Math.floor(tempsRestant / 60);
+    const secondes = tempsRestant % 60;
+    timerDisplay.textContent = String(minutes).padStart(2, '0') + ':' + String(secondes).padStart(2, '0');
+    
+    if (tempsRestant <= 60) {
+        timerContainer.className = 'timer-container critical';
+    } else if (tempsRestant <= 300) {
+        timerContainer.className = 'timer-container warning';
+    }
+    
+    tempsRestant--;
+}
+
+updateTimer();
+const timerInterval = setInterval(updateTimer, 1000);
+
+if (testForm) {
+    testForm.addEventListener('submit', function() {
+        clearInterval(timerInterval);
+    });
+}
+{% endif %}
+
+// ========== RECONNAISSANCE VOCALE ==========
+const languageMap = {
+    'English': 'en-US',
+    'Français': 'fr-FR',
+    'Espagnol': 'es-ES',
+    'Español': 'es-ES',
+    'Allemand': 'de-DE',
+    'Italien': 'it-IT',
+    'Portugais': 'pt-PT',
+    'Arabe': 'ar-SA',
+    'Chinois': 'zh-CN',
+    'Japonais': 'ja-JP',
+    'Coréen': 'ko-KR',
+    'Russe': 'ru-RU'
+};
+
+function speakText(text, langue) {
+    console.log('🔊 Speaking:', text, 'in', langue);
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = languageMap[langue] || 'en-US';
+        utterance.rate = 0.8;
+        window.speechSynthesis.speak(utterance);
+    } else {
+        console.error('❌ Speech Synthesis not supported');
+    }
+}
+
+function startRecognition(questionId, expectedText, langue) {
+    console.log('🎤 Starting recognition for question', questionId);
+
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        alert('❌ Ton navigateur ne supporte pas la reconnaissance vocale.\n\nUtilise Chrome, Edge ou Safari.');
+        return;
+    }
+
+    if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        alert('⚠️ La reconnaissance vocale nécessite HTTPS');
+        return;
+    }
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    
+    recognition.lang = languageMap[langue] || 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 3;
+
+    const micBtn = document.getElementById(`mic_btn_${questionId}`);
+    const resultDiv = document.getElementById(`result_${questionId}`);
+    const alertDiv = document.getElementById(`alert_${questionId}`);
+    const transcriptSpan = document.getElementById(`transcript_${questionId}`);
+    const hiddenInput = document.getElementById(`oral_answer_${questionId}`);
+
+    micBtn.classList.add('recording');
+    micBtn.innerHTML = '<i class="fas fa-circle"></i> EN ÉCOUTE...';
+    micBtn.disabled = true;
+
+    try {
+        recognition.start();
+        console.log('✅ Recognition started');
+    } catch (error) {
+        console.error('❌ Error:', error);
+        alert('Erreur : ' + error.message);
+        micBtn.classList.remove('recording');
+        micBtn.innerHTML = '<i class="fas fa-microphone"></i> TAP TO SPEAK';
+        micBtn.disabled = false;
+        return;
+    }
+
+    recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript.trim();
+        const confidence = event.results[0][0].confidence;
+
+        console.log('Transcript:', transcript, 'Confidence:', confidence);
+
+        transcriptSpan.textContent = transcript;
+        resultDiv.style.display = 'block';
+
+        // ✅ MODIFICATION ICI : On envoie juste la transcription au serveur
+        // Le serveur PHP fera la validation avec SpeechEvaluationService
+        hiddenInput.value = transcript;
+
+        // Affichage temporaire (sera validé côté serveur)
+        alertDiv.className = 'alert alert-info';
+        alertDiv.innerHTML = '<i class="fas fa-microphone"></i> <strong>Enregistré !</strong> La réponse sera évaluée lors de la soumission.';
+
+        micBtn.classList.remove('recording');
+        micBtn.innerHTML = '<i class="fas fa-redo"></i> RÉESSAYER';
+        micBtn.disabled = false;
+        
+        updateProgress();
+    };
+
+    recognition.onerror = function(event) {
+        console.error('❌ Recognition error:', event.error);
+        
+        micBtn.classList.remove('recording');
+        micBtn.innerHTML = '<i class="fas fa-microphone"></i> TAP TO SPEAK';
+        micBtn.disabled = false;
+        
+        if (event.error === 'no-speech') {
+            alert('⚠️ Aucun son détecté. Parle plus fort près du micro.');
+        } else if (event.error === 'not-allowed' || event.error === 'permission-denied') {
+            alert('❌ ACCÈS AU MICRO REFUSÉ\n\n1. Clique sur l\'icône 🔒 dans la barre d\'adresse\n2. Active les permissions pour le microphone\n3. Recharge la page');
+        } else if (event.error === 'audio-capture') {
+            alert('❌ Aucun microphone détecté. Vérifie ta connexion audio.');
+        } else {
+            alert('❌ Erreur : ' + event.error);
+        }
+    };
+
+    recognition.onend = function() {
+        console.log('🏁 Recognition ended');
+        micBtn.classList.remove('recording');
+        micBtn.disabled = false;
+        if (micBtn.innerHTML.includes('EN ÉCOUTE')) {
+            micBtn.innerHTML = '<i class="fas fa-microphone"></i> TAP TO SPEAK';
+        }
+    };
+}
+
 </script>
 {% endblock %}

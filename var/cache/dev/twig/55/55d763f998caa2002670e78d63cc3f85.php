@@ -157,6 +157,6 @@ class __TwigTemplate_d555f1579c0a66d628bfe7f4c8dfae38 extends Template
     {% endfor %}
   </ul>
 {% endblock %}
-", "groupe/admin_groups.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\groupe\\admin_groups.html.twig");
+", "groupe/admin_groups.html.twig", "C:\\Users\\emnab\\Documents\\FluentlyLangue\\templates\\groupe\\admin_groups.html.twig");
     }
 }

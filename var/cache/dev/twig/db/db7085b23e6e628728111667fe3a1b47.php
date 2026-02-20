@@ -1390,6 +1390,6 @@ const actionButtons = document.querySelectorAll('.btn-see, .btn-modify, .btn-res
     });
 });
 </script>
-{% endblock %}", "session/index.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\session\\index.html.twig");
+{% endblock %}", "session/index.html.twig", "C:\\Users\\emnab\\Documents\\FluentlyLangue\\templates\\session\\index.html.twig");
     }
 }

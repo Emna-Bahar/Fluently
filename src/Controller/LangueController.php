@@ -7,6 +7,7 @@ use App\Form\LangueType;
 use App\Repository\LangueRepository;
 use App\Repository\CoursRepository;
 use App\Repository\NiveauRepository;
+use App\Repository\TestRepository;
 use App\Repository\TestPassageRepository;
 use App\Repository\UserProgressRepository;
 use App\Service\LanguageStatsService;
@@ -214,7 +215,7 @@ public function apprentissage(
     foreach ($coursParNiveau as &$data) {
         usort($data['cours'], fn($a, $b) => $a->getNumero() <=> $b->getNumero());
     }
-
+    $testsLangue = $em->getRepository(\App\Entity\Test::class)->findBy(['langue' => $langue]);
     return $this->render('langue/apprentissage.html.twig', [
         'langue'             => $langue,
         'allCours'          => $tousLesCours,
@@ -226,6 +227,7 @@ public function apprentissage(
         'niveauObtenu'      => $niveauObtenu,
         'progress'          => $progress,
         'user'              => $user,
+        'testsLangue'       => $testsLangue,
     ]);
 }
      

@@ -220,13 +220,16 @@ public function show(Cours $cour, Request $request, EntityManagerInterface $em):
         }
     }
     
+    $dbResources = $cour->getRessource() ? explode("\n", trim($cour->getRessource())) : [];
+    $dbResources = array_filter($dbResources, fn($v) => trim($v) !== '');
+
     // ✅ Supprimer les doublons
     $ressourcesNormales = array_unique($ressourcesNormales);
     $ressourcesPersonnalisees = array_unique($ressourcesPersonnalisees);
 
     return $this->render('cours/base_apprentissage.html.twig', [  
         'cour' => $cour,
-        'files' => $ressourcesNormales,               // PDF admin + vidéos YouTube
+        'files' => $dbResources,              // PDF admin + vidéos YouTube
         'ressources_personnalisees' => $ressourcesPersonnalisees, // PDF personnalisés
         'public_path' => $publicPath,
         'progress' => $progress,

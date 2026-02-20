@@ -234,6 +234,6 @@ class __TwigTemplate_ae395a4457f35505d5fd4c9c9e81ff26 extends Template
         // Animation ou fonctionnalités spécifiques
         console.log(\"Page d'accueil chargée\");
     </script>
-{% endblock %}", "home/index.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\home\\index.html.twig");
+{% endblock %}", "home/index.html.twig", "C:\\Users\\emnab\\Documents\\FluentlyLangue\\templates\\home\\index.html.twig");
     }
 }

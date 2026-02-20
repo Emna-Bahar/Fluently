@@ -968,6 +968,6 @@ class __TwigTemplate_34750f01b54ad90a84d64eb7400b0374 extends Template
    
 </body>
 
-</html>", "dashboard/index.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\dashboard\\index.html.twig");
+</html>", "dashboard/index.html.twig", "C:\\Users\\emnab\\Documents\\FluentlyLangue\\templates\\dashboard\\index.html.twig");
     }
 }
