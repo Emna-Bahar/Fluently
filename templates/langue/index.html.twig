@@ -63,7 +63,8 @@
                                 <!-- Drapeau (plus grand et centré) -->
                                 <div style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center;">
                                     {% if langue.drapeau %}
-                                        <img src="{{ asset('images/langues/' ~ langue.drapeau) }}" 
+                                        {# ✅ CORRIGÉ : images/langues/ → uploads/langues/ #}
+                                        <img src="{{ asset('uploads/langues/' ~ langue.drapeau) }}" 
                                              alt="Drapeau {{ langue.nom }}" 
                                              style="width: 100%; height: 100%; object-fit: cover;">
                                     {% else %}

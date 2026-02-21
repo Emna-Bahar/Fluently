@@ -2,10 +2,22 @@
 
 {% block title %}Leçon {{ cour.numero }} – {{ cour.idNiveau.titre }}{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
 {% block body %}
 <div style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); min-height: 100vh; padding: 60px 20px; color: white; font-family: system-ui, sans-serif;">
     <div style="max-width: 1100px; margin: 0 auto;">
         <br><br><br><br>
+
+        <!-- Chronomètre -->
+        <div style="position: fixed; top: 100px; right: 30px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border-radius: 50px; padding: 15px 25px; border: 1px solid rgba(255,255,255,0.3); z-index: 1000;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <span style="font-size: 1.5rem;">⏱️</span>
+                <span style="font-size: 1.8rem; font-weight: 800; color: white;" id="chrono">00:00</span>
+            </div>
+        </div>
 
         <!-- En-tête avec bouton générer -->
         <div style="text-align: center; margin-bottom: 60px;">
@@ -173,6 +185,61 @@
             {% endif %}
         </div>
 
+        <!-- ============ SECTION DICTIONNAIRE ============ -->
+        <div style="margin-top: 80px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 30px; padding: 40px;">
+            <h2 style="color: white; text-align: center; font-size: 2.2rem; font-weight: 800; margin-bottom: 30px;">
+                📖 Dictionnaire
+            </h2>
+            
+            <div style="background: white; border-radius: 20px; padding: 30px;">
+                <!-- Barre de recherche -->
+                <div style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px;">
+                    <div style="display: flex; gap: 15px;">
+                        <input type="text" 
+                               id="dictionary-word" 
+                               placeholder="Tapez un mot (ex: maison, friend, Haus...)" 
+                               style="flex: 1; padding: 18px 25px; border: 2px solid #e0e0e0; border-radius: 50px; font-size: 1.2rem; outline: none; transition: all 0.3s;"
+                               onfocus="this.style.borderColor='#667eea';">
+                        
+                        <button onclick="searchWord()" 
+                                style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 0 40px; border-radius: 50px; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: all 0.3s;"
+                                onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 25px rgba(102,126,234,0.4)';"
+                                onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+                            🔍 Chercher
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Résultats du dictionnaire -->
+                <div id="dictionary-result" style="background: #f8f9fa; border-radius: 15px; padding: 25px; min-height: 200px;">
+                    <p style="color: #999; text-align: center; font-size: 1.1rem; margin: 40px 0;">
+                        Entrez un mot pour voir sa définition
+                    </p>
+                </div>
+
+                <!-- Suggestions de mots populaires -->
+                <div style="margin-top: 30px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+                    <span style="color: #666; font-weight: 600; margin-right: 10px;">Mots populaires :</span>
+                    <button onclick="document.getElementById('dictionary-word').value='maison'; searchWord();" 
+                            style="background: #f0f0f0; border: none; padding: 8px 20px; border-radius: 50px; cursor: pointer; transition: all 0.2s; color: #333;"
+                            onmouseover="this.style.background='#667eea'; this.style.color='white';"
+                            onmouseout="this.style.background='#f0f0f0'; this.style.color='#333';">maison</button>
+                    <button onclick="document.getElementById('dictionary-word').value='ami'; searchWord();" 
+                            style="background: #f0f0f0; border: none; padding: 8px 20px; border-radius: 50px; cursor: pointer; transition: all 0.2s; color: #333;"
+                            onmouseover="this.style.background='#667eea'; this.style.color='white';"
+                            onmouseout="this.style.background='#f0f0f0'; this.style.color='#333';">ami</button>
+                    <button onclick="document.getElementById('dictionary-word').value='friend'; searchWord();" 
+                            style="background: #f0f0f0; border: none; padding: 8px 20px; border-radius: 50px; cursor: pointer; transition: all 0.2s; color: #333;"
+                            onmouseover="this.style.background='#667eea'; this.style.color='white';"
+                            onmouseout="this.style.background='#f0f0f0'; this.style.color='#333';">friend</button>
+                    <button onclick="document.getElementById('dictionary-word').value='Haus'; searchWord();" 
+                            style="background: #f0f0f0; border: none; padding: 8px 20px; border-radius: 50px; cursor: pointer; transition: all 0.2s; color: #333;"
+                            onmouseover="this.style.background='#667eea'; this.style.color='white';"
+                            onmouseout="this.style.background='#f0f0f0'; this.style.color='#333';">Haus</button>
+                </div>
+            </div>
+        </div>
+
         <!-- Bouton Terminer -->
         <div style="margin-top: 80px; text-align: center;">
             <button onclick="terminerCours({{ cour.id }})" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 22px 80px; font-size: 1.5rem; font-weight: 900; border-radius: 20px; cursor: pointer; box-shadow: 0 12px 40px rgba(16,185,129,0.5); transition: all 0.35s;" onmouseover="this.style.transform='scale(1.08) translateY(-4px)';" onmouseout="this.style.transform='scale(1) translateY(0)';">
@@ -182,7 +249,7 @@
 
     </div>
 
-    <!-- Script filtrage + terminer -->
+    <!-- Script filtrage + terminer + dictionnaire + chrono -->
     <script>
         // Filtrage
         document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -204,9 +271,40 @@
         // Afficher tout au chargement
         document.querySelector('[data-filter="all"]').click();
 
-        // Terminer cours
+        // Chronomètre
+        let startTime = Date.now();
+        let timerInterval;
+
+        function updateChrono() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            document.getElementById('chrono').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Démarrer le chrono
+        timerInterval = setInterval(updateChrono, 1000);
+
+        // Envoyer le temps à la fin
+        function envoyerTemps() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            fetch('/cours/{{ cour.id }}/temps', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': '{{ csrf_token('temps' ~ cour.id) }}'
+                },
+                body: JSON.stringify({ temps: elapsed })
+            });
+        }
+
+        // Terminer cours modifié
         function terminerCours(coursId) {
             if (confirm("Voulez-vous marquer cette leçon comme terminée ?\nVous passerez automatiquement à la suivante.")) {
+                clearInterval(timerInterval); // Arrêter le chrono
+                envoyerTemps(); // Envoyer le temps
+                
                 fetch('/cours/' + coursId + '/terminer', {
                     method: 'POST',
                     headers: {
@@ -224,6 +322,72 @@
                 .catch(err => alert("Erreur : " + err.message));
             }
         }
+
+        // Fonctions du dictionnaire
+        function searchWord() {
+            const word = document.getElementById('dictionary-word').value.trim();
+            const resultDiv = document.getElementById('dictionary-result');
+            
+            if (!word) {
+                resultDiv.innerHTML = '<p style="color: #ff6b6b; text-align: center; margin: 40px 0;">❌ Veuillez entrer un mot</p>';
+                return;
+            }
+            
+            // Afficher un loader
+            resultDiv.innerHTML = '<p style="text-align: center; margin: 40px 0; color: #333;">🔍 Recherche en cours...</p>';
+            
+            fetch('/api/dictionary/search/' + encodeURIComponent(word))
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        resultDiv.innerHTML = `<p style="color: #ff6b6b; text-align: center; margin: 40px 0;">❌ ${data.error}</p>`;
+                        return;
+                    }
+                    
+                    let html = `
+                        <div style="border-bottom: 2px solid #667eea; padding-bottom: 15px; margin-bottom: 20px;">
+                            <h3 style="margin: 0; color: #000000; font-size: 2rem; font-weight: 800;">${data.word}</h3>
+                        </div>
+                    `;
+                    
+                    if (data.functional_label) {
+                        html += `<p><strong style="color: #000000;">Catégorie :</strong> <span style="color: #333333;">${data.functional_label}</span></p>`;
+                    }
+                    
+                    if (data.definitions && data.definitions.length > 0) {
+                        html += '<p><strong style="color: #000000;">Définitions :</strong></p><ol style="margin-top: 10px; padding-left: 20px;">';
+                        data.definitions.forEach(def => {
+                            html += `<li style="margin-bottom: 10px; line-height: 1.6; color: #333333;">${def}</li>`;
+                        });
+                        html += '</ol>';
+                    }
+                    
+                    if (data.examples && data.examples.length > 0) {
+                        html += '<p><strong style="color: #000000;">Exemples :</strong></p><ul style="margin-top: 10px; padding-left: 20px; font-style: italic;">';
+                        data.examples.forEach(ex => {
+                            html += `<li style="margin-bottom: 8px; color: #555;">"${ex}"</li>`;
+                        });
+                        html += '</ul>';
+                    }
+                    
+                    resultDiv.innerHTML = html;
+                })
+                .catch(error => {
+                    resultDiv.innerHTML = `<p style="color: #ff6b6b; text-align: center; margin: 40px 0;">❌ Erreur: ${error.message}</p>`;
+                });
+        }
+
+        // Ajouter la possibilité de chercher avec la touche Entrée
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('dictionary-word');
+            if (input) {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        searchWord();
+                    }
+                });
+            }
+        });
     </script>
 </div>
 {% endblock %}

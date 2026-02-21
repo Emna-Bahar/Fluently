@@ -26,6 +26,7 @@ class Langue extends \App\Entity\Langue implements \Doctrine\ORM\Proxy\InternalP
         "\0".parent::class."\0".'date_ajout' => [parent::class, 'date_ajout', null, 16],
         "\0".parent::class."\0".'description' => [parent::class, 'description', null, 16],
         "\0".parent::class."\0".'drapeau' => [parent::class, 'drapeau', null, 16],
+        "\0".parent::class."\0".'drapeauFile' => [parent::class, 'drapeauFile', null, 16],
         "\0".parent::class."\0".'groupes' => [parent::class, 'groupes', null, 16],
         "\0".parent::class."\0".'id' => [parent::class, 'id', null, 16],
         "\0".parent::class."\0".'is_active' => [parent::class, 'is_active', null, 16],
@@ -33,10 +34,12 @@ class Langue extends \App\Entity\Langue implements \Doctrine\ORM\Proxy\InternalP
         "\0".parent::class."\0".'nom' => [parent::class, 'nom', null, 16],
         "\0".parent::class."\0".'popularite' => [parent::class, 'popularite', null, 16],
         "\0".parent::class."\0".'tests' => [parent::class, 'tests', null, 16],
+        "\0".parent::class."\0".'updatedAt' => [parent::class, 'updatedAt', null, 16],
         'Id_user' => [parent::class, 'Id_user', null, 16],
         'date_ajout' => [parent::class, 'date_ajout', null, 16],
         'description' => [parent::class, 'description', null, 16],
         'drapeau' => [parent::class, 'drapeau', null, 16],
+        'drapeauFile' => [parent::class, 'drapeauFile', null, 16],
         'groupes' => [parent::class, 'groupes', null, 16],
         'id' => [parent::class, 'id', null, 16],
         'is_active' => [parent::class, 'is_active', null, 16],
@@ -44,6 +47,7 @@ class Langue extends \App\Entity\Langue implements \Doctrine\ORM\Proxy\InternalP
         'nom' => [parent::class, 'nom', null, 16],
         'popularite' => [parent::class, 'popularite', null, 16],
         'tests' => [parent::class, 'tests', null, 16],
+        'updatedAt' => [parent::class, 'updatedAt', null, 16],
     ];
 
     public function __isInitialized(): bool

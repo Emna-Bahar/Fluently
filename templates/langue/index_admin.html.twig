@@ -75,7 +75,8 @@
                                     <td class="fw-bold">{{ langue.nom }}</td>
                                     <td class="text-center">
                                         {% if langue.drapeau %}
-                                            <img src="{{ asset('images/langues/' ~ langue.drapeau) }}" 
+                                            {# ✅ CORRIGÉ : images/langues/ → uploads/langues/ #}
+                                            <img src="{{ asset('uploads/langues/' ~ langue.drapeau) }}" 
                                                  alt="{{ langue.nom }}" 
                                                  class="rounded" 
                                                  style="width: 60px; height: 40px; object-fit: cover; border: 1px solid #dee2e6;">

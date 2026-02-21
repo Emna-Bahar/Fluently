@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/cours-personnalise')]
+#[Route('/cour s-personnalise')]
 class CoursPersonnaliseController extends AbstractController
 {
     #[Route('/generer/{id}', name: 'app_cours_personnalise_generer')]

@@ -12,6 +12,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Vich\UploaderBundle\Form\Type\VichImageType;
+
 class LangueType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -94,25 +96,18 @@ class LangueType extends AbstractType
                 'attr' => ['class' => 'status-radio-group'],
             ])
 
-            ->add('drapeauFile', FileType::class, [
-                'label' => 'Drapeau',
-                'mapped' => false,
-                'required' => !$isEdit, // Obligatoire en création, optionnel en modification
-                'constraints' => array_filter([
-                    !$isEdit ? new Assert\NotBlank([
-                        'message' => 'Le drapeau est obligatoire lors de la création d\'une langue.',
-                    ]) : null,
-                    new Assert\File([
-                        'maxSize' => '2M',
-                        'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
-                        'mimeTypesMessage' => 'Seuls les formats JPG, PNG et WebP sont acceptés.',
-                        'maxSizeMessage' => 'Le fichier ne doit pas dépasser 2 Mo.',
-                    ]),
-                ]),
-                'attr' => [
-                    'accept' => 'image/jpeg,image/png,image/webp'
-                ],
-            ])
+            ->add('drapeauFile', VichImageType::class, [
+            'label' => 'Drapeau de la langue',
+            'required' => !$isEdit,
+            'allow_delete' => true,
+            'delete_label' => 'Supprimer',
+            'download_uri' => true,
+            'image_uri' => true,
+            'asset_helper' => true,
+            'attr' => [
+                'accept' => 'image/jpeg,image/png,image/webp'
+            ],
+        ])
         ;
     }
 
