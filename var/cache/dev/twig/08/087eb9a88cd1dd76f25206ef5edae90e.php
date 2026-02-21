@@ -587,12 +587,100 @@ class __TwigTemplate_0ecbff78a5339eb2cbf7a7db246d0bce extends Template
                 </div>
             </div>
         </div>
+        <!-- ============ SECTION DIALOGUE VOCAL AVEC IA ============ -->
+<div style=\"margin-top: 80px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border-radius: 30px; padding: 40px;\">
+    <h2 style=\"color: white; text-align: center; font-size: 2.2rem; font-weight: 800; margin-bottom: 30px;\">
+        🎤 Pratique la conversation à voix haute
+    </h2>
+    
+    <div style=\"background: white; border-radius: 20px; padding: 30px;\">
+        
+        <!-- ÉTAPE 1 : Saisie du thème -->
+        <div id=\"etape-theme\">
+            <h3 style=\"color: #333; margin-bottom: 20px;\">📝 Quel thème veux-tu pratiquer ?</h3>
+            <div style=\"display: flex; gap: 15px;\">
+                <input type=\"text\" 
+                       id=\"theme-input\" 
+                       placeholder=\"Ex: Au restaurant, Voyage à Paris, Présentation personnelle...\" 
+                       style=\"flex: 1; padding: 18px 25px; border: 2px solid #e0e0e0; border-radius: 50px; font-size: 1.1rem; outline: none;\">
+                
+                <button onclick=\"genererDialogue()\" 
+                        style=\"background: linear-gradient(135deg, #f97316, #ea580c); color: white; border: none; padding: 0 40px; border-radius: 50px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;\"
+                        onmouseover=\"this.style.transform='scale(1.05)';\"
+                        onmouseout=\"this.style.transform='scale(1)';\">
+                    Générer le dialogue
+                </button>
+            </div>
+            <p style=\"color: #666; margin-top: 15px; font-size: 0.9rem;\">
+                L'IA va créer un dialogue adapté à ton niveau (";
+        // line 267
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 267, $this->source); })()), "idNiveau", [], "any", false, false, false, 267), "difficulte", [], "any", false, false, false, 267), "html", null, true);
+        yield ")
+            </p>
+        </div>
+        
+        <!-- ÉTAPE 2 : Dialogue généré (caché au début) -->
+        <div id=\"etape-dialogue\" style=\"display: none;\">
+            
+            <!-- Barre de progression -->
+            <div style=\"margin-bottom: 30px;\">
+                <div style=\"display: flex; justify-content: space-between; color: #333; margin-bottom: 10px;\">
+                    <span>Réplique <span id=\"replique-actuelle\">1</span>/<span id=\"total-repliques\">6</span></span>
+                    <span id=\"score-actuel\" style=\"font-weight: bold; color: #f97316;\">0%</span>
+                </div>
+                <div style=\"width: 100%; height: 10px; background: #f0f0f0; border-radius: 5px;\">
+                    <div id=\"barre-progression-dialogue\" style=\"width: 0%; height: 100%; background: linear-gradient(90deg, #f97316, #ea580c); border-radius: 5px;\"></div>
+                </div>
+            </div>
+            
+            <!-- Dialogue visuel -->
+            <div style=\"background: #f8f9fa; border-radius: 20px; padding: 30px; margin-bottom: 30px;\">
+                <div id=\"dialogue-ia\" style=\"background: #fee2e2; color: #b91c1c; padding: 20px; border-radius: 15px; margin-bottom: 20px; border-left: 5px solid #ef4444;\">
+                    <div style=\"display: flex; align-items: center; gap: 10px; margin-bottom: 10px;\">
+                        <span style=\"background: #ef4444; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;\">IA</span>
+                        <span style=\"font-weight: bold;\">L'IA dit :</span>
+                    </div>
+                    <p id=\"texte-ia\" style=\"font-size: 1.3rem; margin: 0; font-style: italic;\"></p>
+                </div>
+                
+                <div id=\"dialogue-etudiant\" style=\"background: #dbeafe; color: #1e40af; padding: 20px; border-radius: 15px; border-left: 5px solid #3b82f6;\">
+                    <div style=\"display: flex; align-items: center; gap: 10px; margin-bottom: 10px;\">
+                        <span style=\"background: #3b82f6; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;\">TOI</span>
+                        <span style=\"font-weight: bold;\">À ton tour de lire :</span>
+                    </div>
+                    <p id=\"texte-etudiant\" style=\"font-size: 1.3rem; margin: 0;\"></p>
+                </div>
+            </div>
+            
+            <!-- Contrôles vocaux -->
+            <div style=\"text-align: center;\">
+                <button id=\"btn-commencer\" onclick=\"commencerLecture()\" 
+                        style=\"background: #10b981; color: white; border: none; padding: 20px 50px; border-radius: 50px; font-size: 1.3rem; font-weight: 700; cursor: pointer; box-shadow: 0 10px 25px rgba(16,185,129,0.4); transition: all 0.3s; margin-right: 15px;\"
+                        onmouseover=\"this.style.transform='scale(1.1)';\"
+                        onmouseout=\"this.style.transform='scale(1)';\">
+                    🎤 Commencer à lire
+                </button>
+                
+                <button id=\"btn-suivant\" onclick=\"passerRepliqueSuivante()\" style=\"display: none; background: #3b82f6; color: white; border: none; padding: 20px 50px; border-radius: 50px; font-size: 1.3rem; font-weight: 700; cursor: pointer; box-shadow: 0 10px 25px rgba(59,130,246,0.4); transition: all 0.3s;\"
+                        onmouseover=\"this.style.transform='scale(1.1)';\"
+                        onmouseout=\"this.style.transform='scale(1)';\">
+                    ⏭️ Réplique suivante
+                </button>
+            </div>
+            
+            <!-- Zone de feedback -->
+            <div id=\"feedback-correction\" style=\"margin-top: 30px; padding: 20px; border-radius: 15px; display: none;\">
+                <!-- Feedback dynamique -->
+            </div>
+        </div>
+    </div>
+</div>
 
         <!-- Bouton Terminer -->
         <div style=\"margin-top: 80px; text-align: center;\">
             <button onclick=\"terminerCours(";
-        // line 245
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 245, $this->source); })()), "id", [], "any", false, false, false, 245), "html", null, true);
+        // line 330
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 330, $this->source); })()), "id", [], "any", false, false, false, 330), "html", null, true);
         yield ")\" style=\"background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 22px 80px; font-size: 1.5rem; font-weight: 900; border-radius: 20px; cursor: pointer; box-shadow: 0 12px 40px rgba(16,185,129,0.5); transition: all 0.35s;\" onmouseover=\"this.style.transform='scale(1.08) translateY(-4px)';\" onmouseout=\"this.style.transform='scale(1) translateY(0)';\">
                 Terminer cette leçon →
             </button>
@@ -641,15 +729,15 @@ class __TwigTemplate_0ecbff78a5339eb2cbf7a7db246d0bce extends Template
         function envoyerTemps() {
             const elapsed = Math.floor((Date.now() - startTime) / 1000);
             fetch('/cours/";
-        // line 292
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 292, $this->source); })()), "id", [], "any", false, false, false, 292), "html", null, true);
+        // line 377
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 377, $this->source); })()), "id", [], "any", false, false, false, 377), "html", null, true);
         yield "/temps', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-Token': '";
-        // line 296
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken(("temps" . CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 296, $this->source); })()), "id", [], "any", false, false, false, 296))), "html", null, true);
+        // line 381
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken(("temps" . CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 381, $this->source); })()), "id", [], "any", false, false, false, 381))), "html", null, true);
         yield "'
                 },
                 body: JSON.stringify({ temps: elapsed })
@@ -666,8 +754,8 @@ class __TwigTemplate_0ecbff78a5339eb2cbf7a7db246d0bce extends Template
                     method: 'POST',
                     headers: {
                         'X-CSRF-Token': '";
-        // line 311
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken(("delete" . CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 311, $this->source); })()), "id", [], "any", false, false, false, 311))), "html", null, true);
+        // line 396
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken(("delete" . CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 396, $this->source); })()), "id", [], "any", false, false, false, 396))), "html", null, true);
         yield "'
                     }
                 })
@@ -675,8 +763,8 @@ class __TwigTemplate_0ecbff78a5339eb2cbf7a7db246d0bce extends Template
                 .then(data => {
                     if (data.success) {
                         window.location.href = '";
-        // line 317
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_langue_apprentissage", ["id" => CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 317, $this->source); })()), "idNiveau", [], "any", false, false, false, 317), "idLangue", [], "any", false, false, false, 317), "id", [], "any", false, false, false, 317)]), "html", null, true);
+        // line 402
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_langue_apprentissage", ["id" => CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 402, $this->source); })()), "idNiveau", [], "any", false, false, false, 402), "idLangue", [], "any", false, false, false, 402), "id", [], "any", false, false, false, 402)]), "html", null, true);
         yield "';
                     } else {
                         alert(\"Une erreur est survenue : \" + (data.message || 'Inconnu'));
@@ -752,6 +840,379 @@ class __TwigTemplate_0ecbff78a5339eb2cbf7a7db246d0bce extends Template
             }
         });
     </script>
+    <script>
+// ============ DIALOGUE VOCAL ============
+let dialogue = [];
+let indexActuel = 0;
+let reconnaissanceVocale = null;
+let enTrainDeParler = false;
+
+// Initialiser la reconnaissance vocale
+if ('webkitSpeechRecognition' in window) {
+    reconnaissanceVocale = new webkitSpeechRecognition();
+    reconnaissanceVocale.continuous = false;
+    reconnaissanceVocale.interimResults = false;
+    reconnaissanceVocale.lang = '";
+        // line 489
+        yield (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 489, $this->source); })()), "idNiveau", [], "any", false, false, false, 489), "idLangue", [], "any", false, false, false, 489), "nom", [], "any", false, false, false, 489) == "Anglais")) ? ("en-US") : ("fr-FR"));
+        yield "';
+    
+    reconnaissanceVocale.onresult = function(event) {
+        const parole = event.results[0][0].transcript;
+        verifierPrononciation(parole);
+    };
+    
+    reconnaissanceVocale.onerror = function(event) {
+        alert(\"Erreur de reconnaissance vocale: \" + event.error);
+        arreterEcoute();
+    };
+} else {
+    console.warn(\"Reconnaissance vocale non supportée\");
+}
+
+// Générer le dialogue
+function genererDialogue() {
+    const theme = document.getElementById('theme-input').value.trim();
+    
+    if (!theme) {
+        alert(\"Veuillez entrer un thème de conversation\");
+        return;
+    }
+    
+    // Afficher un loader
+    document.getElementById('etape-theme').style.display = 'none';
+    document.getElementById('etape-dialogue').style.display = 'block';
+    document.getElementById('dialogue-ia').style.display = 'none';
+    document.getElementById('dialogue-etudiant').style.display = 'none';
+    
+    fetch('/dialogue/generer', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            theme: theme,
+            niveau: '";
+        // line 524
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 524, $this->source); })()), "idNiveau", [], "any", false, false, false, 524), "difficulte", [], "any", false, false, false, 524), "html", null, true);
+        yield "',
+            langue: '";
+        // line 525
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 525, $this->source); })()), "idNiveau", [], "any", false, false, false, 525), "idLangue", [], "any", false, false, false, 525), "nom", [], "any", false, false, false, 525), "html", null, true);
+        yield "'
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        dialogue = data.dialogue;
+        document.getElementById('total-repliques').textContent = dialogue.length;
+        indexActuel = 0;
+        afficherReplique();
+    });
+}
+
+
+// Afficher la réplique courante
+function afficherReplique() {
+    if (indexActuel >= dialogue.length) {
+        // Fin du dialogue
+        document.getElementById('dialogue-ia').style.display = 'none';
+        document.getElementById('dialogue-etudiant').style.display = 'none';
+        document.getElementById('btn-commencer').style.display = 'none';
+        document.getElementById('btn-suivant').style.display = 'none';
+        
+        document.getElementById('feedback-correction').style.display = 'block';
+        document.getElementById('feedback-correction').innerHTML = `
+            <div style=\"background: #10b981; color: white; padding: 20px; border-radius: 15px; text-align: center;\">
+                <span style=\"font-size: 3rem; display: block; margin-bottom: 15px;\">🎉</span>
+                <h3 style=\"margin: 0 0 10px;\">Félicitations !</h3>
+                <p>Tu as terminé la conversation sur le thème \"\${document.getElementById('theme-input').value}\".</p>
+                <button onclick=\"recommencer()\" style=\"background: white; color: #10b981; border: none; padding: 15px 40px; border-radius: 50px; font-size: 1.1rem; font-weight: 600; margin-top: 20px; cursor: pointer;\">
+                    🔄 Recommencer
+                </button>
+            </div>
+        `;
+        return;
+    }
+    
+    const replique = dialogue[indexActuel];
+    
+    document.getElementById('replique-actuelle').textContent = indexActuel + 1;
+    document.getElementById('barre-progression-dialogue').style.width = 
+        ((indexActuel + 1) / dialogue.length * 100) + '%';
+    
+    if (replique.role === 'ia') {
+        document.getElementById('dialogue-ia').style.display = 'block';
+        document.getElementById('dialogue-etudiant').style.display = 'none';
+        
+        // Nettoyer le texte de l'IA
+        let texteIA = replique.texte;
+        
+        // Supprimer les préfixes comme \"IA:\" ou \"Professeur:\"
+        if (texteIA.includes(':')) {
+            texteIA = texteIA.split(':')[1].trim();
+        }
+        
+        // Supprimer les guillemets au début et à la fin si présents
+        texteIA = texteIA.replace(/^[\"']|[\"']\$/g, '');
+        
+        // Nettoyer les espaces multiples
+        texteIA = texteIA.replace(/\\s+/g, ' ').trim();
+        
+        document.getElementById('texte-ia').textContent = texteIA;
+        document.getElementById('btn-commencer').style.display = 'none';
+        document.getElementById('btn-suivant').style.display = 'none';
+        
+        // ✅ L'IA LIT AUTOMATIQUEMENT SA RÉPLIQUE
+        lireTexteIA(texteIA);
+        
+    } else {
+        document.getElementById('dialogue-ia').style.display = 'none';
+        document.getElementById('dialogue-etudiant').style.display = 'block';
+        
+        // Nettoyer le texte de l'étudiant
+        let texteEtudiant = replique.texte;
+        
+        // 1. Supprimer les préfixes comme \"Étudiant:\" ou \"Etudiant:\" ou \"Student:\"
+        if (texteEtudiant.includes(':')) {
+            const parties = texteEtudiant.split(':');
+            texteEtudiant = parties[1] ? parties[1].trim() : parties[0].trim();
+        }
+        
+        // 2. Supprimer les préfixes courants en anglais/français
+        const prefixes = ['etudiant', 'étudiant', 'student', 'user', 'moi', 'toi', 'eleve', 'élève'];
+        const texteLower = texteEtudiant.toLowerCase();
+        
+        for (const prefix of prefixes) {
+            if (texteLower.startsWith(prefix)) {
+                texteEtudiant = texteEtudiant.substring(prefix.length).trim();
+                texteEtudiant = texteEtudiant.replace(/^[:,\\s]+/, '');
+                break;
+            }
+        }
+        
+        // 3. Supprimer les guillemets au début et à la fin
+        texteEtudiant = texteEtudiant.replace(/^[\"'\"\"]|[\"'\"\"]\$/g, '');
+        
+        // 4. Supprimer les points d'interrogation/exclamation en trop
+        texteEtudiant = texteEtudiant.replace(/[?!]+\$/, (match) => match.charAt(0));
+        
+        // 5. Supprimer les mots parasites
+        texteEtudiant = texteEtudiant.replace(/^(um|euh|ah|oh|bon|ben)[\\s.,!?]+/i, '');
+        
+        // 6. Nettoyer les espaces multiples
+        texteEtudiant = texteEtudiant.replace(/\\s+/g, ' ').trim();
+        
+        // 7. Capitaliser la première lettre
+        if (texteEtudiant.length > 0) {
+            texteEtudiant = texteEtudiant.charAt(0).toUpperCase() + texteEtudiant.slice(1);
+        }
+        
+        // 8. S'assurer que la phrase se termine correctement
+        if (texteEtudiant.length > 0 && !texteEtudiant.match(/[.!?]\$/)) {
+            texteEtudiant += '.';
+        }
+        
+        document.getElementById('texte-etudiant').textContent = texteEtudiant;
+        document.getElementById('btn-commencer').style.display = 'inline-block';
+        document.getElementById('btn-suivant').style.display = 'none';
+        
+        // Cacher le feedback précédent
+        document.getElementById('feedback-correction').style.display = 'none';
+        document.getElementById('feedback-correction').innerHTML = '';
+        
+        // Remettre le score à 0%
+        document.getElementById('score-actuel').textContent = '0%';
+    }
+}
+
+// ✅ NOUVELLE FONCTION : Lire le texte de l'IA
+function lireTexteIA(texte) {
+    // Arrêter toute lecture en cours
+    window.speechSynthesis.cancel();
+    
+    // Créer une nouvelle utterance
+    const utterance = new SpeechSynthesisUtterance(texte);
+    
+    // Définir la langue en fonction du cours
+    const langue = '";
+        // line 661
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["cour"]) || array_key_exists("cour", $context) ? $context["cour"] : (function () { throw new RuntimeError('Variable "cour" does not exist.', 661, $this->source); })()), "idNiveau", [], "any", false, false, false, 661), "idLangue", [], "any", false, false, false, 661), "nom", [], "any", false, false, false, 661), "html", null, true);
+        yield "';
+    utterance.lang = langue === 'Anglais' ? 'en-US' : 'fr-FR';
+    
+    // Optionnel : Choisir une voix féminine ou masculine
+    utterance.rate = 0.9; // Légèrement plus lent pour mieux comprendre
+    utterance.pitch = 1;
+    
+    // Quand la lecture est terminée, passer à la réplique suivante
+    utterance.onend = function() {
+        setTimeout(() => {
+            indexActuel++;
+            afficherReplique();
+        }, 1000); // Petite pause de 1 seconde entre les répliques
+    };
+    
+    // Lire le texte
+    window.speechSynthesis.speak(utterance);
+}
+
+// Modifier la fonction commencerLecture pour que l'étudiant puisse lire sa réplique
+function commencerLecture() {
+    if (!reconnaissanceVocale) {
+        alert(\"La reconnaissance vocale n'est pas supportée par ton navigateur\");
+        return;
+    }
+    
+    const texteAttendu = document.getElementById('texte-etudiant').textContent;
+    document.getElementById('feedback-correction').style.display = 'none';
+    document.getElementById('btn-commencer').style.display = 'none';
+    document.getElementById('btn-suivant').style.display = 'none';
+    
+    // Indiquer à l'utilisateur qu'il peut parler
+    document.getElementById('feedback-correction').innerHTML = `
+        <div style=\"background: #f3f4f6; padding: 20px; border-radius: 15px; text-align: center;\">
+            <p style=\"color: #333; font-size: 1.2rem;\">🎤 Parle maintenant...</p>
+            <p style=\"color: #666; font-size: 1rem;\">Lis la phrase : \"\${texteAttendu}\"</p>
+        </div>
+    `;
+    document.getElementById('feedback-correction').style.display = 'block';
+    
+    // Démarrer la reconnaissance vocale
+    reconnaissanceVocale.start();
+    enTrainDeParler = true;
+}
+
+// Modifier la fonction passerRepliqueSuivante pour arrêter toute lecture en cours
+function passerRepliqueSuivante() {
+    arreterEcoute();
+    window.speechSynthesis.cancel(); // Arrêter la lecture de l'IA si en cours
+    indexActuel++;
+    afficherReplique();
+    document.getElementById('btn-suivant').style.display = 'none';
+}
+
+// Modifier la fonction recommencer
+function recommencer() {
+    window.speechSynthesis.cancel(); // Arrêter toute lecture
+    document.getElementById('etape-theme').style.display = 'block';
+    document.getElementById('etape-dialogue').style.display = 'none';
+    document.getElementById('theme-input').value = '';
+    document.getElementById('score-actuel').textContent = '0%';
+    arreterEcoute();
+}
+
+// Vérifier la prononciation (version améliorée avec couleurs lisibles)
+function verifierPrononciation(parole) {
+    const texteAttendu = document.getElementById('texte-etudiant').textContent;
+    
+    // Nettoyer la parole de l'utilisateur
+    parole = parole.trim();
+    
+    fetch('/dialogue/verifier', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            texte: parole,
+            attendu: texteAttendu
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('score-actuel').textContent = data.score + '%';
+        
+        let feedbackHtml = '';
+        
+        if (data.reussite) {
+            feedbackHtml = `
+                <div style=\"background: #10b981; color: white; padding: 20px; border-radius: 15px;\">
+                    <div style=\"display: flex; align-items: center; gap: 15px; margin-bottom: 10px;\">
+                        <span style=\"font-size: 2rem;\">✅</span>
+                        <h4 style=\"margin: 0; color: white;\">Parfait !</h4>
+                    </div>
+                    <p style=\"color: white;\">Tu as dit : \"\${data.texte_utilisateur}\"</p>
+                    <p style=\"color: white;\">La phrase correcte est : \"\${data.texte_attendu}\"</p>
+                    <p style=\"color: white; font-weight: bold;\">Score: \${data.score}%</p>
+                </div>
+            `;
+        } else {
+            let erreursHtml = '';
+            
+            if (data.erreurs && data.erreurs.length > 0) {
+                data.erreurs.forEach(erreur => {
+                    let bgColor = '#fff5f5';  // Rouge très clair
+                    let borderColor = '#dc2626';
+                    let icon = '❌';
+                    let textColor = '#1e293b'; // Texte en gris foncé
+                    
+                    if (erreur.type === 'missing') {
+                        bgColor = '#fffbeb';  // Jaune très clair
+                        borderColor = '#b45309';
+                        icon = '⚠️';
+                    } else if (erreur.type === 'extra') {
+                        bgColor = '#eff6ff';  // Bleu très clair
+                        borderColor = '#2563eb';
+                        icon = '➕';
+                    }
+                    
+                    erreursHtml += `
+                        <div style=\"background: \${bgColor}; padding: 15px; border-radius: 10px; margin-bottom: 10px; border-left: 4px solid \${borderColor};\">
+                            <p style=\"color: #1e293b; margin: 0;\"><strong>\${icon} \${erreur.message}</strong></p>
+                        </div>
+                    `;
+                });
+            }
+            
+            // Ajouter un résumé des statistiques
+            if (data.statistiques) {
+                erreursHtml += `
+                    <div style=\"background: #f8fafc; padding: 15px; border-radius: 10px; margin-top: 15px; border: 1px solid #cbd5e1;\">
+                        <p style=\"margin: 5px 0; color: #0f172a;\"><strong>Résumé :</strong></p>
+                        <p style=\"margin: 5px 0; color: #0f172a;\">✅ Mots corrects : \${data.statistiques.mots_corrects}/\${data.statistiques.total_mots}</p>
+                        <p style=\"margin: 5px 0; color: #0f172a;\">⚠️ Mots manquants : \${data.statistiques.mots_manquants}</p>
+                        <p style=\"margin: 5px 0; color: #0f172a;\">➕ Mots en trop : \${data.statistiques.mots_en_trop}</p>
+                    </div>
+                `;
+            }
+            
+            // Ajouter la phrase correcte pour référence
+            erreursHtml += `
+                <div style=\"background: #dbeafe; padding: 15px; border-radius: 10px; margin-top: 15px; border: 1px solid #3b82f6;\">
+                    <p style=\"margin: 0; color: #1e3a8a;\"><strong>📝 Phrase à dire :</strong> \"\${data.texte_attendu}\"</p>
+                </div>
+            `;
+            
+            feedbackHtml = `
+                <div style=\"background: #ffffff; border: 2px solid #fbbf24; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);\">
+                    <div style=\"display: flex; align-items: center; gap: 15px; margin-bottom: 15px; border-bottom: 2px solid #fbbf24; padding-bottom: 15px;\">
+                        <span style=\"font-size: 2rem;\">📝</span>
+                        <h4 style=\"color: #92400e; margin: 0;\">Analyse de ta phrase</h4>
+                    </div>
+                    <p style=\"color: #000000; font-weight: bold; background: #f3f4f6; padding: 10px; border-radius: 8px;\"><strong>Tu as dit :</strong> \"\${data.texte_utilisateur}\"</p>
+                    \${erreursHtml}
+                    <p style=\"margin-top: 15px; color: #92400e; font-weight: bold; font-size: 1.2rem; text-align: right;\">Score: \${data.score}%</p>
+                </div>
+            `;
+        }
+        
+        document.getElementById('feedback-correction').innerHTML = feedbackHtml;
+        document.getElementById('btn-suivant').style.display = 'inline-block';
+        arreterEcoute();
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        alert('Une erreur est survenue lors de la vérification');
+    });
+}
+
+// Arrêter l'écoute
+function arreterEcoute() {
+    if (reconnaissanceVocale && enTrainDeParler) {
+        reconnaissanceVocale.stop();
+        enTrainDeParler = false;
+    }
+}
+
+
+</script>
 </div>
 ";
         
@@ -784,7 +1245,7 @@ class __TwigTemplate_0ecbff78a5339eb2cbf7a7db246d0bce extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  679 => 317,  670 => 311,  652 => 296,  645 => 292,  595 => 245,  534 => 186,  528 => 182,  525 => 181,  522 => 179,  519 => 178,  499 => 172,  485 => 161,  478 => 156,  460 => 155,  457 => 154,  454 => 152,  451 => 151,  435 => 148,  432 => 147,  424 => 142,  419 => 140,  416 => 139,  407 => 135,  404 => 134,  402 => 133,  395 => 130,  393 => 129,  385 => 126,  382 => 125,  380 => 124,  375 => 123,  373 => 122,  370 => 121,  367 => 120,  363 => 118,  356 => 114,  352 => 112,  341 => 104,  337 => 102,  335 => 101,  332 => 100,  329 => 99,  326 => 98,  323 => 97,  320 => 96,  317 => 95,  314 => 94,  312 => 93,  309 => 92,  306 => 91,  303 => 90,  301 => 89,  299 => 88,  290 => 84,  286 => 82,  283 => 81,  278 => 80,  274 => 79,  270 => 78,  266 => 77,  262 => 76,  255 => 72,  252 => 71,  249 => 70,  246 => 69,  242 => 68,  238 => 67,  234 => 66,  230 => 65,  227 => 64,  224 => 63,  221 => 62,  218 => 61,  216 => 60,  213 => 59,  210 => 58,  192 => 57,  189 => 56,  163 => 32,  154 => 28,  148 => 25,  131 => 10,  118 => 9,  104 => 6,  91 => 5,  65 => 3,  42 => 1,);
+        return array (  1038 => 661,  899 => 525,  895 => 524,  857 => 489,  767 => 402,  758 => 396,  740 => 381,  733 => 377,  683 => 330,  617 => 267,  534 => 186,  528 => 182,  525 => 181,  522 => 179,  519 => 178,  499 => 172,  485 => 161,  478 => 156,  460 => 155,  457 => 154,  454 => 152,  451 => 151,  435 => 148,  432 => 147,  424 => 142,  419 => 140,  416 => 139,  407 => 135,  404 => 134,  402 => 133,  395 => 130,  393 => 129,  385 => 126,  382 => 125,  380 => 124,  375 => 123,  373 => 122,  370 => 121,  367 => 120,  363 => 118,  356 => 114,  352 => 112,  341 => 104,  337 => 102,  335 => 101,  332 => 100,  329 => 99,  326 => 98,  323 => 97,  320 => 96,  317 => 95,  314 => 94,  312 => 93,  309 => 92,  306 => 91,  303 => 90,  301 => 89,  299 => 88,  290 => 84,  286 => 82,  283 => 81,  278 => 80,  274 => 79,  270 => 78,  266 => 77,  262 => 76,  255 => 72,  252 => 71,  249 => 70,  246 => 69,  242 => 68,  238 => 67,  234 => 66,  230 => 65,  227 => 64,  224 => 63,  221 => 62,  218 => 61,  216 => 60,  213 => 59,  210 => 58,  192 => 57,  189 => 56,  163 => 32,  154 => 28,  148 => 25,  131 => 10,  118 => 9,  104 => 6,  91 => 5,  65 => 3,  42 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -1030,6 +1491,91 @@ class __TwigTemplate_0ecbff78a5339eb2cbf7a7db246d0bce extends Template
                 </div>
             </div>
         </div>
+        <!-- ============ SECTION DIALOGUE VOCAL AVEC IA ============ -->
+<div style=\"margin-top: 80px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); border-radius: 30px; padding: 40px;\">
+    <h2 style=\"color: white; text-align: center; font-size: 2.2rem; font-weight: 800; margin-bottom: 30px;\">
+        🎤 Pratique la conversation à voix haute
+    </h2>
+    
+    <div style=\"background: white; border-radius: 20px; padding: 30px;\">
+        
+        <!-- ÉTAPE 1 : Saisie du thème -->
+        <div id=\"etape-theme\">
+            <h3 style=\"color: #333; margin-bottom: 20px;\">📝 Quel thème veux-tu pratiquer ?</h3>
+            <div style=\"display: flex; gap: 15px;\">
+                <input type=\"text\" 
+                       id=\"theme-input\" 
+                       placeholder=\"Ex: Au restaurant, Voyage à Paris, Présentation personnelle...\" 
+                       style=\"flex: 1; padding: 18px 25px; border: 2px solid #e0e0e0; border-radius: 50px; font-size: 1.1rem; outline: none;\">
+                
+                <button onclick=\"genererDialogue()\" 
+                        style=\"background: linear-gradient(135deg, #f97316, #ea580c); color: white; border: none; padding: 0 40px; border-radius: 50px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;\"
+                        onmouseover=\"this.style.transform='scale(1.05)';\"
+                        onmouseout=\"this.style.transform='scale(1)';\">
+                    Générer le dialogue
+                </button>
+            </div>
+            <p style=\"color: #666; margin-top: 15px; font-size: 0.9rem;\">
+                L'IA va créer un dialogue adapté à ton niveau ({{ cour.idNiveau.difficulte }})
+            </p>
+        </div>
+        
+        <!-- ÉTAPE 2 : Dialogue généré (caché au début) -->
+        <div id=\"etape-dialogue\" style=\"display: none;\">
+            
+            <!-- Barre de progression -->
+            <div style=\"margin-bottom: 30px;\">
+                <div style=\"display: flex; justify-content: space-between; color: #333; margin-bottom: 10px;\">
+                    <span>Réplique <span id=\"replique-actuelle\">1</span>/<span id=\"total-repliques\">6</span></span>
+                    <span id=\"score-actuel\" style=\"font-weight: bold; color: #f97316;\">0%</span>
+                </div>
+                <div style=\"width: 100%; height: 10px; background: #f0f0f0; border-radius: 5px;\">
+                    <div id=\"barre-progression-dialogue\" style=\"width: 0%; height: 100%; background: linear-gradient(90deg, #f97316, #ea580c); border-radius: 5px;\"></div>
+                </div>
+            </div>
+            
+            <!-- Dialogue visuel -->
+            <div style=\"background: #f8f9fa; border-radius: 20px; padding: 30px; margin-bottom: 30px;\">
+                <div id=\"dialogue-ia\" style=\"background: #fee2e2; color: #b91c1c; padding: 20px; border-radius: 15px; margin-bottom: 20px; border-left: 5px solid #ef4444;\">
+                    <div style=\"display: flex; align-items: center; gap: 10px; margin-bottom: 10px;\">
+                        <span style=\"background: #ef4444; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;\">IA</span>
+                        <span style=\"font-weight: bold;\">L'IA dit :</span>
+                    </div>
+                    <p id=\"texte-ia\" style=\"font-size: 1.3rem; margin: 0; font-style: italic;\"></p>
+                </div>
+                
+                <div id=\"dialogue-etudiant\" style=\"background: #dbeafe; color: #1e40af; padding: 20px; border-radius: 15px; border-left: 5px solid #3b82f6;\">
+                    <div style=\"display: flex; align-items: center; gap: 10px; margin-bottom: 10px;\">
+                        <span style=\"background: #3b82f6; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;\">TOI</span>
+                        <span style=\"font-weight: bold;\">À ton tour de lire :</span>
+                    </div>
+                    <p id=\"texte-etudiant\" style=\"font-size: 1.3rem; margin: 0;\"></p>
+                </div>
+            </div>
+            
+            <!-- Contrôles vocaux -->
+            <div style=\"text-align: center;\">
+                <button id=\"btn-commencer\" onclick=\"commencerLecture()\" 
+                        style=\"background: #10b981; color: white; border: none; padding: 20px 50px; border-radius: 50px; font-size: 1.3rem; font-weight: 700; cursor: pointer; box-shadow: 0 10px 25px rgba(16,185,129,0.4); transition: all 0.3s; margin-right: 15px;\"
+                        onmouseover=\"this.style.transform='scale(1.1)';\"
+                        onmouseout=\"this.style.transform='scale(1)';\">
+                    🎤 Commencer à lire
+                </button>
+                
+                <button id=\"btn-suivant\" onclick=\"passerRepliqueSuivante()\" style=\"display: none; background: #3b82f6; color: white; border: none; padding: 20px 50px; border-radius: 50px; font-size: 1.3rem; font-weight: 700; cursor: pointer; box-shadow: 0 10px 25px rgba(59,130,246,0.4); transition: all 0.3s;\"
+                        onmouseover=\"this.style.transform='scale(1.1)';\"
+                        onmouseout=\"this.style.transform='scale(1)';\">
+                    ⏭️ Réplique suivante
+                </button>
+            </div>
+            
+            <!-- Zone de feedback -->
+            <div id=\"feedback-correction\" style=\"margin-top: 30px; padding: 20px; border-radius: 15px; display: none;\">
+                <!-- Feedback dynamique -->
+            </div>
+        </div>
+    </div>
+</div>
 
         <!-- Bouton Terminer -->
         <div style=\"margin-top: 80px; text-align: center;\">
@@ -1180,7 +1726,368 @@ class __TwigTemplate_0ecbff78a5339eb2cbf7a7db246d0bce extends Template
             }
         });
     </script>
+    <script>
+// ============ DIALOGUE VOCAL ============
+let dialogue = [];
+let indexActuel = 0;
+let reconnaissanceVocale = null;
+let enTrainDeParler = false;
+
+// Initialiser la reconnaissance vocale
+if ('webkitSpeechRecognition' in window) {
+    reconnaissanceVocale = new webkitSpeechRecognition();
+    reconnaissanceVocale.continuous = false;
+    reconnaissanceVocale.interimResults = false;
+    reconnaissanceVocale.lang = '{{ cour.idNiveau.idLangue.nom == \"Anglais\" ? \"en-US\" : \"fr-FR\" }}';
+    
+    reconnaissanceVocale.onresult = function(event) {
+        const parole = event.results[0][0].transcript;
+        verifierPrononciation(parole);
+    };
+    
+    reconnaissanceVocale.onerror = function(event) {
+        alert(\"Erreur de reconnaissance vocale: \" + event.error);
+        arreterEcoute();
+    };
+} else {
+    console.warn(\"Reconnaissance vocale non supportée\");
+}
+
+// Générer le dialogue
+function genererDialogue() {
+    const theme = document.getElementById('theme-input').value.trim();
+    
+    if (!theme) {
+        alert(\"Veuillez entrer un thème de conversation\");
+        return;
+    }
+    
+    // Afficher un loader
+    document.getElementById('etape-theme').style.display = 'none';
+    document.getElementById('etape-dialogue').style.display = 'block';
+    document.getElementById('dialogue-ia').style.display = 'none';
+    document.getElementById('dialogue-etudiant').style.display = 'none';
+    
+    fetch('/dialogue/generer', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            theme: theme,
+            niveau: '{{ cour.idNiveau.difficulte }}',
+            langue: '{{ cour.idNiveau.idLangue.nom }}'
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        dialogue = data.dialogue;
+        document.getElementById('total-repliques').textContent = dialogue.length;
+        indexActuel = 0;
+        afficherReplique();
+    });
+}
+
+
+// Afficher la réplique courante
+function afficherReplique() {
+    if (indexActuel >= dialogue.length) {
+        // Fin du dialogue
+        document.getElementById('dialogue-ia').style.display = 'none';
+        document.getElementById('dialogue-etudiant').style.display = 'none';
+        document.getElementById('btn-commencer').style.display = 'none';
+        document.getElementById('btn-suivant').style.display = 'none';
+        
+        document.getElementById('feedback-correction').style.display = 'block';
+        document.getElementById('feedback-correction').innerHTML = `
+            <div style=\"background: #10b981; color: white; padding: 20px; border-radius: 15px; text-align: center;\">
+                <span style=\"font-size: 3rem; display: block; margin-bottom: 15px;\">🎉</span>
+                <h3 style=\"margin: 0 0 10px;\">Félicitations !</h3>
+                <p>Tu as terminé la conversation sur le thème \"\${document.getElementById('theme-input').value}\".</p>
+                <button onclick=\"recommencer()\" style=\"background: white; color: #10b981; border: none; padding: 15px 40px; border-radius: 50px; font-size: 1.1rem; font-weight: 600; margin-top: 20px; cursor: pointer;\">
+                    🔄 Recommencer
+                </button>
+            </div>
+        `;
+        return;
+    }
+    
+    const replique = dialogue[indexActuel];
+    
+    document.getElementById('replique-actuelle').textContent = indexActuel + 1;
+    document.getElementById('barre-progression-dialogue').style.width = 
+        ((indexActuel + 1) / dialogue.length * 100) + '%';
+    
+    if (replique.role === 'ia') {
+        document.getElementById('dialogue-ia').style.display = 'block';
+        document.getElementById('dialogue-etudiant').style.display = 'none';
+        
+        // Nettoyer le texte de l'IA
+        let texteIA = replique.texte;
+        
+        // Supprimer les préfixes comme \"IA:\" ou \"Professeur:\"
+        if (texteIA.includes(':')) {
+            texteIA = texteIA.split(':')[1].trim();
+        }
+        
+        // Supprimer les guillemets au début et à la fin si présents
+        texteIA = texteIA.replace(/^[\"']|[\"']\$/g, '');
+        
+        // Nettoyer les espaces multiples
+        texteIA = texteIA.replace(/\\s+/g, ' ').trim();
+        
+        document.getElementById('texte-ia').textContent = texteIA;
+        document.getElementById('btn-commencer').style.display = 'none';
+        document.getElementById('btn-suivant').style.display = 'none';
+        
+        // ✅ L'IA LIT AUTOMATIQUEMENT SA RÉPLIQUE
+        lireTexteIA(texteIA);
+        
+    } else {
+        document.getElementById('dialogue-ia').style.display = 'none';
+        document.getElementById('dialogue-etudiant').style.display = 'block';
+        
+        // Nettoyer le texte de l'étudiant
+        let texteEtudiant = replique.texte;
+        
+        // 1. Supprimer les préfixes comme \"Étudiant:\" ou \"Etudiant:\" ou \"Student:\"
+        if (texteEtudiant.includes(':')) {
+            const parties = texteEtudiant.split(':');
+            texteEtudiant = parties[1] ? parties[1].trim() : parties[0].trim();
+        }
+        
+        // 2. Supprimer les préfixes courants en anglais/français
+        const prefixes = ['etudiant', 'étudiant', 'student', 'user', 'moi', 'toi', 'eleve', 'élève'];
+        const texteLower = texteEtudiant.toLowerCase();
+        
+        for (const prefix of prefixes) {
+            if (texteLower.startsWith(prefix)) {
+                texteEtudiant = texteEtudiant.substring(prefix.length).trim();
+                texteEtudiant = texteEtudiant.replace(/^[:,\\s]+/, '');
+                break;
+            }
+        }
+        
+        // 3. Supprimer les guillemets au début et à la fin
+        texteEtudiant = texteEtudiant.replace(/^[\"'\"\"]|[\"'\"\"]\$/g, '');
+        
+        // 4. Supprimer les points d'interrogation/exclamation en trop
+        texteEtudiant = texteEtudiant.replace(/[?!]+\$/, (match) => match.charAt(0));
+        
+        // 5. Supprimer les mots parasites
+        texteEtudiant = texteEtudiant.replace(/^(um|euh|ah|oh|bon|ben)[\\s.,!?]+/i, '');
+        
+        // 6. Nettoyer les espaces multiples
+        texteEtudiant = texteEtudiant.replace(/\\s+/g, ' ').trim();
+        
+        // 7. Capitaliser la première lettre
+        if (texteEtudiant.length > 0) {
+            texteEtudiant = texteEtudiant.charAt(0).toUpperCase() + texteEtudiant.slice(1);
+        }
+        
+        // 8. S'assurer que la phrase se termine correctement
+        if (texteEtudiant.length > 0 && !texteEtudiant.match(/[.!?]\$/)) {
+            texteEtudiant += '.';
+        }
+        
+        document.getElementById('texte-etudiant').textContent = texteEtudiant;
+        document.getElementById('btn-commencer').style.display = 'inline-block';
+        document.getElementById('btn-suivant').style.display = 'none';
+        
+        // Cacher le feedback précédent
+        document.getElementById('feedback-correction').style.display = 'none';
+        document.getElementById('feedback-correction').innerHTML = '';
+        
+        // Remettre le score à 0%
+        document.getElementById('score-actuel').textContent = '0%';
+    }
+}
+
+// ✅ NOUVELLE FONCTION : Lire le texte de l'IA
+function lireTexteIA(texte) {
+    // Arrêter toute lecture en cours
+    window.speechSynthesis.cancel();
+    
+    // Créer une nouvelle utterance
+    const utterance = new SpeechSynthesisUtterance(texte);
+    
+    // Définir la langue en fonction du cours
+    const langue = '{{ cour.idNiveau.idLangue.nom }}';
+    utterance.lang = langue === 'Anglais' ? 'en-US' : 'fr-FR';
+    
+    // Optionnel : Choisir une voix féminine ou masculine
+    utterance.rate = 0.9; // Légèrement plus lent pour mieux comprendre
+    utterance.pitch = 1;
+    
+    // Quand la lecture est terminée, passer à la réplique suivante
+    utterance.onend = function() {
+        setTimeout(() => {
+            indexActuel++;
+            afficherReplique();
+        }, 1000); // Petite pause de 1 seconde entre les répliques
+    };
+    
+    // Lire le texte
+    window.speechSynthesis.speak(utterance);
+}
+
+// Modifier la fonction commencerLecture pour que l'étudiant puisse lire sa réplique
+function commencerLecture() {
+    if (!reconnaissanceVocale) {
+        alert(\"La reconnaissance vocale n'est pas supportée par ton navigateur\");
+        return;
+    }
+    
+    const texteAttendu = document.getElementById('texte-etudiant').textContent;
+    document.getElementById('feedback-correction').style.display = 'none';
+    document.getElementById('btn-commencer').style.display = 'none';
+    document.getElementById('btn-suivant').style.display = 'none';
+    
+    // Indiquer à l'utilisateur qu'il peut parler
+    document.getElementById('feedback-correction').innerHTML = `
+        <div style=\"background: #f3f4f6; padding: 20px; border-radius: 15px; text-align: center;\">
+            <p style=\"color: #333; font-size: 1.2rem;\">🎤 Parle maintenant...</p>
+            <p style=\"color: #666; font-size: 1rem;\">Lis la phrase : \"\${texteAttendu}\"</p>
+        </div>
+    `;
+    document.getElementById('feedback-correction').style.display = 'block';
+    
+    // Démarrer la reconnaissance vocale
+    reconnaissanceVocale.start();
+    enTrainDeParler = true;
+}
+
+// Modifier la fonction passerRepliqueSuivante pour arrêter toute lecture en cours
+function passerRepliqueSuivante() {
+    arreterEcoute();
+    window.speechSynthesis.cancel(); // Arrêter la lecture de l'IA si en cours
+    indexActuel++;
+    afficherReplique();
+    document.getElementById('btn-suivant').style.display = 'none';
+}
+
+// Modifier la fonction recommencer
+function recommencer() {
+    window.speechSynthesis.cancel(); // Arrêter toute lecture
+    document.getElementById('etape-theme').style.display = 'block';
+    document.getElementById('etape-dialogue').style.display = 'none';
+    document.getElementById('theme-input').value = '';
+    document.getElementById('score-actuel').textContent = '0%';
+    arreterEcoute();
+}
+
+// Vérifier la prononciation (version améliorée avec couleurs lisibles)
+function verifierPrononciation(parole) {
+    const texteAttendu = document.getElementById('texte-etudiant').textContent;
+    
+    // Nettoyer la parole de l'utilisateur
+    parole = parole.trim();
+    
+    fetch('/dialogue/verifier', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            texte: parole,
+            attendu: texteAttendu
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('score-actuel').textContent = data.score + '%';
+        
+        let feedbackHtml = '';
+        
+        if (data.reussite) {
+            feedbackHtml = `
+                <div style=\"background: #10b981; color: white; padding: 20px; border-radius: 15px;\">
+                    <div style=\"display: flex; align-items: center; gap: 15px; margin-bottom: 10px;\">
+                        <span style=\"font-size: 2rem;\">✅</span>
+                        <h4 style=\"margin: 0; color: white;\">Parfait !</h4>
+                    </div>
+                    <p style=\"color: white;\">Tu as dit : \"\${data.texte_utilisateur}\"</p>
+                    <p style=\"color: white;\">La phrase correcte est : \"\${data.texte_attendu}\"</p>
+                    <p style=\"color: white; font-weight: bold;\">Score: \${data.score}%</p>
+                </div>
+            `;
+        } else {
+            let erreursHtml = '';
+            
+            if (data.erreurs && data.erreurs.length > 0) {
+                data.erreurs.forEach(erreur => {
+                    let bgColor = '#fff5f5';  // Rouge très clair
+                    let borderColor = '#dc2626';
+                    let icon = '❌';
+                    let textColor = '#1e293b'; // Texte en gris foncé
+                    
+                    if (erreur.type === 'missing') {
+                        bgColor = '#fffbeb';  // Jaune très clair
+                        borderColor = '#b45309';
+                        icon = '⚠️';
+                    } else if (erreur.type === 'extra') {
+                        bgColor = '#eff6ff';  // Bleu très clair
+                        borderColor = '#2563eb';
+                        icon = '➕';
+                    }
+                    
+                    erreursHtml += `
+                        <div style=\"background: \${bgColor}; padding: 15px; border-radius: 10px; margin-bottom: 10px; border-left: 4px solid \${borderColor};\">
+                            <p style=\"color: #1e293b; margin: 0;\"><strong>\${icon} \${erreur.message}</strong></p>
+                        </div>
+                    `;
+                });
+            }
+            
+            // Ajouter un résumé des statistiques
+            if (data.statistiques) {
+                erreursHtml += `
+                    <div style=\"background: #f8fafc; padding: 15px; border-radius: 10px; margin-top: 15px; border: 1px solid #cbd5e1;\">
+                        <p style=\"margin: 5px 0; color: #0f172a;\"><strong>Résumé :</strong></p>
+                        <p style=\"margin: 5px 0; color: #0f172a;\">✅ Mots corrects : \${data.statistiques.mots_corrects}/\${data.statistiques.total_mots}</p>
+                        <p style=\"margin: 5px 0; color: #0f172a;\">⚠️ Mots manquants : \${data.statistiques.mots_manquants}</p>
+                        <p style=\"margin: 5px 0; color: #0f172a;\">➕ Mots en trop : \${data.statistiques.mots_en_trop}</p>
+                    </div>
+                `;
+            }
+            
+            // Ajouter la phrase correcte pour référence
+            erreursHtml += `
+                <div style=\"background: #dbeafe; padding: 15px; border-radius: 10px; margin-top: 15px; border: 1px solid #3b82f6;\">
+                    <p style=\"margin: 0; color: #1e3a8a;\"><strong>📝 Phrase à dire :</strong> \"\${data.texte_attendu}\"</p>
+                </div>
+            `;
+            
+            feedbackHtml = `
+                <div style=\"background: #ffffff; border: 2px solid #fbbf24; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);\">
+                    <div style=\"display: flex; align-items: center; gap: 15px; margin-bottom: 15px; border-bottom: 2px solid #fbbf24; padding-bottom: 15px;\">
+                        <span style=\"font-size: 2rem;\">📝</span>
+                        <h4 style=\"color: #92400e; margin: 0;\">Analyse de ta phrase</h4>
+                    </div>
+                    <p style=\"color: #000000; font-weight: bold; background: #f3f4f6; padding: 10px; border-radius: 8px;\"><strong>Tu as dit :</strong> \"\${data.texte_utilisateur}\"</p>
+                    \${erreursHtml}
+                    <p style=\"margin-top: 15px; color: #92400e; font-weight: bold; font-size: 1.2rem; text-align: right;\">Score: \${data.score}%</p>
+                </div>
+            `;
+        }
+        
+        document.getElementById('feedback-correction').innerHTML = feedbackHtml;
+        document.getElementById('btn-suivant').style.display = 'inline-block';
+        arreterEcoute();
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        alert('Une erreur est survenue lors de la vérification');
+    });
+}
+
+// Arrêter l'écoute
+function arreterEcoute() {
+    if (reconnaissanceVocale && enTrainDeParler) {
+        reconnaissanceVocale.stop();
+        enTrainDeParler = false;
+    }
+}
+
+
+</script>
 </div>
-{% endblock %}", "cours/base_apprentissage.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\cours\\base_apprentissage.html.twig");
+{% endblock %}", "cours/base_apprentissage.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\templates\\cours\\base_apprentissage.html.twig");
     }
 }

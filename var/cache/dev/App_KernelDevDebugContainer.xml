@@ -426,6 +426,13 @@
         <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\DashboardController"/>
       </call>
     </service>
+    <service id="App\Controller\DialogueController" class="App\Controller\DialogueController" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+      <tag name="container.service_subscriber"/>
+      <call method="setContainer">
+        <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\DialogueController"/>
+      </call>
+    </service>
     <service id="App\Controller\GroupeController" class="App\Controller\GroupeController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
@@ -653,6 +660,9 @@
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
     </service>
+    <service id="App\Service\DialogueService" class="App\Service\DialogueService" autowire="true" autoconfigure="true">
+      <argument type="service" id=".debug.http_client"/>
+    </service>
     <service id="App\Service\DictionaryService" class="App\Service\DictionaryService" autowire="true" autoconfigure="true">
       <argument type="service" id=".debug.http_client"/>
     </service>
@@ -694,7 +704,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator.bx926wd"/>
+      <argument type="service" id=".service_locator.4Ogn7H2"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -3721,7 +3731,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator.bx926wd"/>
+      <argument type="service" id=".service_locator.4Ogn7H2"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -7921,6 +7931,9 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\DashboardController" class="App\Controller\DashboardController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\DashboardController" class="App\Controller\DashboardController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\DashboardController" class="App\Controller\DashboardController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\DialogueController" class="App\Controller\DialogueController" autowire="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\DialogueController" class="App\Controller\DialogueController" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Controller\DialogueController" class="App\Controller\DialogueController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\GroupeController" class="App\Controller\GroupeController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\GroupeController" class="App\Controller\GroupeController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\GroupeController" class="App\Controller\GroupeController" autowire="true" autoconfigure="true" abstract="true"/>
@@ -8556,6 +8569,12 @@
         <argument key="passwordHasher" type="service_closure" id="security.user_password_hasher"/>
       </argument>
     </service>
+    <service id=".service_locator.EX7MRTd" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="service" type="service_closure" id="App\Service\DialogueService"/>
+      </argument>
+    </service>
     <service id=".service_locator.__k1aJR" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -8849,7 +8868,7 @@
         <argument key="testPassageRepository" type="service_closure" id="App\Repository\TestPassageRepository"/>
       </argument>
     </service>
-    <service id=".service_locator.bx926wd" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.4Ogn7H2" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\Api\DictionaryController::languages" type="service_closure" id=".service_locator.R3NiDvU"/>
@@ -8867,6 +8886,7 @@
         <argument key="App\Controller\DashboardController::editUser" type="service_closure" id=".service_locator.81LTOQ7"/>
         <argument key="App\Controller\DashboardController::index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\DashboardController::userProfile" type="service_closure" id=".service_locator.9kKwU2t"/>
+        <argument key="App\Controller\DialogueController::generer" type="service_closure" id=".service_locator.EX7MRTd"/>
         <argument key="App\Controller\GroupeController::deleteMessage" type="service_closure" id=".service_locator.lJ.UBt7"/>
         <argument key="App\Controller\GroupeController::editMessage" type="service_closure" id=".service_locator.lJ.UBt7"/>
         <argument key="App\Controller\GroupeController::index" type="service_closure" id=".service_locator.__k1aJR"/>
@@ -8979,6 +8999,7 @@
         <argument key="App\Controller\DashboardController:editUser" type="service_closure" id=".service_locator.81LTOQ7"/>
         <argument key="App\Controller\DashboardController:index" type="service_closure" id=".service_locator.9kKwU2t"/>
         <argument key="App\Controller\DashboardController:userProfile" type="service_closure" id=".service_locator.9kKwU2t"/>
+        <argument key="App\Controller\DialogueController:generer" type="service_closure" id=".service_locator.EX7MRTd"/>
         <argument key="App\Controller\GroupeController:deleteMessage" type="service_closure" id=".service_locator.lJ.UBt7"/>
         <argument key="App\Controller\GroupeController:editMessage" type="service_closure" id=".service_locator.lJ.UBt7"/>
         <argument key="App\Controller\GroupeController:index" type="service_closure" id=".service_locator.__k1aJR"/>
@@ -9760,6 +9781,12 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.O2p6Lk7" method="withContext"/>
     </service>
+    <service id=".service_locator.O2p6Lk7.App\Controller\DialogueController" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator_context" id="App\Controller\DialogueController"/>
+      <argument>App\Controller\DialogueController</argument>
+      <argument type="service" id="service_container"/>
+      <factory service=".service_locator.O2p6Lk7" method="withContext"/>
+    </service>
     <service id=".service_locator.O2p6Lk7.App\Controller\GroupeController" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="App\Controller\GroupeController"/>
       <argument>App\Controller\GroupeController</argument>
@@ -10040,6 +10067,7 @@
           <argument>App\Controller\CoursController</argument>
           <argument>App\Controller\CoursPersonnaliseController</argument>
           <argument>App\Controller\DashboardController</argument>
+          <argument>App\Controller\DialogueController</argument>
           <argument>App\Controller\GroupeController</argument>
           <argument>App\Controller\HomeController</argument>
           <argument>App\Controller\LangueController</argument>
@@ -11610,7 +11638,7 @@
     <service id="Vich\UploaderBundle\Form\Type\VichImageType" alias="vich_uploader.form.type.image"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.w7.f4fT" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.bx926wd"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.4Ogn7H2"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id=".Psr\Log\LoggerInterface $request.logger" alias="monolog.logger.request"/>
@@ -11673,7 +11701,7 @@
     <service id=".service_locator.WJa4qXa" alias=".service_locator.gg8faMl"/>
     <service id=".service_locator.ROMvJrg" alias=".service_locator.7qGC6eb"/>
     <service id=".service_locator.dN3Mvcr" alias=".service_locator.TGvrhY1"/>
-    <service id=".service_locator.Qr23mz1" alias=".service_locator.bx926wd"/>
+    <service id=".service_locator.OfO_Nch" alias=".service_locator.4Ogn7H2"/>
     <service id=".service_locator.BFrsqsn" alias=".service_locator.F9PKc.7"/>
     <service id=".service_locator.aUu7MI0" alias=".service_locator.1zR_5k."/>
     <service id=".service_locator.Q2UK2YW" alias=".service_locator.hw.8NuB"/>
@@ -11711,6 +11739,7 @@
     <service id=".service_locator.gaTSUXr" alias=".service_locator.9kKwU2t"/>
     <service id=".service_locator.EYARBn6" alias=".service_locator.LLEuAX_"/>
     <service id=".service_locator.PgYGRUQ" alias=".service_locator.81LTOQ7"/>
+    <service id=".service_locator.n0aQ9HN" alias=".service_locator.EX7MRTd"/>
     <service id=".service_locator.Ydt28ZU" alias=".service_locator.__k1aJR"/>
     <service id=".service_locator._FuT5VF" alias=".service_locator._iKdXRM"/>
     <service id=".service_locator.P0IWpPb" alias=".service_locator.1w628wh"/>
