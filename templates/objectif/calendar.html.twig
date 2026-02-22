@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+{% block title %}Calendrier des Objectifs - Fluently{% endblock %}
+
+{% block body %}
+
+{# Hero #}
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('assets/images/bg_1.jpg') }}');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <h1 class="mb-2 bread">Calendrier des Objectifs</h1>
+                <p class="breadcrumbs">
+                    <span class="mr-2"><a href="{{ path('app_home') }}">Accueil <i class="fa fa-chevron-right"></i></a></span>
+                    <span class="mr-2"><a href="{{ path('app_objectif_index') }}">Objectifs <i class="fa fa-chevron-right"></i></a></span>
+                    <span>Calendrier</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section bg-light">
+<div class="container">
+
+    {# Header #}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="heading-section mb-1">📅 Calendrier visuel</h2>
+            <p class="text-muted">Visualisez toutes vos échéances d'un coup d'œil</p>
+        </div>
+        <a href="{{ path('app_objectif_index') }}" class="btn btn-secondary" style="border-radius:10px;">
+            <i class="fa fa-list"></i> Vue liste
+        </a>
+    </div>
+
+    {# Légende #}
+    <div class="mb-4 d-flex flex-wrap" style="gap:10px;">
+        <span style="background:#4f6df5;color:#fff;padding:6px 16px;border-radius:20px;font-size:.85rem;">
+            <i class="fa fa-circle"></i> En cours
+        </span>
+        <span style="background:#e74c3c;color:#fff;padding:6px 16px;border-radius:20px;font-size:.85rem;">
+            <i class="fa fa-circle"></i> En retard
+        </span>
+        <span style="background:#f39c12;color:#fff;padding:6px 16px;border-radius:20px;font-size:.85rem;">
+            <i class="fa fa-circle"></i> En pause
+        </span>
+        <span style="background:#2ecc71;color:#fff;padding:6px 16px;border-radius:20px;font-size:.85rem;">
+            <i class="fa fa-circle"></i> Complété
+        </span>
+        <span style="background:#95a5a6;color:#fff;padding:6px 16px;border-radius:20px;font-size:.85rem;">
+            <i class="fa fa-circle"></i> Abandonné
+        </span>
+    </div>
+
+    {# Calendrier #}
+    <div class="card border-0 shadow-sm p-4" style="border-radius:20px;">
+        <div id="calendar"></div>
+    </div>
+
+</div>
+</section>
+
+{# FullCalendar CDN #}
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'fr',
+        headerToolbar: {
+            left:   'prev,next today',
+            center: 'title',
+            right:  'dayGridMonth,listMonth'
+        },
+        buttonText: {
+            today: "Aujourd'hui",
+            month: 'Mois',
+            list:  'Liste'
+        },
+        events: '{{ path('app_objectif_calendar_events') }}',
+        eventClick: function(info) {
+            info.jsEvent.preventDefault();
+            if (info.event.url) {
+                window.location.href = info.event.url;
+            }
+        },
+        eventMouseEnter: function(info) {
+            info.el.style.cursor  = 'pointer';
+            info.el.style.opacity = '0.85';
+        },
+        eventMouseLeave: function(info) {
+            info.el.style.opacity = '1';
+        },
+        height: 'auto',
+        eventDisplay: 'block',
+        dayMaxEvents: 3,
+    });
+
+    calendar.render();
+});
+</script>
+
+<style>
+.fc-event { border-radius: 6px !important; padding: 2px 6px !important; font-size: .82rem !important; }
+.fc-toolbar-title { font-size: 1.4rem !important; font-weight: 700 !important; }
+.fc-button-primary { background: #4f6df5 !important; border-color: #4f6df5 !important; border-radius: 8px !important; }
+.fc-button-primary:hover { background: #3a57d4 !important; }
+</style>
+
+{% endblock %}
