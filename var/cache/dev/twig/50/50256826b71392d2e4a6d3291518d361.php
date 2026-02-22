@@ -542,6 +542,6 @@ filterPriorite.addEventListener('change', applyFilters);
 </script>
 
 {% endblock %}
-", "tache/index.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\tache\\index.html.twig");
+", "tache/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\tache\\index.html.twig");
     }
 }

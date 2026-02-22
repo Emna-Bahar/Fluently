@@ -211,6 +211,6 @@ class __TwigTemplate_d3d1b88998006cfa339e6fc026b7dd88 extends Template
         Généré par IA - Fluently
     </div>
 </body>
-</html>", "cours_personnalise/pdf_template.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\cours_personnalise\\pdf_template.html.twig");
+</html>", "cours_personnalise/pdf_template.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\cours_personnalise\\pdf_template.html.twig");
     }
 }

@@ -1463,6 +1463,6 @@ function startRecognition(questionId, expectedText, langue) {
 }
 
 </script>
-{% endblock %}", "test_student/show.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\test_student\\show.html.twig");
+{% endblock %}", "test_student/show.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\test_student\\show.html.twig");
     }
 }

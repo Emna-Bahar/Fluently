@@ -630,6 +630,6 @@ class __TwigTemplate_eed2af63b97638cb252381047905ef84 extends Template
 
     </div>
 
-{% endblock %}", "niveau/index.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\niveau\\index.html.twig");
+{% endblock %}", "niveau/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\niveau\\index.html.twig");
     }
 }

@@ -330,6 +330,6 @@ class __TwigTemplate_6395a329f7f7b50bf15e4a8b3030760d extends Template
 
 </body>
 </html>
-", "login/index.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\login\\index.html.twig");
+", "login/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\login\\index.html.twig");
     }
 }

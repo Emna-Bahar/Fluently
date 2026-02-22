@@ -19,6 +19,8 @@ return [
         '/cours/admin/cours/new' => [[['_route' => 'app_admin_cours_new', '_controller' => 'App\\Controller\\CoursController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
         '/dashboard' => [[['_route' => 'dashboard', '_controller' => 'App\\Controller\\DashboardController::index'], null, null, null, false, false, null]],
         '/dashboard/user/profile' => [[['_route' => 'dashboard_user_profile', '_controller' => 'App\\Controller\\DashboardController::userProfile'], null, null, null, false, false, null]],
+        '/dialogue/generer' => [[['_route' => 'app_dialogue_generer', '_controller' => 'App\\Controller\\DialogueController::generer'], null, ['POST' => 0], null, false, false, null]],
+        '/dialogue/verifier' => [[['_route' => 'app_dialogue_verifier', '_controller' => 'App\\Controller\\DialogueController::verifier'], null, ['POST' => 0], null, false, false, null]],
         '/groupes' => [[['_route' => 'app_groupe', '_controller' => 'App\\Controller\\GroupeController::index'], null, ['GET' => 0], null, false, false, null]],
         '/home' => [[['_route' => 'app_home', '_controller' => 'App\\Controller\\HomeController::index'], null, null, null, false, false, null]],
         '/Langue' => [[['_route' => 'app_langue_index', '_controller' => 'App\\Controller\\LangueController::indexEtudiant'], null, ['GET' => 0], null, true, false, null]],

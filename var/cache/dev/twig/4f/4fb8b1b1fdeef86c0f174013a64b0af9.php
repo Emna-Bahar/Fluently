@@ -492,6 +492,6 @@ class __TwigTemplate_e841b51e70cc170b2e7c3c13936b9060 extends Template
 </body>
 
 </html>
-", "dashboard/edit_user.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\dashboard\\edit_user.html.twig");
+", "dashboard/edit_user.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\dashboard\\edit_user.html.twig");
     }
 }

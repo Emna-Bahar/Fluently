@@ -223,6 +223,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 {{ form_end(form) }}
-", "cours/_form.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\cours\\_form.html.twig");
+", "cours/_form.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\cours\\_form.html.twig");
     }
 }

@@ -92,6 +92,6 @@ class __TwigTemplate_47f7d07786e1edbce79e80c24d4e1da5 extends Template
         return new Source("<form method=\"post\" action=\"{{ path('app_session_delete', {'id': session.id}) }}\">
     <input type=\"hidden\" name=\"_token\" value=\"{{ csrf_token('delete' ~ session.id) }}\">
     <button type=\"submit\" class=\"btn btn-danger\">Supprimer</button>
-</form>", "session/_delete_form.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\session\\_delete_form.html.twig");
+</form>", "session/_delete_form.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\session\\_delete_form.html.twig");
     }
 }

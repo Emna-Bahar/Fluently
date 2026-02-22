@@ -503,6 +503,6 @@ class __TwigTemplate_5f6ca180d953207a1b405aca1853c29a extends Template
         </div>
     </div>
 
-{% endblock %}", "niveau/edit.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\niveau\\edit.html.twig");
+{% endblock %}", "niveau/edit.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\niveau\\edit.html.twig");
     }
 }

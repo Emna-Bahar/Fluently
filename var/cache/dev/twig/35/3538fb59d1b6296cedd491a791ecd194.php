@@ -170,6 +170,6 @@ class __TwigTemplate_e6e7e8b35ad697df19e9ad881635a9bf extends Template
     </ul>
 </div>
 {% endblock %}
-", "test_student/index.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\test_student\\index.html.twig");
+", "test_student/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\test_student\\index.html.twig");
     }
 }

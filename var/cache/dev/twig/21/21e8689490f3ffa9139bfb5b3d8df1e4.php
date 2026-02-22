@@ -627,6 +627,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 {% endblock %}
-", "objectif_admin/index.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\objectif_admin\\index.html.twig");
+", "objectif_admin/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\objectif_admin\\index.html.twig");
     }
 }

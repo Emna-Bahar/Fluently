@@ -349,6 +349,6 @@ class __TwigTemplate_2518fdb61714e117e39afa5f2d9d75f8 extends Template
         </tbody>
     </table>
 {% endblock %}
-", "@VichUploader/Collector/mapping_collector.html.twig", "C:\\Users\\oumai\\Fluently\\vendor\\vich\\uploader-bundle\\templates\\Collector\\mapping_collector.html.twig");
+", "@VichUploader/Collector/mapping_collector.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\vendor\\vich\\uploader-bundle\\templates\\Collector\\mapping_collector.html.twig");
     }
 }

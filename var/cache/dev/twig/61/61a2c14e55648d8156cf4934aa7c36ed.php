@@ -297,6 +297,6 @@ class __TwigTemplate_d1b0b461df89f84ef98c7f21d4b9e03e extends Template
         {%- endif -%}
     </div>
 {%- endblock -%}
-", "@VichUploader/Form/fields.html.twig", "C:\\Users\\oumai\\Fluently\\vendor\\vich\\uploader-bundle\\templates\\Form\\fields.html.twig");
+", "@VichUploader/Form/fields.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\vendor\\vich\\uploader-bundle\\templates\\Form\\fields.html.twig");
     }
 }

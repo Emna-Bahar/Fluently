@@ -545,6 +545,6 @@ class __TwigTemplate_d5562f11b9ed3b78c47ddb7fbd422148 extends Template
         </div>
     </div>
 
-{% endblock %}", "test/index.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\test\\index.html.twig");
+{% endblock %}", "test/index.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\test\\index.html.twig");
     }
 }

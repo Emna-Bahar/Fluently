@@ -854,6 +854,6 @@ https://youtu.be/yyyyyyyyyyy"]]);
             }
         });
     </script>
-{% endblock %}", "cours/new.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\cours\\new.html.twig");
+{% endblock %}", "cours/new.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\cours\\new.html.twig");
     }
 }

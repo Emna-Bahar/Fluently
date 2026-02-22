@@ -155,6 +155,6 @@ class __TwigTemplate_20b6d9abdbcb8de91e1a382a834673c2 extends Template
 
     <a href=\"{{ path('app_test_index') }}\">back to list</a>
 {% endblock %}
-", "test/new.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\test\\new.html.twig");
+", "test/new.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\test\\new.html.twig");
     }
 }

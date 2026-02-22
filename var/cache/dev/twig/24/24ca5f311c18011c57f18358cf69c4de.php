@@ -770,6 +770,6 @@ class __TwigTemplate_f39e7c7234e02e7f15de2a50edc8a396 extends Template
             </div>
         </div>
     </div>
-{% endblock %}", "langue/new.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\langue\\new.html.twig");
+{% endblock %}", "langue/new.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\langue\\new.html.twig");
     }
 }

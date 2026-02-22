@@ -207,6 +207,6 @@ class __TwigTemplate_91ce53ee2730065aa48a9c656d708060 extends Template
     <p>Aucun message.</p>
   {% endfor %}
 {% endblock %}
-", "groupe/admin_group_chat.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\groupe\\admin_group_chat.html.twig");
+", "groupe/admin_group_chat.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\groupe\\admin_group_chat.html.twig");
     }
 }

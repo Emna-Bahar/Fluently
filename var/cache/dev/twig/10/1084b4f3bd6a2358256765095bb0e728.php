@@ -369,6 +369,6 @@ class __TwigTemplate_5bf1d0cc60cd189d44381752e765c1c4 extends Template
     </div>
 </div>
 {% endblock %}
-", "tache_admin/show.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\tache_admin\\show.html.twig");
+", "tache_admin/show.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\tache_admin\\show.html.twig");
     }
 }

@@ -445,6 +445,6 @@ class __TwigTemplate_a57675cf5a61d4736fcf51c04f09811a extends Template
     </div>
 </div>
 {% endblock %}
-", "tache_admin/edit.html.twig", "C:\\Users\\oumai\\Fluently\\templates\\tache_admin\\edit.html.twig");
+", "tache_admin/edit.html.twig", "C:\\Users\\oumai\\Fluently\\Fluently\\Fluently\\templates\\tache_admin\\edit.html.twig");
     }
 }
