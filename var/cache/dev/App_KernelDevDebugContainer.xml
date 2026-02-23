@@ -83,6 +83,7 @@
     </parameter>
     <parameter key="kernel.charset">UTF-8</parameter>
     <parameter key="kernel.container_class">App_KernelDevDebugContainer</parameter>
+    <parameter key="groq_api_key">%env(GROQ_API_KEY)%</parameter>
     <parameter key="event_dispatcher.event_aliases" type="collection">
       <parameter key="Symfony\Component\Console\Event\ConsoleCommandEvent">console.command</parameter>
       <parameter key="Symfony\Component\Console\Event\ConsoleErrorEvent">console.error</parameter>
@@ -101,6 +102,13 @@
       <parameter key="Symfony\Component\HttpKernel\Event\ViewEvent">kernel.view</parameter>
       <parameter key="Symfony\Component\HttpKernel\Event\ExceptionEvent">kernel.exception</parameter>
       <parameter key="Symfony\Component\HttpKernel\Event\TerminateEvent">kernel.terminate</parameter>
+      <parameter key="Symfony\Component\Workflow\Event\GuardEvent">workflow.guard</parameter>
+      <parameter key="Symfony\Component\Workflow\Event\LeaveEvent">workflow.leave</parameter>
+      <parameter key="Symfony\Component\Workflow\Event\TransitionEvent">workflow.transition</parameter>
+      <parameter key="Symfony\Component\Workflow\Event\EnterEvent">workflow.enter</parameter>
+      <parameter key="Symfony\Component\Workflow\Event\EnteredEvent">workflow.entered</parameter>
+      <parameter key="Symfony\Component\Workflow\Event\CompletedEvent">workflow.completed</parameter>
+      <parameter key="Symfony\Component\Workflow\Event\AnnounceEvent">workflow.announce</parameter>
       <parameter key="Symfony\Component\Security\Core\Event\AuthenticationSuccessEvent">security.authentication.success</parameter>
       <parameter key="Symfony\Component\Security\Http\Event\InteractiveLoginEvent">security.interactive_login</parameter>
       <parameter key="Symfony\Component\Security\Http\Event\SwitchUserEvent">security.switch_user</parameter>
@@ -341,6 +349,10 @@
         <parameter>mailer</parameter>
         <parameter>@WebProfiler/Collector/mailer.html.twig</parameter>
       </parameter>
+      <parameter key="data_collector.workflow" type="collection">
+        <parameter>workflow</parameter>
+        <parameter>@WebProfiler/Collector/workflow.html.twig</parameter>
+      </parameter>
       <parameter key="notifier.data_collector" type="collection">
         <parameter>notifier</parameter>
         <parameter>@WebProfiler/Collector/notifier.html.twig</parameter>
@@ -495,6 +507,7 @@
     <service id="App\Controller\TestController" class="App\Controller\TestController" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
       <tag name="container.service_subscriber"/>
+      <argument type="service" id="monolog.logger"/>
       <call method="setContainer">
         <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\TestController"/>
       </call>
@@ -505,6 +518,12 @@
       <call method="setContainer">
         <argument type="service" id=".service_locator.O2p6Lk7.App\Controller\TestStudentController"/>
       </call>
+    </service>
+    <service id="App\EventSubscriber\TestWorkflowSubscriber" class="App\EventSubscriber\TestWorkflowSubscriber" autowire="true" autoconfigure="true">
+      <tag name="kernel.event_subscriber"/>
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+      <argument type="service" id="mailer.mailer"/>
+      <argument type="service" id="monolog.logger"/>
     </service>
     <service id="App\Form\CoursPersonnaliseType" class="App\Form\CoursPersonnaliseType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
@@ -614,8 +633,22 @@
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
     </service>
+    <service id="App\Service\AITextCorrectionService" class="App\Service\AITextCorrectionService" autowire="true" autoconfigure="true">
+      <argument type="service" id=".debug.http_client"/>
+      <argument>%env(GROQ_API_KEY)%</argument>
+      <argument type="service" id="monolog.logger"/>
+    </service>
+    <service id="App\Service\ExamModeService" class="App\Service\ExamModeService" autowire="true" autoconfigure="true">
+      <argument type="service" id="monolog.logger"/>
+      <argument type="service" id="request_stack"/>
+    </service>
     <service id="App\Service\LanguageStatsService" class="App\Service\LanguageStatsService" autowire="true" autoconfigure="true">
       <argument type="service" id="cache.app"/>
+    </service>
+    <service id="App\Service\PerformanceAnalyzerService" class="App\Service\PerformanceAnalyzerService" autowire="true" autoconfigure="true">
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
+      <argument type="service" id="App\Repository\TestPassageRepository"/>
+      <argument type="service" id="App\Service\AITextCorrectionService"/>
     </service>
     <service id="App\Service\SpeechEvaluationService" class="App\Service\SpeechEvaluationService" autowire="true" autoconfigure="true"/>
     <service id="App\Service\TestScoringService" class="App\Service\TestScoringService" autowire="true" autoconfigure="true">
@@ -652,7 +685,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
       <tag priority="-50" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">controller.argument_value_resolver</tag>
-      <argument type="service" id=".service_locator..DEkj0G"/>
+      <argument type="service" id=".service_locator.1kJVVE_"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">
       <tag priority="-100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver">controller.argument_value_resolver</tag>
@@ -1549,6 +1582,17 @@
       </call>
       <call method="setDescription">
         <argument>Push translations to a given provider.</argument>
+      </call>
+    </service>
+    <service id="console.command.workflow_dump" class="Symfony\Bundle\FrameworkBundle\Command\WorkflowDumpCommand">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <argument type="service" id=".service_locator.Kgq6Mt_"/>
+      <call method="setName">
+        <argument>workflow:dump</argument>
+      </call>
+      <call method="setDescription">
+        <argument>Dump a workflow</argument>
       </call>
     </service>
     <service id="console.command.xliff_lint" class="Symfony\Component\Translation\Command\XliffLintCommand">
@@ -2985,6 +3029,148 @@
     <service id="translation.provider_factory.null" class="Symfony\Component\Translation\Provider\NullProviderFactory">
       <tag name="translation.provider_factory"/>
     </service>
+    <service id="workflow.abstract" class="Symfony\Component\Workflow\Workflow" abstract="true">
+      <argument type="abstract">workflow definition</argument>
+      <argument type="abstract">marking store</argument>
+      <argument type="service" id="debug.event_dispatcher" on-invalid="ignore"/>
+      <argument type="abstract">workflow name</argument>
+      <argument type="abstract">events to dispatch</argument>
+    </service>
+    <service id="state_machine.abstract" class="Symfony\Component\Workflow\StateMachine" abstract="true">
+      <argument type="abstract">workflow definition</argument>
+      <argument type="abstract">marking store</argument>
+      <argument type="service" id="debug.event_dispatcher" on-invalid="ignore"/>
+      <argument type="abstract">workflow name</argument>
+      <argument type="abstract">events to dispatch</argument>
+    </service>
+    <service id="workflow.marking_store.method" class="Symfony\Component\Workflow\MarkingStore\MethodMarkingStore" abstract="true"/>
+    <service id="workflow.registry" class="Symfony\Component\Workflow\Registry">
+      <call method="addWorkflow">
+        <argument type="service" id="debug.state_machine.test_passage"/>
+        <argument type="service">
+          <service class="Symfony\Component\Workflow\SupportStrategy\InstanceOfSupportStrategy">
+            <argument>App\Entity\TestPassage</argument>
+          </service>
+        </argument>
+      </call>
+    </service>
+    <service id="workflow.security.expression_language" class="Symfony\Component\Workflow\EventListener\ExpressionLanguage"/>
+    <service id=".state_machine.test_passage.transition.0" class="Symfony\Component\Workflow\Transition">
+      <argument>demarrer</argument>
+      <argument>non_commence</argument>
+      <argument>en_cours</argument>
+    </service>
+    <service id=".state_machine.test_passage.transition.1" class="Symfony\Component\Workflow\Transition">
+      <argument>reprendre</argument>
+      <argument>en_pause</argument>
+      <argument>en_cours</argument>
+    </service>
+    <service id=".state_machine.test_passage.transition.2" class="Symfony\Component\Workflow\Transition">
+      <argument>mettre_en_pause</argument>
+      <argument>en_cours</argument>
+      <argument>en_pause</argument>
+    </service>
+    <service id=".state_machine.test_passage.transition.3" class="Symfony\Component\Workflow\Transition">
+      <argument>soumettre</argument>
+      <argument>en_cours</argument>
+      <argument>soumis</argument>
+    </service>
+    <service id=".state_machine.test_passage.transition.4" class="Symfony\Component\Workflow\Transition">
+      <argument>soumettre</argument>
+      <argument>en_pause</argument>
+      <argument>soumis</argument>
+    </service>
+    <service id=".state_machine.test_passage.transition.5" class="Symfony\Component\Workflow\Transition">
+      <argument>corriger</argument>
+      <argument>soumis</argument>
+      <argument>en_correction</argument>
+    </service>
+    <service id=".state_machine.test_passage.transition.6" class="Symfony\Component\Workflow\Transition">
+      <argument>finaliser</argument>
+      <argument>soumis</argument>
+      <argument>termine</argument>
+    </service>
+    <service id=".state_machine.test_passage.transition.7" class="Symfony\Component\Workflow\Transition">
+      <argument>finaliser</argument>
+      <argument>en_correction</argument>
+      <argument>termine</argument>
+    </service>
+    <service id=".state_machine.test_passage.transition.8" class="Symfony\Component\Workflow\Transition">
+      <argument>expirer</argument>
+      <argument>en_cours</argument>
+      <argument>expire</argument>
+    </service>
+    <service id=".state_machine.test_passage.transition.9" class="Symfony\Component\Workflow\Transition">
+      <argument>expirer</argument>
+      <argument>en_pause</argument>
+      <argument>expire</argument>
+    </service>
+    <service id="state_machine.test_passage.metadata_store" class="Symfony\Component\Workflow\Metadata\InMemoryMetadataStore">
+      <argument type="collection"/>
+      <argument type="collection"/>
+      <argument type="service">
+        <service class="SplObjectStorage"/>
+      </argument>
+    </service>
+    <service id="state_machine.test_passage.definition" class="Symfony\Component\Workflow\Definition">
+      <argument type="collection">
+        <argument>non_commence</argument>
+        <argument>en_cours</argument>
+        <argument>en_pause</argument>
+        <argument>soumis</argument>
+        <argument>en_correction</argument>
+        <argument>termine</argument>
+        <argument>expire</argument>
+      </argument>
+      <argument type="collection">
+        <argument type="service" id=".state_machine.test_passage.transition.0"/>
+        <argument type="service" id=".state_machine.test_passage.transition.1"/>
+        <argument type="service" id=".state_machine.test_passage.transition.2"/>
+        <argument type="service" id=".state_machine.test_passage.transition.3"/>
+        <argument type="service" id=".state_machine.test_passage.transition.4"/>
+        <argument type="service" id=".state_machine.test_passage.transition.5"/>
+        <argument type="service" id=".state_machine.test_passage.transition.6"/>
+        <argument type="service" id=".state_machine.test_passage.transition.7"/>
+        <argument type="service" id=".state_machine.test_passage.transition.8"/>
+        <argument type="service" id=".state_machine.test_passage.transition.9"/>
+      </argument>
+      <argument type="collection">
+        <argument>non_commence</argument>
+      </argument>
+      <argument type="service" id="state_machine.test_passage.metadata_store"/>
+    </service>
+    <service id=".state_machine.test_passage.listener.audit_trail" class="Symfony\Component\Workflow\EventListener\AuditTrailListener">
+      <tag name="monolog.logger" channel="workflow"/>
+      <tag name="kernel.event_listener" event="workflow.test_passage.leave" method="onLeave"/>
+      <tag name="kernel.event_listener" event="workflow.test_passage.transition" method="onTransition"/>
+      <tag name="kernel.event_listener" event="workflow.test_passage.enter" method="onEnter"/>
+      <argument type="service" id="monolog.logger.workflow"/>
+    </service>
+    <service id=".state_machine.test_passage.listener.guard" class="Symfony\Component\Workflow\EventListener\GuardListener">
+      <tag name="kernel.event_listener" event="workflow.test_passage.guard.soumettre" method="onTransition"/>
+      <argument type="collection">
+        <argument key="workflow.test_passage.guard.soumettre" type="collection">
+          <argument type="service">
+            <service class="Symfony\Component\Workflow\EventListener\GuardExpression">
+              <argument type="service" id=".state_machine.test_passage.transition.3"/>
+              <argument>subject.getStatut() in ['en_cours', 'en_pause']</argument>
+            </service>
+          </argument>
+          <argument type="service">
+            <service class="Symfony\Component\Workflow\EventListener\GuardExpression">
+              <argument type="service" id=".state_machine.test_passage.transition.4"/>
+              <argument>subject.getStatut() in ['en_cours', 'en_pause']</argument>
+            </service>
+          </argument>
+        </argument>
+      </argument>
+      <argument type="service" id="workflow.security.expression_language"/>
+      <argument type="service" id="security.token_storage"/>
+      <argument type="service" id="security.authorization_checker"/>
+      <argument type="service" id="security.authentication.trust_resolver"/>
+      <argument type="service" id="security.role_hierarchy"/>
+      <argument type="service" id="debug.validator" on-invalid="null"/>
+    </service>
     <service id="debug.error_handler_configurator" class="Symfony\Component\HttpKernel\Debug\ErrorHandlerConfigurator" public="true">
       <tag name="monolog.logger" channel="php"/>
       <argument type="service" id="monolog.logger.php"/>
@@ -3020,6 +3206,38 @@
       <argument type="service" id="debug.stopwatch"/>
       <argument type="service" id="monolog.logger.event" on-invalid="null"/>
       <argument type="service" id=".virtual_request_stack" on-invalid="null"/>
+      <call method="addListener">
+        <argument>workflow.test_passage.leave</argument>
+        <argument type="collection">
+          <argument type="service_closure" id=".state_machine.test_passage.listener.audit_trail"/>
+          <argument>onLeave</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>workflow.test_passage.transition</argument>
+        <argument type="collection">
+          <argument type="service_closure" id=".state_machine.test_passage.listener.audit_trail"/>
+          <argument>onTransition</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>workflow.test_passage.enter</argument>
+        <argument type="collection">
+          <argument type="service_closure" id=".state_machine.test_passage.listener.audit_trail"/>
+          <argument>onEnter</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>workflow.test_passage.guard.soumettre</argument>
+        <argument type="collection">
+          <argument type="service_closure" id=".state_machine.test_passage.listener.guard"/>
+          <argument>onTransition</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
       <call method="addListener">
         <argument>kernel.controller</argument>
         <argument type="collection">
@@ -3065,6 +3283,54 @@
         <argument type="collection">
           <argument type="service_closure" id="knp_paginator.subscriber.sliding_pagination"/>
           <argument>onKernelRequest</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>workflow.test_passage.guard.demarrer</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="App\EventSubscriber\TestWorkflowSubscriber"/>
+          <argument>guardDemarrer</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>workflow.test_passage.guard.expirer</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="App\EventSubscriber\TestWorkflowSubscriber"/>
+          <argument>guardExpirer</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>workflow.test_passage.entered.en_cours</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="App\EventSubscriber\TestWorkflowSubscriber"/>
+          <argument>onEnCours</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>workflow.test_passage.entered.termine</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="App\EventSubscriber\TestWorkflowSubscriber"/>
+          <argument>onTermine</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>workflow.test_passage.entered.expire</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="App\EventSubscriber\TestWorkflowSubscriber"/>
+          <argument>onExpire</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
+        <argument>workflow.test_passage.entered.en_pause</argument>
+        <argument type="collection">
+          <argument type="service_closure" id="App\EventSubscriber\TestWorkflowSubscriber"/>
+          <argument>onEnPause</argument>
         </argument>
         <argument>0</argument>
       </call>
@@ -3650,7 +3916,7 @@
     </service>
     <service id="argument_resolver.not_tagged_controller" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
       <tag name="controller.argument_value_resolver" priority="-200"/>
-      <argument type="service" id=".service_locator..DEkj0G"/>
+      <argument type="service" id=".service_locator.1kJVVE_"/>
     </service>
     <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor">
       <tag name="kernel.reset" method="reset"/>
@@ -3750,7 +4016,7 @@
     <service id="router.default" class="Symfony\Bundle\FrameworkBundle\Routing\Router">
       <tag name="monolog.logger" channel="router"/>
       <tag name="container.service_subscriber" id="routing.loader"/>
-      <argument type="service" id=".service_locator.bN.V_Nq.router.default"/>
+      <argument type="service" id=".service_locator.i7B9_Ni.router.default"/>
       <argument>kernel::loadRoutes</argument>
       <argument type="collection">
         <argument key="cache_dir">C:\Users\emnab\Documents\FluentlyLangue\var\cache\dev</argument>
@@ -4930,6 +5196,9 @@
         <argument type="service" id="mailer.data_collector"/>
       </call>
       <call method="add">
+        <argument type="service" id="data_collector.workflow"/>
+      </call>
+      <call method="add">
         <argument type="service" id="notifier.data_collector"/>
       </call>
       <call method="add">
@@ -5122,6 +5391,12 @@
     <service id="mailer.data_collector" class="Symfony\Component\Mailer\DataCollector\MessageDataCollector">
       <tag name="data_collector" template="@WebProfiler/Collector/mailer.html.twig" id="mailer"/>
       <argument type="service" id="mailer.message_logger_listener"/>
+    </service>
+    <service id="data_collector.workflow" class="Symfony\Component\Workflow\DataCollector\WorkflowDataCollector">
+      <tag name="data_collector" template="@WebProfiler/Collector/workflow.html.twig" id="workflow"/>
+      <argument type="tagged_iterator" tag="workflow" index-by="name" default-index-method="getDefaultNameName" default-priority-method="getDefaultNamePriority"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+      <argument type="service" id="debug.file_link_formatter"/>
     </service>
     <service id="data_collector.http_client" class="Symfony\Component\HttpClient\DataCollector\HttpClientDataCollector">
       <tag name="data_collector" template="@WebProfiler/Collector/http_client.html.twig" id="http_client" priority="250"/>
@@ -6057,6 +6332,9 @@
         <argument type="service" id="twig.extension.weblink"/>
       </call>
       <call method="addExtension">
+        <argument type="service" id="workflow.twig_extension"/>
+      </call>
+      <call method="addExtension">
         <argument type="service" id="twig.extension.serializer"/>
       </call>
       <call method="addExtension">
@@ -6303,6 +6581,10 @@
     <service id="twig.translation.extractor" class="Symfony\Bridge\Twig\Translation\TwigExtractor">
       <tag name="translation.extractor" alias="twig"/>
       <argument type="service" id="twig"/>
+    </service>
+    <service id="workflow.twig_extension" class="Symfony\Bridge\Twig\Extension\WorkflowExtension">
+      <tag name="twig.extension"/>
+      <argument type="service" id="workflow.registry"/>
     </service>
     <service id="twig.configurator.environment" class="Symfony\Bundle\TwigBundle\DependencyInjection\Configurator\EnvironmentConfigurator">
       <argument>F j, Y H:i</argument>
@@ -7547,6 +7829,8 @@
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\TestStudentController" class="App\Controller\TestStudentController" autowire="true" abstract="true"/>
     <service id=".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\TestStudentController" class="App\Controller\TestStudentController" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Controller\TestStudentController" class="App\Controller\TestStudentController" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\EventDispatcher\EventSubscriberInterface.0.App\EventSubscriber\TestWorkflowSubscriber" class="App\EventSubscriber\TestWorkflowSubscriber" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\EventSubscriber\TestWorkflowSubscriber" class="App\EventSubscriber\TestWorkflowSubscriber" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\CoursPersonnaliseType" class="App\Form\CoursPersonnaliseType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\CoursPersonnaliseType" class="App\Form\CoursPersonnaliseType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\CoursType" class="App\Form\CoursType" autowire="true" abstract="true"/>
@@ -8377,27 +8661,46 @@
         <argument key="test" type="service_closure" id=".errored..service_locator.VZRjqOk.App\Entity\Test"/>
       </argument>
     </service>
-    <service id=".service_locator.gg8faMl" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.JPNaL3M" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
-        <argument key="test" type="service_closure" id=".errored..service_locator.gg8faMl.App\Entity\Test"/>
+        <argument key="test" type="service_closure" id=".errored..service_locator.JPNaL3M.App\Entity\Test"/>
         <argument key="testPassageRepository" type="service_closure" id="App\Repository\TestPassageRepository"/>
+        <argument key="testPassageStateMachine" type="service_closure" id="debug.state_machine.test_passage"/>
       </argument>
     </service>
-    <service id=".service_locator.7qGC6eb" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.piUkQ_o" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="em" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+        <argument key="test" type="service_closure" id=".errored..service_locator.piUkQ_o.App\Entity\Test"/>
+        <argument key="testPassageStateMachine" type="service_closure" id="debug.state_machine.test_passage"/>
+      </argument>
+    </service>
+    <service id=".service_locator.4byctLc" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="em" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+        <argument key="passage" type="service_closure" id=".errored..service_locator.4byctLc.App\Entity\TestPassage"/>
+        <argument key="testPassageStateMachine" type="service_closure" id="debug.state_machine.test_passage"/>
+      </argument>
+    </service>
+    <service id=".service_locator.8HHjGJK" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="aiCorrection" type="service_closure" id="App\Service\AITextCorrectionService"/>
         <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
         <argument key="scoringService" type="service_closure" id="App\Service\TestScoringService"/>
-        <argument key="test" type="service_closure" id=".errored..service_locator.7qGC6eb.App\Entity\Test"/>
+        <argument key="test" type="service_closure" id=".errored..service_locator.8HHjGJK.App\Entity\Test"/>
       </argument>
     </service>
-    <service id=".service_locator.TGvrhY1" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.bL44EFS" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="entityManager" type="service_closure" id="doctrine.orm.default_entity_manager"/>
-        <argument key="passage" type="service_closure" id=".errored..service_locator.TGvrhY1.App\Entity\TestPassage"/>
+        <argument key="examService" type="service_closure" id="App\Service\ExamModeService"/>
+        <argument key="passage" type="service_closure" id=".errored..service_locator.bL44EFS.App\Entity\TestPassage"/>
       </argument>
     </service>
     <service id=".service_locator.1hNKMOR" class="Symfony\Component\DependencyInjection\ServiceLocator">
@@ -8406,7 +8709,21 @@
         <argument key="testPassageRepository" type="service_closure" id="App\Repository\TestPassageRepository"/>
       </argument>
     </service>
-    <service id=".service_locator..DEkj0G" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.cIiZuvt" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="examService" type="service_closure" id="App\Service\ExamModeService"/>
+        <argument key="passage" type="service_closure" id=".errored..service_locator.cIiZuvt.App\Entity\TestPassage"/>
+      </argument>
+    </service>
+    <service id=".service_locator.YyKvHeL" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="analyzer" type="service_closure" id="App\Service\PerformanceAnalyzerService"/>
+        <argument key="em" type="service_closure" id="doctrine.orm.default_entity_manager"/>
+      </argument>
+    </service>
+    <service id=".service_locator.1kJVVE_" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\CoursController::adminShow" type="service_closure" id=".service_locator.eeiR1bl"/>
@@ -8506,15 +8823,21 @@
         <argument key="App\Controller\TacheController::newFromObjectif" type="service_closure" id=".service_locator.460DpFa"/>
         <argument key="App\Controller\TacheController::show" type="service_closure" id=".service_locator.GJi4qMg"/>
         <argument key="App\Controller\TestController::adminTestPassages" type="service_closure" id=".service_locator.1hNKMOR"/>
+        <argument key="App\Controller\TestController::analysePerformance" type="service_closure" id=".service_locator.YyKvHeL"/>
         <argument key="App\Controller\TestController::delete" type="service_closure" id=".service_locator.VZRjqOk"/>
         <argument key="App\Controller\TestController::edit" type="service_closure" id=".service_locator.VZRjqOk"/>
+        <argument key="App\Controller\TestController::expirePassage" type="service_closure" id=".service_locator.4byctLc"/>
+        <argument key="App\Controller\TestController::finaliserPassage" type="service_closure" id=".service_locator.4byctLc"/>
         <argument key="App\Controller\TestController::index" type="service_closure" id=".service_locator.Gs8bAG1"/>
+        <argument key="App\Controller\TestController::logExamEvent" type="service_closure" id=".service_locator.cIiZuvt"/>
         <argument key="App\Controller\TestController::new" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\TestController::pauseTest" type="service_closure" id=".service_locator.piUkQ_o"/>
+        <argument key="App\Controller\TestController::resumeTest" type="service_closure" id=".service_locator.piUkQ_o"/>
         <argument key="App\Controller\TestController::show" type="service_closure" id=".service_locator.iOmYmBM"/>
-        <argument key="App\Controller\TestController::startTest" type="service_closure" id=".service_locator.VZRjqOk"/>
-        <argument key="App\Controller\TestController::studentResults" type="service_closure" id=".service_locator.TGvrhY1"/>
-        <argument key="App\Controller\TestController::studentShow" type="service_closure" id=".service_locator.gg8faMl"/>
-        <argument key="App\Controller\TestController::studentSubmit" type="service_closure" id=".service_locator.7qGC6eb"/>
+        <argument key="App\Controller\TestController::startTest" type="service_closure" id=".service_locator.piUkQ_o"/>
+        <argument key="App\Controller\TestController::studentResults" type="service_closure" id=".service_locator.bL44EFS"/>
+        <argument key="App\Controller\TestController::studentShow" type="service_closure" id=".service_locator.JPNaL3M"/>
+        <argument key="App\Controller\TestController::studentSubmit" type="service_closure" id=".service_locator.8HHjGJK"/>
         <argument key="App\Kernel::loadRoutes" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="App\Kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="kernel::loadRoutes" type="service_closure" id=".service_locator.y4_Zrx."/>
@@ -8616,15 +8939,21 @@
         <argument key="App\Controller\TacheController:newFromObjectif" type="service_closure" id=".service_locator.460DpFa"/>
         <argument key="App\Controller\TacheController:show" type="service_closure" id=".service_locator.GJi4qMg"/>
         <argument key="App\Controller\TestController:adminTestPassages" type="service_closure" id=".service_locator.1hNKMOR"/>
+        <argument key="App\Controller\TestController:analysePerformance" type="service_closure" id=".service_locator.YyKvHeL"/>
         <argument key="App\Controller\TestController:delete" type="service_closure" id=".service_locator.VZRjqOk"/>
         <argument key="App\Controller\TestController:edit" type="service_closure" id=".service_locator.VZRjqOk"/>
+        <argument key="App\Controller\TestController:expirePassage" type="service_closure" id=".service_locator.4byctLc"/>
+        <argument key="App\Controller\TestController:finaliserPassage" type="service_closure" id=".service_locator.4byctLc"/>
         <argument key="App\Controller\TestController:index" type="service_closure" id=".service_locator.Gs8bAG1"/>
+        <argument key="App\Controller\TestController:logExamEvent" type="service_closure" id=".service_locator.cIiZuvt"/>
         <argument key="App\Controller\TestController:new" type="service_closure" id=".service_locator.CsMkqUa"/>
+        <argument key="App\Controller\TestController:pauseTest" type="service_closure" id=".service_locator.piUkQ_o"/>
+        <argument key="App\Controller\TestController:resumeTest" type="service_closure" id=".service_locator.piUkQ_o"/>
         <argument key="App\Controller\TestController:show" type="service_closure" id=".service_locator.iOmYmBM"/>
-        <argument key="App\Controller\TestController:startTest" type="service_closure" id=".service_locator.VZRjqOk"/>
-        <argument key="App\Controller\TestController:studentResults" type="service_closure" id=".service_locator.TGvrhY1"/>
-        <argument key="App\Controller\TestController:studentShow" type="service_closure" id=".service_locator.gg8faMl"/>
-        <argument key="App\Controller\TestController:studentSubmit" type="service_closure" id=".service_locator.7qGC6eb"/>
+        <argument key="App\Controller\TestController:startTest" type="service_closure" id=".service_locator.piUkQ_o"/>
+        <argument key="App\Controller\TestController:studentResults" type="service_closure" id=".service_locator.bL44EFS"/>
+        <argument key="App\Controller\TestController:studentShow" type="service_closure" id=".service_locator.JPNaL3M"/>
+        <argument key="App\Controller\TestController:studentSubmit" type="service_closure" id=".service_locator.8HHjGJK"/>
         <argument key="kernel:loadRoutes" type="service_closure" id=".service_locator.y4_Zrx."/>
         <argument key="kernel:registerContainerConfiguration" type="service_closure" id=".service_locator.y4_Zrx."/>
       </argument>
@@ -8921,6 +9250,13 @@
       <argument type="service" id="http_client.uri_template"/>
       <argument type="service" id="debug.stopwatch" on-invalid="ignore"/>
     </service>
+    <service id="debug.state_machine.test_passage" class="Symfony\Component\Workflow\Debug\TraceableWorkflow">
+      <tag name="test_passage">workflow</tag>
+      <tag name="test_passage">workflow.state_machine</tag>
+      <tag name="container.decorator" id="state_machine.test_passage" inner="debug.state_machine.test_passage.inner"/>
+      <argument type="service" id="debug.state_machine.test_passage.inner"/>
+      <argument type="service" id="debug.stopwatch"/>
+    </service>
     <service id=".service_locator.MfxSDRP" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -9081,6 +9417,17 @@
     <service id="monolog.logger.translation" class="Monolog\Logger">
       <tag name="monolog.channel_logger"/>
       <argument>translation</argument>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.console"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.main"/>
+      </call>
+      <configurator service="debug.debug_logger_configurator" method="pushDebugLogger"/>
+    </service>
+    <service id="monolog.logger.workflow" class="Monolog\Logger">
+      <tag name="monolog.channel_logger"/>
+      <argument>workflow</argument>
       <call method="pushHandler">
         <argument type="service" id="monolog.handler.console"/>
       </call>
@@ -9416,17 +9763,17 @@
       <argument type="service" id="service_container"/>
       <factory service=".service_locator.fuYM_Z." method="withContext"/>
     </service>
-    <service id=".service_locator.bN.V_Nq" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.i7B9_Ni" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="routing.loader" type="service_closure" id="routing.loader"/>
       </argument>
     </service>
-    <service id=".service_locator.bN.V_Nq.router.default" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.i7B9_Ni.router.default" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator_context" id="router.default"/>
       <argument>router.default</argument>
       <argument type="service" id="service_container"/>
-      <factory service=".service_locator.bN.V_Nq" method="withContext"/>
+      <factory service=".service_locator.i7B9_Ni" method="withContext"/>
     </service>
     <service id=".service_locator.cUcW89y" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
@@ -9492,6 +9839,12 @@
       <argument type="collection">
         <argument key="event_dispatcher" type="service_closure" id="debug.event_dispatcher"/>
         <argument key="security.event_dispatcher.main" type="service_closure" id="debug.security.event_dispatcher.main"/>
+      </argument>
+    </service>
+    <service id=".service_locator.Kgq6Mt_" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="test_passage" type="service_closure" id="debug.state_machine.test_passage"/>
       </argument>
     </service>
     <service id=".service_locator.LD5oJC8" class="Symfony\Component\DependencyInjection\ServiceLocator">
@@ -9789,6 +10142,18 @@
         <argument type="service" id="messenger.bus.default.middleware.handle_message"/>
       </argument>
     </service>
+    <service id="debug.state_machine.test_passage.inner" class="Symfony\Component\Workflow\StateMachine">
+      <argument type="service" id="state_machine.test_passage.definition"/>
+      <argument type="service">
+        <service class="Symfony\Component\Workflow\MarkingStore\MethodMarkingStore">
+          <argument>true</argument>
+          <argument>statut</argument>
+        </service>
+      </argument>
+      <argument type="service" id="debug.event_dispatcher" on-invalid="ignore"/>
+      <argument>test_passage</argument>
+      <argument>null</argument>
+    </service>
     <service id=".doctrine.orm.default_metadata_driver.inner" class="Doctrine\Persistence\Mapping\Driver\MappingDriverChain">
       <call method="addDriver">
         <argument type="service" id="doctrine.orm.default_attribute_metadata_driver"/>
@@ -9892,14 +10257,23 @@
     <service id=".errored..service_locator.VZRjqOk.App\Entity\Test" class="App\Entity\Test">
       <tag name="container.error" message="Cannot autowire service &quot;.service_locator.VZRjqOk&quot;: it needs an instance of &quot;App\Entity\Test&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
     </service>
-    <service id=".errored..service_locator.gg8faMl.App\Entity\Test" class="App\Entity\Test">
-      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.gg8faMl&quot;: it needs an instance of &quot;App\Entity\Test&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    <service id=".errored..service_locator.JPNaL3M.App\Entity\Test" class="App\Entity\Test">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.JPNaL3M&quot;: it needs an instance of &quot;App\Entity\Test&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
     </service>
-    <service id=".errored..service_locator.7qGC6eb.App\Entity\Test" class="App\Entity\Test">
-      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.7qGC6eb&quot;: it needs an instance of &quot;App\Entity\Test&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    <service id=".errored..service_locator.piUkQ_o.App\Entity\Test" class="App\Entity\Test">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.piUkQ_o&quot;: it needs an instance of &quot;App\Entity\Test&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
     </service>
-    <service id=".errored..service_locator.TGvrhY1.App\Entity\TestPassage" class="App\Entity\TestPassage">
-      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.TGvrhY1&quot;: it needs an instance of &quot;App\Entity\TestPassage&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    <service id=".errored..service_locator.4byctLc.App\Entity\TestPassage" class="App\Entity\TestPassage">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.4byctLc&quot;: it needs an instance of &quot;App\Entity\TestPassage&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    </service>
+    <service id=".errored..service_locator.8HHjGJK.App\Entity\Test" class="App\Entity\Test">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.8HHjGJK&quot;: it needs an instance of &quot;App\Entity\Test&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    </service>
+    <service id=".errored..service_locator.bL44EFS.App\Entity\TestPassage" class="App\Entity\TestPassage">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.bL44EFS&quot;: it needs an instance of &quot;App\Entity\TestPassage&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
+    </service>
+    <service id=".errored..service_locator.cIiZuvt.App\Entity\TestPassage" class="App\Entity\TestPassage">
+      <tag name="container.error" message="Cannot autowire service &quot;.service_locator.cIiZuvt&quot;: it needs an instance of &quot;App\Entity\TestPassage&quot; but this type has been excluded in &quot;config/services.yaml&quot;."/>
     </service>
     <service id=".console.command.about.lazy" class="Symfony\Component\Console\Command\LazyCommand">
       <argument>about</argument>
@@ -10124,6 +10498,13 @@
       <argument>Push translations to a given provider.</argument>
       <argument>false</argument>
       <argument type="service_closure" id="console.command.translation_push"/>
+    </service>
+    <service id=".console.command.workflow_dump.lazy" class="Symfony\Component\Console\Command\LazyCommand">
+      <argument>workflow:dump</argument>
+      <argument type="collection"/>
+      <argument>Dump a workflow</argument>
+      <argument>false</argument>
+      <argument type="service_closure" id="console.command.workflow_dump"/>
     </service>
     <service id=".console.command.xliff_lint.lazy" class="Symfony\Component\Console\Command\LazyCommand">
       <argument>lint:xliff</argument>
@@ -10580,7 +10961,7 @@
     </service>
     <service id="console.command_loader" class="Symfony\Component\Console\CommandLoader\ContainerCommandLoader" public="true">
       <tag name="container.no_preload"/>
-      <argument type="service" id=".service_locator.hrajTIt"/>
+      <argument type="service" id=".service_locator.rSUYv03"/>
       <argument type="collection">
         <argument key="about">console.command.about</argument>
         <argument key="assets:install">console.command.assets_install</argument>
@@ -10614,6 +10995,7 @@
         <argument key="debug:validator">console.command.validator_debug</argument>
         <argument key="translation:pull">console.command.translation_pull</argument>
         <argument key="translation:push">console.command.translation_push</argument>
+        <argument key="workflow:dump">console.command.workflow_dump</argument>
         <argument key="lint:xliff">console.command.xliff_lint</argument>
         <argument key="lint:yaml">console.command.yaml_lint</argument>
         <argument key="debug:form">console.command.form_debug</argument>
@@ -10700,7 +11082,7 @@
         <argument key="make:webhook">maker.auto_command.make_webhook</argument>
       </argument>
     </service>
-    <service id=".service_locator.hrajTIt" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.rSUYv03" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="console.command.about" type="service_closure" id=".console.command.about.lazy"/>
@@ -10735,6 +11117,7 @@
         <argument key="console.command.validator_debug" type="service_closure" id=".console.command.validator_debug.lazy"/>
         <argument key="console.command.translation_pull" type="service_closure" id=".console.command.translation_pull.lazy"/>
         <argument key="console.command.translation_push" type="service_closure" id=".console.command.translation_push.lazy"/>
+        <argument key="console.command.workflow_dump" type="service_closure" id=".console.command.workflow_dump.lazy"/>
         <argument key="console.command.xliff_lint" type="service_closure" id=".console.command.xliff_lint.lazy"/>
         <argument key="console.command.yaml_lint" type="service_closure" id=".console.command.yaml_lint.lazy"/>
         <argument key="console.command.form_debug" type="service_closure" id=".console.command.form_debug.lazy"/>
@@ -10977,6 +11360,11 @@
     <service id="Symfony\Component\Translation\LocaleSwitcher" alias="translation.locale_switcher"/>
     <service id="translator" alias="translator.data_collector" public="true"/>
     <service id="translator.formatter" alias="translator.formatter.default"/>
+    <service id="Symfony\Component\Workflow\Registry" alias="workflow.registry"/>
+    <service id=".Symfony\Component\Workflow\WorkflowInterface $test_passage.state_machine" alias="debug.state_machine.test_passage"/>
+    <service id="Symfony\Component\Workflow\WorkflowInterface $testPassageStateMachine" alias="debug.state_machine.test_passage"/>
+    <service id=".Symfony\Component\Workflow\WorkflowInterface $test_passage" alias="debug.state_machine.test_passage"/>
+    <service id="Symfony\Component\Workflow\WorkflowInterface $testPassage" alias="debug.state_machine.test_passage"/>
     <service id="Symfony\Component\ErrorHandler\ErrorRenderer\FileLinkFormatter" alias="debug.file_link_formatter"/>
     <service id="Symfony\Component\Stopwatch\Stopwatch" alias="debug.stopwatch"/>
     <service id="routing.loader.annotation" alias="routing.loader.attribute">
@@ -11101,7 +11489,7 @@
     <service id="Knp\Component\Pager\ArgumentAccess\ArgumentAccessInterface" alias="Knp\Component\Pager\ArgumentAccess\RequestArgumentAccess"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.w7.f4fT" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator..DEkj0G"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.1kJVVE_"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id=".Psr\Log\LoggerInterface $request.logger" alias="monolog.logger.request"/>
@@ -11120,6 +11508,8 @@
     <service id="Psr\Log\LoggerInterface $mailerLogger" alias="monolog.logger.mailer"/>
     <service id=".Psr\Log\LoggerInterface $translation.logger" alias="monolog.logger.translation"/>
     <service id="Psr\Log\LoggerInterface $translationLogger" alias="monolog.logger.translation"/>
+    <service id=".Psr\Log\LoggerInterface $workflow.logger" alias="monolog.logger.workflow"/>
+    <service id="Psr\Log\LoggerInterface $workflowLogger" alias="monolog.logger.workflow"/>
     <service id=".Psr\Log\LoggerInterface $php.logger" alias="monolog.logger.php"/>
     <service id="Psr\Log\LoggerInterface $phpLogger" alias="monolog.logger.php"/>
     <service id=".Psr\Log\LoggerInterface $event.logger" alias="monolog.logger.event"/>
@@ -11162,10 +11552,14 @@
     <service id=".service_locator.1vBIeZG" alias=".service_locator.oWcNa9U"/>
     <service id=".service_locator.aLMTgjD" alias=".service_locator.Gs8bAG1"/>
     <service id=".service_locator..C45JwD" alias=".service_locator.VZRjqOk"/>
-    <service id=".service_locator.WJa4qXa" alias=".service_locator.gg8faMl"/>
-    <service id=".service_locator.ROMvJrg" alias=".service_locator.7qGC6eb"/>
-    <service id=".service_locator.dN3Mvcr" alias=".service_locator.TGvrhY1"/>
-    <service id=".service_locator.tHBsRcF" alias=".service_locator..DEkj0G"/>
+    <service id=".service_locator..5P8Emx" alias=".service_locator.JPNaL3M"/>
+    <service id=".service_locator.ehuJumA" alias=".service_locator.piUkQ_o"/>
+    <service id=".service_locator.pmMwsyM" alias=".service_locator.4byctLc"/>
+    <service id=".service_locator.ykQCee1" alias=".service_locator.8HHjGJK"/>
+    <service id=".service_locator.0Ir1gjS" alias=".service_locator.bL44EFS"/>
+    <service id=".service_locator.Z7IH8um" alias=".service_locator.cIiZuvt"/>
+    <service id=".service_locator.KfYX6C5" alias=".service_locator.YyKvHeL"/>
+    <service id=".service_locator.xDgrwXv" alias=".service_locator.1kJVVE_"/>
     <service id=".service_locator.BFrsqsn" alias=".service_locator.F9PKc.7"/>
     <service id=".service_locator.RXby3mK" alias=".service_locator.XWZw5fc"/>
     <service id=".service_locator.XtmiKbi" alias=".service_locator.MfxSDRP"/>
@@ -11188,6 +11582,7 @@
     <service id="security.access.decision_manager" alias="debug.security.access.decision_manager"/>
     <service id="security.firewall.authenticator.main" alias="debug.security.firewall.authenticator.main"/>
     <service id="messenger.bus.default" alias="debug.traced.messenger.bus.default"/>
+    <service id="state_machine.test_passage" alias="debug.state_machine.test_passage"/>
     <service id="doctrine.orm.default_metadata_driver" alias=".doctrine.orm.default_metadata_driver"/>
     <service id="security.event_dispatcher.main" alias="debug.security.event_dispatcher.main"/>
     <service id=".service_locator.gFlme_s" alias=".service_locator.y4_Zrx."/>
@@ -11242,10 +11637,14 @@
     <service id=".service_locator.JVnybLY" alias=".service_locator.Gs8bAG1"/>
     <service id=".service_locator.CVmOjCW" alias=".service_locator.iOmYmBM"/>
     <service id=".service_locator.Vyo1sfD" alias=".service_locator.VZRjqOk"/>
-    <service id=".service_locator.R8wEJHh" alias=".service_locator.gg8faMl"/>
-    <service id=".service_locator.ld5iUlJ" alias=".service_locator.7qGC6eb"/>
-    <service id=".service_locator.jtG5KD0" alias=".service_locator.TGvrhY1"/>
+    <service id=".service_locator.mZRPy8k" alias=".service_locator.JPNaL3M"/>
+    <service id=".service_locator..YmBQSt" alias=".service_locator.piUkQ_o"/>
+    <service id=".service_locator.mvj3sl_" alias=".service_locator.4byctLc"/>
+    <service id=".service_locator.BVl7tf_" alias=".service_locator.8HHjGJK"/>
+    <service id=".service_locator.Zc.YOAs" alias=".service_locator.bL44EFS"/>
     <service id=".service_locator.64.OW.Q" alias=".service_locator.1hNKMOR"/>
+    <service id=".service_locator.Jor1WC9" alias=".service_locator.cIiZuvt"/>
+    <service id=".service_locator.a85nUIo" alias=".service_locator.YyKvHeL"/>
     <service id=".service_locator.Q1z.f9O" alias=".service_locator.O2p6Lk7"/>
     <service id=".service_locator.dGUCsbe" alias=".service_locator.oR77BOj"/>
     <service id=".service_locator._kIAbz1" alias=".service_locator.TpoC7U9"/>

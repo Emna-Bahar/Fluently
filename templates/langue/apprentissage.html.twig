@@ -36,6 +36,11 @@
                     </span>
                 </div>
             {% endif %}
+            <div style="margin-top: 30px; padding: 15px 30px; background: rgba(255,255,255,0.15); border-radius: 60px; display: inline-block; backdrop-filter: blur(10px); border: 2px solid rgba(255,255,255,0.3);">
+            <a href="{{ path('app_etudiant_analyse', {langueId: langue.id}) }}" class="btn btn-lg btn-primary">
+                <i class="fas fa-chart-line"></i> 📊 Mon Analyse de Performance
+            </a>
+            </div>
         </div>
 
         <div style="position: relative; padding: 80px 0;">

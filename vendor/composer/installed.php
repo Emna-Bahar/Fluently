@@ -3,7 +3,7 @@
         'name' => '__root__',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'f7897948b2f8ce5d35a254dd1b827fdab275b050',
+        'reference' => '63d033234f28699455041018424ca24d63127506',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         '__root__' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'f7897948b2f8ce5d35a254dd1b827fdab275b050',
+            'reference' => '63d033234f28699455041018424ca24d63127506',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -1417,6 +1417,15 @@
             'install_path' => __DIR__ . '/../symfony/web-profiler-bundle',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'symfony/workflow' => array(
+            'pretty_version' => 'v6.4.32',
+            'version' => '6.4.32.0',
+            'reference' => 'abd1d54c15850053fa2b8c9b63f2b0f5768424c3',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/workflow',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'symfony/yaml' => array(
             'pretty_version' => 'v6.4.30',

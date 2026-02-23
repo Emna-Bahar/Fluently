@@ -110,12 +110,12 @@
 
         <div class="stats-grid">
             <div class="stat-item">
-                <i class="fas fa-check-circle text-success fa-2x mb-2"></i>
+                
                 <h3>{{ passage.score }}</h3>
                 <small>Ton score</small>
             </div>
             <div class="stat-item">
-                <i class="fas fa-star text-warning fa-2x mb-2"></i>
+                
                 <h3>{{ passage.scoreMax }}</h3>
                 <small>Maximum</small>
             </div>
@@ -130,27 +130,57 @@
                 <small>Terminé le</small>
             </div>
         </div>
+        {# Juste AVANT la section "Détails de tes réponses" #}
 
-        <div class="details-section">
-            <h3 class="mb-4 text-center">
-                <i class="fas fa-list-check"></i> Détails de tes réponses
-            </h3>
+        {% if passage.test.type == 'Test de niveau' or passage.test.type == 'Test de fin de niveau' %}
+            <div class="details-section" style="border-top: 3px solid #e5e7eb;">
+                <h3 class="mb-4 text-center">
+                    <i class="fas fa-shield-alt"></i> Rapport de Surveillance (Mode Examen)
+                </h3>
 
-            {# Pour l'instant on n'affiche pas les détails par question car on ne stocke pas les réponses choisies dans TestPassage #}
-            {# Si tu veux les ajouter plus tard, on créera une entité ReponseEtudiant #}
-            <div class="alert alert-info text-center">
-                <i class="fas fa-info-circle"></i> 
-                Détails des réponses par question bientôt disponibles !
+                {# Récupérer l'analyse via le service #}
+                {# Note: Il faudra passer cette variable depuis le controller #}
+                {% if examAnalysis is defined %}
+                    <div class="alert alert-{{ examAnalysis.color }}" style="padding: 25px; border-radius: 15px;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Score de Suspicion</h4>
+                                <div style="font-size: 3rem; font-weight: 900;">
+                                    {{ examAnalysis.suspicion_score }}/100
+                                </div>
+                                <p class="mb-0"><strong>{{ examAnalysis.recommendation }}</strong></p>
+                            </div>
+                            <div class="col-md-6">
+                                <h4>Événements Détectés</h4>
+                                <ul class="list-unstyled">
+                                    <li>🔄 Changements d'onglet : <strong>{{ examAnalysis.events.tab_switches }}</strong></li>
+                                    <li>📋 Tentatives copier-coller : <strong>{{ examAnalysis.events.copy_pastes }}</strong></li>
+                                    <li>👁️ Pertes de focus : <strong>{{ examAnalysis.events.page_blurs }}</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        {% if examAnalysis.flags|length > 0 %}
+                            <hr>
+                            <h5>⚠️ Alertes :</h5>
+                            <ul>
+                                {% for flag in examAnalysis.flags %}
+                                    <li>{{ flag }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <hr>
+                            <p class="text-success mb-0">✅ Aucun comportement suspect détecté</p>
+                        {% endif %}
+                    </div>
+                {% endif %}
             </div>
-        </div>
+        {% endif %}
+        
 
         <div class="action-buttons">
-            <a href="{{ path('app_langue_apprentissage', {id: passage.test.langue.id}) }}" class="btn btn-primary btn-lg">
-                <i class="fas fa-arrow-left"></i> Retour au parcours
-            </a>
-            <a href="{{ path('app_langue_index') }}" class="btn btn-outline-secondary btn-lg ms-2">
-                <i class="fas fa-home"></i> Autres langues
-            </a>
+            <a href="{{ path('app_langue_apprentissage', {id: passage.test.langue.id}) }}" class="btn btn-primary btn-lg">Retour au parcours</a>
+            <a href="{{ path('app_langue_index') }}" class="btn btn-outline-secondary btn-lg ms-2">Autres langues</a>
         </div>
     </div>
 </div>

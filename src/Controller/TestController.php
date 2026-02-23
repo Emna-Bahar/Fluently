@@ -5,9 +5,12 @@ namespace App\Controller;
 use App\Entity\Test;
 use App\Entity\TestPassage;
 use App\Entity\Question;
+use App\Entity\User;
 use App\Entity\Reponse;
+use App\Entity\Langue;
 use App\Form\TestType;
 use App\Service\TestScoringService;
+use App\Service\ExamModeService;
 use App\Repository\TestRepository;
 use App\Repository\ReponseRepository;
 use App\Repository\TestPassageRepository;
@@ -17,13 +20,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Workflow\WorkflowInterface;
+use App\Service\AITextCorrectionService;
+use Psr\Log\LoggerInterface;
+use App\Service\PerformanceAnalyzerService;
 use DateTime;
 
 #[Route('/admin/test')]
 final class TestController extends AbstractController
 {
     // ==================== PARTIE ADMIN ====================
-    
+    private LoggerInterface $logger;
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
     #[Route('', name: 'app_test_index', methods: ['GET'])]
     public function index(Request $request, TestRepository $testRepository,LangueRepository $langueRepository): Response
     {
@@ -131,7 +142,8 @@ final class TestController extends AbstractController
         Test $test,
         Request $request,
         EntityManagerInterface $entityManager,
-        TestPassageRepository $testPassageRepository
+        TestPassageRepository $testPassageRepository,
+        WorkflowInterface $testPassageStateMachine
     ): Response
     {
         $session = $request->getSession();
@@ -149,6 +161,7 @@ final class TestController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
+        // Vérifier si déjà terminé
         $existingTermine = $testPassageRepository->findOneBy([
             'test'   => $test,
             'user'   => $user,
@@ -160,51 +173,236 @@ final class TestController extends AbstractController
             return $this->redirectToRoute('app_test_student_result', ['id' => $existingTermine->getId()]);
         }
 
-        $passageEnCours = $testPassageRepository->findOneBy([
+        // Chercher un passage EN COURS ou EN PAUSE
+        $passage = $testPassageRepository->findOneBy([
             'test'   => $test,
             'user'   => $user,
-            'statut' => 'en_cours'
+            'statut' => ['en_cours', 'en_pause']
         ]);
 
-        // 🔴 VÉRIFIER SI LE TEMPS EST ÉCOULÉ
-        if ($passageEnCours) {
+        // Vérification du temps écoulé → seulement si statut = 'en_cours'
+        if ($passage && $passage->getStatut() === 'en_cours') {
             $dureeMinutes = $test->getDureeEstimee() ?: 15;
             $dureeSecondes = $dureeMinutes * 60;
-            $tempsEcoule = (new \DateTime())->getTimestamp() - $passageEnCours->getDateDebut()->getTimestamp();
-            
+            $tempsEcoule = (new DateTime())->getTimestamp() - $passage->getDateDebut()->getTimestamp();
+
             if ($tempsEcoule >= $dureeSecondes) {
-                // Soumettre automatiquement avec score 0
-                $passageEnCours->setScore(0);
-                $passageEnCours->setResultat(0);
-                $passageEnCours->setDateFin(new \DateTime());
-                $passageEnCours->setTempsPasse($tempsEcoule);
-                $passageEnCours->setStatut('termine');
-                $entityManager->flush();
-                
-                $this->addFlash('warning', '⏰ Le temps était écoulé. Le test a été soumis automatiquement avec un score de 0.');
-                return $this->redirectToRoute('app_test_student_result', ['id' => $passageEnCours->getId()]);
+                try {
+                    // Sécurité : ne pas appliquer plusieurs fois
+                    if ($passage->getStatut() === 'en_cours') {
+                        $testPassageStateMachine->apply($passage, 'expirer');
+                        $entityManager->flush();
+                    }
+
+                    $this->addFlash('warning', '⏰ Le temps est écoulé. Le test a été soumis automatiquement avec un score de 0.');
+                    return $this->redirectToRoute('app_test_student_result', ['id' => $passage->getId()]);
+                } catch (\Exception $e) {
+                    $this->addFlash('error', 'Erreur lors de l’expiration : ' . $e->getMessage());
+                    // On continue quand même pour afficher la page (au cas où)
+                }
             }
         }
 
         return $this->render('test_student/show.html.twig', [
             'test'           => $test,
             'langue'         => $test->getLangue(),
-            'passageEnCours' => $passageEnCours,
+            'passageEnCours' => $passage,  // Peut être en_cours ou en_pause
         ]);
     }
 
+
+
     #[Route('/etudiant/{id}/start', name: 'app_test_student_start', methods: ['POST'])]
     public function startTest(
-        Test $test,
-        Request $request,
-        EntityManagerInterface $entityManager
-    ): Response
-    {
+        Test $test, 
+        Request $request, 
+        EntityManagerInterface $em,
+        WorkflowInterface $testPassageStateMachine
+    ): Response {
         $session = $request->getSession();
         $userId = $session->get('user_id');
 
         if (!$userId) {
             $this->addFlash('error', 'Vous devez être connecté pour démarrer un test.');
+            return $this->redirectToRoute('app_login');
+        }
+
+        $user = $em->getRepository(\App\Entity\User::class)->find($userId);
+
+        if (!$user) {
+            $this->addFlash('error', 'Utilisateur introuvable.');
+            return $this->redirectToRoute('app_login');
+        }
+
+        // ✅ Vérifier si un passage en_cours existe déjà
+        $existing = $em->getRepository(TestPassage::class)
+            ->findOneBy([
+                'test' => $test, 
+                'user' => $user, 
+                'statut' => 'en_cours'
+            ]);
+
+        if ($existing) {
+            $this->addFlash('warning', 'Vous avez déjà un test en cours.');
+            return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
+        }
+
+        // ✅ Créer un nouveau passage
+        $passage = new TestPassage();
+        $passage->setTest($test);
+        $passage->setUser($user);
+        $passage->setScoreMax($test->getScoreMax());
+        // Ne PAS définir dateDebut ici, le Workflow le fera
+        
+        $em->persist($passage);
+        $em->flush(); // ✅ IMPORTANT : Flush AVANT d'appliquer le workflow (pour avoir l'ID)
+        
+        try {
+            $testPassageStateMachine->apply($passage, 'demarrer');
+            $em->flush(); // ✅ Flush après la transition
+            $this->addFlash('success', 'Test démarré ! Bonne chance ! 🚀');
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Impossible de démarrer : ' . $e->getMessage());
+            return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
+        }
+        
+        return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
+    }
+    
+    #[Route('/etudiant/{id}/pause', name: 'app_test_student_pause', methods: ['POST'])]
+    public function pauseTest(
+        Test $test,
+        Request $request,
+        EntityManagerInterface $em,
+        WorkflowInterface $testPassageStateMachine
+    ): Response
+    {
+        $user = $this->getUserFromSession($em, $request); // Méthode helper ci-dessous
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $passage = $em->getRepository(TestPassage::class)
+            ->findOneBy(['test' => $test, 'user' => $user, 'statut' => 'en_cours']);
+
+        if (!$passage) {
+            $this->addFlash('error', 'Aucun test en cours à mettre en pause.');
+            return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
+        }
+
+        try {
+            $testPassageStateMachine->apply($passage, 'mettre_en_pause');
+            $em->flush();
+            $this->addFlash('info', 'Test mis en pause. Vous pourrez le reprendre plus tard.');
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Impossible de mettre en pause : ' . $e->getMessage());
+        }
+
+        return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
+    }
+
+    #[Route('/etudiant/{id}/resume', name: 'app_test_student_resume', methods: ['POST'])]
+    public function resumeTest(
+        Test $test,
+        Request $request,
+        EntityManagerInterface $em,
+        WorkflowInterface $testPassageStateMachine
+    ): Response
+    {
+        $user = $this->getUserFromSession($em, $request);
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $passage = $em->getRepository(TestPassage::class)
+            ->findOneBy(['test' => $test, 'user' => $user, 'statut' => 'en_pause']);
+
+        if (!$passage) {
+            $this->addFlash('error', 'Aucun test en pause à reprendre.');
+            return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
+        }
+
+        try {
+            $testPassageStateMachine->apply($passage, 'reprendre');
+            $em->flush();
+            $this->addFlash('success', 'Test repris ! Bonne continuation !');
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Impossible de reprendre : ' . $e->getMessage());
+        }
+
+        return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
+    }
+
+    // Helper pour récupérer l'utilisateur (réutilisable)
+    private function getUserFromSession(EntityManagerInterface $em, Request $request): ?User
+    {
+        $session = $request->getSession();
+        $userId = $session->get('user_id');
+        return $userId ? $em->getRepository(User::class)->find($userId) : null;
+    }
+
+    #[Route('/admin/passage/{id}/expire', name: 'admin_expire_passage', methods: ['POST'])]
+    public function expirePassage(
+        TestPassage $passage,
+        WorkflowInterface $testPassageStateMachine,
+        EntityManagerInterface $em,
+        Request $request
+    ): Response {
+        // Vérifier CSRF
+        if (!$this->isCsrfTokenValid('expire' . $passage->getId(), $request->request->get('_token'))) {
+            $this->addFlash('error', 'Token CSRF invalide.');
+            return $this->redirectToRoute('app_admin_test_passages');
+        }
+        
+        try {
+            $testPassageStateMachine->apply($passage, 'expirer');
+            $em->flush();
+            
+            $this->addFlash('success', '⏰ Test expiré avec succès.');
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Impossible d\'expirer : ' . $e->getMessage());
+        }
+        
+        return $this->redirectToRoute('app_admin_test_passages');
+    }
+    
+    #[Route('/admin/passage/{id}/finaliser', name: 'admin_finaliser_passage', methods: ['POST'])]
+    public function finaliserPassage(
+        TestPassage $passage,
+        WorkflowInterface $testPassageStateMachine,
+        EntityManagerInterface $em,
+        Request $request
+    ): Response {
+        if (!$this->isCsrfTokenValid('finaliser' . $passage->getId(), $request->request->get('_token'))) {
+            $this->addFlash('error', 'Token CSRF invalide.');
+            return $this->redirectToRoute('app_admin_test_passages');
+        }
+        
+        try {
+            $testPassageStateMachine->apply($passage, 'finaliser');
+            $em->flush();
+            
+            $this->addFlash('success', '✅ Test finalisé avec succès.');
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Impossible de finaliser : ' . $e->getMessage());
+        }
+        
+        return $this->redirectToRoute('app_admin_test_passages');
+    }
+
+    #[Route('/etudiant/{id}/submit', name: 'app_test_student_submit', methods: ['POST'])]
+    public function studentSubmit(
+        Request $request,
+        Test $test,
+        EntityManagerInterface $entityManager,
+        TestScoringService $scoringService,
+        AITextCorrectionService $aiCorrection // ✅ INJECTION
+    ): Response {
+        $session = $request->getSession();
+        $userId = $session->get('user_id');
+
+        if (!$userId) {
+            $this->addFlash('error', 'Vous devez être connecté.');
             return $this->redirectToRoute('app_login');
         }
 
@@ -215,92 +413,81 @@ final class TestController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        $existing = $entityManager->getRepository(TestPassage::class)
-            ->findOneBy(['test' => $test, 'user' => $user, 'statut' => 'en_cours']);
+        $passage = $entityManager->getRepository(TestPassage::class)
+            ->findOneBy([
+                'test'   => $test,
+                'user'   => $user,
+                'statut' => 'en_cours'
+            ]);
 
-        if ($existing) {
-            $this->addFlash('warning', 'Vous avez déjà un test en cours.');
+        if (!$passage) {
+            $this->addFlash('error', 'Aucun test en cours trouvé.');
             return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
         }
 
-        $passage = new TestPassage();
-        $passage->setTest($test);
-        $passage->setUser($user);
-        $passage->setDateDebut(new DateTime());
-        $passage->setStatut('en_cours');
-        $passage->setScoreMax($test->getScoreMax());
-
-        $entityManager->persist($passage);
-        $entityManager->flush();
-
-        $this->addFlash('success', 'Test démarré ! Bonne chance !');
-        return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
-    }
-
-    #[Route('/etudiant/{id}/submit', name: 'app_test_student_submit', methods: ['POST'])]
-        public function studentSubmit(
-            Request $request,
-            Test $test,
-            EntityManagerInterface $entityManager,
-            TestScoringService $scoringService // ✅ Injection du service
-        ): Response
-        {
-            $session = $request->getSession();
-            $userId = $session->get('user_id');
-
-            if (!$userId) {
-                $this->addFlash('error', 'Vous devez être connecté.');
-                return $this->redirectToRoute('app_login');
+        // ✅ Calculer le score avec le service (QCM + Oral)
+        $scoringResult = $scoringService->calculateTestScore($test, $request);
+        
+        $scoreTotal = $scoringResult['total_score'];
+        $scoreMax = $scoringResult['max_score'];
+        
+        // ✅ AJOUT : Traiter les questions texte libre avec l'IA
+        foreach ($test->getQuestions() as $question) {
+            if ($question->getType() === 'texte_libre') {
+                $studentText = $request->request->get('texte_' . $question->getId());
+                
+                if ($studentText && strlen(trim($studentText)) >= 50) {
+                    // Appeler l'IA pour corriger
+                    $correction = $aiCorrection->correctFreeText(
+                        $studentText,
+                        $question->getEnonce(), // Le thème
+                        $test->getLangue()->getNom(),
+                        'B1' // TODO: Récupérer le vrai niveau de l'étudiant
+                    );
+                    
+                    // Calculer le score (score IA * scoreMax de la question / 100)
+                    $questionScore = ($correction['score'] / 100) * $question->getScoreMax();
+                    $scoreTotal += $questionScore;
+                    
+                    // TODO: Stocker le feedback IA quelque part pour l'afficher
+                    // (Pour l'instant on le logue)
+                    $this->logger->info('Correction texte libre', [
+                        'question_id' => $question->getId(),
+                        'score' => $correction['score'],
+                        'commentaire' => $correction['commentaire']
+                    ]);
+                }
             }
-
-            $user = $entityManager->getRepository(\App\Entity\User::class)->find($userId);
-
-            if (!$user) {
-                $this->addFlash('error', 'Utilisateur introuvable.');
-                return $this->redirectToRoute('app_login');
-            }
-
-            $passage = $entityManager->getRepository(TestPassage::class)
-                ->findOneBy([
-                    'test'   => $test,
-                    'user'   => $user,
-                    'statut' => 'en_cours'
-                ]);
-
-            if (!$passage) {
-                $this->addFlash('error', 'Aucun test en cours trouvé.');
-                return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
-            }
-
-            // ✅ Utiliser le service pour calculer le score
-            $scoringResult = $scoringService->calculateTestScore($test, $request);
-
-            $passage->setScore($scoringResult['total_score']);
-            $passage->setResultat($scoringResult['percentage']);
-            $passage->setDateFin(new \DateTime());
-            $passage->setTempsPasse((new \DateTime())->getTimestamp() - $passage->getDateDebut()->getTimestamp());
-            $passage->setStatut('termine');
-
-            $entityManager->flush();
-
-            $niveau = $this->determinerNiveau($passage->getResultat());
-
-            $this->addFlash('success', sprintf(
-                'Test terminé ! Score : %.1f%% → Niveau estimé : %s',
-                $passage->getResultat(),
-                $niveau
-            ));
-
-            return $this->redirectToRoute('app_langue_apprentissage', [
-                'id' => $test->getLangue()->getId()
-            ]);
         }
 
+        $passage->setScore($scoreTotal);
+        $passage->setResultat(($scoreTotal / $scoreMax) * 100);
+        $passage->setDateFin(new \DateTime());
+        $passage->setTempsPasse((new \DateTime())->getTimestamp() - $passage->getDateDebut()->getTimestamp());
+        $passage->setStatut('termine');
+
+        $entityManager->flush();
+
+        $niveau = $this->determinerNiveau($passage->getResultat());
+
+        $this->addFlash('success', sprintf(
+            'Test terminé ! Score : %.1f%% → Niveau estimé : %s',
+            $passage->getResultat(),
+            $niveau
+        ));
+
+        return $this->redirectToRoute('app_langue_apprentissage', [
+            'id' => $test->getLangue()->getId()
+        ]);
+    }
+        
+        
 
     #[Route('/etudiant/result/{id}', name: 'app_test_student_result', methods: ['GET'])]
     public function studentResults(
         TestPassage $passage,
         Request $request,
+        ExamModeService $examService,
         EntityManagerInterface $entityManager
     ): Response
     {
@@ -324,12 +511,19 @@ final class TestController extends AbstractController
         }
 
         $test = $passage->getTest();
-
+        // ✅ AJOUT : Analyse anti-triche pour les tests de niveau
+        $examAnalysis = null;
+        if ($examService->isExamMode($passage->getTest())) {
+            $examAnalysis = $examService->analyzeSuspiciousActivity($passage);
+            // Nettoyer la session après analyse
+            $examService->clearSessionEvents($passage->getId());
+        }
         return $this->render('test_student/result.html.twig', [
             'test'    => $test,
             'passage' => $passage,
             'langue'  => $test->getLangue(),
             'niveau'  => $this->determinerNiveau($passage->getResultat()),
+            'examAnalysis' => $examAnalysis, // ✅ PASSAGE AU TEMPLATE
         ]);
     }
 
@@ -405,6 +599,62 @@ final class TestController extends AbstractController
             'statut'        => $statut,
             'langueId'      => $langueId,
             'testId'        => $testId,
+        ]);
+    }
+    #[Route('/exam/log-event/{id}', name: 'app_exam_log_event', methods: ['POST'])]
+    public function logExamEvent(
+        TestPassage $passage,
+        Request $request,
+        ExamModeService $examService
+    ): Response {
+        $data = json_decode($request->getContent(), true);
+        
+        $eventType = $data['event_type'] ?? 'unknown';
+        $details = $data['details'] ?? [];
+        
+        // Log l'événement
+        $examService->logEvent($passage, $eventType, $details);
+        
+        return $this->json(['success' => true]);
+    }
+
+
+    #[Route('/etudiant/analyse/{langueId}', name: 'app_etudiant_analyse', methods: ['GET'])]
+    public function analysePerformance(
+        int $langueId,
+        Request $request,
+        EntityManagerInterface $em,
+        PerformanceAnalyzerService $analyzer
+    ): Response {
+        $session = $request->getSession();
+        $userId = $session->get('user_id');
+
+        if (!$userId) {
+            $this->addFlash('error', 'Vous devez être connecté.');
+            return $this->redirectToRoute('app_login');
+        }
+
+        $user = $em->getRepository(User::class)->find($userId);
+        $langue = $em->getRepository(Langue::class)->find($langueId);
+
+        if (!$user || !$langue) {
+            throw $this->createNotFoundException();
+        }
+
+        // Analyser les performances
+        $analysis = $analyzer->analyzeUserPerformance($user, $langue);
+
+        // Générer les recommandations IA
+        $recommendations = null;
+        if ($analysis['has_data']) {
+            $recommendations = $analyzer->generateAIRecommendations($user, $langue, $analysis);
+        }
+
+        return $this->render('test_student/analyse.html.twig', [
+            'user' => $user,
+            'langue' => $langue,
+            'analysis' => $analysis,
+            'recommendations' => $recommendations
         ]);
     }
 }

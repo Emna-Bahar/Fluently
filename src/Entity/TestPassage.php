@@ -22,7 +22,7 @@ class TestPassage
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]  // ✅ Ajouter nullable: true
     private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
@@ -38,7 +38,8 @@ class TestPassage
     private ?int $scoreMax = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $statut = 'en_cours'; // en_cours, termine, abandonne
+    //private ?string $statut = 'en_cours'; // en_cours, termine, abandonne
+    private ?string $statut = 'non_commence';
 
     #[ORM\Column(nullable: true)]
     private ?int $tempsPasse = null; // en secondes

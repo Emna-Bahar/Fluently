@@ -141,75 +141,87 @@ return [
                                 .'|/edit(*:895)'
                                 .'|(*:903)'
                             .')'
-                            .'|etudiant/(?'
-                                .'|([^/]++)(?'
-                                    .'|(*:935)'
-                                    .'|/s(?'
-                                        .'|tart(*:952)'
-                                        .'|ubmit(*:965)'
+                            .'|e(?'
+                                .'|tudiant/(?'
+                                    .'|([^/]++)(?'
+                                        .'|(*:938)'
+                                        .'|/(?'
+                                            .'|s(?'
+                                                .'|tart(*:958)'
+                                                .'|ubmit(*:971)'
+                                            .')'
+                                            .'|pause(*:985)'
+                                            .'|resume(*:999)'
+                                        .')'
                                     .')'
+                                    .'|result/([^/]++)(*:1024)'
+                                    .'|analyse/([^/]++)(*:1049)'
                                 .')'
-                                .'|result/([^/]++)(*:990)'
+                                .'|xam/log\\-event/([^/]++)(*:1082)'
+                            .')'
+                            .'|admin/passage/([^/]++)/(?'
+                                .'|expire(*:1124)'
+                                .'|finaliser(*:1142)'
                             .')'
                         .')'
                     .')'
                 .')'
                 .'|/objectif/([^/]++)(?'
-                    .'|(*:1023)'
-                    .'|/edit(*:1037)'
-                    .'|(*:1046)'
+                    .'|(*:1176)'
+                    .'|/edit(*:1190)'
+                    .'|(*:1199)'
                 .')'
                 .'|/question/([^/]++)(?'
-                    .'|(*:1077)'
-                    .'|/edit(*:1091)'
-                    .'|(*:1100)'
+                    .'|(*:1230)'
+                    .'|/edit(*:1244)'
+                    .'|(*:1253)'
                 .')'
                 .'|/reservation/(?'
-                    .'|(\\d+)(*:1131)'
+                    .'|(\\d+)(*:1284)'
                     .'|([^/]++)(?'
-                        .'|/edit(*:1156)'
-                        .'|(*:1165)'
+                        .'|/edit(*:1309)'
+                        .'|(*:1318)'
                     .')'
                     .'|admin/reservations/(?'
-                        .'|(\\d+)(*:1202)'
+                        .'|(\\d+)(*:1355)'
                         .'|([^/]++)/(?'
-                            .'|edit(*:1227)'
-                            .'|delete(*:1242)'
+                            .'|edit(*:1380)'
+                            .'|delete(*:1395)'
                         .')'
                     .')'
-                    .'|mes\\-reservations(*:1270)'
+                    .'|mes\\-reservations(*:1423)'
                 .')'
                 .'|/session/(?'
-                    .'|(\\d+)(*:1297)'
-                    .'|(\\d+)/reservations(*:1324)'
+                    .'|(\\d+)(*:1450)'
+                    .'|(\\d+)/reservations(*:1477)'
                     .'|([^/]++)(?'
                         .'|/(?'
-                            .'|edit(*:1352)'
-                            .'|rejoindre(*:1370)'
+                            .'|edit(*:1505)'
+                            .'|rejoindre(*:1523)'
                         .')'
-                        .'|(*:1380)'
+                        .'|(*:1533)'
                     .')'
                     .'|admin/sessions/(?'
-                        .'|(\\d+)(*:1413)'
+                        .'|(\\d+)(*:1566)'
                         .'|([^/]++)/(?'
-                            .'|edit(*:1438)'
-                            .'|delete(*:1453)'
+                            .'|edit(*:1591)'
+                            .'|delete(*:1606)'
                         .')'
                     .')'
                     .'|sessions(?'
-                        .'|(*:1475)'
+                        .'|(*:1628)'
                         .'|/(?'
-                            .'|(\\d+)(*:1493)'
-                            .'|([^/]++)/rejoindre(*:1520)'
+                            .'|(\\d+)(*:1646)'
+                            .'|([^/]++)/rejoindre(*:1673)'
                         .')'
                     .')'
                 .')'
                 .'|/tache/(?'
-                    .'|([^/]++)(*:1550)'
-                    .'|new/objectif/([^/]++)(*:1580)'
+                    .'|([^/]++)(*:1703)'
+                    .'|new/objectif/([^/]++)(*:1733)'
                     .'|([^/]++)(?'
-                        .'|/edit(*:1605)'
-                        .'|(*:1614)'
+                        .'|/edit(*:1758)'
+                        .'|(*:1767)'
                     .')'
                 .')'
             .')/?$}sDu',
@@ -255,38 +267,44 @@ return [
         882 => [[['_route' => 'app_test_show', '_controller' => 'App\\Controller\\TestController::show'], ['id'], ['GET' => 0], null, false, true, null]],
         895 => [[['_route' => 'app_test_edit', '_controller' => 'App\\Controller\\TestController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
         903 => [[['_route' => 'app_test_delete', '_controller' => 'App\\Controller\\TestController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        935 => [[['_route' => 'app_test_student_show', '_controller' => 'App\\Controller\\TestController::studentShow'], ['id'], ['GET' => 0], null, false, true, null]],
-        952 => [[['_route' => 'app_test_student_start', '_controller' => 'App\\Controller\\TestController::startTest'], ['id'], ['POST' => 0], null, false, false, null]],
-        965 => [[['_route' => 'app_test_student_submit', '_controller' => 'App\\Controller\\TestController::studentSubmit'], ['id'], ['POST' => 0], null, false, false, null]],
-        990 => [[['_route' => 'app_test_student_result', '_controller' => 'App\\Controller\\TestController::studentResults'], ['id'], ['GET' => 0], null, false, true, null]],
-        1023 => [[['_route' => 'app_objectif_show', '_controller' => 'App\\Controller\\ObjectifController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        1037 => [[['_route' => 'app_objectif_edit', '_controller' => 'App\\Controller\\ObjectifController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        1046 => [[['_route' => 'app_objectif_delete', '_controller' => 'App\\Controller\\ObjectifController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        1077 => [[['_route' => 'app_question_show', '_controller' => 'App\\Controller\\QuestionController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        1091 => [[['_route' => 'app_question_edit', '_controller' => 'App\\Controller\\QuestionController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        1100 => [[['_route' => 'app_question_delete', '_controller' => 'App\\Controller\\QuestionController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        1131 => [[['_route' => 'app_reservation_show', '_controller' => 'App\\Controller\\ReservationController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        1156 => [[['_route' => 'app_reservation_edit', '_controller' => 'App\\Controller\\ReservationController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        1165 => [[['_route' => 'app_reservation_delete', '_controller' => 'App\\Controller\\ReservationController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        1202 => [[['_route' => 'admin_reservation_show', '_controller' => 'App\\Controller\\ReservationController::adminShow'], ['id'], ['GET' => 0], null, false, true, null]],
-        1227 => [[['_route' => 'admin_reservation_edit', '_controller' => 'App\\Controller\\ReservationController::adminEdit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        1242 => [[['_route' => 'admin_reservation_delete', '_controller' => 'App\\Controller\\ReservationController::adminDelete'], ['id'], ['POST' => 0], null, false, false, null]],
-        1270 => [[['_route' => 'front_reservation_index', '_controller' => 'App\\Controller\\ReservationController::frontIndex'], [], ['GET' => 0], null, false, false, null]],
-        1297 => [[['_route' => 'app_session_show', '_controller' => 'App\\Controller\\SessionController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        1324 => [[['_route' => 'app_session_reservations', '_controller' => 'App\\Controller\\SessionController::showReservations'], ['id'], ['GET' => 0], null, false, false, null]],
-        1352 => [[['_route' => 'app_session_edit', '_controller' => 'App\\Controller\\SessionController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        1370 => [[['_route' => 'app_session_rejoindre', '_controller' => 'App\\Controller\\SessionController::rejoindre'], ['id'], ['GET' => 0], null, false, false, null]],
-        1380 => [[['_route' => 'app_session_delete', '_controller' => 'App\\Controller\\SessionController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
-        1413 => [[['_route' => 'admin_session_show', '_controller' => 'App\\Controller\\SessionController::adminShow'], ['id'], ['GET' => 0], null, false, true, null]],
-        1438 => [[['_route' => 'admin_session_edit', '_controller' => 'App\\Controller\\SessionController::adminEdit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        1453 => [[['_route' => 'admin_session_delete', '_controller' => 'App\\Controller\\SessionController::adminDelete'], ['id'], ['POST' => 0], null, false, false, null]],
-        1475 => [[['_route' => 'front_session_index', '_controller' => 'App\\Controller\\SessionController::frontIndex'], [], ['GET' => 0], null, false, false, null]],
-        1493 => [[['_route' => 'front_session_show', '_controller' => 'App\\Controller\\SessionController::frontShow'], ['id'], ['GET' => 0], null, false, true, null]],
-        1520 => [[['_route' => 'front_session_rejoindre', '_controller' => 'App\\Controller\\SessionController::frontRejoindre'], ['id'], ['GET' => 0], null, false, false, null]],
-        1550 => [[['_route' => 'app_tache_show', '_controller' => 'App\\Controller\\TacheController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        1580 => [[['_route' => 'app_tache_new_from_objectif', '_controller' => 'App\\Controller\\TacheController::newFromObjectif'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
-        1605 => [[['_route' => 'app_tache_edit', '_controller' => 'App\\Controller\\TacheController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-        1614 => [
+        938 => [[['_route' => 'app_test_student_show', '_controller' => 'App\\Controller\\TestController::studentShow'], ['id'], ['GET' => 0], null, false, true, null]],
+        958 => [[['_route' => 'app_test_student_start', '_controller' => 'App\\Controller\\TestController::startTest'], ['id'], ['POST' => 0], null, false, false, null]],
+        971 => [[['_route' => 'app_test_student_submit', '_controller' => 'App\\Controller\\TestController::studentSubmit'], ['id'], ['POST' => 0], null, false, false, null]],
+        985 => [[['_route' => 'app_test_student_pause', '_controller' => 'App\\Controller\\TestController::pauseTest'], ['id'], ['POST' => 0], null, false, false, null]],
+        999 => [[['_route' => 'app_test_student_resume', '_controller' => 'App\\Controller\\TestController::resumeTest'], ['id'], ['POST' => 0], null, false, false, null]],
+        1024 => [[['_route' => 'app_test_student_result', '_controller' => 'App\\Controller\\TestController::studentResults'], ['id'], ['GET' => 0], null, false, true, null]],
+        1049 => [[['_route' => 'app_etudiant_analyse', '_controller' => 'App\\Controller\\TestController::analysePerformance'], ['langueId'], ['GET' => 0], null, false, true, null]],
+        1082 => [[['_route' => 'app_exam_log_event', '_controller' => 'App\\Controller\\TestController::logExamEvent'], ['id'], ['POST' => 0], null, false, true, null]],
+        1124 => [[['_route' => 'admin_expire_passage', '_controller' => 'App\\Controller\\TestController::expirePassage'], ['id'], ['POST' => 0], null, false, false, null]],
+        1142 => [[['_route' => 'admin_finaliser_passage', '_controller' => 'App\\Controller\\TestController::finaliserPassage'], ['id'], ['POST' => 0], null, false, false, null]],
+        1176 => [[['_route' => 'app_objectif_show', '_controller' => 'App\\Controller\\ObjectifController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        1190 => [[['_route' => 'app_objectif_edit', '_controller' => 'App\\Controller\\ObjectifController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        1199 => [[['_route' => 'app_objectif_delete', '_controller' => 'App\\Controller\\ObjectifController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
+        1230 => [[['_route' => 'app_question_show', '_controller' => 'App\\Controller\\QuestionController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        1244 => [[['_route' => 'app_question_edit', '_controller' => 'App\\Controller\\QuestionController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        1253 => [[['_route' => 'app_question_delete', '_controller' => 'App\\Controller\\QuestionController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
+        1284 => [[['_route' => 'app_reservation_show', '_controller' => 'App\\Controller\\ReservationController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        1309 => [[['_route' => 'app_reservation_edit', '_controller' => 'App\\Controller\\ReservationController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        1318 => [[['_route' => 'app_reservation_delete', '_controller' => 'App\\Controller\\ReservationController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
+        1355 => [[['_route' => 'admin_reservation_show', '_controller' => 'App\\Controller\\ReservationController::adminShow'], ['id'], ['GET' => 0], null, false, true, null]],
+        1380 => [[['_route' => 'admin_reservation_edit', '_controller' => 'App\\Controller\\ReservationController::adminEdit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        1395 => [[['_route' => 'admin_reservation_delete', '_controller' => 'App\\Controller\\ReservationController::adminDelete'], ['id'], ['POST' => 0], null, false, false, null]],
+        1423 => [[['_route' => 'front_reservation_index', '_controller' => 'App\\Controller\\ReservationController::frontIndex'], [], ['GET' => 0], null, false, false, null]],
+        1450 => [[['_route' => 'app_session_show', '_controller' => 'App\\Controller\\SessionController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        1477 => [[['_route' => 'app_session_reservations', '_controller' => 'App\\Controller\\SessionController::showReservations'], ['id'], ['GET' => 0], null, false, false, null]],
+        1505 => [[['_route' => 'app_session_edit', '_controller' => 'App\\Controller\\SessionController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        1523 => [[['_route' => 'app_session_rejoindre', '_controller' => 'App\\Controller\\SessionController::rejoindre'], ['id'], ['GET' => 0], null, false, false, null]],
+        1533 => [[['_route' => 'app_session_delete', '_controller' => 'App\\Controller\\SessionController::delete'], ['id'], ['POST' => 0], null, false, true, null]],
+        1566 => [[['_route' => 'admin_session_show', '_controller' => 'App\\Controller\\SessionController::adminShow'], ['id'], ['GET' => 0], null, false, true, null]],
+        1591 => [[['_route' => 'admin_session_edit', '_controller' => 'App\\Controller\\SessionController::adminEdit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        1606 => [[['_route' => 'admin_session_delete', '_controller' => 'App\\Controller\\SessionController::adminDelete'], ['id'], ['POST' => 0], null, false, false, null]],
+        1628 => [[['_route' => 'front_session_index', '_controller' => 'App\\Controller\\SessionController::frontIndex'], [], ['GET' => 0], null, false, false, null]],
+        1646 => [[['_route' => 'front_session_show', '_controller' => 'App\\Controller\\SessionController::frontShow'], ['id'], ['GET' => 0], null, false, true, null]],
+        1673 => [[['_route' => 'front_session_rejoindre', '_controller' => 'App\\Controller\\SessionController::frontRejoindre'], ['id'], ['GET' => 0], null, false, false, null]],
+        1703 => [[['_route' => 'app_tache_show', '_controller' => 'App\\Controller\\TacheController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+        1733 => [[['_route' => 'app_tache_new_from_objectif', '_controller' => 'App\\Controller\\TacheController::newFromObjectif'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
+        1758 => [[['_route' => 'app_tache_edit', '_controller' => 'App\\Controller\\TacheController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        1767 => [
             [['_route' => 'app_tache_delete', '_controller' => 'App\\Controller\\TacheController::delete'], ['id'], ['POST' => 0], null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],
