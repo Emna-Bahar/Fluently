@@ -3,6 +3,173 @@
 {% block title %}Nos Objectifs - Fluently{% endblock %}
 
 {% block body %}
+
+{# ══════════════════════════════════════════
+   MODALE ALERTES ÉCHÉANCES — PHPFlasher bundle
+   app.flashes() est alimenté par FlasherInterface
+   depuis DeadlineNotificationSubscriber
+   ══════════════════════════════════════════ #}
+{% set alertes = [] %}
+
+{% for type, messages in app.flashes(['echec', 'bientot']) %}
+    {% for message in messages %}
+        {% set alertes = alertes|merge([{
+            'titre': message,
+            'type': type
+        }]) %}
+    {% endfor %}
+{% endfor %}
+
+{# Fallback Twig si pas de subscriber actif #}
+{% if alertes|length == 0 %}
+    {% set now = "now"|date("Y-m-d") %}
+    {% for objectif in objectifs %}
+        {% if objectif.dateFin and objectif.statut not in ['complete', 'abandonne'] %}
+            {% set fin = objectif.dateFin|date("Y-m-d") %}
+            {% if fin < now %}
+                {% set alertes = alertes|merge([{
+                    'titre': objectif.titre,
+                    'type': 'echec',
+                    'url': path('app_objectif_show', {'id': objectif.id})
+                }]) %}
+            {% elseif fin <= "now"|date_modify("+3 days")|date("Y-m-d") %}
+                {% set alertes = alertes|merge([{
+                    'titre': objectif.titre,
+                    'type': 'bientot',
+                    'url': path('app_objectif_show', {'id': objectif.id})
+                }]) %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% if alertes|length > 0 %}
+<div id="deadline-modal-overlay">
+    <div id="deadline-modal">
+        <button id="deadline-modal-close">✕</button>
+        <div style="text-align:center; margin-bottom:20px;">
+            <div style="font-size:2.5rem;">🔔</div>
+            <h4 style="color:#2d3436; font-weight:700; margin:8px 0 4px;">Alertes Échéances</h4>
+            <p style="color:#636e72; font-size:.88rem;">{{ alertes|length }} objectif(s) nécessite(nt) votre attention</p>
+        </div>
+        {% for alerte in alertes %}
+            <div class="deadline-item {% if alerte.type == 'echec' %}item-echec{% else %}item-bientot{% endif %}">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.4rem;">{% if alerte.type == 'echec' %}❌{% else %}⚠️{% endif %}</span>
+                    <div>
+                        <strong>{{ alerte.titre }}</strong><br>
+                        <small>{% if alerte.type == 'echec' %}Date dépassée !{% else %}Expire bientôt !{% endif %}</small>
+                    </div>
+                </div>
+                {% if alerte.url is defined %}
+                    <a href="{{ alerte.url }}" class="deadline-btn">Voir →</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button id="deadline-modal-ok">✅ J'ai compris</button>
+    </div>
+</div>
+{% endif %}
+
+<style>
+#deadline-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 30px;
+    animation: fadeIn 0.3s ease;
+}
+#deadline-modal {
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px 25px;
+    width: 360px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+    position: relative;
+    animation: slideInLeft 0.35s ease;
+}
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes slideInLeft {
+    from { transform: translateX(-60px); opacity:0; }
+    to   { transform: translateX(0);     opacity:1; }
+}
+#deadline-modal-close {
+    position: absolute;
+    top: 12px; right: 15px;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 50%;
+    width: 28px; height: 28px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #666;
+}
+#deadline-modal-close:hover { background: #e74c3c; color: #fff; }
+.deadline-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+}
+.item-echec   { background: #fdecea; border-left: 4px solid #e74c3c; }
+.item-bientot { background: #fff8e1; border-left: 4px solid #f39c12; }
+.deadline-item strong { font-size: .9rem; color: #2d3436; }
+.deadline-item small  { font-size: .78rem; color: #636e72; }
+.deadline-btn {
+    background: #4f6df5;
+    color: #fff !important;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: .8rem;
+    text-decoration: none !important;
+    white-space: nowrap;
+    font-weight: 600;
+}
+.deadline-btn:hover { background: #3a57d4; }
+#deadline-modal-ok {
+    width: 100%;
+    margin-top: 15px;
+    background: linear-gradient(135deg, #4f6df5, #6a82fb);
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(79,109,245,0.3);
+}
+#deadline-modal-ok:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(79,109,245,0.4);
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var overlay = document.getElementById('deadline-modal-overlay');
+    if (!overlay) return;
+    document.getElementById('deadline-modal-close').addEventListener('click', function() {
+        overlay.style.display = 'none';
+    });
+    document.getElementById('deadline-modal-ok').addEventListener('click', function() {
+        overlay.style.display = 'none';
+    });
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) overlay.style.display = 'none';
+    });
+});
+</script>
+{# ══════════════════════════════════════════ #}
+
 {# Hero Section #}
 <section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('assets/images/bg_1.jpg') }}');">
     <div class="overlay"></div>
@@ -22,39 +189,29 @@
 {# Main Content #}
 <section class="ftco-section bg-light">
     <div class="container">
-        {# Header avec boutons #}
         <div class="row mb-5">
             <div class="col-md-6">
                 <h2 class="heading-section">Gérez vos objectifs</h2>
                 <p class="text-muted">Suivez votre progression et atteignez vos objectifs d'apprentissage</p>
             </div>
             <div class="col-md-6 text-right">
-                {# CHANGEMENT ICI : Utilise app_recommandation_index au lieu de app_objectif_ai_generate #}
                 <a href="{{ path('app_recommandation_index') }}" 
                    class="btn btn-gradient-ai btn-lg shadow-lg mr-2" 
                    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                          color: white; 
-                          border: none;
-                          border-radius: 10px;
-                          padding: 12px 24px;
-                          transition: all 0.3s ease;">
+                          color: white; border: none; border-radius: 10px;
+                          padding: 12px 24px; transition: all 0.3s ease;">
                     <i class="fa fa-magic"></i> 🤖 Recommandations IA
                 </a>
-                
-                {# Bouton Nouvel Objectif #}
-                <a href="{{ path('app_objectif_new') }}" class="btn btn-primary btn-lg shadow" 
-                   style="border-radius: 10px;">
+                <a href="{{ path('app_objectif_new') }}" class="btn btn-primary btn-lg shadow mr-2" style="border-radius: 10px;">
                     <i class="fa fa-plus-circle"></i> Nouvel Objectif
                 </a>
-                <a href="{{ path('app_objectif_calendar') }}" class="btn btn-info btn-lg shadow mr-2" style="border-radius:10px;">
-    <i class="fa fa-calendar"></i> Calendrier
-</a>
+                <a href="{{ path('app_objectif_calendar') }}" class="btn btn-info btn-lg shadow" style="border-radius:10px;">
+                    <i class="fa fa-calendar"></i> Calendrier
+                </a>
             </div>
         </div>
-        
 
         {% if objectifs is empty %}
-            {# État vide avec suggestion IA #}
             <div class="row">
                 <div class="col-md-12">
                     <div class="card border-0 shadow-lg text-center p-5" style="border-radius: 15px;">
@@ -62,18 +219,14 @@
                             <i class="fa fa-bullseye fa-5x text-primary mb-4" style="opacity: 0.3;"></i>
                             <h3 class="mb-3">Aucun objectif pour le moment</h3>
                             <p class="text-muted mb-4">Commencez votre parcours d'apprentissage en définissant votre premier objectif !</p>
-                            
-                            {# Suggestion IA pour débutants #}
                             <div class="alert alert-info d-inline-block mb-4" style="max-width: 500px;">
                                 <i class="fa fa-lightbulb-o"></i> <strong>Besoin d'inspiration ?</strong><br>
                                 <small>Notre IA peut vous suggérer des objectifs personnalisés basés sur vos besoins !</small>
                             </div>
-                            
                             <div class="d-flex justify-content-center gap-3 flex-wrap">
                                 <a href="{{ path('app_objectif_new') }}" class="btn btn-primary btn-lg">
                                     <i class="fa fa-plus-circle"></i> Créer mon premier objectif
                                 </a>
-                                {# CHANGEMENT ICI AUSSI #}
                                 <a href="{{ path('app_recommandation_index') }}" class="btn btn-gradient-ai btn-lg"
                                    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
                                     <i class="fa fa-magic"></i> Obtenir des suggestions IA
@@ -84,14 +237,11 @@
                 </div>
             </div>
         {% else %}
-            {# Bannière IA au-dessus des cartes #}
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="alert alert-dismissible fade show" 
                          style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                                color: white; 
-                                border: none; 
-                                border-radius: 15px;
+                                color: white; border: none; border-radius: 15px;
                                 box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);">
                         <button type="button" class="close text-white" data-dismiss="alert">
                             <span>&times;</span>
@@ -107,7 +257,6 @@
                                     les 3 meilleurs objectifs à poursuivre !
                                 </p>
                             </div>
-                            {# CHANGEMENT ICI AUSSI #}
                             <a href="{{ path('app_recommandation_index') }}" 
                                class="btn btn-light btn-lg font-weight-bold ml-3"
                                style="border-radius: 10px;">
@@ -118,14 +267,15 @@
                 </div>
             </div>
 
-            {# Liste des objectifs en cartes #}
             <div class="row">
                 {% for objectif in objectifs %}
                     <div class="col-md-6 col-lg-4 ftco-animate fadeInUp ftco-animated">
                         <div class="card h-100 border-0 shadow-sm hover-card" style="border-radius: 15px; overflow: hidden;">
-                            {# Header coloré selon le statut #}
                             <div class="card-header text-white 
-                                {% if objectif.statut == 'complete' %}bg-success{% elseif objectif.statut == 'en_cours' %}bg-primary{% elseif objectif.statut == 'abandonne' %}bg-danger{% else %}bg-warning{% endif %}" 
+                                {% if objectif.statut == 'complete' %}bg-success
+                                {% elseif objectif.statut == 'en_cours' %}bg-primary
+                                {% elseif objectif.statut == 'abandonne' %}bg-danger
+                                {% else %}bg-warning{% endif %}" 
                                 style="padding: 1.5rem;">
                                 <div class="d-flex justify-content-between align-items-start">
                                     <h5 class="card-title mb-0 font-weight-bold">{{ objectif.titre }}</h5>
@@ -140,14 +290,10 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            
                             <div class="card-body p-4">
-                                {# Description #}
                                 <p class="card-text text-muted mb-3">
                                     {{ objectif.description|length > 100 ? objectif.description|slice(0, 100) ~ '...' : objectif.description }}
                                 </p>
-                                
-                                {# Dates #}
                                 <div class="mb-3">
                                     <div class="d-flex align-items-center mb-2">
                                         <i class="fa fa-calendar text-primary mr-2"></i>
@@ -162,14 +308,10 @@
                                         </small>
                                     </div>
                                 </div>
-
-                                {# Utilisateur #}
                                 <div class="mb-3 pb-3 border-bottom">
                                     <i class="fa fa-user text-muted mr-2"></i>
                                     <small class="text-muted">{{ objectif.idUser.prenom }} {{ objectif.idUser.nom }}</small>
                                 </div>
-
-                                {# Badge de statut #}
                                 <div class="mb-3">
                                     {% if objectif.statut == 'complete' %}
                                         <span class="badge badge-success badge-pill p-2">✓ Complété</span>
@@ -181,19 +323,17 @@
                                         <span class="badge badge-warning badge-pill p-2">⏸ En pause</span>
                                     {% endif %}
                                 </div>
-
-                                {# Actions #}
                                 <div class="btn-group d-flex" role="group">
                                     <a href="{{ path('app_objectif_show', {'id': objectif.id}) }}" 
-                                       class="btn btn-info btn-sm flex-fill" title="Voir les détails">
+                                       class="btn btn-info btn-sm flex-fill">
                                         <i class="fa fa-eye"></i> Voir
                                     </a>
                                     <a href="{{ path('app_objectif_edit', {'id': objectif.id}) }}" 
-                                       class="btn btn-warning btn-sm flex-fill" title="Modifier">
+                                       class="btn btn-warning btn-sm flex-fill">
                                         <i class="fa fa-edit"></i> Modifier
                                     </a>
                                     <button type="button" class="btn btn-danger btn-sm flex-fill" 
-                                            data-toggle="modal" data-target="#deleteModal{{ objectif.id }}" title="Supprimer">
+                                            data-toggle="modal" data-target="#deleteModal{{ objectif.id }}">
                                         <i class="fa fa-trash"></i> Supprimer
                                     </button>
                                 </div>
@@ -201,7 +341,6 @@
                         </div>
                     </div>
 
-                    {# Modal de suppression #}
                     <div class="modal fade" id="deleteModal{{ objectif.id }}" tabindex="-1" role="dialog">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content" style="border-radius: 15px; border: none;">
@@ -237,7 +376,6 @@
                 {% endfor %}
             </div>
 
-            {# Pagination #}
             <div class="col-12 mt-5 d-flex justify-content-center">
                 {{ knp_pagination_render(objectifs) }}
             </div>
@@ -246,30 +384,19 @@
 </section>
 
 <style>
-    .hover-card {
-        transition: all 0.3s ease;
-    }
-    .hover-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 35px rgba(0,0,0,0.15) !important;
-    }
-    .badge-pill {
-        font-size: 0.85rem;
-    }
-    .btn-group .btn {
-        border-radius: 0;
-    }
-    .btn-group .btn:first-child {
-        border-radius: 0.25rem 0 0 0.25rem;
-    }
-    .btn-group .btn:last-child {
-        border-radius: 0 0.25rem 0.25rem 0;
-    }
-    
-    /* Animation hover sur bouton IA */
-    .btn-gradient-ai:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4) !important;
-    }
+.hover-card { transition: all 0.3s ease; }
+.hover-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15) !important;
+}
+.badge-pill { font-size: 0.85rem; }
+.btn-group .btn { border-radius: 0; }
+.btn-group .btn:first-child { border-radius: 0.25rem 0 0 0.25rem; }
+.btn-group .btn:last-child  { border-radius: 0 0.25rem 0.25rem 0; }
+.btn-gradient-ai:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4) !important;
+}
 </style>
+
 {% endblock %}
