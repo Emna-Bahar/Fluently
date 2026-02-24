@@ -67,12 +67,14 @@
                         </div>
 
                         <div class="mb-4">
-                            <select class="form-control" name="role" required>
-                                <option value="">Choose role</option>
-                                <option value="etudiant" {% if form.vars.data.role is defined and form.vars.data.role == 'etudiant' %}selected{% endif %}>Étudiant</option>
-                                <option value="prof" {% if form.vars.data.role is defined and form.vars.data.role == 'prof' %}selected{% endif %}>Prof</option>
-                                <option value="admin" {% if form.vars.data.role is defined and form.vars.data.role == 'admin' %}selected{% endif %}>Admin</option>
-                            </select>
+                            <label for="role" class="form-label">Rôle <span class="text-danger">*</span></label>
+<select class="form-control {% if app.session.get('error_role') %}is-invalid{% endif %}" id="role" name="role" required>
+    <option value="user" {% if app.request.get('role') == 'user' or app.request.get('role') is empty %}selected{% endif %}>Utilisateur</option>
+    <option value="admin" {% if app.request.get('role') == 'admin' %}selected{% endif %}>Administrateur</option>
+    <option value="teacher" {% if app.request.get('role') == 'teacher' %}selected{% endif %}>Enseignant</option>
+    <option value="student" {% if app.request.get('role') == 'student' %}selected{% endif %}>Étudiant</option>
+</select>
+
                         </div>
 
                         <div class="mb-4">

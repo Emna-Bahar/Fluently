@@ -54,6 +54,11 @@
     {% endblock %}
 </head>
 <body>
+{% if app.user %}
+    {% set user_role = app.user.roles[0] %}
+{% else %}
+    {% set user_role = null %}
+{% endif %}
 
     {# Navigation #}
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
@@ -78,7 +83,8 @@
     <a href="{{ path('app_langue_index') }}" class="nav-link">Langues</a>
 </li>
 
-{% if app.session.get('user_role') == 'prof' %}
+{% if user_role == 'ROLE_PROF' %}
+
     <li class="nav-item {{ app.request.get('_route') == 'app_groupe' ? 'active' : '' }}">
         <a href="{{ path('app_groupe') }}" class="nav-link">Groupes</a>
     </li>
@@ -100,7 +106,8 @@
                 {# Boutons utilisateur #}
 {# Boutons utilisateur #}
 <li class="nav-item dropdown ml-lg-3">
-    {% if app.session.get('user_id') %}
+    {% if app.user %}
+
         <a class="nav-link dropdown-toggle d-flex align-items-center"
            href="#"
            id="userDropdown"
@@ -108,7 +115,11 @@
            data-toggle="dropdown">
 
             <i class="fa fa-user-circle mr-2" style="font-size:1.2rem;"></i>
-            <span>{{ app.session.get('user_name') }} ({{ app.session.get('user_status') }})</span>
+           <span>
+    {{ app.user.nom }} {{ app.user.prenom }}
+    ({{ app.user.statut }})
+</span>
+
         </a>
 
         <div class="dropdown-menu dropdown-menu-right">
@@ -209,23 +220,10 @@
     <script src="{{ asset('assets/js/main.js') }}"></script>
     {% endblock %}
     {% block javascripts %}
-   <script>
-function logoutUser(event) {
-    event.preventDefault();
 
-    fetch('/logout-ajax')
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();   // refresh navbar state
-            }
-        });
-}
-
-</script>
 
 
 {% endblock %}
 
 </body>
-</html>
+</html>   

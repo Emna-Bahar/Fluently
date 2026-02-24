@@ -3,9 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\CoursRepository;
-use BcMath\Number;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CoursRepository::class)]
 class Cours
@@ -16,12 +16,16 @@ class Cours
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Le numéro du cours est obligatoire.")]
+    #[Assert\Positive(message: "Le numéro doit être un nombre positif.")]
+    #[Assert\Type(type: "integer", message: "Le numéro doit être un nombre entier.")]
     private ?int $numero = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $ressource = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotNull(message: "La date de création est obligatoire.")]
     private ?\DateTime $date_creation = null;
 
     #[ORM\OneToOne(targetEntity: self::class, inversedBy: 'cours', cascade: ['persist', 'remove'])]
@@ -32,7 +36,20 @@ class Cours
 
     #[ORM\ManyToOne(inversedBy: 'cours')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull(message: "Le niveau est obligatoire.")]
     private ?Niveau $Id_niveau = null;
+
+    /**
+     * COMMENTEZ OU SUPPRIMEZ cette contrainte pour le moment
+     * Nous gérerons la validation dans le contrôleur
+     */
+    /*
+    #[Assert\IsTrue(message: "Le cours doit contenir au moins une ressource (fichier ou lien YouTube).")]
+    public function hasAtLeastOneResource(): bool
+    {
+        return !empty($this->ressource);
+    }
+    */
 
     public function getId(): ?int
     {
@@ -56,7 +73,7 @@ class Cours
         return $this->ressource;
     }
 
-    public function setRessource(string $ressource): static
+    public function setRessource(?string $ressource): static
     {
         $this->ressource = $ressource;
 
@@ -94,12 +111,10 @@ class Cours
 
     public function setCours(?self $cours): static
     {
-        // unset the owning side of the relation if necessary
         if (null === $cours && null !== $this->cours) {
             $this->cours->setCoursPrecedentId(null);
         }
 
-        // set the owning side of the relation if necessary
         if (null !== $cours && $cours->getCoursPrecedentId() !== $this) {
             $cours->setCoursPrecedentId($this);
         }

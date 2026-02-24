@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\GroupeRepository;
-use BcMath\Number;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -55,7 +54,7 @@ class Groupe
     /**
      * @var Collection<int, Session>
      */
-    #[ORM\OneToMany(targetEntity: Session::class, mappedBy: 'Id_group')]
+    #[ORM\OneToMany(targetEntity: Session::class, mappedBy: 'groupe')]
     private Collection $sessions;
 
     public function __construct()
@@ -94,7 +93,7 @@ class Groupe
         return $this;
     }
 
-    public function getCapacite(): ?Number
+    public function getCapacite(): ?int
     {
         return $this->capacite;
     }

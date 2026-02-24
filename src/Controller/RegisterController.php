@@ -8,49 +8,63 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RegisterController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function index(Request $request, EntityManagerInterface $em): Response
-    {
-        // 1️⃣ Créer le formulaire
-        $form = $this->createForm(RegisterType::class);
+    public function register(
+        Request $request,
+        EntityManagerInterface $em,
+        UserPasswordHasherInterface $passwordHasher
+    ): Response {
 
-        // 2️⃣ Gérer la requête
+        $user = new User();
+
+        $form = $this->createForm(RegisterType::class);
         $form->handleRequest($request);
 
-        // 3️⃣ Si le formulaire est soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
 
-            // Vérifier si l'email existe déjà
-            $existingUser = $em->getRepository(User::class)->findOneBy(['email' => $data['email']]);
-            if ($existingUser) {
-                $this->addFlash('error', 'Cet email est déjà utilisé.');
-                return $this->render('register/index.html.twig', [
-                    'form' => $form->createView(),
-                ]);
-            }
+            // Split full_name
+            $fullName = $form->get('full_name')->getData();
+            $parts = explode(' ', $fullName, 2);
 
-            // Créer l'utilisateur
-            $user = new User();
-            $user->setNom($data['full_name']);
-            $user->setPrenom($data['username']);
-            $user->setEmail($data['email']);
-            $user->setPassword(password_hash($data['password'], PASSWORD_DEFAULT));
-            $user->setRole($data['role'] ?? 'etudiant'); // si vous ajoutez le role au formulaire
-            $user->setStatut('online');
+            $user->setNom($parts[0]);
+            $user->setPrenom($parts[1] ?? '');
+
+            $user->setEmail($form->get('email')->getData());
+
+            // Hash password
+            $hashedPassword = $passwordHasher->hashPassword(
+                $user,
+                $form->get('password')->getData()
+            );
+
+            $user->setPassword($hashedPassword);
+
+            // ✅ FIXED ROLE PART (ONLY THIS CHANGED)
+            $selectedRole = $request->request->get('role');
+
+            $roles = match($selectedRole) {
+                'admin' => ['ROLE_ADMIN'],
+                'teacher' => ['ROLE_TEACHER'],
+                'student' => ['ROLE_STUDENT'],
+                default => ['ROLE_USER'],
+            };
+
+            $user->setRoles($roles);
+
+            // Default statut
+            $user->setStatut('active');
 
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash('success', 'Registration successful! You can now log in.');
-            return $this->redirectToRoute('app_login');
+           return $this->redirectToRoute('app_face_setup', ['id' => $user->getId()]);
         }
 
-        // 4️⃣ Envoyer le formulaire à Twig
         return $this->render('register/index.html.twig', [
             'form' => $form->createView(),
         ]);

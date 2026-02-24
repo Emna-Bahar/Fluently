@@ -34,14 +34,17 @@
                         </div>
                         <h4>{{ user.nom }} {{ user.prenom }}</h4>
                         <p class="text-muted">{{ user.email }}</p>
-                        <div class="badge bg-info mb-3">{{ user.role|capitalize }}</div>
+                        <div class="badge bg-info mb-3">
+    {{ user.roles[0]|replace({'ROLE_':''})|capitalize }}
+</div>
+
                         
                         <div class="mt-4">
                             <h6 class="text-muted">Statut du compte</h6>
                             {% if user.statut == 'online' %}
                                 <span class="badge bg-success">En ligne</span>
                             {% else %}
-                                <span class="badge bg-secondary">Hors ligne</span>
+                                <span class="badge bg-success">En ligne</span>
                             {% endif %}
                         </div>
                     </div>
@@ -113,11 +116,11 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="role" class="form-label">Rôle <span class="text-danger">*</span></label>
                                     <select class="form-control {% if app.session.get('error_role') %}is-invalid{% endif %}" id="role" name="role" required>
-                                        <option value="" disabled>Choisissez un rôle</option>
-                                        <option value="user" {% if user.role == 'user' %}selected{% endif %}>Utilisateur</option>
-                                        <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Administrateur</option>
-                                        <option value="teacher" {% if user.role == 'teacher' %}selected{% endif %}>Enseignant</option>
-                                        <option value="student" {% if user.role == 'student' %}selected{% endif %}>Étudiant</option>
+                                        <option value="user" {% if 'ROLE_USER' in user.roles %}selected{% endif %}>Utilisateur</option>
+<option value="admin" {% if 'ROLE_ADMIN' in user.roles %}selected{% endif %}>Administrateur</option>
+<option value="teacher" {% if 'ROLE_TEACHER' in user.roles %}selected{% endif %}>Enseignant</option>
+<option value="student" {% if 'ROLE_STUDENT' in user.roles %}selected{% endif %}>Étudiant</option>
+
                                     </select>
                                 </div>
                             </div>

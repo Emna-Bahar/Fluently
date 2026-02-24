@@ -1,0 +1,5 @@
+flasher:
+    default: flasher
+    auto_render: false
+    flash_bag:
+        enabled: true

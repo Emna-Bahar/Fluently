@@ -1,34 +1,281 @@
 {% extends 'dashboard/index.html.twig' %}
 
 {% block body %}
-  <h3>Admin: {{ groupe.nom }}</h3>
+<style>
+  /* ── page wrapper ── */
+  .ag-page { padding: 24px; }
 
-  <form method="get">
-    <input name="q" value="{{ q }}" placeholder="Rechercher contenu / nom / prénom">
+  /* ── header card ── */
+  .ag-header {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .ag-header h3 { margin: 0; font-size: 1.3rem; font-weight: 700; color: #1a1a2e; }
+  .ag-badge {
+    background: #f96d00;
+    color: #fff;
+    border-radius: 999px;
+    padding: 2px 12px;
+    font-size: .75rem;
+    font-weight: 600;
+  }
+
+  /* ── search ── */
+  .ag-search {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .ag-search input {
+    flex: 1;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: .9rem;
+    outline: none;
+  }
+  .ag-search input:focus { border-color: #f96d00; box-shadow: 0 0 0 3px rgba(249,109,0,.15); }
+  .ag-search button {
+    background: #f96d00;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-size: .9rem;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .ag-search button:hover { background: #d45e00; }
+
+  /* ── two-column layout ── */
+  .ag-cols { display: flex; gap: 24px; align-items: flex-start; }
+  .ag-col-main { flex: 1; min-width: 0; }
+  .ag-col-log  { width: 360px; flex-shrink: 0; }
+
+  @media (max-width: 900px) {
+    .ag-cols { flex-direction: column; }
+    .ag-col-log { width: 100%; }
+  }
+
+  /* ── panel ── */
+  .ag-panel {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    overflow: hidden;
+  }
+  .ag-panel-hd {
+    padding: 14px 18px;
+    border-bottom: 1px solid #e9ecef;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .ag-panel-hd h5 { margin: 0; font-weight: 700; font-size: .95rem; color: #1a1a2e; }
+  .ag-panel-bd { padding: 14px; }
+
+  /* ── message rows ── */
+  .ag-msg {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #f0f0f0;
+    margin-bottom: 8px;
+    background: #fefefe;
+    transition: background .15s;
+  }
+  .ag-msg:hover { background: #fff8f4; border-color: #fdd5b8; }
+  .ag-msg-author { font-weight: 700; color: #3d3d3d; font-size: .88rem; }
+  .ag-msg-text   { color: #5f5f5f; font-size: .9rem; margin-top: 2px; overflow-wrap: anywhere; }
+  .ag-msg-time   { font-size: .75rem; color: #999; white-space: nowrap; margin-top: 2px; }
+  .ag-delete-btn {
+    background: #fff0f0;
+    border: 1px solid #ffc9c9;
+    color: #c0392b;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: .8rem;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .ag-delete-btn:hover { background: #ffdada; }
+
+  /* ── empty state ── */
+  .ag-empty { text-align:center; color:#aaa; padding: 32px 0; font-size:.9rem; }
+
+  /* ── activity log entries ── */
+  .log-entry {
+    display: flex;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #efefef;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .log-entry.log-edited  { border-left: 3px solid #3b82f6; background: #f0f7ff; }
+  .log-entry.log-deleted { border-left: 3px solid #ef4444; background: #fff5f5; }
+
+  .log-icon {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .log-edited  .log-icon { background: #dbeafe; }
+  .log-deleted .log-icon { background: #fee2e2; }
+
+  .log-body { flex: 1; min-width: 0; }
+  .log-meta { font-size: .78rem; color: #888; margin-bottom: 3px; }
+  .log-meta strong { color: #3d3d3d; font-weight: 700; }
+  .log-meta .log-badge {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 1px 8px;
+    font-size: .7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+    margin-left: 4px;
+  }
+  .log-badge-edited  { background: #dbeafe; color: #1d4ed8; }
+  .log-badge-deleted { background: #fee2e2; color: #b91c1c; }
+
+  .log-content {
+    font-size: .82rem;
+    color: #666;
+    background: rgba(0,0,0,.03);
+    border-radius: 6px;
+    padding: 5px 8px;
+    margin-top: 4px;
+    overflow-wrap: anywhere;
+  }
+  .log-content del { color: #ef4444; text-decoration: line-through; }
+  .log-content ins { color: #16a34a; text-decoration: none; }
+  .log-arrow { color: #999; margin: 0 4px; }
+
+  .log-time { font-size: .72rem; color: #aaa; margin-top: 4px; }
+</style>
+
+<div class="ag-page">
+
+  {# ── Header ── #}
+  <div class="ag-header">
+    <div>
+      <h3>{{ groupe.nom }}</h3>
+      <small style="color:#888;">Administration du groupe · {{ messages|length }} message(s)</small>
+    </div>
+    <div style="display:flex; gap:8px; align-items:center;">
+      <span class="ag-badge">Admin</span>
+      <a href="{{ path('admin_group_index') }}" style="font-size:.85rem; color:#f96d00; text-decoration:none;">
+        ← Tous les groupes
+      </a>
+    </div>
+  </div>
+
+  {# ── Search ── #}
+  <form method="get" class="ag-search">
+    <input name="q" value="{{ q }}" placeholder="Rechercher par contenu, nom ou prénom…">
     <button type="submit">Rechercher</button>
   </form>
 
-  <hr>
+  {# ── Two-column layout ── #}
+  <div class="ag-cols">
 
-  {% for message in messages %}
-    <div class="chat-msg">
-      <div>
-        <strong>
-          {{ message.idUser ? (message.idUser.nom ~ ' ' ~ message.idUser.prenom) : 'Utilisateur inconnu' }}
-        </strong>
-        <span style="float:right; opacity:.6;">
-          {{ message.dateCreation ? message.dateCreation|date('d/m/Y H:i') : '' }}
-        </span>
-        <div>{{ message.contenu }}</div>
+    {# ── Messages list ── #}
+    <div class="ag-col-main">
+      <div class="ag-panel">
+        <div class="ag-panel-hd">
+          <h5>Messages</h5>
+          {% if q %}<small style="color:#888;">Résultats pour « {{ q }} »</small>{% endif %}
+        </div>
+        <div class="ag-panel-bd">
+          {% for message in messages %}
+            <div class="ag-msg">
+              <div style="flex:1; min-width:0;">
+                <div class="ag-msg-author">
+                  {{ message.idUser ? (message.idUser.nom ~ ' ' ~ message.idUser.prenom) : 'Utilisateur inconnu' }}
+                </div>
+                <div class="ag-msg-text">{{ message.contenu }}</div>
+                <div class="ag-msg-time">
+                  {{ message.dateCreation ? message.dateCreation|date('d/m/Y H:i') : '—' }}
+                  {% if message.dateModif and message.dateCreation and message.dateModif|date('U') > message.dateCreation|date('U') %}
+                    <span style="color:#f96d00; margin-left:6px;">(modifié {{ message.dateModif|date('d/m/Y H:i') }})</span>
+                  {% endif %}
+                </div>
+              </div>
+              <form method="post" action="{{ path('admin_message_delete', {id: message.id}) }}"
+                    onsubmit="return confirm('Supprimer ce message ?');" style="margin:0;">
+                <input type="hidden" name="_token" value="{{ csrf_token('admin_del_msg_' ~ message.id) }}">
+                <button class="ag-delete-btn" type="submit">🗑 Supprimer</button>
+              </form>
+            </div>
+          {% else %}
+            <div class="ag-empty">Aucun message dans ce groupe.</div>
+          {% endfor %}
+        </div>
       </div>
-
-      <form method="post" action="{{ path('admin_message_delete', {id: message.id}) }}"
-            onsubmit="return confirm('Supprimer ce message ?');">
-        <input type="hidden" name="_token" value="{{ csrf_token('admin_del_msg_' ~ message.id) }}">
-        <button type="submit">🗑️</button>
-      </form>
     </div>
-  {% else %}
-    <p>Aucun message.</p>
-  {% endfor %}
+
+    {# ── Activity log ── #}
+    <div class="ag-col-log">
+      <div class="ag-panel">
+        <div class="ag-panel-hd">
+          <h5>Activité récente</h5>
+          <small style="color:#aaa;">modifications · suppressions</small>
+        </div>
+        <div class="ag-panel-bd" style="max-height:620px; overflow-y:auto;">
+          {% if logs is empty %}
+            <div class="ag-empty">Aucune activité enregistrée.</div>
+          {% else %}
+            {% for log in logs %}
+              <div class="log-entry log-{{ log.action }}">
+                <div class="log-icon">
+                  {% if log.action == 'edited' %}✏️{% else %}🗑{% endif %}
+                </div>
+                <div class="log-body">
+                  <div class="log-meta">
+                    <strong>{{ log.userName }}</strong>
+                    <span class="log-badge log-badge-{{ log.action }}">
+                      {{ log.action == 'edited' ? 'Modifié' : 'Supprimé' }}
+                    </span>
+                  </div>
+                  {% if log.action == 'edited' %}
+                    <div class="log-content">
+                      <del>{{ log.originalContent|length > 80 ? log.originalContent|slice(0,80) ~ '…' : log.originalContent }}</del>
+                      <span class="log-arrow">→</span>
+                      <ins>{{ log.newContent ? (log.newContent|length > 80 ? log.newContent|slice(0,80) ~ '…' : log.newContent) : '—' }}</ins>
+                    </div>
+                  {% else %}
+                    <div class="log-content">
+                      <del>{{ log.originalContent|length > 100 ? log.originalContent|slice(0,100) ~ '…' : log.originalContent }}</del>
+                    </div>
+                  {% endif %}
+                  <div class="log-time">{{ log.createdAt|date('d/m/Y à H:i') }}</div>
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </div>{# end .ag-cols #}
+</div>
 {% endblock %}

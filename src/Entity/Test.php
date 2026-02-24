@@ -44,6 +44,10 @@ class Test
     #[ORM\OneToMany(targetEntity: TestPassage::class, mappedBy: 'test', cascade: ['remove'])]
     private Collection $passages;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Niveau $niveau = null;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -172,6 +176,17 @@ class Test
     public function setIdLangue(?Langue $langue): static
     {
         $this->langue = $langue;
+        return $this;
+    }
+
+    public function getNiveau(): ?Niveau
+    {
+        return $this->niveau;
+    }
+
+    public function setNiveau(?Niveau $niveau): static
+    {
+        $this->niveau = $niveau;
         return $this;
     }
 }

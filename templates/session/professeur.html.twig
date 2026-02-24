@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Professeur - Mes Sessions{% endblock %}
+
+{% block body %}
+    <div class="container mt-5 pt-5">
+        <h1 class="text-center fw-bold text-primary mb-5">
+            <i class="fa fa-chalkboard-teacher me-2"></i> 
+            Espace Professeur - Gestion des Sessions
+        </h1>
+
+        <div class="mb-4 text-end">
+            <a href="{{ path('app_session_new') }}" class="btn btn-success btn-lg shadow">
+                <i class="fa fa-plus me-2"></i> Créer une nouvelle session
+            </a>
+        </div>
+
+        <div class="mb-4 text-end">
+<a href="{{ path('app_reservation_index') }}" class="btn btn-primary btn-lg shadow">
+                <i class="fa fa-cog me-2"></i> Gérer les reservations
+            </a>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <table class="table table-hover table-bordered align-middle">
+                    <thead class="table-dark text-center">
+                        <tr>
+                            <th>Date & Heure</th>
+                            <th>Statut</th>
+                            <th>Note</th> {# ← Colonne Note ajoutée #}
+                            <th>Groupe</th>
+                            <th>Réunion</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for session in pagination %}
+                            <tr>
+                                <td class="text-center">{{ session.dateHeure ? session.dateHeure|date('d/m/Y H:i') : '—' }}</td>
+                                <td class="text-center">
+                                    <span class="badge fs-6 px-3 py-2
+                                        {% if session.statut == 'planifiée' %}bg-warning text-dark
+                                        {% elseif session.statut == 'en cours' %}bg-success text-white
+                                        {% elseif session.statut == 'terminée' %}bg-secondary text-white
+                                        {% else %}bg-danger text-white{% endif %}">
+                                        {{ session.statut|capitalize }}
+                                    </span>
+                                </td>
+<td class="text-center">
+    {% set rating = session.rating|default(0) %}
+    {% for i in 1..5 %}
+        <i class="fa fa-star {% if i <= rating %}text-warning{% else %}text-muted{% endif %}"></i>
+    {% endfor %}
+    {% if rating == 0 %}
+        <span class="text-muted ms-2 small">(non notée)</span>
+    {% endif %}
+</td>
+                                
+
+                                <td>{{ session.group ? session.group.nom : '—' }}</td>
+                                <td class="text-center">
+                                    {% if session.lienReunion %}
+                                        <a href="{{ session.lienReunion }}" target="_blank" class="btn btn-sm btn-info">
+                                            <i class="fa fa-video me-1"></i> Rejoindre
+                                        </a>
+                                    {% else %}
+                                        —
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group btn-group-sm">
+<a href="{{ path('prof_session_show', {'id': session.id}) }}" class="btn btn-info">
+                                            <i class="fa fa-eye"></i> Voir
+                                        </a>
+{{ path('prof_session_edit', {'id': session.id}) }}
+                                            <i class="fa fa-edit"></i> Modifier
+                                        </a>
+                                        <form method="post" action="{{ path('prof_session_delete', {'id': session.id}) }}" 
+                                              onsubmit="return confirm('Vraiment supprimer cette session ?');" class="d-inline">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ session.id) }}">
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fa fa-trash"></i> Supprimer
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% else %}
+                                <tr>
+    <td colspan="6" class="text-center py-5 text-muted fs-5"> 
+        <i class="fa fa-folder-open fa-2x mb-3 d-block"></i>
+        Aucune session trouvée
+    </td>
+</tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center mt-4">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+{% endblock %}

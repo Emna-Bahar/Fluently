@@ -1,0 +1,43 @@
+framework:
+    workflows:
+        test_passage:
+            type: state_machine  # Important : state_machine (1 état à la fois)
+            audit_trail:
+                enabled: true    # Pour tracer l'historique
+            marking_store:
+                type: 'method'
+                property: 'statut'  # Le champ dans TestPassage
+            supports:
+                - App\Entity\TestPassage
+            initial_marking: non_commence  # État de départ
+            places:
+                - non_commence
+                - en_cours
+                - en_pause
+                - soumis
+                - en_correction
+                - termine
+                - expire
+            transitions:
+                demarrer:
+                    from: non_commence
+                    to: en_cours
+                reprendre:
+                    from: en_pause
+                    to: en_cours
+                mettre_en_pause:
+                    from: en_cours
+                    to: en_pause
+                soumettre:
+                    from: [en_cours, en_pause]
+                    to: soumis
+                    guard: "subject.getStatut() in ['en_cours', 'en_pause']"
+                corriger:
+                    from: soumis
+                    to: en_correction
+                finaliser:
+                    from: [soumis, en_correction]
+                    to: termine
+                expirer:
+                    from: [en_cours, en_pause]
+                    to: expire

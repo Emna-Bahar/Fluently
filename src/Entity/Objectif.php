@@ -37,7 +37,7 @@ class Objectif
     #[ORM\OneToMany(targetEntity: Tache::class, mappedBy: 'Id_objectif', orphanRemoval: true)]
     private Collection $taches;
 
-    #[ORM\ManyToOne(inversedBy: 'objectifs')]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $Id_user = null;
 

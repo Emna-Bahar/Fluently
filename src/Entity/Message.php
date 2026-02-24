@@ -26,10 +26,10 @@ class Message
     #[ORM\Column]
     private ?bool $is_epingle = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTime $date_creation = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTime $date_modif = null;
 
     #[ORM\Column(length: 50)]
@@ -38,7 +38,7 @@ class Message
     #[ORM\ManyToOne(inversedBy: 'messages')]
     private ?Groupe $Id_groupe = null;
 
-    #[ORM\ManyToOne(inversedBy: 'messages')]
+    #[ORM\ManyToOne]
     private ?User $Id_user = null;
 
     public function getId(): ?int
@@ -99,9 +99,9 @@ class Message
         return $this->date_creation;
     }
 
-    public function setDateCreation(\DateTime $date_creation): static
+    public function setDateCreation(\DateTimeInterface $date_creation): static
     {
-        $this->date_creation = $date_creation;
+        $this->date_creation = \DateTime::createFromInterface($date_creation);
 
         return $this;
     }
@@ -111,9 +111,9 @@ class Message
         return $this->date_modif;
     }
 
-    public function setDateModif(\DateTime $date_modif): static
+    public function setDateModif(\DateTimeInterface $date_modif): static
     {
-        $this->date_modif = $date_modif;
+        $this->date_modif = \DateTime::createFromInterface($date_modif);
 
         return $this;
     }

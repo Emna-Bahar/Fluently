@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Session #{{ session.id }}</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.ico') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/css/vendors.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/css/daterangepicker.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/theme.min.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <nav class="nxl-navigation">
+        <div class="navbar-wrapper">
+            <div class="m-header">
+                <a href="{{ path('dashboard') }}" class="b-brand">
+                    <img src="{{ asset('assets/images/fluently.png') }}" alt="Fluently" class="logo logo-lg" />
+                    <img src="{{ asset('assets/images/fluently.png') }}" alt="Fluently" class="logo logo-sm" />
+                </a>
+            </div>
+            <div class="navbar-content">
+                <ul class="nxl-navbar">
+                    <li class="nxl-item nxl-caption"><label>Navigation</label></li>
+                    <li class="nxl-item nxl-hasmenu">
+                        <a href="javascript:void(0);" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-airplay"></i></span>
+                            <span class="nxl-mtext">Dashboards_User</span>
+                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                        </a>
+                        <ul class="nxl-submenu">
+                            <li class="nxl-item"><a class="nxl-link" href="{{ path('dashboard') }}">Accueil</a></li>
+                        </ul>
+                    </li>
+                    <li class="nxl-item nxl-hasmenu">
+                        <a href="javascript:void(0);" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-cast"></i></span>
+                            <span class="nxl-mtext">Langues</span>
+                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                        </a>
+                        <ul class="nxl-submenu">
+                            <li class="nxl-item"><a class="nxl-link" href="reports-sales.html">Sales Report</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="reports-leads.html">Leads Report</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="reports-project.html">Project Report</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="reports-timesheets.html">Timesheets Report</a></li>
+                        </ul>
+                    </li>
+                    <li class="nxl-item nxl-hasmenu">
+                        <a href="javascript:void(0);" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-send"></i></span>
+                            <span class="nxl-mtext">Test</span>
+                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                        </a>
+                        <ul class="nxl-submenu">
+                            <li class="nxl-item"><a class="nxl-link" href="apps-chat.html">Chat</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="apps-email.html">Email</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="apps-tasks.html">Tasks</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="apps-notes.html">Notes</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="apps-storage.html">Storage</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="apps-calendar.html">Calendar</a></li>
+                        </ul>
+                    </li>
+                    <li class="nxl-item nxl-hasmenu">
+                        <a href="javascript:void(0);" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-at-sign"></i></span>
+                            <span class="nxl-mtext">Groupes</span>
+                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                        </a>
+                        <ul class="nxl-submenu">
+                            <li class="nxl-item"><a class="nxl-link" href="proposal.html">Proposal</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="proposal-view.html">Proposal View</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="proposal-edit.html">Proposal Edit</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="proposal-create.html">Proposal Create</a></li>
+                        </ul>
+                    </li>
+                    <li class="nxl-item nxl-hasmenu active">
+                        <a href="javascript:void(0);" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-dollar-sign"></i></span>
+                            <span class="nxl-mtext">Sessions</span>
+                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                        </a>
+                        <ul class="nxl-submenu">
+                            <li class="nxl-item active"><a class="nxl-link" href="{{ path('session_prof_dashboard') }}">Tableau de bord</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="{{ path('prof_session_list') }}">Mes sessions</a></li>
+                        </ul>
+                    </li>
+                    <li class="nxl-item nxl-hasmenu">
+                        <a href="javascript:void(0);" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-users"></i></span>
+                            <span class="nxl-mtext">Objectifs</span>
+                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                        </a>
+                        <ul class="nxl-submenu">
+                            <li class="nxl-item"><a class="nxl-link" href="customers.html">Customers</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="customers-view.html">Customers View</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="customers-create.html">Customers Create</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="feather-sunrise fs-4 text-dark"></i>
+                        <h6 class="mt-4 text-dark fw-bolder">Downloading Center</h6>
+                        <p class="fs-11 my-3 text-dark">Duralux is a production ready CRM to get started up and running easily.</p>
+                        <a href="https://www.themewagon.com/themes/Duralux-admin" target="_blank" class="btn btn-primary text-dark w-100">Download Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="nxl-header">
+        <div class="header-wrapper">
+            <div class="header-right ms-auto">
+                <div class="d-flex align-items-center"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="nxl-container">
+        <div class="main-content">
+            <div class="container-fluid py-4">
+
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('warning') %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="h2 mb-0">Détails de la session #{{ session.id }}</h1>
+                    <a href="{{ path('prof_session_list') }}" class="btn btn-secondary">
+                        <i class="fa fa-arrow-left me-2"></i> Retour à la liste
+                    </a>
+                </div>
+
+                <div class="card shadow">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">Informations de la session</h5>
+                    </div>
+                    <div class="card-body">
+                        <dl class="row">
+                            <dt class="col-sm-3 fw-bold">Date & Heure</dt>
+                            <dd class="col-sm-9">{{ session.dateHeure ? session.dateHeure|date('d/m/Y H:i') : '—' }}</dd>
+
+                            <dt class="col-sm-3 fw-bold">Statut</dt>
+                            <dd class="col-sm-9">
+                                <span class="badge bg-{{ session.statut == 'terminée' ? 'success' : (session.statut == 'planifiée' ? 'warning' : 'secondary') }}">
+                                    {{ session.statut|capitalize }}
+                                </span>
+                            </dd>
+
+                            <dt class="col-sm-3 fw-bold">Groupe</dt>
+                            <dd class="col-sm-9">{{ session.group ? session.group.nom : '—' }}</dd>
+
+                            <dt class="col-sm-3 fw-bold">Lien réunion</dt>
+                            <dd class="col-sm-9">
+                                {% if session.lienReunion %}
+                                    <a href="{{ session.lienReunion }}" target="_blank" class="btn btn-success btn-sm">
+                                        <i class="fa fa-video me-1"></i> Rejoindre
+                                    </a>
+                                {% else %}
+                                    <span class="text-muted">Aucun lien</span>
+                                {% endif %}
+                            </dd>
+
+                            <dt class="col-sm-3 fw-bold">Note</dt>
+                            <dd class="col-sm-9">
+                                {% set rating = session.rating|default(0) %}
+                                {% for i in 1..5 %}
+                                    <i class="fa fa-star {% if i <= rating %}text-warning{% else %}text-muted{% endif %}"></i>
+                                {% endfor %}
+                                {% if rating == 0 %}<small class="text-muted"> (non notée)</small>{% endif %}
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p class="fs-11 text-muted fw-medium text-uppercase mb-0 copyright">
+                <span>Copyright ©</span>
+                <script>document.write(new Date().getFullYear());</script>
+            </p>
+            <p><span>By: <a target="_blank" href="https://wrapbootstrap.com/user/theme_ocean">theme_ocean</a></span> • <span>Distributed by: <a target="_blank" href="https://themewagon.com">ThemeWagon</a></span></p>
+            <div class="d-flex align-items-center gap-4">
+                <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Help</a>
+                <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Terms</a>
+                <a href="javascript:void(0);" class="fs-11 fw-semibold text-uppercase">Privacy</a>
+            </div>
+        </footer>
+    </main>
+
+    <script src="{{ asset('assets/vendors/js/vendors.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/js/daterangepicker.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/js/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/js/circle-progress.min.js') }}"></script>
+    <script src="{{ asset('assets/js/common-init.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dashboard-init.min.js') }}"></script>
+    <script src="{{ asset('assets/js/theme-customizer-init.min.js') }}"></script>
+</body>
+</html>

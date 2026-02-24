@@ -24,7 +24,7 @@ class Reservation
     #[Assert\Choice(choices: ['en_attente', 'confirmee', 'annulee', 'terminee'], message: "Statut invalide")]
     private ?string $statut = 'en_attente';
 
-    #[ORM\ManyToOne(targetEntity: Session::class)]
+    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'reservations')]
     #[ORM\JoinColumn(name: "id_session_id", referencedColumnName: "id", nullable: false)]
     #[Assert\NotNull(message: "La session est obligatoire")]
     private ?Session $session = null;

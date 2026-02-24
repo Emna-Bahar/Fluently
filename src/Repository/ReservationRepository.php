@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Reservation;
+use App\Entity\Session;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +18,75 @@ class ReservationRepository extends ServiceEntityRepository
         parent::__construct($registry, Reservation::class);
     }
 
-    //    /**
-    //     * @return Reservation[] Returns an array of Reservation objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('r.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findBySession(Session $session): array
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.session = :session')
+            ->setParameter('session', $session)
+            ->leftJoin('r.user', 'u')
+            ->addSelect('u')
+            ->orderBy('r.dateReservation', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 
-    //    public function findOneBySomeField($value): ?Reservation
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findByUser(User $user): array
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.user = :user')
+            ->setParameter('user', $user)
+            ->leftJoin('r.session', 's')
+            ->addSelect('s')
+            ->orderBy('r.dateReservation', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Réservations en attente pour un professeur (sessions qu'il anime)
+     * Comparaison par ID pour éviter les problèmes de référence d'objet
+     */
+    public function findPendingForProf(User $prof): array
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.session', 's')
+            ->join('s.user', 'u')
+            ->andWhere('u.id = :profId')
+            ->andWhere('r.statut = :statut')
+            ->setParameter('profId', $prof->getId())
+            ->setParameter('statut', 'en attente')
+            ->orderBy('r.dateReservation', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+     public function findAllWithRelations(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.idGroup',  'g')->addSelect('g')
+            ->leftJoin('g.idLangue', 'l')->addSelect('l')
+            ->leftJoin('g.idNiveau', 'n')->addSelect('n')
+            ->leftJoin('s.idUser',   'u')->addSelect('u')
+            ->orderBy('s.dateHeure', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Sessions planifiées uniquement (pour l'IA)
+     * @return Session[]
+     */
+    public function findSessionsDisponibles(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.idGroup',  'g')->addSelect('g')
+            ->leftJoin('g.idLangue', 'l')->addSelect('l')
+            ->leftJoin('g.idNiveau', 'n')->addSelect('n')
+            ->where('s.statut = :statut')
+            ->andWhere('s.dateHeure >= :now')
+            ->setParameter('statut', 'planifie')
+            ->setParameter('now', new \DateTime())
+            ->orderBy('s.dateHeure', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

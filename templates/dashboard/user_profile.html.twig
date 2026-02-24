@@ -361,17 +361,20 @@
                         </div>
                         <h3>{{ user.nom }} {{ user.prenom }}</h3>
                         <div class="mt-2">
-                            {% if user.role == 'admin' %}
-                                <span class="badge badge-admin p-2">ADMIN</span>
-                            {% elseif user.role == 'user' %}
-                                <span class="badge badge-user p-2">USER</span>
-                            {% elseif user.role == 'student' %}
-                                <span class="badge badge-student p-2">ÉTUDIANT</span>
-                            {% elseif user.role == 'teacher' %}
-                                <span class="badge badge-teacher p-2">PROFESSEUR</span>
-                            {% else %}
-                                <span class="badge bg-secondary p-2">{{ user.role|upper }}</span>
-                            {% endif %}
+                            {% set mainRole = user.getRoles()[0]|lower %}
+
+{% if mainRole == 'role_admin' %}
+    <span class="badge badge-admin p-2">ADMIN</span>
+{% elseif mainRole == 'role_user' %}
+    <span class="badge badge-user p-2">USER</span>
+{% elseif mainRole == 'role_student' %}
+    <span class="badge badge-student p-2">ÉTUDIANT</span>
+{% elseif mainRole == 'role_teacher' %}
+    <span class="badge badge-teacher p-2">PROFESSEUR</span>
+{% else %}
+    <span class="badge bg-secondary p-2">{{ mainRole|upper }}</span>
+{% endif %}
+
                             
                             {% if user.statut == 'online' %}
                                 <span class="badge badge-online p-2 ms-2">EN LIGNE</span>
@@ -398,17 +401,18 @@
                             <div class="profile-info">
                                 <div class="info-label">Rôle</div>
                                 <div class="info-value">
-                                    {% if user.role == 'admin' %}
-                                        Administrateur
-                                    {% elseif user.role == 'user' %}
-                                        Utilisateur
-                                    {% elseif user.role == 'student' %}
-                                        Étudiant
-                                    {% elseif user.role == 'teacher' %}
-                                        Professeur
-                                    {% else %}
-                                        {{ user.role }}
-                                    {% endif %}
+                                    {% if 'ROLE_ADMIN' in user.roles %}
+    Administrateur
+{% elseif 'ROLE_USER' in user.roles %}
+    Utilisateur
+{% elseif 'ROLE_STUDENT' in user.roles %}
+    Étudiant
+{% elseif 'ROLE_TEACHER' in user.roles %}
+    Professeur
+{% else %}
+    {{ user.roles|join(', ') }}
+{% endif %}
+
                                 </div>
                             </div>
                             

@@ -1,0 +1,82 @@
+<div class="table-responsive shadow-sm">
+    <table class="table table-hover table-bordered align-middle">
+        <thead class="table-dark text-center">
+            <tr>
+                <th>Date & Heure</th>
+                <th>Statut</th>
+                {% if show_note_column is defined and show_note_column %}
+                    <th>Note</th>
+                {% endif %}
+                <th>Groupe</th>
+                {% if show_actions is defined and show_actions %}
+                    <th>Actions</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for session in pagination %}
+                <tr>
+                    <td class="text-center">{{ session.dateHeure ? session.dateHeure|date('d/m/Y H:i') : '—' }}</td>
+                    <td class="text-center">
+                        <span class="badge rounded-pill px-3 py-2
+                            {% if session.statut == 'planifiée' %}bg-warning text-dark
+                            {% elseif session.statut == 'en cours' %}bg-success text-white
+                            {% elseif session.statut == 'terminée' %}bg-secondary text-white
+                            {% else %}bg-danger text-white{% endif %}">
+                            {{ session.statut|capitalize }}
+                        </span>
+                    </td>
+
+                    {% if show_note_column is defined and show_note_column %}
+                        <td class="text-center">
+                            {% set rating = session.rating|default(0) %}
+                            {% for i in 1..5 %}
+                                <i class="fa fa-star {% if i <= rating %}text-warning{% else %}text-muted{% endif %} fa-sm"></i>
+                            {% endfor %}
+                            {% if rating == 0 %}<small class="text-muted">(non notée)</small>{% endif %}
+                        </td>
+                    {% endif %}
+
+                    <td>{{ session.group ? session.group.nom : '—' }}</td>
+
+                    {% if show_actions is defined and show_actions %}
+                        <td class="text-center">
+                            <div class="btn-group btn-group-sm">
+                                <!-- Voir -->
+                                <a href="{{ path('prof_session_show', {id: session.id}) }}" class="btn btn-info" title="Voir">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                                <!-- Modifier -->
+                                <a href="{{ path('prof_session_edit', {id: session.id}) }}" class="btn btn-warning" title="Modifier">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <!-- Supprimer -->
+                                <form method="post" action="{{ path('prof_session_delete', {id: session.id}) }}" 
+                                      onsubmit="return confirm('Vraiment supprimer cette session ?');" class="d-inline">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ session.id) }}">
+                                    <button type="submit" class="btn btn-danger" title="Supprimer">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="{{ show_note_column ? 5 : 4 }}" class="text-center py-4 text-muted">
+                        <i class="fa fa-folder-open fa-2x mb-3 d-block"></i>
+                        Aucune session trouvée
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{# Pagination corrigée #}
+{% if pagination.getTotalItemCount > pagination.getItemNumberPerPage %}
+    <div class="d-flex justify-content-center mt-4">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endif %}

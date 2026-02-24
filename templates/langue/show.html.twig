@@ -58,7 +58,8 @@
                             <div class="col-lg-4 text-center">
                                 {% if langue.drapeau %}
                                     <div class="bg-light rounded-4 p-4 shadow-sm mb-4">
-                                        <img src="{{ asset('images/langues/' ~ langue.drapeau) }}" 
+                                        {# ✅ CORRIGÉ : images/langues/ → uploads/langues/ #}
+                                        <img src="{{ asset('uploads/langues/' ~ langue.drapeau) }}" 
                                              alt="Drapeau {{ langue.nom }}" 
                                              class="img-fluid rounded-3 shadow" 
                                              style="max-height: 280px; object-fit: contain;">
