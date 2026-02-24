@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 *.jpg filter=lfs diff=lfs merge=lfs -text
 *.png filter=lfs diff=lfs merge=lfs -text
 *.css filter=lfs diff=lfs merge=lfs -text
 *.scss filter=lfs diff=lfs merge=lfs -text
 *.js filter=lfs diff=lfs merge=lfs -text
+=======
+*.jpg filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+*.css filter=lfs diff=lfs merge=lfs -text
+*.scss filter=lfs diff=lfs merge=lfs -text
+*.js filter=lfs diff=lfs merge=lfs -text
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac

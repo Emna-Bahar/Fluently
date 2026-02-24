@@ -14,7 +14,11 @@ class WebProfilerConfig implements \Symfony\Component\Config\Builder\ConfigBuild
     private $interceptRedirects;
     private $excludedAjaxPaths;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default false
      * @param ParamConfigurator|bool $value
@@ -24,10 +28,17 @@ class WebProfilerConfig implements \Symfony\Component\Config\Builder\ConfigBuild
     {
         $this->_usedProperties['toolbar'] = true;
         $this->toolbar = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default false
      * @param ParamConfigurator|bool $value
@@ -37,10 +48,17 @@ class WebProfilerConfig implements \Symfony\Component\Config\Builder\ConfigBuild
     {
         $this->_usedProperties['interceptRedirects'] = true;
         $this->interceptRedirects = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default '^/((index|app(_[\\w]+)?)\\.php/)?_wdt'
      * @param ParamConfigurator|mixed $value
@@ -50,15 +68,26 @@ class WebProfilerConfig implements \Symfony\Component\Config\Builder\ConfigBuild
     {
         $this->_usedProperties['excludedAjaxPaths'] = true;
         $this->excludedAjaxPaths = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function getExtensionAlias(): string
     {
         return 'web_profiler';
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('toolbar', $value)) {
@@ -66,24 +95,40 @@ class WebProfilerConfig implements \Symfony\Component\Config\Builder\ConfigBuild
             $this->toolbar = $value['toolbar'];
             unset($value['toolbar']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('intercept_redirects', $value)) {
             $this->_usedProperties['interceptRedirects'] = true;
             $this->interceptRedirects = $value['intercept_redirects'];
             unset($value['intercept_redirects']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('excluded_ajax_paths', $value)) {
             $this->_usedProperties['excludedAjaxPaths'] = true;
             $this->excludedAjaxPaths = $value['excluded_ajax_paths'];
             unset($value['excluded_ajax_paths']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -96,7 +141,11 @@ class WebProfilerConfig implements \Symfony\Component\Config\Builder\ConfigBuild
         if (isset($this->_usedProperties['excludedAjaxPaths'])) {
             $output['excluded_ajax_paths'] = $this->excludedAjaxPaths;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

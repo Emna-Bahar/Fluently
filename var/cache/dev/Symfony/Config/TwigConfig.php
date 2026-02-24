@@ -34,7 +34,11 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
     private $numberFormat;
     private $mailer;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -44,10 +48,17 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
     {
         $this->_usedProperties['formThemes'] = true;
         $this->formThemes = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @template TValue of mixed
      * @param TValue $value
@@ -61,20 +72,34 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
         if (!\is_array($value)) {
             $this->_usedProperties['globals'] = true;
             $this->globals[$key] = $value;
+<<<<<<< HEAD
     
             return $this;
         }
     
+=======
+
+            return $this;
+        }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (!isset($this->globals[$key]) || !$this->globals[$key] instanceof \Symfony\Config\Twig\GlobalConfig) {
             $this->_usedProperties['globals'] = true;
             $this->globals[$key] = new \Symfony\Config\Twig\GlobalConfig($value);
         } elseif (1 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "global()" has already been initialized. You cannot pass values the second time you call global().');
         }
+<<<<<<< HEAD
     
         return $this->globals[$key];
     }
     
+=======
+
+        return $this->globals[$key];
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'name'
      * @param ParamConfigurator|mixed $value
@@ -86,10 +111,17 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
     {
         $this->_usedProperties['autoescape'] = true;
         $this->autoescape = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -99,10 +131,17 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
     {
         $this->_usedProperties['autoescapeService'] = true;
         $this->autoescapeService = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -112,10 +151,17 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
     {
         $this->_usedProperties['autoescapeServiceMethod'] = true;
         $this->autoescapeServiceMethod = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @example Twig\Template
      * @default null
@@ -126,10 +172,17 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
     {
         $this->_usedProperties['baseTemplateClass'] = true;
         $this->baseTemplateClass = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default '%kernel.cache_dir%/twig'
      * @param ParamConfigurator|mixed $value
@@ -139,10 +192,17 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
     {
         $this->_usedProperties['cache'] = true;
         $this->cache = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default '%kernel.charset%'
      * @param ParamConfigurator|mixed $value
@@ -152,10 +212,17 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
     {
         $this->_usedProperties['charset'] = true;
         $this->charset = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default '%kernel.debug%'
      * @param ParamConfigurator|bool $value
@@ -165,10 +232,17 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
     {
         $this->_usedProperties['debug'] = true;
         $this->debug = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default '%kernel.debug%'
      * @param ParamConfigurator|bool $value
@@ -178,10 +252,17 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
     {
         $this->_usedProperties['strictVariables'] = true;
         $this->strictVariables = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -191,10 +272,17 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
     {
         $this->_usedProperties['autoReload'] = true;
         $this->autoReload = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|int $value
@@ -204,10 +292,17 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
     {
         $this->_usedProperties['optimizations'] = true;
         $this->optimizations = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * The default path used to load templates
      * @default '%kernel.project_dir%/templates'
@@ -218,10 +313,17 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
     {
         $this->_usedProperties['defaultPath'] = true;
         $this->defaultPath = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed>|string $value
      *
@@ -231,10 +333,17 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
     {
         $this->_usedProperties['fileNamePattern'] = true;
         $this->fileNamePattern = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @return $this
      */
@@ -242,10 +351,17 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
     {
         $this->_usedProperties['paths'] = true;
         $this->paths[$paths] = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * The default format options used by the date filter
      * @default {"format":"F j, Y H:i","interval_format":"%d days","timezone":null}
@@ -258,10 +374,17 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "date()" has already been initialized. You cannot pass values the second time you call date().');
         }
+<<<<<<< HEAD
     
         return $this->date;
     }
     
+=======
+
+        return $this->date;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * The default format options for the number_format filter
      * @default {"decimals":0,"decimal_point":".","thousands_separator":","}
@@ -274,10 +397,17 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "numberFormat()" has already been initialized. You cannot pass values the second time you call numberFormat().');
         }
+<<<<<<< HEAD
     
         return $this->numberFormat;
     }
     
+=======
+
+        return $this->numberFormat;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function mailer(array $value = []): \Symfony\Config\Twig\MailerConfig
     {
         if (null === $this->mailer) {
@@ -286,15 +416,26 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "mailer()" has already been initialized. You cannot pass values the second time you call mailer().');
         }
+<<<<<<< HEAD
     
         return $this->mailer;
     }
     
+=======
+
+        return $this->mailer;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function getExtensionAlias(): string
     {
         return 'twig';
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('form_themes', $value)) {
@@ -302,114 +443,190 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
             $this->formThemes = $value['form_themes'];
             unset($value['form_themes']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('globals', $value)) {
             $this->_usedProperties['globals'] = true;
             $this->globals = array_map(fn ($v) => \is_array($v) ? new \Symfony\Config\Twig\GlobalConfig($v) : $v, $value['globals']);
             unset($value['globals']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('autoescape', $value)) {
             $this->_usedProperties['autoescape'] = true;
             $this->autoescape = $value['autoescape'];
             unset($value['autoescape']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('autoescape_service', $value)) {
             $this->_usedProperties['autoescapeService'] = true;
             $this->autoescapeService = $value['autoescape_service'];
             unset($value['autoescape_service']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('autoescape_service_method', $value)) {
             $this->_usedProperties['autoescapeServiceMethod'] = true;
             $this->autoescapeServiceMethod = $value['autoescape_service_method'];
             unset($value['autoescape_service_method']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('base_template_class', $value)) {
             $this->_usedProperties['baseTemplateClass'] = true;
             $this->baseTemplateClass = $value['base_template_class'];
             unset($value['base_template_class']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('cache', $value)) {
             $this->_usedProperties['cache'] = true;
             $this->cache = $value['cache'];
             unset($value['cache']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('charset', $value)) {
             $this->_usedProperties['charset'] = true;
             $this->charset = $value['charset'];
             unset($value['charset']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('debug', $value)) {
             $this->_usedProperties['debug'] = true;
             $this->debug = $value['debug'];
             unset($value['debug']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('strict_variables', $value)) {
             $this->_usedProperties['strictVariables'] = true;
             $this->strictVariables = $value['strict_variables'];
             unset($value['strict_variables']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('auto_reload', $value)) {
             $this->_usedProperties['autoReload'] = true;
             $this->autoReload = $value['auto_reload'];
             unset($value['auto_reload']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('optimizations', $value)) {
             $this->_usedProperties['optimizations'] = true;
             $this->optimizations = $value['optimizations'];
             unset($value['optimizations']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('default_path', $value)) {
             $this->_usedProperties['defaultPath'] = true;
             $this->defaultPath = $value['default_path'];
             unset($value['default_path']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('file_name_pattern', $value)) {
             $this->_usedProperties['fileNamePattern'] = true;
             $this->fileNamePattern = $value['file_name_pattern'];
             unset($value['file_name_pattern']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('paths', $value)) {
             $this->_usedProperties['paths'] = true;
             $this->paths = $value['paths'];
             unset($value['paths']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('date', $value)) {
             $this->_usedProperties['date'] = true;
             $this->date = new \Symfony\Config\Twig\DateConfig($value['date']);
             unset($value['date']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('number_format', $value)) {
             $this->_usedProperties['numberFormat'] = true;
             $this->numberFormat = new \Symfony\Config\Twig\NumberFormatConfig($value['number_format']);
             unset($value['number_format']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('mailer', $value)) {
             $this->_usedProperties['mailer'] = true;
             $this->mailer = new \Symfony\Config\Twig\MailerConfig($value['mailer']);
             unset($value['mailer']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -467,7 +684,11 @@ class TwigConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInter
         if (isset($this->_usedProperties['mailer'])) {
             $output['mailer'] = $this->mailer->toArray();
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

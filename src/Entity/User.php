@@ -33,6 +33,7 @@ class User
     #[ORM\Column(length: 100)]
     private ?string $statut = null;
 
+<<<<<<< HEAD
     /**
     * @var Collection<int, Langue>
     */
@@ -70,6 +71,8 @@ class User
         $this->langues->removeElement($langue);
         return $this;
     }
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 
     public function getId(): ?int
     {

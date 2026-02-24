@@ -13,7 +13,11 @@ class AdminRecipientConfig
     private $email;
     private $phone;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -23,10 +27,17 @@ class AdminRecipientConfig
     {
         $this->_usedProperties['email'] = true;
         $this->email = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|mixed $value
      * @return $this
@@ -35,10 +46,17 @@ class AdminRecipientConfig
     {
         $this->_usedProperties['phone'] = true;
         $this->phone = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('email', $value)) {
@@ -46,18 +64,30 @@ class AdminRecipientConfig
             $this->email = $value['email'];
             unset($value['email']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('phone', $value)) {
             $this->_usedProperties['phone'] = true;
             $this->phone = $value['phone'];
             unset($value['phone']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -67,7 +97,11 @@ class AdminRecipientConfig
         if (isset($this->_usedProperties['phone'])) {
             $output['phone'] = $this->phone;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

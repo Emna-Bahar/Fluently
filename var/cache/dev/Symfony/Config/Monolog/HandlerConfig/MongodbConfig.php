@@ -17,7 +17,11 @@ class MongodbConfig
     private $database;
     private $collection;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * ID of a MongoDB\Client service
      * @example doctrine_mongodb.odm.logs_connection
@@ -29,10 +33,17 @@ class MongodbConfig
     {
         $this->_usedProperties['id'] = true;
         $this->id = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -42,10 +53,17 @@ class MongodbConfig
     {
         $this->_usedProperties['uri'] = true;
         $this->uri = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -55,10 +73,17 @@ class MongodbConfig
     {
         $this->_usedProperties['username'] = true;
         $this->username = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -68,10 +93,17 @@ class MongodbConfig
     {
         $this->_usedProperties['password'] = true;
         $this->password = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'monolog'
      * @param ParamConfigurator|mixed $value
@@ -81,10 +113,17 @@ class MongodbConfig
     {
         $this->_usedProperties['database'] = true;
         $this->database = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'logs'
      * @param ParamConfigurator|mixed $value
@@ -94,10 +133,17 @@ class MongodbConfig
     {
         $this->_usedProperties['collection'] = true;
         $this->collection = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('id', $value)) {
@@ -105,42 +151,70 @@ class MongodbConfig
             $this->id = $value['id'];
             unset($value['id']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('uri', $value)) {
             $this->_usedProperties['uri'] = true;
             $this->uri = $value['uri'];
             unset($value['uri']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('username', $value)) {
             $this->_usedProperties['username'] = true;
             $this->username = $value['username'];
             unset($value['username']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('password', $value)) {
             $this->_usedProperties['password'] = true;
             $this->password = $value['password'];
             unset($value['password']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('database', $value)) {
             $this->_usedProperties['database'] = true;
             $this->database = $value['database'];
             unset($value['database']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('collection', $value)) {
             $this->_usedProperties['collection'] = true;
             $this->collection = $value['collection'];
             unset($value['collection']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -162,7 +236,11 @@ class MongodbConfig
         if (isset($this->_usedProperties['collection'])) {
             $output['collection'] = $this->collection;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

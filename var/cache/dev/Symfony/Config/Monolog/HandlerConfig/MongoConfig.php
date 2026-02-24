@@ -18,7 +18,11 @@ class MongoConfig
     private $database;
     private $collection;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -28,10 +32,17 @@ class MongoConfig
     {
         $this->_usedProperties['id'] = true;
         $this->id = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -41,10 +52,17 @@ class MongoConfig
     {
         $this->_usedProperties['host'] = true;
         $this->host = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 27017
      * @param ParamConfigurator|mixed $value
@@ -54,10 +72,17 @@ class MongoConfig
     {
         $this->_usedProperties['port'] = true;
         $this->port = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -67,10 +92,17 @@ class MongoConfig
     {
         $this->_usedProperties['user'] = true;
         $this->user = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -80,10 +112,17 @@ class MongoConfig
     {
         $this->_usedProperties['pass'] = true;
         $this->pass = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'monolog'
      * @param ParamConfigurator|mixed $value
@@ -93,10 +132,17 @@ class MongoConfig
     {
         $this->_usedProperties['database'] = true;
         $this->database = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'logs'
      * @param ParamConfigurator|mixed $value
@@ -106,10 +152,17 @@ class MongoConfig
     {
         $this->_usedProperties['collection'] = true;
         $this->collection = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('id', $value)) {
@@ -117,48 +170,80 @@ class MongoConfig
             $this->id = $value['id'];
             unset($value['id']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('host', $value)) {
             $this->_usedProperties['host'] = true;
             $this->host = $value['host'];
             unset($value['host']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('port', $value)) {
             $this->_usedProperties['port'] = true;
             $this->port = $value['port'];
             unset($value['port']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('user', $value)) {
             $this->_usedProperties['user'] = true;
             $this->user = $value['user'];
             unset($value['user']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('pass', $value)) {
             $this->_usedProperties['pass'] = true;
             $this->pass = $value['pass'];
             unset($value['pass']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('database', $value)) {
             $this->_usedProperties['database'] = true;
             $this->database = $value['database'];
             unset($value['database']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('collection', $value)) {
             $this->_usedProperties['collection'] = true;
             $this->collection = $value['collection'];
             unset($value['collection']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -183,7 +268,11 @@ class MongoConfig
         if (isset($this->_usedProperties['collection'])) {
             $output['collection'] = $this->collection;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

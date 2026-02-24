@@ -40,7 +40,10 @@ class LoginController extends AbstractController
             $session->set('user_id', $user->getId());
             $session->set('user_name', $user->getNom());
             $session->set('user_status', 'online');
+<<<<<<< HEAD
             $session->set('user_role', $user->getRole()); 
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 
             $user->setStatut('online');
             $em->flush();
@@ -49,9 +52,12 @@ class LoginController extends AbstractController
             if ($user->getRole() === 'admin') {
                 return $this->redirectToRoute('dashboard');
             }
+<<<<<<< HEAD
             if ($user->getRole() === 'prof') {
     return $this->redirectToRoute('app_groupe');
 }
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 
             return $this->redirectToRoute('app_home');
         }

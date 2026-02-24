@@ -16,7 +16,11 @@ class VerbosityLevelsConfig
     private $vERBOSITYVERYVERBOSE;
     private $vERBOSITYDEBUG;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'ERROR'
      * @param ParamConfigurator|mixed $value
@@ -26,10 +30,17 @@ class VerbosityLevelsConfig
     {
         $this->_usedProperties['vERBOSITYQUIET'] = true;
         $this->vERBOSITYQUIET = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'WARNING'
      * @param ParamConfigurator|mixed $value
@@ -39,10 +50,17 @@ class VerbosityLevelsConfig
     {
         $this->_usedProperties['vERBOSITYNORMAL'] = true;
         $this->vERBOSITYNORMAL = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'NOTICE'
      * @param ParamConfigurator|mixed $value
@@ -52,10 +70,17 @@ class VerbosityLevelsConfig
     {
         $this->_usedProperties['vERBOSITYVERBOSE'] = true;
         $this->vERBOSITYVERBOSE = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'INFO'
      * @param ParamConfigurator|mixed $value
@@ -65,10 +90,17 @@ class VerbosityLevelsConfig
     {
         $this->_usedProperties['vERBOSITYVERYVERBOSE'] = true;
         $this->vERBOSITYVERYVERBOSE = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'DEBUG'
      * @param ParamConfigurator|mixed $value
@@ -78,10 +110,17 @@ class VerbosityLevelsConfig
     {
         $this->_usedProperties['vERBOSITYDEBUG'] = true;
         $this->vERBOSITYDEBUG = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('VERBOSITY_QUIET', $value)) {
@@ -89,36 +128,60 @@ class VerbosityLevelsConfig
             $this->vERBOSITYQUIET = $value['VERBOSITY_QUIET'];
             unset($value['VERBOSITY_QUIET']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('VERBOSITY_NORMAL', $value)) {
             $this->_usedProperties['vERBOSITYNORMAL'] = true;
             $this->vERBOSITYNORMAL = $value['VERBOSITY_NORMAL'];
             unset($value['VERBOSITY_NORMAL']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('VERBOSITY_VERBOSE', $value)) {
             $this->_usedProperties['vERBOSITYVERBOSE'] = true;
             $this->vERBOSITYVERBOSE = $value['VERBOSITY_VERBOSE'];
             unset($value['VERBOSITY_VERBOSE']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('VERBOSITY_VERY_VERBOSE', $value)) {
             $this->_usedProperties['vERBOSITYVERYVERBOSE'] = true;
             $this->vERBOSITYVERYVERBOSE = $value['VERBOSITY_VERY_VERBOSE'];
             unset($value['VERBOSITY_VERY_VERBOSE']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('VERBOSITY_DEBUG', $value)) {
             $this->_usedProperties['vERBOSITYDEBUG'] = true;
             $this->vERBOSITYDEBUG = $value['VERBOSITY_DEBUG'];
             unset($value['VERBOSITY_DEBUG']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -137,7 +200,11 @@ class VerbosityLevelsConfig
         if (isset($this->_usedProperties['vERBOSITYDEBUG'])) {
             $output['VERBOSITY_DEBUG'] = $this->vERBOSITYDEBUG;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

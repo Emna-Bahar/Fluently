@@ -13,7 +13,11 @@ class SymfonySerializerConfig
     private $format;
     private $context;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Serialization format for the messenger.transport.symfony_serializer service (which is not the serializer used by default).
      * @default 'json'
@@ -24,10 +28,17 @@ class SymfonySerializerConfig
     {
         $this->_usedProperties['format'] = true;
         $this->format = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @return $this
      */
@@ -35,10 +46,17 @@ class SymfonySerializerConfig
     {
         $this->_usedProperties['context'] = true;
         $this->context[$name] = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('format', $value)) {
@@ -46,18 +64,30 @@ class SymfonySerializerConfig
             $this->format = $value['format'];
             unset($value['format']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('context', $value)) {
             $this->_usedProperties['context'] = true;
             $this->context = $value['context'];
             unset($value['context']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -67,7 +97,11 @@ class SymfonySerializerConfig
         if (isset($this->_usedProperties['context'])) {
             $output['context'] = $this->context;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

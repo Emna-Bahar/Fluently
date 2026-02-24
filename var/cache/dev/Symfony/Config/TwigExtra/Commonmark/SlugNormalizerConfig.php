@@ -14,7 +14,11 @@ class SlugNormalizerConfig
     private $maxLength;
     private $unique;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -25,10 +29,17 @@ class SlugNormalizerConfig
     {
         $this->_usedProperties['instance'] = true;
         $this->instance = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 255
      * @param ParamConfigurator|int $value
@@ -38,10 +49,17 @@ class SlugNormalizerConfig
     {
         $this->_usedProperties['maxLength'] = true;
         $this->maxLength = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -52,10 +70,17 @@ class SlugNormalizerConfig
     {
         $this->_usedProperties['unique'] = true;
         $this->unique = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('instance', $value)) {
@@ -63,24 +88,40 @@ class SlugNormalizerConfig
             $this->instance = $value['instance'];
             unset($value['instance']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('max_length', $value)) {
             $this->_usedProperties['maxLength'] = true;
             $this->maxLength = $value['max_length'];
             unset($value['max_length']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('unique', $value)) {
             $this->_usedProperties['unique'] = true;
             $this->unique = $value['unique'];
             unset($value['unique']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -93,7 +134,11 @@ class SlugNormalizerConfig
         if (isset($this->_usedProperties['unique'])) {
             $output['unique'] = $this->unique;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

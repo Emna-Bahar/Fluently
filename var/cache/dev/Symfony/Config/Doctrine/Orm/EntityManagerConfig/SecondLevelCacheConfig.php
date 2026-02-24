@@ -23,7 +23,11 @@ class SecondLevelCacheConfig
     private $regions;
     private $loggers;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @template TValue of string|array
      * @param TValue $value
@@ -36,20 +40,34 @@ class SecondLevelCacheConfig
         if (!\is_array($value)) {
             $this->_usedProperties['regionCacheDriver'] = true;
             $this->regionCacheDriver = $value;
+<<<<<<< HEAD
     
             return $this;
         }
     
+=======
+
+            return $this;
+        }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (!$this->regionCacheDriver instanceof \Symfony\Config\Doctrine\Orm\EntityManagerConfig\SecondLevelCache\RegionCacheDriverConfig) {
             $this->_usedProperties['regionCacheDriver'] = true;
             $this->regionCacheDriver = new \Symfony\Config\Doctrine\Orm\EntityManagerConfig\SecondLevelCache\RegionCacheDriverConfig($value);
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "regionCacheDriver()" has already been initialized. You cannot pass values the second time you call regionCacheDriver().');
         }
+<<<<<<< HEAD
     
         return $this->regionCacheDriver;
     }
     
+=======
+
+        return $this->regionCacheDriver;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 60
      * @param ParamConfigurator|mixed $value
@@ -59,10 +77,17 @@ class SecondLevelCacheConfig
     {
         $this->_usedProperties['regionLockLifetime'] = true;
         $this->regionLockLifetime = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default true
      * @param ParamConfigurator|bool $value
@@ -72,10 +97,17 @@ class SecondLevelCacheConfig
     {
         $this->_usedProperties['logEnabled'] = true;
         $this->logEnabled = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 3600
      * @param ParamConfigurator|mixed $value
@@ -85,10 +117,17 @@ class SecondLevelCacheConfig
     {
         $this->_usedProperties['regionLifetime'] = true;
         $this->regionLifetime = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default true
      * @param ParamConfigurator|bool $value
@@ -98,10 +137,17 @@ class SecondLevelCacheConfig
     {
         $this->_usedProperties['enabled'] = true;
         $this->enabled = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -111,10 +157,17 @@ class SecondLevelCacheConfig
     {
         $this->_usedProperties['factory'] = true;
         $this->factory = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function region(string $name, array $value = []): \Symfony\Config\Doctrine\Orm\EntityManagerConfig\SecondLevelCache\RegionConfig
     {
         if (!isset($this->regions[$name])) {
@@ -123,10 +176,17 @@ class SecondLevelCacheConfig
         } elseif (1 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "region()" has already been initialized. You cannot pass values the second time you call region().');
         }
+<<<<<<< HEAD
     
         return $this->regions[$name];
     }
     
+=======
+
+        return $this->regions[$name];
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function logger(string $name, array $value = []): \Symfony\Config\Doctrine\Orm\EntityManagerConfig\SecondLevelCache\LoggerConfig
     {
         if (!isset($this->loggers[$name])) {
@@ -135,10 +195,17 @@ class SecondLevelCacheConfig
         } elseif (1 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "logger()" has already been initialized. You cannot pass values the second time you call logger().');
         }
+<<<<<<< HEAD
     
         return $this->loggers[$name];
     }
     
+=======
+
+        return $this->loggers[$name];
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('region_cache_driver', $value)) {
@@ -146,54 +213,90 @@ class SecondLevelCacheConfig
             $this->regionCacheDriver = \is_array($value['region_cache_driver']) ? new \Symfony\Config\Doctrine\Orm\EntityManagerConfig\SecondLevelCache\RegionCacheDriverConfig($value['region_cache_driver']) : $value['region_cache_driver'];
             unset($value['region_cache_driver']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('region_lock_lifetime', $value)) {
             $this->_usedProperties['regionLockLifetime'] = true;
             $this->regionLockLifetime = $value['region_lock_lifetime'];
             unset($value['region_lock_lifetime']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('log_enabled', $value)) {
             $this->_usedProperties['logEnabled'] = true;
             $this->logEnabled = $value['log_enabled'];
             unset($value['log_enabled']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('region_lifetime', $value)) {
             $this->_usedProperties['regionLifetime'] = true;
             $this->regionLifetime = $value['region_lifetime'];
             unset($value['region_lifetime']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('enabled', $value)) {
             $this->_usedProperties['enabled'] = true;
             $this->enabled = $value['enabled'];
             unset($value['enabled']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('factory', $value)) {
             $this->_usedProperties['factory'] = true;
             $this->factory = $value['factory'];
             unset($value['factory']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('regions', $value)) {
             $this->_usedProperties['regions'] = true;
             $this->regions = array_map(fn ($v) => new \Symfony\Config\Doctrine\Orm\EntityManagerConfig\SecondLevelCache\RegionConfig($v), $value['regions']);
             unset($value['regions']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('loggers', $value)) {
             $this->_usedProperties['loggers'] = true;
             $this->loggers = array_map(fn ($v) => new \Symfony\Config\Doctrine\Orm\EntityManagerConfig\SecondLevelCache\LoggerConfig($v), $value['loggers']);
             unset($value['loggers']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -221,7 +324,11 @@ class SecondLevelCacheConfig
         if (isset($this->_usedProperties['loggers'])) {
             $output['loggers'] = array_map(fn ($v) => $v->toArray(), $this->loggers);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

@@ -14,6 +14,7 @@ return [
         '/_profiler/phpinfo' => [[['_route' => '_profiler_phpinfo', '_controller' => 'web_profiler.controller.profiler::phpinfoAction'], null, null, null, false, false, null]],
         '/_profiler/xdebug' => [[['_route' => '_profiler_xdebug', '_controller' => 'web_profiler.controller.profiler::xdebugAction'], null, null, null, false, false, null]],
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
+<<<<<<< HEAD
         '/cours' => [[['_route' => 'app_cours_index', '_controller' => 'App\\Controller\\CoursController::index'], null, ['GET' => 0], null, false, false, null]],
         '/cours/admin/cours/new' => [[['_route' => 'app_admin_cours_new', '_controller' => 'App\\Controller\\CoursController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
         '/dashboard' => [[['_route' => 'dashboard', '_controller' => 'App\\Controller\\DashboardController::index'], null, null, null, false, false, null]],
@@ -57,6 +58,19 @@ return [
         '/admin/test' => [[['_route' => 'app_test_index', '_controller' => 'App\\Controller\\TestController::index'], null, ['GET' => 0], null, false, false, null]],
         '/admin/test/new' => [[['_route' => 'app_test_new', '_controller' => 'App\\Controller\\TestController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
         '/admin/test/admin/test/passages' => [[['_route' => 'app_admin_test_passages', '_controller' => 'App\\Controller\\TestController::adminTestPassages'], null, ['GET' => 0], null, false, false, null]],
+=======
+        '/dashboard' => [[['_route' => 'dashboard', '_controller' => 'App\\Controller\\DashboardController::index'], null, null, null, false, false, null]],
+        '/groupes' => [[['_route' => 'app_groupe', '_controller' => 'App\\Controller\\GroupeController::instructors'], null, null, null, false, false, null]],
+        '/home' => [[['_route' => 'app_home', '_controller' => 'App\\Controller\\HomeController::index'], null, null, null, false, false, null]],
+        '/Langue' => [[['_route' => 'app_langue', '_controller' => 'App\\Controller\\LangueController::index'], null, null, null, false, false, null]],
+        '/login' => [[['_route' => 'app_login', '_controller' => 'App\\Controller\\LoginController::index'], null, null, null, false, false, null]],
+        '/logout' => [[['_route' => 'app_logout', '_controller' => 'App\\Controller\\LoginController::logout'], null, null, null, false, false, null]],
+        '/logout-ajax' => [[['_route' => 'app_logout_ajax', '_controller' => 'App\\Controller\\LoginController::logoutAjax'], null, null, null, false, false, null]],
+        '/objectif' => [[['_route' => 'app_objectif', '_controller' => 'App\\Controller\\ObjectifController::objectif'], null, null, null, false, false, null]],
+        '/profile' => [[['_route' => 'app_profile', '_controller' => 'App\\Controller\\ProfileController::index'], null, null, null, false, false, null]],
+        '/register' => [[['_route' => 'app_register', '_controller' => 'App\\Controller\\RegisterController::index'], null, null, null, false, false, null]],
+        '/session' => [[['_route' => 'app_session', '_controller' => 'App\\Controller\\SessionController::index'], null, null, null, false, false, null]],
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     ],
     [ // $regexpList
         0 => '{^(?'
@@ -78,6 +92,7 @@ return [
                         .')'
                     .')'
                 .')'
+<<<<<<< HEAD
                 .'|/cours(?'
                     .'|/(?'
                         .'|([^/]++)(*:223)'
@@ -224,6 +239,14 @@ return [
                         .'|(*:1767)'
                     .')'
                 .')'
+=======
+                .'|/dashboard/(?'
+                    .'|delete\\-user/([^/]++)(*:237)'
+                    .'|edit\\-user/([^/]++)(*:264)'
+                .')'
+                .'|/groupes/([^/]++)(*:290)'
+                .'|/session/([^/]++)(*:315)'
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -235,6 +258,7 @@ return [
         168 => [[['_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception_panel::body'], ['token'], null, null, false, false, null]],
         181 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
         191 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
+<<<<<<< HEAD
         223 => [[['_route' => 'app_cours_show', '_controller' => 'App\\Controller\\CoursController::show'], ['id'], ['GET' => 0], null, false, true, null]],
         245 => [[['_route' => 'app_admin_cours_show', '_controller' => 'App\\Controller\\CoursController::adminShow'], ['id'], ['GET' => 0], null, false, true, null]],
         272 => [[['_route' => 'app_cours_edit', '_controller' => 'App\\Controller\\CoursController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
@@ -306,6 +330,13 @@ return [
         1758 => [[['_route' => 'app_tache_edit', '_controller' => 'App\\Controller\\TacheController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
         1767 => [
             [['_route' => 'app_tache_delete', '_controller' => 'App\\Controller\\TacheController::delete'], ['id'], ['POST' => 0], null, false, true, null],
+=======
+        237 => [[['_route' => 'dashboard_delete_user', '_controller' => 'App\\Controller\\DashboardController::deleteUser'], ['id'], ['POST' => 0], null, false, true, null]],
+        264 => [[['_route' => 'dashboard_edit_user', '_controller' => 'App\\Controller\\DashboardController::editUser'], ['id'], null, null, false, true, null]],
+        290 => [[['_route' => 'app_groupe_details', '_controller' => 'App\\Controller\\GroupeController::instructorDetails'], ['id'], null, null, false, true, null]],
+        315 => [
+            [['_route' => 'app_session_single', '_controller' => 'App\\Controller\\SessionController::single'], ['id'], null, null, false, true, null],
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
             [null, null, null, null, false, false, 0],
         ],
     ],

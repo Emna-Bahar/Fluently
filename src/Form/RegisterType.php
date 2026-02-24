@@ -5,7 +5,10 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+<<<<<<< HEAD
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -15,6 +18,10 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Regex;
+<<<<<<< HEAD
+=======
+use Symfony\Component\Validator\Constraints\EqualTo;
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 
 class RegisterType extends AbstractType
 {
@@ -68,6 +75,7 @@ class RegisterType extends AbstractType
                     'placeholder' => 'Username'
                 ],
             ])
+<<<<<<< HEAD
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les mots de passe ne correspondent pas.',
@@ -87,6 +95,35 @@ class RegisterType extends AbstractType
                     'attr' => ['class' => 'form-control', 'placeholder' => 'Password again']
                 ],
                 'required' => true,
+=======
+            ->add('password', PasswordType::class, [
+                'label' => false,
+                'constraints' => [
+                    new NotBlank(['message' => 'Le mot de passe est requis.']),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Le mot de passe doit contenir au moins {{ limit }} caractères.',
+                    ]),
+                ],
+                'attr' => [
+                    'class' => 'form-control password',
+                    'placeholder' => 'Password'
+                ],
+            ])
+            ->add('password_confirm', PasswordType::class, [
+                'label' => false,
+                'constraints' => [
+                    new NotBlank(['message' => 'La confirmation du mot de passe est requise.']),
+                    new EqualTo([
+                        'propertyPath' => 'password',
+                        'message' => 'Les mots de passe ne correspondent pas.',
+                    ]),
+                ],
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Password again'
+                ],
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
             ])
             ->add('receiveMail', CheckboxType::class, [
                 'label' => 'Yes, I want to receive Duralux community emails',
@@ -112,4 +149,8 @@ class RegisterType extends AbstractType
             // Pas d'entité liée
         ]);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac

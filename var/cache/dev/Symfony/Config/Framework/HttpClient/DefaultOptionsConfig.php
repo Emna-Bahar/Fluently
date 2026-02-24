@@ -36,7 +36,11 @@ class DefaultOptionsConfig
     private $extra;
     private $retryFailed;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @return $this
      */
@@ -44,10 +48,17 @@ class DefaultOptionsConfig
     {
         $this->_usedProperties['headers'] = true;
         $this->headers[$name] = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @return $this
      */
@@ -55,10 +66,17 @@ class DefaultOptionsConfig
     {
         $this->_usedProperties['vars'] = true;
         $this->vars[$name] = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * The maximum number of redirects to follow.
      * @default null
@@ -69,10 +87,17 @@ class DefaultOptionsConfig
     {
         $this->_usedProperties['maxRedirects'] = true;
         $this->maxRedirects = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * The default HTTP version, typically 1.1 or 2.0, leave to null for the best version.
      * @default null
@@ -83,10 +108,17 @@ class DefaultOptionsConfig
     {
         $this->_usedProperties['httpVersion'] = true;
         $this->httpVersion = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @return $this
      */
@@ -94,10 +126,17 @@ class DefaultOptionsConfig
     {
         $this->_usedProperties['resolve'] = true;
         $this->resolve[$host] = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * The URL of the proxy to pass requests through or null for automatic detection.
      * @default null
@@ -108,10 +147,17 @@ class DefaultOptionsConfig
     {
         $this->_usedProperties['proxy'] = true;
         $this->proxy = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * A comma separated list of hosts that do not require a proxy to be reached.
      * @default null
@@ -122,10 +168,17 @@ class DefaultOptionsConfig
     {
         $this->_usedProperties['noProxy'] = true;
         $this->noProxy = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * The idle timeout, defaults to the "default_socket_timeout" ini parameter.
      * @default null
@@ -136,10 +189,17 @@ class DefaultOptionsConfig
     {
         $this->_usedProperties['timeout'] = true;
         $this->timeout = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * The maximum execution time for the request+response as a whole.
      * @default null
@@ -150,10 +210,17 @@ class DefaultOptionsConfig
     {
         $this->_usedProperties['maxDuration'] = true;
         $this->maxDuration = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * A network interface name, IP address, a host name or a UNIX socket to bind to.
      * @default null
@@ -164,10 +231,17 @@ class DefaultOptionsConfig
     {
         $this->_usedProperties['bindto'] = true;
         $this->bindto = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Indicates if the peer should be verified in a TLS context.
      * @default null
@@ -178,10 +252,17 @@ class DefaultOptionsConfig
     {
         $this->_usedProperties['verifyPeer'] = true;
         $this->verifyPeer = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Indicates if the host should exist as a certificate common name.
      * @default null
@@ -192,10 +273,17 @@ class DefaultOptionsConfig
     {
         $this->_usedProperties['verifyHost'] = true;
         $this->verifyHost = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * A certificate authority file.
      * @default null
@@ -206,10 +294,17 @@ class DefaultOptionsConfig
     {
         $this->_usedProperties['cafile'] = true;
         $this->cafile = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * A directory that contains multiple certificate authority files.
      * @default null
@@ -220,10 +315,17 @@ class DefaultOptionsConfig
     {
         $this->_usedProperties['capath'] = true;
         $this->capath = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * A PEM formatted certificate file.
      * @default null
@@ -234,10 +336,17 @@ class DefaultOptionsConfig
     {
         $this->_usedProperties['localCert'] = true;
         $this->localCert = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * A private key file.
      * @default null
@@ -248,10 +357,17 @@ class DefaultOptionsConfig
     {
         $this->_usedProperties['localPk'] = true;
         $this->localPk = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * The passphrase used to encrypt the "local_pk" file.
      * @default null
@@ -262,10 +378,17 @@ class DefaultOptionsConfig
     {
         $this->_usedProperties['passphrase'] = true;
         $this->passphrase = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * A list of TLS ciphers separated by colons, commas or spaces (e.g. "RC3-SHA:TLS13-AES-128-GCM-SHA256"...)
      * @default null
@@ -276,10 +399,17 @@ class DefaultOptionsConfig
     {
         $this->_usedProperties['ciphers'] = true;
         $this->ciphers = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Associative array: hashing algorithm => hash(es).
     */
@@ -291,10 +421,17 @@ class DefaultOptionsConfig
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "peerFingerprint()" has already been initialized. You cannot pass values the second time you call peerFingerprint().');
         }
+<<<<<<< HEAD
     
         return $this->peerFingerprint;
     }
     
+=======
+
+        return $this->peerFingerprint;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * The minimum version of TLS to accept; must be one of STREAM_CRYPTO_METHOD_TLSv*_CLIENT constants.
      * @default null
@@ -305,10 +442,17 @@ class DefaultOptionsConfig
     {
         $this->_usedProperties['cryptoMethod'] = true;
         $this->cryptoMethod = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @return $this
      */
@@ -316,10 +460,17 @@ class DefaultOptionsConfig
     {
         $this->_usedProperties['extra'] = true;
         $this->extra[$name] = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @template TValue of mixed
      * @param TValue $value
@@ -332,20 +483,34 @@ class DefaultOptionsConfig
         if (!\is_array($value)) {
             $this->_usedProperties['retryFailed'] = true;
             $this->retryFailed = $value;
+<<<<<<< HEAD
     
             return $this;
         }
     
+=======
+
+            return $this;
+        }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (!$this->retryFailed instanceof \Symfony\Config\Framework\HttpClient\DefaultOptions\RetryFailedConfig) {
             $this->_usedProperties['retryFailed'] = true;
             $this->retryFailed = new \Symfony\Config\Framework\HttpClient\DefaultOptions\RetryFailedConfig($value);
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "retryFailed()" has already been initialized. You cannot pass values the second time you call retryFailed().');
         }
+<<<<<<< HEAD
     
         return $this->retryFailed;
     }
     
+=======
+
+        return $this->retryFailed;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('headers', $value)) {
@@ -353,138 +518,230 @@ class DefaultOptionsConfig
             $this->headers = $value['headers'];
             unset($value['headers']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('vars', $value)) {
             $this->_usedProperties['vars'] = true;
             $this->vars = $value['vars'];
             unset($value['vars']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('max_redirects', $value)) {
             $this->_usedProperties['maxRedirects'] = true;
             $this->maxRedirects = $value['max_redirects'];
             unset($value['max_redirects']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('http_version', $value)) {
             $this->_usedProperties['httpVersion'] = true;
             $this->httpVersion = $value['http_version'];
             unset($value['http_version']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('resolve', $value)) {
             $this->_usedProperties['resolve'] = true;
             $this->resolve = $value['resolve'];
             unset($value['resolve']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('proxy', $value)) {
             $this->_usedProperties['proxy'] = true;
             $this->proxy = $value['proxy'];
             unset($value['proxy']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('no_proxy', $value)) {
             $this->_usedProperties['noProxy'] = true;
             $this->noProxy = $value['no_proxy'];
             unset($value['no_proxy']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('timeout', $value)) {
             $this->_usedProperties['timeout'] = true;
             $this->timeout = $value['timeout'];
             unset($value['timeout']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('max_duration', $value)) {
             $this->_usedProperties['maxDuration'] = true;
             $this->maxDuration = $value['max_duration'];
             unset($value['max_duration']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('bindto', $value)) {
             $this->_usedProperties['bindto'] = true;
             $this->bindto = $value['bindto'];
             unset($value['bindto']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('verify_peer', $value)) {
             $this->_usedProperties['verifyPeer'] = true;
             $this->verifyPeer = $value['verify_peer'];
             unset($value['verify_peer']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('verify_host', $value)) {
             $this->_usedProperties['verifyHost'] = true;
             $this->verifyHost = $value['verify_host'];
             unset($value['verify_host']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('cafile', $value)) {
             $this->_usedProperties['cafile'] = true;
             $this->cafile = $value['cafile'];
             unset($value['cafile']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('capath', $value)) {
             $this->_usedProperties['capath'] = true;
             $this->capath = $value['capath'];
             unset($value['capath']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('local_cert', $value)) {
             $this->_usedProperties['localCert'] = true;
             $this->localCert = $value['local_cert'];
             unset($value['local_cert']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('local_pk', $value)) {
             $this->_usedProperties['localPk'] = true;
             $this->localPk = $value['local_pk'];
             unset($value['local_pk']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('passphrase', $value)) {
             $this->_usedProperties['passphrase'] = true;
             $this->passphrase = $value['passphrase'];
             unset($value['passphrase']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('ciphers', $value)) {
             $this->_usedProperties['ciphers'] = true;
             $this->ciphers = $value['ciphers'];
             unset($value['ciphers']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('peer_fingerprint', $value)) {
             $this->_usedProperties['peerFingerprint'] = true;
             $this->peerFingerprint = new \Symfony\Config\Framework\HttpClient\DefaultOptions\PeerFingerprintConfig($value['peer_fingerprint']);
             unset($value['peer_fingerprint']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('crypto_method', $value)) {
             $this->_usedProperties['cryptoMethod'] = true;
             $this->cryptoMethod = $value['crypto_method'];
             unset($value['crypto_method']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('extra', $value)) {
             $this->_usedProperties['extra'] = true;
             $this->extra = $value['extra'];
             unset($value['extra']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('retry_failed', $value)) {
             $this->_usedProperties['retryFailed'] = true;
             $this->retryFailed = \is_array($value['retry_failed']) ? new \Symfony\Config\Framework\HttpClient\DefaultOptions\RetryFailedConfig($value['retry_failed']) : $value['retry_failed'];
             unset($value['retry_failed']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -554,7 +811,11 @@ class DefaultOptionsConfig
         if (isset($this->_usedProperties['retryFailed'])) {
             $output['retry_failed'] = $this->retryFailed instanceof \Symfony\Config\Framework\HttpClient\DefaultOptions\RetryFailedConfig ? $this->retryFailed->toArray() : $this->retryFailed;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

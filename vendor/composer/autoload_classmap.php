@@ -18,7 +18,10 @@ return array(
     'DateObjectError' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/DateObjectError.php',
     'DateRangeError' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/DateRangeError.php',
     'Deprecated' => $vendorDir . '/symfony/polyfill-php84/Resources/stubs/Deprecated.php',
+<<<<<<< HEAD
     'Dompdf\\Cpdf' => $vendorDir . '/dompdf/dompdf/lib/Cpdf.php',
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     'IntlDateFormatter' => $vendorDir . '/symfony/polyfill-intl-icu/Resources/stubs/IntlDateFormatter.php',
     'Locale' => $vendorDir . '/symfony/polyfill-intl-icu/Resources/stubs/Locale.php',
     'Normalizer' => $vendorDir . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
@@ -1038,6 +1041,7 @@ return array(
     'PharIo\\Version\\VersionNumber' => $vendorDir . '/phar-io/version/src/VersionNumber.php',
     'ReflectionConstant' => $vendorDir . '/symfony/polyfill-php84/Resources/stubs/ReflectionConstant.php',
     'SQLite3Exception' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/SQLite3Exception.php',
+<<<<<<< HEAD
     'Safe\\DateTime' => $vendorDir . '/thecodingmachine/safe/lib/DateTime.php',
     'Safe\\DateTimeImmutable' => $vendorDir . '/thecodingmachine/safe/lib/DateTimeImmutable.php',
     'Safe\\Exceptions\\ApacheException' => $vendorDir . '/thecodingmachine/safe/generated/Exceptions/ApacheException.php',
@@ -1121,6 +1125,8 @@ return array(
     'Safe\\Exceptions\\YazException' => $vendorDir . '/thecodingmachine/safe/generated/Exceptions/YazException.php',
     'Safe\\Exceptions\\ZipException' => $vendorDir . '/thecodingmachine/safe/generated/Exceptions/ZipException.php',
     'Safe\\Exceptions\\ZlibException' => $vendorDir . '/thecodingmachine/safe/generated/Exceptions/ZlibException.php',
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     'SebastianBergmann\\CliParser\\AmbiguousOptionException' => $vendorDir . '/sebastian/cli-parser/src/exceptions/AmbiguousOptionException.php',
     'SebastianBergmann\\CliParser\\Exception' => $vendorDir . '/sebastian/cli-parser/src/exceptions/Exception.php',
     'SebastianBergmann\\CliParser\\OptionDoesNotAllowArgumentException' => $vendorDir . '/sebastian/cli-parser/src/exceptions/OptionDoesNotAllowArgumentException.php',

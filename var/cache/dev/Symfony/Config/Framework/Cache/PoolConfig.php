@@ -18,7 +18,11 @@ class PoolConfig
     private $earlyExpirationMessageBus;
     private $clearer;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed>|mixed $value
      *
@@ -28,10 +32,17 @@ class PoolConfig
     {
         $this->_usedProperties['adapters'] = true;
         $this->adapters = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -41,10 +52,17 @@ class PoolConfig
     {
         $this->_usedProperties['tags'] = true;
         $this->tags = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default false
      * @param ParamConfigurator|bool $value
@@ -54,10 +72,17 @@ class PoolConfig
     {
         $this->_usedProperties['public'] = true;
         $this->public = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Default lifetime of the pool
      * @example "300" for 5 minutes expressed in seconds, "PT5M" for five minutes expressed as ISO 8601 time interval, or "5 minutes" as a date expression
@@ -69,10 +94,17 @@ class PoolConfig
     {
         $this->_usedProperties['defaultLifetime'] = true;
         $this->defaultLifetime = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Overwrite the setting from the default provider for this adapter.
      * @default null
@@ -83,10 +115,17 @@ class PoolConfig
     {
         $this->_usedProperties['provider'] = true;
         $this->provider = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @example "messenger.default_bus" to send early expiration events to the default Messenger bus.
      * @default null
@@ -97,10 +136,17 @@ class PoolConfig
     {
         $this->_usedProperties['earlyExpirationMessageBus'] = true;
         $this->earlyExpirationMessageBus = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -110,10 +156,17 @@ class PoolConfig
     {
         $this->_usedProperties['clearer'] = true;
         $this->clearer = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('adapters', $value)) {
@@ -121,48 +174,80 @@ class PoolConfig
             $this->adapters = $value['adapters'];
             unset($value['adapters']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('tags', $value)) {
             $this->_usedProperties['tags'] = true;
             $this->tags = $value['tags'];
             unset($value['tags']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('public', $value)) {
             $this->_usedProperties['public'] = true;
             $this->public = $value['public'];
             unset($value['public']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('default_lifetime', $value)) {
             $this->_usedProperties['defaultLifetime'] = true;
             $this->defaultLifetime = $value['default_lifetime'];
             unset($value['default_lifetime']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('provider', $value)) {
             $this->_usedProperties['provider'] = true;
             $this->provider = $value['provider'];
             unset($value['provider']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('early_expiration_message_bus', $value)) {
             $this->_usedProperties['earlyExpirationMessageBus'] = true;
             $this->earlyExpirationMessageBus = $value['early_expiration_message_bus'];
             unset($value['early_expiration_message_bus']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('clearer', $value)) {
             $this->_usedProperties['clearer'] = true;
             $this->clearer = $value['clearer'];
             unset($value['clearer']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -187,7 +272,11 @@ class PoolConfig
         if (isset($this->_usedProperties['clearer'])) {
             $output['clearer'] = $this->clearer;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

@@ -18,7 +18,11 @@ class PackageConfig
     private $basePath;
     private $baseUrls;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Throw an exception if an entry is missing from the manifest.json
      * @default false
@@ -29,10 +33,17 @@ class PackageConfig
     {
         $this->_usedProperties['strictMode'] = true;
         $this->strictMode = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -42,10 +53,17 @@ class PackageConfig
     {
         $this->_usedProperties['versionStrategy'] = true;
         $this->versionStrategy = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -55,10 +73,17 @@ class PackageConfig
     {
         $this->_usedProperties['version'] = true;
         $this->version = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -68,10 +93,17 @@ class PackageConfig
     {
         $this->_usedProperties['versionFormat'] = true;
         $this->versionFormat = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -81,10 +113,17 @@ class PackageConfig
     {
         $this->_usedProperties['jsonManifestPath'] = true;
         $this->jsonManifestPath = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|mixed $value
      * @return $this
@@ -93,10 +132,17 @@ class PackageConfig
     {
         $this->_usedProperties['basePath'] = true;
         $this->basePath = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed>|mixed $value
      *
@@ -106,10 +152,17 @@ class PackageConfig
     {
         $this->_usedProperties['baseUrls'] = true;
         $this->baseUrls = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('strict_mode', $value)) {
@@ -117,48 +170,80 @@ class PackageConfig
             $this->strictMode = $value['strict_mode'];
             unset($value['strict_mode']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('version_strategy', $value)) {
             $this->_usedProperties['versionStrategy'] = true;
             $this->versionStrategy = $value['version_strategy'];
             unset($value['version_strategy']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('version', $value)) {
             $this->_usedProperties['version'] = true;
             $this->version = $value['version'];
             unset($value['version']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('version_format', $value)) {
             $this->_usedProperties['versionFormat'] = true;
             $this->versionFormat = $value['version_format'];
             unset($value['version_format']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('json_manifest_path', $value)) {
             $this->_usedProperties['jsonManifestPath'] = true;
             $this->jsonManifestPath = $value['json_manifest_path'];
             unset($value['json_manifest_path']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('base_path', $value)) {
             $this->_usedProperties['basePath'] = true;
             $this->basePath = $value['base_path'];
             unset($value['base_path']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('base_urls', $value)) {
             $this->_usedProperties['baseUrls'] = true;
             $this->baseUrls = $value['base_urls'];
             unset($value['base_urls']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -183,7 +268,11 @@ class PackageConfig
         if (isset($this->_usedProperties['baseUrls'])) {
             $output['base_urls'] = $this->baseUrls;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

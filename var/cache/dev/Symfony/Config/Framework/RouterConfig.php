@@ -20,7 +20,11 @@ class RouterConfig
     private $strictRequirements;
     private $utf8;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default false
      * @param ParamConfigurator|bool $value
@@ -30,10 +34,17 @@ class RouterConfig
     {
         $this->_usedProperties['enabled'] = true;
         $this->enabled = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -43,10 +54,17 @@ class RouterConfig
     {
         $this->_usedProperties['resource'] = true;
         $this->resource = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -56,10 +74,17 @@ class RouterConfig
     {
         $this->_usedProperties['type'] = true;
         $this->type = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default '%kernel.cache_dir%'
      * @param ParamConfigurator|mixed $value
@@ -69,10 +94,17 @@ class RouterConfig
     {
         $this->_usedProperties['cacheDir'] = true;
         $this->cacheDir = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * The default URI used to generate URLs in a non-HTTP context
      * @default null
@@ -83,10 +115,17 @@ class RouterConfig
     {
         $this->_usedProperties['defaultUri'] = true;
         $this->defaultUri = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 80
      * @param ParamConfigurator|mixed $value
@@ -96,10 +135,17 @@ class RouterConfig
     {
         $this->_usedProperties['httpPort'] = true;
         $this->httpPort = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 443
      * @param ParamConfigurator|mixed $value
@@ -109,10 +155,17 @@ class RouterConfig
     {
         $this->_usedProperties['httpsPort'] = true;
         $this->httpsPort = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * set to true to throw an exception when a parameter does not match the requirements
      * set to false to disable exceptions when a parameter does not match the requirements (and return null instead)
@@ -126,10 +179,17 @@ class RouterConfig
     {
         $this->_usedProperties['strictRequirements'] = true;
         $this->strictRequirements = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default true
      * @param ParamConfigurator|bool $value
@@ -139,10 +199,17 @@ class RouterConfig
     {
         $this->_usedProperties['utf8'] = true;
         $this->utf8 = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('enabled', $value)) {
@@ -150,60 +217,100 @@ class RouterConfig
             $this->enabled = $value['enabled'];
             unset($value['enabled']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('resource', $value)) {
             $this->_usedProperties['resource'] = true;
             $this->resource = $value['resource'];
             unset($value['resource']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('type', $value)) {
             $this->_usedProperties['type'] = true;
             $this->type = $value['type'];
             unset($value['type']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('cache_dir', $value)) {
             $this->_usedProperties['cacheDir'] = true;
             $this->cacheDir = $value['cache_dir'];
             unset($value['cache_dir']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('default_uri', $value)) {
             $this->_usedProperties['defaultUri'] = true;
             $this->defaultUri = $value['default_uri'];
             unset($value['default_uri']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('http_port', $value)) {
             $this->_usedProperties['httpPort'] = true;
             $this->httpPort = $value['http_port'];
             unset($value['http_port']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('https_port', $value)) {
             $this->_usedProperties['httpsPort'] = true;
             $this->httpsPort = $value['https_port'];
             unset($value['https_port']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('strict_requirements', $value)) {
             $this->_usedProperties['strictRequirements'] = true;
             $this->strictRequirements = $value['strict_requirements'];
             unset($value['strict_requirements']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('utf8', $value)) {
             $this->_usedProperties['utf8'] = true;
             $this->utf8 = $value['utf8'];
             unset($value['utf8']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -234,7 +341,11 @@ class RouterConfig
         if (isset($this->_usedProperties['utf8'])) {
             $output['utf8'] = $this->utf8;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

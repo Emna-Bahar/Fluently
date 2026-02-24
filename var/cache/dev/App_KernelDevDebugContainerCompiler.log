@@ -1,9 +1,12 @@
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\CoursController" (parent: .abstract.instanceof.App\Controller\CoursController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\CoursController" (parent: .instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\CoursController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Controller\CoursController" (parent: .instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\CoursController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\CoursPersonnaliseController" (parent: .abstract.instanceof.App\Controller\CoursPersonnaliseController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\CoursPersonnaliseController" (parent: .instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\CoursPersonnaliseController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Controller\CoursPersonnaliseController" (parent: .instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\CoursPersonnaliseController).
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\DashboardController" (parent: .abstract.instanceof.App\Controller\DashboardController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\DashboardController" (parent: .instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\DashboardController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Controller\DashboardController" (parent: .instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\DashboardController).
@@ -19,18 +22,22 @@ Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Reso
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\LoginController" (parent: .abstract.instanceof.App\Controller\LoginController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\LoginController" (parent: .instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\LoginController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Controller\LoginController" (parent: .instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\LoginController).
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\NiveauController" (parent: .abstract.instanceof.App\Controller\NiveauController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\NiveauController" (parent: .instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\NiveauController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Controller\NiveauController" (parent: .instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\NiveauController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ObjectifAdminController" (parent: .abstract.instanceof.App\Controller\ObjectifAdminController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ObjectifAdminController" (parent: .instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ObjectifAdminController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Controller\ObjectifAdminController" (parent: .instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ObjectifAdminController).
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ObjectifController" (parent: .abstract.instanceof.App\Controller\ObjectifController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ObjectifController" (parent: .instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ObjectifController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Controller\ObjectifController" (parent: .instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ObjectifController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ProfileController" (parent: .abstract.instanceof.App\Controller\ProfileController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ProfileController" (parent: .instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ProfileController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Controller\ProfileController" (parent: .instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ProfileController).
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\QuestionController" (parent: .abstract.instanceof.App\Controller\QuestionController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\QuestionController" (parent: .instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\QuestionController).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Controller\QuestionController" (parent: .instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\QuestionController).
@@ -86,6 +93,18 @@ Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Reso
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Form\TestType" (parent: .instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\TestType).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.App\MessageHandler\GenererCoursHandler.0.App\MessageHandler\GenererCoursHandler" (parent: .abstract.instanceof.App\MessageHandler\GenererCoursHandler).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\MessageHandler\GenererCoursHandler" (parent: .instanceof.App\MessageHandler\GenererCoursHandler.0.App\MessageHandler\GenererCoursHandler).
+=======
+Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\RegisterController" (parent: .abstract.instanceof.App\Controller\RegisterController).
+Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\RegisterController" (parent: .instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\RegisterController).
+Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Controller\RegisterController" (parent: .instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\RegisterController).
+Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\SessionController" (parent: .abstract.instanceof.App\Controller\SessionController).
+Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\SessionController" (parent: .instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\SessionController).
+Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Controller\SessionController" (parent: .instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\SessionController).
+Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\LoginType" (parent: .abstract.instanceof.App\Form\LoginType).
+Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Form\LoginType" (parent: .instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\LoginType).
+Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\RegisterType" (parent: .abstract.instanceof.App\Form\RegisterType).
+Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Form\RegisterType" (parent: .instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\RegisterType).
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\CoursRepository" (parent: .abstract.instanceof.App\Repository\CoursRepository).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Repository\CoursRepository" (parent: .instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\CoursRepository).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\GroupeRepository" (parent: .abstract.instanceof.App\Repository\GroupeRepository).
@@ -108,6 +127,7 @@ Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Reso
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Repository\SessionRepository" (parent: .instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\SessionRepository).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\TacheRepository" (parent: .abstract.instanceof.App\Repository\TacheRepository).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Repository\TacheRepository" (parent: .instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\TacheRepository).
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\TestPassageRepository" (parent: .abstract.instanceof.App\Repository\TestPassageRepository).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Repository\TestPassageRepository" (parent: .instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\TestPassageRepository).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\TestRepository" (parent: .abstract.instanceof.App\Repository\TestRepository).
@@ -118,6 +138,12 @@ Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Reso
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Repository\UserRepository" (parent: .instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\UserRepository).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Twig\Extension\ExtensionInterface.0.App\Twig\AppExtension" (parent: .abstract.instanceof.App\Twig\AppExtension).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Twig\AppExtension" (parent: .instanceof.Twig\Extension\ExtensionInterface.0.App\Twig\AppExtension).
+=======
+Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\TestRepository" (parent: .abstract.instanceof.App\Repository\TestRepository).
+Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Repository\TestRepository" (parent: .instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\TestRepository).
+Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for ".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\UserRepository" (parent: .abstract.instanceof.App\Repository\UserRepository).
+Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "App\Repository\UserRepository" (parent: .instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\UserRepository).
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "cache.app" (parent: cache.adapter.filesystem).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "cache.system" (parent: cache.adapter.system).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "cache.validator" (parent: cache.system).
@@ -133,8 +159,11 @@ Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Reso
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "mailer.transport_factory.sendmail" (parent: mailer.transport_factory.abstract).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "mailer.transport_factory.smtp" (parent: mailer.transport_factory.abstract).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "mailer.transport_factory.native" (parent: mailer.transport_factory.abstract).
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "state_machine.test_passage" (parent: state_machine.abstract).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "state_machine.test_passage" (parent: workflow.marking_store.method).
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "secrets.decryption_key" (parent: container.env).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "cache.validator_expression_language" (parent: cache.system).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "messenger.retry.multiplier_retry_strategy.async" (parent: messenger.retry.abstract_multiplier_retry_strategy).
@@ -206,7 +235,10 @@ Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Reso
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "monolog.logger.http_client" (parent: monolog.logger_prototype).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "monolog.logger.mailer" (parent: monolog.logger_prototype).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "monolog.logger.translation" (parent: monolog.logger_prototype).
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "monolog.logger.workflow" (parent: monolog.logger_prototype).
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "monolog.logger.php" (parent: monolog.logger_prototype).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "monolog.logger.event" (parent: monolog.logger_prototype).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "monolog.logger.router" (parent: monolog.logger_prototype).
@@ -215,6 +247,7 @@ Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Reso
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "monolog.logger.debug" (parent: monolog.logger_prototype).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "monolog.logger.security" (parent: monolog.logger_prototype).
 Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass: Resolving inheritance for "monolog.logger.deprecation" (parent: monolog.logger_prototype).
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\AutowirePass: Skipping service "App\Form\QuestionType": Class or interface "App\Form\QuestionType" cannot be loaded.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Psr\Http\Message\RequestFactoryInterface"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Psr\Http\Message\ResponseFactoryInterface"; reason: private alias.
@@ -222,6 +255,8 @@ Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Psr\Http\Message\StreamFactoryInterface"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Psr\Http\Message\UploadedFileFactoryInterface"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Psr\Http\Message\UriFactoryInterface"; reason: private alias.
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Symfony\Component\EventDispatcher\EventDispatcherInterface"; reason: private alias.
@@ -254,7 +289,10 @@ Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "asset_mapper.http_client"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Symfony\Component\AssetMapper\ImportMap\ImportMapManager"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Symfony\Contracts\HttpClient\HttpClientInterface"; reason: private alias.
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Psr\Http\Client\ClientInterface"; reason: private alias.
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "mailer"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Symfony\Component\Mailer\MailerInterface"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "mailer.default_transport"; reason: private alias.
@@ -265,11 +303,14 @@ Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Symfony\Contracts\Translation\LocaleAwareInterface"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Symfony\Component\Translation\LocaleSwitcher"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "translator.formatter"; reason: private alias.
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Symfony\Component\Workflow\Registry"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".Symfony\Component\Workflow\WorkflowInterface $test_passage.state_machine"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Symfony\Component\Workflow\WorkflowInterface $testPassageStateMachine"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".Symfony\Component\Workflow\WorkflowInterface $test_passage"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Symfony\Component\Workflow\WorkflowInterface $testPassage"; reason: private alias.
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Symfony\Component\ErrorHandler\ErrorRenderer\FileLinkFormatter"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Symfony\Component\Stopwatch\Stopwatch"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "routing.loader.annotation"; reason: private alias.
@@ -368,8 +409,11 @@ Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Symfony\Component\Security\Core\User\UserCheckerInterface"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "logger"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Psr\Log\LoggerInterface"; reason: private alias.
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Knp\Component\Pager\PaginatorInterface"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Knp\Component\Pager\ArgumentAccess\ArgumentAccessInterface"; reason: private alias.
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "twig.loader.filesystem"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "argument_resolver.controller_locator"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "doctrine.id_generator_locator"; reason: private alias.
@@ -390,8 +434,11 @@ Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Psr\Log\LoggerInterface $mailerLogger"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".Psr\Log\LoggerInterface $translation.logger"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Psr\Log\LoggerInterface $translationLogger"; reason: private alias.
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".Psr\Log\LoggerInterface $workflow.logger"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Psr\Log\LoggerInterface $workflowLogger"; reason: private alias.
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".Psr\Log\LoggerInterface $php.logger"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "Psr\Log\LoggerInterface $phpLogger"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".Psr\Log\LoggerInterface $event.logger"; reason: private alias.
@@ -411,6 +458,7 @@ Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.80edgLI"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.h8Jkkd2"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.bJ.4HC5"; reason: private alias.
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.abY105J"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.3i7.m02"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.3s7n9Ti"; reason: private alias.
@@ -444,6 +492,11 @@ Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.xDgrwXv"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.BFrsqsn"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.RXby3mK"; reason: private alias.
+=======
+Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.cx7ayq_"; reason: private alias.
+Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.BFrsqsn"; reason: private alias.
+Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.GHZYcru"; reason: private alias.
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.XtmiKbi"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.O24_MAy"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.jUv.zyj"; reason: private alias.
@@ -463,6 +516,7 @@ Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "security.access.decision_manager"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "security.firewall.authenticator.main"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "messenger.bus.default"; reason: private alias.
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "state_machine.test_passage"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "doctrine.orm.default_metadata_driver"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "security.event_dispatcher.main"; reason: private alias.
@@ -526,6 +580,14 @@ Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.64.OW.Q"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.Jor1WC9"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.a85nUIo"; reason: private alias.
+=======
+Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "doctrine.orm.default_metadata_driver"; reason: private alias.
+Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service "security.event_dispatcher.main"; reason: private alias.
+Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.gFlme_s"; reason: private alias.
+Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.gaTSUXr"; reason: private alias.
+Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.EYARBn6"; reason: private alias.
+Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.PgYGRUQ"; reason: private alias.
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.Q1z.f9O"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator.dGUCsbe"; reason: private alias.
 Symfony\Component\DependencyInjection\Compiler\RemovePrivateAliasesPass: Removed service ".service_locator._kIAbz1"; reason: private alias.
@@ -550,8 +612,11 @@ Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPas
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "mailer.transport_factory.sendmail" previously pointing to "debug.event_dispatcher" to "event_dispatcher".
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "mailer.transport_factory.smtp" previously pointing to "debug.event_dispatcher" to "event_dispatcher".
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "mailer.transport_factory.native" previously pointing to "debug.event_dispatcher" to "event_dispatcher".
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "workflow.abstract" previously pointing to "debug.event_dispatcher" to "event_dispatcher".
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "state_machine.abstract" previously pointing to "debug.event_dispatcher" to "event_dispatcher".
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "router_listener" previously pointing to "router.default" to "router".
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "Symfony\Bundle\FrameworkBundle\Controller\RedirectController" previously pointing to "router.default" to "router".
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "serializer.normalizer.problem" previously pointing to "translator.data_collector" to "translator".
@@ -579,7 +644,10 @@ Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPas
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "data_collector.events" previously pointing to "debug.event_dispatcher" to "event_dispatcher".
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "data_collector.translation" previously pointing to "translator.data_collector" to "translator".
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "data_collector.messenger" previously pointing to "debug.traced.messenger.bus.default" to "messenger.default_bus".
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "data_collector.workflow" previously pointing to "debug.event_dispatcher" to "event_dispatcher".
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "twig.extension.trans" previously pointing to "translator.data_collector" to "translator".
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "twig.extension.routing" previously pointing to "router.default" to "router".
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "twig.extension.form" previously pointing to "translator.data_collector" to "translator".
@@ -600,10 +668,13 @@ Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPas
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "maker.event_registry" previously pointing to "debug.event_dispatcher" to "event_dispatcher".
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "maker.maker.make_registration_form" previously pointing to "router.default" to "router".
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "maker.maker.make_reset_password" previously pointing to "router.default" to "router".
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "knp_paginator" previously pointing to "debug.event_dispatcher" to "event_dispatcher".
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "knp_paginator.helper.processor" previously pointing to "router.default" to "router".
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "knp_paginator.helper.processor" previously pointing to "translator.data_collector" to "translator".
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service ".service_locator.4Oqb_AZ" previously pointing to "debug.traced.messenger.bus.default" to "messenger.default_bus".
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "messenger.bus.default.middleware.send_message" previously pointing to "debug.event_dispatcher" to "event_dispatcher".
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service ".service_locator.5cAhUFF" previously pointing to "debug.traced.messenger.bus.default" to "messenger.default_bus".
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service ".debug.security.voter.security.access.authenticated_voter" previously pointing to "debug.event_dispatcher" to "event_dispatcher".
@@ -613,7 +684,10 @@ Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPas
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service ".service_locator.fuYM_Z." previously pointing to "translator.data_collector" to "translator".
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service ".service_locator.cUcW89y" previously pointing to "router.default" to "router".
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service ".service_locator._1SGciK" previously pointing to "debug.event_dispatcher" to "event_dispatcher".
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\ReplaceAliasByActualDefinitionPass: Changed reference of service "debug.state_machine.test_passage.inner" previously pointing to "debug.event_dispatcher" to "event_dispatcher".
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service "App\Entity"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service "container.env"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service "Symfony\Component\Config\Loader\LoaderInterface"; reason: abstract.
@@ -636,9 +710,12 @@ Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Re
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service "assets.json_manifest_version_strategy"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service "http_client.abstract_retry_strategy"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service "mailer.transport_factory.abstract"; reason: abstract.
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service "workflow.abstract"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service "state_machine.abstract"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service "workflow.marking_store.method"; reason: abstract.
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service "Symfony\Component\Validator\Constraints\ExpressionLanguageSyntaxValidator"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service "Symfony\Component\Validator\Constraints\AllValidator"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service "Symfony\Component\Validator\Constraints\AtLeastOneOfValidator"; reason: abstract.
@@ -762,12 +839,15 @@ Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Re
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service "monolog.activation_strategy.not_found"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service "monolog.handler.fingers_crossed.error_level_activation_strategy"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service "maker.auto_command.abstract"; reason: abstract.
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\CoursController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\CoursController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\Controller\CoursController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\CoursPersonnaliseController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\CoursPersonnaliseController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\Controller\CoursPersonnaliseController"; reason: abstract.
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\DashboardController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\DashboardController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\Controller\DashboardController"; reason: abstract.
@@ -783,18 +863,22 @@ Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Re
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\LoginController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\LoginController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\Controller\LoginController"; reason: abstract.
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\NiveauController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\NiveauController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\Controller\NiveauController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ObjectifAdminController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ObjectifAdminController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\Controller\ObjectifAdminController"; reason: abstract.
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ObjectifController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ObjectifController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\Controller\ObjectifController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\ProfileController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\ProfileController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\Controller\ProfileController"; reason: abstract.
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\QuestionController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\QuestionController"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\Controller\QuestionController"; reason: abstract.
@@ -850,6 +934,18 @@ Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Re
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\Form\TestType"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.App\MessageHandler\GenererCoursHandler.0.App\MessageHandler\GenererCoursHandler"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\MessageHandler\GenererCoursHandler"; reason: abstract.
+=======
+Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\RegisterController"; reason: abstract.
+Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\RegisterController"; reason: abstract.
+Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\Controller\RegisterController"; reason: abstract.
+Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\SessionController"; reason: abstract.
+Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Bundle\FrameworkBundle\Controller\AbstractController.0.App\Controller\SessionController"; reason: abstract.
+Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\Controller\SessionController"; reason: abstract.
+Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\LoginType"; reason: abstract.
+Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\Form\LoginType"; reason: abstract.
+Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\RegisterType"; reason: abstract.
+Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\Form\RegisterType"; reason: abstract.
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\CoursRepository"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\Repository\CoursRepository"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\GroupeRepository"; reason: abstract.
@@ -872,6 +968,7 @@ Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Re
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\Repository\SessionRepository"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\TacheRepository"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\Repository\TacheRepository"; reason: abstract.
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\TestPassageRepository"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\Repository\TestPassageRepository"; reason: abstract.
 Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\TestRepository"; reason: abstract.
@@ -885,13 +982,25 @@ Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Re
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "http_discovery.psr17_factory"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "App\Form\QuestionType"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "App\Message\GenererCoursMessage"; reason: unused.
+=======
+Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\TestRepository"; reason: abstract.
+Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\Repository\TestRepository"; reason: abstract.
+Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\UserRepository"; reason: abstract.
+Symfony\Component\DependencyInjection\Compiler\RemoveAbstractDefinitionsPass: Removed service ".abstract.instanceof.App\Repository\UserRepository"; reason: abstract.
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "http_cache"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "http_cache.store"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "reverse_container"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "assets.empty_package"; reason: unused.
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "psr18.http_client"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "http_client.uri_template_expander.guzzle"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "http_client.uri_template_expander.rize"; reason: unused.
+=======
+Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "http_client.uri_template_expander.guzzle"; reason: unused.
+Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "http_client.uri_template_expander.rize"; reason: unused.
+Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "mailer.mailer"; reason: unused.
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "translator.logging"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "serializer.mapping.cache.symfony"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service "serializer.name_converter.camel_case_to_snake_case"; reason: unused.
@@ -991,13 +1100,17 @@ Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Remo
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service ".service_locator.XXv1IfR"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service ".service_locator.0TACwl3"; reason: unused.
 Symfony\Component\DependencyInjection\Compiler\RemoveUnusedDefinitionsPass: Removed service ".service_locator.e_.xxAP"; reason: unused.
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.O2p6Lk7.App\Controller\CoursController" to "App\Controller\CoursController".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.O2p6Lk7.App\Controller\CoursPersonnaliseController" to "App\Controller\CoursPersonnaliseController".
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.O2p6Lk7.App\Controller\DashboardController" to "App\Controller\DashboardController".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.O2p6Lk7.App\Controller\GroupeController" to "App\Controller\GroupeController".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.O2p6Lk7.App\Controller\HomeController" to "App\Controller\HomeController".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.O2p6Lk7.App\Controller\LangueController" to "App\Controller\LangueController".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.O2p6Lk7.App\Controller\LoginController" to "App\Controller\LoginController".
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.O2p6Lk7.App\Controller\NiveauController" to "App\Controller\NiveauController".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.O2p6Lk7.App\Controller\ObjectifAdminController" to "App\Controller\ObjectifAdminController".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.O2p6Lk7.App\Controller\ObjectifController" to "App\Controller\ObjectifController".
@@ -1013,6 +1126,12 @@ Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inl
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.O2p6Lk7.App\Controller\TestStudentController" to "App\Controller\TestStudentController".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "mailer.mailer" to "App\EventSubscriber\TestWorkflowSubscriber".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "App\Service\SpeechEvaluationService" to "App\Service\TestScoringService".
+=======
+Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.O2p6Lk7.App\Controller\ObjectifController" to "App\Controller\ObjectifController".
+Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.O2p6Lk7.App\Controller\ProfileController" to "App\Controller\ProfileController".
+Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.O2p6Lk7.App\Controller\RegisterController" to "App\Controller\RegisterController".
+Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.O2p6Lk7.App\Controller\SessionController" to "App\Controller\SessionController".
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "clock" to "argument_resolver.datetime".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "error_handler.error_renderer.serializer" to "error_controller".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "debug.controller_resolver" to "http_kernel".
@@ -1023,7 +1142,10 @@ Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inl
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "cache_clearer" to "console.command.cache_clear".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.NBUFN6A" to "console.command.cache_pool_invalidate_tags".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "messenger.listener.reset_services" to "console.command.messenger_consume_messages".
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.Kgq6Mt_" to "console.command.workflow_dump".
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "console.messenger.application" to "console.messenger.execute_command_handler".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "cache.app.recorder_inner" to "cache.app".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "cache.system.recorder_inner" to "cache.system".
@@ -1062,6 +1184,7 @@ Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inl
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "translation.dumper.res" to "translation.writer".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.fuYM_Z..translation.warmer" to "translation.warmer".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "translation.provider_collection_factory" to "translation.provider_collection".
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".state_machine.test_passage.transition.0" to "state_machine.test_passage.definition".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".state_machine.test_passage.transition.1" to "state_machine.test_passage.definition".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".state_machine.test_passage.transition.2" to "state_machine.test_passage.definition".
@@ -1073,6 +1196,8 @@ Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inl
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "state_machine.test_passage.metadata_store" to "state_machine.test_passage.definition".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "monolog.logger.workflow" to ".state_machine.test_passage.listener.audit_trail".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "workflow.security.expression_language" to ".state_machine.test_passage.listener.guard".
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "monolog.logger.php" to "debug.error_handler_configurator".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "debug.controller_resolver.inner" to "debug.controller_resolver".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "debug.argument_resolver.inner" to "debug.argument_resolver".
@@ -1099,7 +1224,11 @@ Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inl
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "security.csrf.token_generator" to "security.csrf.token_manager".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "form.extension" to "form.registry".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "form.resolved_type_factory" to "form.registry".
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.XWZw5fc" to "form.extension".
+=======
+Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.YKJhLOm" to "form.extension".
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "form.choice_list_factory.default" to "form.choice_list_factory.property_access".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "form.choice_list_factory.property_access" to "form.choice_list_factory.cached".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "form.type_extension.form.request_handler" to "form.type_extension.form.http_foundation".
@@ -1132,7 +1261,10 @@ Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inl
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "data_collector.doctrine" to "profiler".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "data_collector.messenger" to "profiler".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "mailer.data_collector" to "profiler".
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "data_collector.workflow" to "profiler".
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "notifier.data_collector" to "profiler".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "data_collector.config" to "profiler".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "data_collector.form.extractor" to "data_collector.form".
@@ -1146,7 +1278,11 @@ Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inl
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.MfxSDRP" to "doctrine.dbal.default_connection.event_manager".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "doctrine.dbal.default_connection.configuration" to "doctrine.dbal.default_connection".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "doctrine.dbal.connection_factory" to "doctrine.dbal.default_connection".
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.jsxesQY" to "doctrine.orm.container_repository_factory".
+=======
+Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.4EaRc.E" to "doctrine.orm.container_repository_factory".
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "doctrine.orm.entity_value_resolver.expression_language" to "doctrine.orm.entity_value_resolver".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "cache.doctrine.orm.default.metadata" to "doctrine.orm.default_configuration".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".doctrine.orm.default_metadata_driver" to "doctrine.orm.default_configuration".
@@ -1179,18 +1315,27 @@ Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inl
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "twig.extension.httpkernel" to "twig".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "twig.extension.httpfoundation" to "twig".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "twig.extension.weblink" to "twig".
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "workflow.twig_extension" to "twig".
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "twig.extension.serializer" to "twig".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "twig.extension.form" to "twig".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "twig.extension.importmap" to "twig".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "twig.extension.logout_url" to "twig".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "twig.extension.security" to "twig".
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "App\Twig\AppExtension" to "twig".
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "doctrine.twig.doctrine_extension" to "twig".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "twig.extension.webprofiler" to "twig".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "stimulus.ux_controllers_twig_extension" to "twig".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "turbo.twig.extension" to "twig".
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "knp_paginator.twig.extension.pagination" to "twig".
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "stimulus.twig_extension" to "twig".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "twig.app_variable" to "twig".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "twig.runtime_loader" to "twig".
@@ -1203,8 +1348,12 @@ Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inl
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "fragment.handler" to "twig.runtime.httpkernel".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "fragment.uri_generator" to "twig.runtime.httpkernel".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "url_helper" to "twig.extension.httpfoundation".
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "workflow.registry" to "workflow.twig_extension".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.PqIxmzX" to "twig.runtime_loader".
+=======
+Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.i0..Ry2" to "twig.runtime_loader".
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "twig.mime_body_renderer" to "twig.mailer.message_listener".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "asset_mapper.importmap.renderer" to "twig.runtime.importmap".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "stimulus.helper" to "stimulus.twig_extension".
@@ -1233,7 +1382,10 @@ Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inl
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "maker.template_component_generator" to "maker.generator".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "maker.event_registry" to "maker.maker.make_listener".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "maker.user_class_builder" to "maker.maker.make_user".
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "knp_paginator.helper.processor" to "Knp\Bundle\PaginatorBundle\Twig\Extension\PaginationRuntime".
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "maker.maker.make_authenticator" to "maker.auto_command.make_auth".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "maker.maker.make_command" to "maker.auto_command.make_command".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "maker.maker.make_twig_component" to "maker.auto_command.make_twig_component".
@@ -1276,7 +1428,10 @@ Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inl
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "argument_resolver.query_parameter_value_resolver" to ".debug.value_resolver.argument_resolver.query_parameter_value_resolver".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "messenger.senders_locator" to "messenger.bus.default.middleware.send_message".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "messenger.bus.default.messenger.handlers_locator" to "messenger.bus.default.middleware.handle_message".
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "App\MessageHandler\GenererCoursHandler" to ".messenger.handler_descriptor.22sTr4z".
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "process.messenger.process_message_handler" to ".messenger.handler_descriptor.QXXNQ9d".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "console.messenger.execute_command_handler" to ".messenger.handler_descriptor.kEzMhfs".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "http_client.messenger.ping_webhook_handler" to ".messenger.handler_descriptor.6kVvRT.".
@@ -1286,7 +1441,10 @@ Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inl
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "texter.messenger.sms_handler" to ".messenger.handler_descriptor.XZowc.T".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "texter.messenger.push_handler" to ".messenger.handler_descriptor.Lml2ICs".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "http_client.uri_template" to ".debug.http_client".
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "debug.state_machine.test_passage.inner" to "debug.state_machine.test_passage".
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".doctrine.orm.default_metadata_driver.inner" to ".doctrine.orm.default_metadata_driver".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.KLVvNIq" to ".doctrine.orm.default_metadata_driver".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "monolog.logger.doctrine" to "doctrine.dbal.logging_middleware.default".
@@ -1296,7 +1454,11 @@ Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inl
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "monolog.handler.null_internal" to "monolog.logger.event".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "debug.security.event_dispatcher.main.inner" to "debug.security.event_dispatcher.main".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.fuYM_Z." to ".service_locator.fuYM_Z..translation.warmer".
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.i7B9_Ni" to ".service_locator.i7B9_Ni.router.default".
+=======
+Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.bN.V_Nq" to ".service_locator.bN.V_Nq.router.default".
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.cUcW89y" to ".service_locator.cUcW89y.router.cache_warmer".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.etVElvN" to ".service_locator.etVElvN.twig.template_cache_warmer".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "asset_mapper.public_assets_path_resolver" to "asset_mapper.cached_mapped_asset_factory.inner".
@@ -1326,9 +1488,14 @@ Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inl
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "serializer.encoder.yaml" to "debug.serializer.inner".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "serializer.encoder.csv" to "debug.serializer.inner".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "security.authenticator.manager.main" to "debug.security.firewall.authenticator.main.inner".
+<<<<<<< HEAD
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "state_machine.test_passage.definition" to "debug.state_machine.test_passage.inner".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.rSUYv03" to "console.command_loader".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.i7B9_Ni.router.default" to "router".
+=======
+Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.hrajTIt" to "console.command_loader".
+Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service ".service_locator.bN.V_Nq.router.default" to "router".
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "monolog.logger.router" to "router".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "debug.traced.messenger.bus.default.inner" to "messenger.default_bus".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "debug.event_dispatcher.inner" to "event_dispatcher".
@@ -1351,6 +1518,11 @@ Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inl
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "serializer.mapping.class_discriminator_resolver" to "debug.serializer".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "serializer.name_converter.metadata_aware" to "debug.serializer".
 Symfony\Component\DependencyInjection\Compiler\InlineServiceDefinitionsPass: Inlined service "serializer.mapping.class_discriminator_resolver" to "debug.serializer".
+<<<<<<< HEAD
 Symfony\Bundle\FrameworkBundle\DependencyInjection\Compiler\UnusedTagsPass: Tag "container.decorator" was defined on service(s) "debug.validator", "debug.serializer", "doctrine.migrations.container_aware_migrations_factory", "debug.security.access.decision_manager", "debug.security.firewall.authenticator.main", ".debug.http_client", "debug.state_machine.test_passage", "debug.security.event_dispatcher.main", "messenger.default_bus", "event_dispatcher", but was never used.
 Symfony\Bundle\FrameworkBundle\DependencyInjection\Compiler\UnusedTagsPass: Tag "monolog.channel_logger" was defined on service(s) "monolog.logger", "monolog.logger.request", "monolog.logger.messenger", "monolog.logger.cache", "monolog.logger.asset_mapper", "monolog.logger.mailer", "monolog.logger.security", "monolog.logger.deprecation", but was never used.
 Symfony\Bundle\FrameworkBundle\DependencyInjection\Compiler\UnusedTagsPass: Tag "workflow.state_machine" was defined on service(s) "debug.state_machine.test_passage", but was never used.
+=======
+Symfony\Bundle\FrameworkBundle\DependencyInjection\Compiler\UnusedTagsPass: Tag "container.decorator" was defined on service(s) "debug.validator", "debug.serializer", "doctrine.migrations.container_aware_migrations_factory", "debug.security.access.decision_manager", "debug.security.firewall.authenticator.main", ".debug.http_client", "debug.security.event_dispatcher.main", "messenger.default_bus", "event_dispatcher", but was never used.
+Symfony\Bundle\FrameworkBundle\DependencyInjection\Compiler\UnusedTagsPass: Tag "monolog.channel_logger" was defined on service(s) "monolog.logger", "monolog.logger.request", "monolog.logger.messenger", "monolog.logger.cache", "monolog.logger.asset_mapper", "monolog.logger.mailer", "monolog.logger.security", "monolog.logger.deprecation", but was never used.
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac

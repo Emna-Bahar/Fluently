@@ -23,7 +23,11 @@ class CacheConfig
     private $defaultPdoProvider;
     private $pools;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Used to namespace cache keys when using several apps with the same shared backend
      * @example my-application-name/%kernel.environment%
@@ -35,10 +39,17 @@ class CacheConfig
     {
         $this->_usedProperties['prefixSeed'] = true;
         $this->prefixSeed = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * App related cache pools configuration
      * @default 'cache.adapter.filesystem'
@@ -49,10 +60,17 @@ class CacheConfig
     {
         $this->_usedProperties['app'] = true;
         $this->app = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * System related cache pools configuration
      * @default 'cache.adapter.system'
@@ -63,10 +81,17 @@ class CacheConfig
     {
         $this->_usedProperties['system'] = true;
         $this->system = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default '%kernel.cache_dir%/pools/app'
      * @param ParamConfigurator|mixed $value
@@ -76,10 +101,17 @@ class CacheConfig
     {
         $this->_usedProperties['directory'] = true;
         $this->directory = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -89,10 +121,17 @@ class CacheConfig
     {
         $this->_usedProperties['defaultPsr6Provider'] = true;
         $this->defaultPsr6Provider = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'redis://localhost'
      * @param ParamConfigurator|mixed $value
@@ -102,10 +141,17 @@ class CacheConfig
     {
         $this->_usedProperties['defaultRedisProvider'] = true;
         $this->defaultRedisProvider = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'memcached://localhost'
      * @param ParamConfigurator|mixed $value
@@ -115,10 +161,17 @@ class CacheConfig
     {
         $this->_usedProperties['defaultMemcachedProvider'] = true;
         $this->defaultMemcachedProvider = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'database_connection'
      * @param ParamConfigurator|mixed $value
@@ -128,10 +181,17 @@ class CacheConfig
     {
         $this->_usedProperties['defaultDoctrineDbalProvider'] = true;
         $this->defaultDoctrineDbalProvider = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -141,10 +201,17 @@ class CacheConfig
     {
         $this->_usedProperties['defaultPdoProvider'] = true;
         $this->defaultPdoProvider = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @template TValue of mixed
      * @param TValue $value
@@ -156,20 +223,34 @@ class CacheConfig
         if (!\is_array($value)) {
             $this->_usedProperties['pools'] = true;
             $this->pools[$name] = $value;
+<<<<<<< HEAD
     
             return $this;
         }
     
+=======
+
+            return $this;
+        }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (!isset($this->pools[$name]) || !$this->pools[$name] instanceof \Symfony\Config\Framework\Cache\PoolConfig) {
             $this->_usedProperties['pools'] = true;
             $this->pools[$name] = new \Symfony\Config\Framework\Cache\PoolConfig($value);
         } elseif (1 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "pool()" has already been initialized. You cannot pass values the second time you call pool().');
         }
+<<<<<<< HEAD
     
         return $this->pools[$name];
     }
     
+=======
+
+        return $this->pools[$name];
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('prefix_seed', $value)) {
@@ -177,66 +258,110 @@ class CacheConfig
             $this->prefixSeed = $value['prefix_seed'];
             unset($value['prefix_seed']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('app', $value)) {
             $this->_usedProperties['app'] = true;
             $this->app = $value['app'];
             unset($value['app']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('system', $value)) {
             $this->_usedProperties['system'] = true;
             $this->system = $value['system'];
             unset($value['system']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('directory', $value)) {
             $this->_usedProperties['directory'] = true;
             $this->directory = $value['directory'];
             unset($value['directory']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('default_psr6_provider', $value)) {
             $this->_usedProperties['defaultPsr6Provider'] = true;
             $this->defaultPsr6Provider = $value['default_psr6_provider'];
             unset($value['default_psr6_provider']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('default_redis_provider', $value)) {
             $this->_usedProperties['defaultRedisProvider'] = true;
             $this->defaultRedisProvider = $value['default_redis_provider'];
             unset($value['default_redis_provider']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('default_memcached_provider', $value)) {
             $this->_usedProperties['defaultMemcachedProvider'] = true;
             $this->defaultMemcachedProvider = $value['default_memcached_provider'];
             unset($value['default_memcached_provider']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('default_doctrine_dbal_provider', $value)) {
             $this->_usedProperties['defaultDoctrineDbalProvider'] = true;
             $this->defaultDoctrineDbalProvider = $value['default_doctrine_dbal_provider'];
             unset($value['default_doctrine_dbal_provider']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('default_pdo_provider', $value)) {
             $this->_usedProperties['defaultPdoProvider'] = true;
             $this->defaultPdoProvider = $value['default_pdo_provider'];
             unset($value['default_pdo_provider']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('pools', $value)) {
             $this->_usedProperties['pools'] = true;
             $this->pools = array_map(fn ($v) => \is_array($v) ? new \Symfony\Config\Framework\Cache\PoolConfig($v) : $v, $value['pools']);
             unset($value['pools']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -270,7 +395,11 @@ class CacheConfig
         if (isset($this->_usedProperties['pools'])) {
             $output['pools'] = array_map(fn ($v) => $v instanceof \Symfony\Config\Framework\Cache\PoolConfig ? $v->toArray() : $v, $this->pools);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

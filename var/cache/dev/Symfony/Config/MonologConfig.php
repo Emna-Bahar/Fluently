@@ -16,7 +16,11 @@ class MonologConfig implements \Symfony\Component\Config\Builder\ConfigBuilderIn
     private $channels;
     private $handlers;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default true
      * @param ParamConfigurator|mixed $value
@@ -26,10 +30,17 @@ class MonologConfig implements \Symfony\Component\Config\Builder\ConfigBuilderIn
     {
         $this->_usedProperties['useMicroseconds'] = true;
         $this->useMicroseconds = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -39,10 +50,17 @@ class MonologConfig implements \Symfony\Component\Config\Builder\ConfigBuilderIn
     {
         $this->_usedProperties['channels'] = true;
         $this->channels = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @template TValue of mixed
      * @param TValue $value
@@ -57,25 +75,43 @@ class MonologConfig implements \Symfony\Component\Config\Builder\ConfigBuilderIn
         if (!\is_array($value)) {
             $this->_usedProperties['handlers'] = true;
             $this->handlers[$name] = $value;
+<<<<<<< HEAD
     
             return $this;
         }
     
+=======
+
+            return $this;
+        }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (!isset($this->handlers[$name]) || !$this->handlers[$name] instanceof \Symfony\Config\Monolog\HandlerConfig) {
             $this->_usedProperties['handlers'] = true;
             $this->handlers[$name] = new \Symfony\Config\Monolog\HandlerConfig($value);
         } elseif (1 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "handler()" has already been initialized. You cannot pass values the second time you call handler().');
         }
+<<<<<<< HEAD
     
         return $this->handlers[$name];
     }
     
+=======
+
+        return $this->handlers[$name];
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function getExtensionAlias(): string
     {
         return 'monolog';
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('use_microseconds', $value)) {
@@ -83,24 +119,40 @@ class MonologConfig implements \Symfony\Component\Config\Builder\ConfigBuilderIn
             $this->useMicroseconds = $value['use_microseconds'];
             unset($value['use_microseconds']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('channels', $value)) {
             $this->_usedProperties['channels'] = true;
             $this->channels = $value['channels'];
             unset($value['channels']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('handlers', $value)) {
             $this->_usedProperties['handlers'] = true;
             $this->handlers = array_map(fn ($v) => \is_array($v) ? new \Symfony\Config\Monolog\HandlerConfig($v) : $v, $value['handlers']);
             unset($value['handlers']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -113,7 +165,11 @@ class MonologConfig implements \Symfony\Component\Config\Builder\ConfigBuilderIn
         if (isset($this->_usedProperties['handlers'])) {
             $output['handlers'] = array_map(fn ($v) => $v instanceof \Symfony\Config\Monolog\HandlerConfig ? $v->toArray() : $v, $this->handlers);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

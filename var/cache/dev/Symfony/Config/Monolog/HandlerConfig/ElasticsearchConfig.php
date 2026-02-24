@@ -18,7 +18,11 @@ class ElasticsearchConfig
     private $user;
     private $password;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -28,10 +32,17 @@ class ElasticsearchConfig
     {
         $this->_usedProperties['id'] = true;
         $this->id = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -41,10 +52,17 @@ class ElasticsearchConfig
     {
         $this->_usedProperties['hosts'] = true;
         $this->hosts = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -54,10 +72,17 @@ class ElasticsearchConfig
     {
         $this->_usedProperties['host'] = true;
         $this->host = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 9200
      * @param ParamConfigurator|mixed $value
@@ -67,10 +92,17 @@ class ElasticsearchConfig
     {
         $this->_usedProperties['port'] = true;
         $this->port = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'Http'
      * @param ParamConfigurator|mixed $value
@@ -80,10 +112,17 @@ class ElasticsearchConfig
     {
         $this->_usedProperties['transport'] = true;
         $this->transport = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -93,10 +132,17 @@ class ElasticsearchConfig
     {
         $this->_usedProperties['user'] = true;
         $this->user = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -106,10 +152,17 @@ class ElasticsearchConfig
     {
         $this->_usedProperties['password'] = true;
         $this->password = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('id', $value)) {
@@ -117,48 +170,80 @@ class ElasticsearchConfig
             $this->id = $value['id'];
             unset($value['id']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('hosts', $value)) {
             $this->_usedProperties['hosts'] = true;
             $this->hosts = $value['hosts'];
             unset($value['hosts']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('host', $value)) {
             $this->_usedProperties['host'] = true;
             $this->host = $value['host'];
             unset($value['host']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('port', $value)) {
             $this->_usedProperties['port'] = true;
             $this->port = $value['port'];
             unset($value['port']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('transport', $value)) {
             $this->_usedProperties['transport'] = true;
             $this->transport = $value['transport'];
             unset($value['transport']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('user', $value)) {
             $this->_usedProperties['user'] = true;
             $this->user = $value['user'];
             unset($value['user']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('password', $value)) {
             $this->_usedProperties['password'] = true;
             $this->password = $value['password'];
             unset($value['password']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -183,7 +268,11 @@ class ElasticsearchConfig
         if (isset($this->_usedProperties['password'])) {
             $output['password'] = $this->password;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

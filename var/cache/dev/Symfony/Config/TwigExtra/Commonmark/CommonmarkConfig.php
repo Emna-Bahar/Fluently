@@ -16,7 +16,11 @@ class CommonmarkConfig
     private $useUnderscore;
     private $unorderedListMarkers;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default true
      * @param ParamConfigurator|bool $value
@@ -26,10 +30,17 @@ class CommonmarkConfig
     {
         $this->_usedProperties['enableEm'] = true;
         $this->enableEm = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default true
      * @param ParamConfigurator|bool $value
@@ -39,10 +50,17 @@ class CommonmarkConfig
     {
         $this->_usedProperties['enableStrong'] = true;
         $this->enableStrong = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default true
      * @param ParamConfigurator|bool $value
@@ -52,10 +70,17 @@ class CommonmarkConfig
     {
         $this->_usedProperties['useAsterisk'] = true;
         $this->useAsterisk = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default true
      * @param ParamConfigurator|bool $value
@@ -65,10 +90,17 @@ class CommonmarkConfig
     {
         $this->_usedProperties['useUnderscore'] = true;
         $this->useUnderscore = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -78,10 +110,17 @@ class CommonmarkConfig
     {
         $this->_usedProperties['unorderedListMarkers'] = true;
         $this->unorderedListMarkers = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('enable_em', $value)) {
@@ -89,36 +128,60 @@ class CommonmarkConfig
             $this->enableEm = $value['enable_em'];
             unset($value['enable_em']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('enable_strong', $value)) {
             $this->_usedProperties['enableStrong'] = true;
             $this->enableStrong = $value['enable_strong'];
             unset($value['enable_strong']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('use_asterisk', $value)) {
             $this->_usedProperties['useAsterisk'] = true;
             $this->useAsterisk = $value['use_asterisk'];
             unset($value['use_asterisk']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('use_underscore', $value)) {
             $this->_usedProperties['useUnderscore'] = true;
             $this->useUnderscore = $value['use_underscore'];
             unset($value['use_underscore']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('unordered_list_markers', $value)) {
             $this->_usedProperties['unorderedListMarkers'] = true;
             $this->unorderedListMarkers = $value['unordered_list_markers'];
             unset($value['unordered_list_markers']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -137,7 +200,11 @@ class CommonmarkConfig
         if (isset($this->_usedProperties['unorderedListMarkers'])) {
             $output['unordered_list_markers'] = $this->unorderedListMarkers;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

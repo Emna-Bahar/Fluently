@@ -15,7 +15,11 @@ class SwitchUserConfig
     private $role;
     private $targetRoute;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -25,10 +29,17 @@ class SwitchUserConfig
     {
         $this->_usedProperties['provider'] = true;
         $this->provider = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default '_switch_user'
      * @param ParamConfigurator|mixed $value
@@ -38,10 +49,17 @@ class SwitchUserConfig
     {
         $this->_usedProperties['parameter'] = true;
         $this->parameter = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'ROLE_ALLOWED_TO_SWITCH'
      * @param ParamConfigurator|mixed $value
@@ -51,10 +69,17 @@ class SwitchUserConfig
     {
         $this->_usedProperties['role'] = true;
         $this->role = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -64,10 +89,17 @@ class SwitchUserConfig
     {
         $this->_usedProperties['targetRoute'] = true;
         $this->targetRoute = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('provider', $value)) {
@@ -75,30 +107,50 @@ class SwitchUserConfig
             $this->provider = $value['provider'];
             unset($value['provider']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('parameter', $value)) {
             $this->_usedProperties['parameter'] = true;
             $this->parameter = $value['parameter'];
             unset($value['parameter']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('role', $value)) {
             $this->_usedProperties['role'] = true;
             $this->role = $value['role'];
             unset($value['role']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('target_route', $value)) {
             $this->_usedProperties['targetRoute'] = true;
             $this->targetRoute = $value['target_route'];
             unset($value['target_route']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -114,7 +166,11 @@ class SwitchUserConfig
         if (isset($this->_usedProperties['targetRoute'])) {
             $output['target_route'] = $this->targetRoute;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

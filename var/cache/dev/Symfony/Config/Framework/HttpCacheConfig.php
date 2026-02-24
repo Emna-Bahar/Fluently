@@ -23,7 +23,11 @@ class HttpCacheConfig
     private $staleIfError;
     private $terminateOnCacheHit;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default false
      * @param ParamConfigurator|bool $value
@@ -33,10 +37,17 @@ class HttpCacheConfig
     {
         $this->_usedProperties['enabled'] = true;
         $this->enabled = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default '%kernel.debug%'
      * @param ParamConfigurator|bool $value
@@ -46,10 +57,17 @@ class HttpCacheConfig
     {
         $this->_usedProperties['debug'] = true;
         $this->debug = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|'none'|'short'|'full' $value
@@ -59,10 +77,17 @@ class HttpCacheConfig
     {
         $this->_usedProperties['traceLevel'] = true;
         $this->traceLevel = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -72,10 +97,17 @@ class HttpCacheConfig
     {
         $this->_usedProperties['traceHeader'] = true;
         $this->traceHeader = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|int $value
@@ -85,10 +117,17 @@ class HttpCacheConfig
     {
         $this->_usedProperties['defaultTtl'] = true;
         $this->defaultTtl = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -98,10 +137,17 @@ class HttpCacheConfig
     {
         $this->_usedProperties['privateHeaders'] = true;
         $this->privateHeaders = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -111,10 +157,17 @@ class HttpCacheConfig
     {
         $this->_usedProperties['skipResponseHeaders'] = true;
         $this->skipResponseHeaders = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|bool $value
@@ -124,10 +177,17 @@ class HttpCacheConfig
     {
         $this->_usedProperties['allowReload'] = true;
         $this->allowReload = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|bool $value
@@ -137,10 +197,17 @@ class HttpCacheConfig
     {
         $this->_usedProperties['allowRevalidate'] = true;
         $this->allowRevalidate = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|int $value
@@ -150,10 +217,17 @@ class HttpCacheConfig
     {
         $this->_usedProperties['staleWhileRevalidate'] = true;
         $this->staleWhileRevalidate = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|int $value
@@ -163,10 +237,17 @@ class HttpCacheConfig
     {
         $this->_usedProperties['staleIfError'] = true;
         $this->staleIfError = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|bool $value
@@ -176,10 +257,17 @@ class HttpCacheConfig
     {
         $this->_usedProperties['terminateOnCacheHit'] = true;
         $this->terminateOnCacheHit = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('enabled', $value)) {
@@ -187,78 +275,130 @@ class HttpCacheConfig
             $this->enabled = $value['enabled'];
             unset($value['enabled']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('debug', $value)) {
             $this->_usedProperties['debug'] = true;
             $this->debug = $value['debug'];
             unset($value['debug']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('trace_level', $value)) {
             $this->_usedProperties['traceLevel'] = true;
             $this->traceLevel = $value['trace_level'];
             unset($value['trace_level']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('trace_header', $value)) {
             $this->_usedProperties['traceHeader'] = true;
             $this->traceHeader = $value['trace_header'];
             unset($value['trace_header']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('default_ttl', $value)) {
             $this->_usedProperties['defaultTtl'] = true;
             $this->defaultTtl = $value['default_ttl'];
             unset($value['default_ttl']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('private_headers', $value)) {
             $this->_usedProperties['privateHeaders'] = true;
             $this->privateHeaders = $value['private_headers'];
             unset($value['private_headers']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('skip_response_headers', $value)) {
             $this->_usedProperties['skipResponseHeaders'] = true;
             $this->skipResponseHeaders = $value['skip_response_headers'];
             unset($value['skip_response_headers']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('allow_reload', $value)) {
             $this->_usedProperties['allowReload'] = true;
             $this->allowReload = $value['allow_reload'];
             unset($value['allow_reload']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('allow_revalidate', $value)) {
             $this->_usedProperties['allowRevalidate'] = true;
             $this->allowRevalidate = $value['allow_revalidate'];
             unset($value['allow_revalidate']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('stale_while_revalidate', $value)) {
             $this->_usedProperties['staleWhileRevalidate'] = true;
             $this->staleWhileRevalidate = $value['stale_while_revalidate'];
             unset($value['stale_while_revalidate']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('stale_if_error', $value)) {
             $this->_usedProperties['staleIfError'] = true;
             $this->staleIfError = $value['stale_if_error'];
             unset($value['stale_if_error']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('terminate_on_cache_hit', $value)) {
             $this->_usedProperties['terminateOnCacheHit'] = true;
             $this->terminateOnCacheHit = $value['terminate_on_cache_hit'];
             unset($value['terminate_on_cache_hit']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -298,7 +438,11 @@ class HttpCacheConfig
         if (isset($this->_usedProperties['terminateOnCacheHit'])) {
             $output['terminate_on_cache_hit'] = $this->terminateOnCacheHit;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

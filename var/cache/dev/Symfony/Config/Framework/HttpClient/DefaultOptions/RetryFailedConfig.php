@@ -21,7 +21,11 @@ class RetryFailedConfig
     private $maxDelay;
     private $jitter;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default false
      * @param ParamConfigurator|bool $value
@@ -31,10 +35,17 @@ class RetryFailedConfig
     {
         $this->_usedProperties['enabled'] = true;
         $this->enabled = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * service id to override the retry strategy
      * @default null
@@ -45,10 +56,17 @@ class RetryFailedConfig
     {
         $this->_usedProperties['retryStrategy'] = true;
         $this->retryStrategy = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * A list of HTTP status code that triggers a retry
     */
@@ -60,10 +78,17 @@ class RetryFailedConfig
         } elseif (1 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "httpCode()" has already been initialized. You cannot pass values the second time you call httpCode().');
         }
+<<<<<<< HEAD
     
         return $this->httpCodes[$code];
     }
     
+=======
+
+        return $this->httpCodes[$code];
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 3
      * @param ParamConfigurator|int $value
@@ -73,10 +98,17 @@ class RetryFailedConfig
     {
         $this->_usedProperties['maxRetries'] = true;
         $this->maxRetries = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Time in ms to delay (or the initial value when multiplier is used)
      * @default 1000
@@ -87,10 +119,17 @@ class RetryFailedConfig
     {
         $this->_usedProperties['delay'] = true;
         $this->delay = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * If greater than 1, delay will grow exponentially for each retry: delay * (multiple ^ retries)
      * @default 2
@@ -101,10 +140,17 @@ class RetryFailedConfig
     {
         $this->_usedProperties['multiplier'] = true;
         $this->multiplier = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Max time in ms that a retry should ever be delayed (0 = infinite)
      * @default 0
@@ -115,10 +161,17 @@ class RetryFailedConfig
     {
         $this->_usedProperties['maxDelay'] = true;
         $this->maxDelay = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Randomness in percent (between 0 and 1) to apply to the delay
      * @default 0.1
@@ -129,10 +182,17 @@ class RetryFailedConfig
     {
         $this->_usedProperties['jitter'] = true;
         $this->jitter = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('enabled', $value)) {
@@ -140,54 +200,90 @@ class RetryFailedConfig
             $this->enabled = $value['enabled'];
             unset($value['enabled']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('retry_strategy', $value)) {
             $this->_usedProperties['retryStrategy'] = true;
             $this->retryStrategy = $value['retry_strategy'];
             unset($value['retry_strategy']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('http_codes', $value)) {
             $this->_usedProperties['httpCodes'] = true;
             $this->httpCodes = array_map(fn ($v) => \is_array($v) ? new \Symfony\Config\Framework\HttpClient\DefaultOptions\RetryFailed\HttpCodeConfig($v) : $v, $value['http_codes']);
             unset($value['http_codes']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('max_retries', $value)) {
             $this->_usedProperties['maxRetries'] = true;
             $this->maxRetries = $value['max_retries'];
             unset($value['max_retries']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('delay', $value)) {
             $this->_usedProperties['delay'] = true;
             $this->delay = $value['delay'];
             unset($value['delay']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('multiplier', $value)) {
             $this->_usedProperties['multiplier'] = true;
             $this->multiplier = $value['multiplier'];
             unset($value['multiplier']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('max_delay', $value)) {
             $this->_usedProperties['maxDelay'] = true;
             $this->maxDelay = $value['max_delay'];
             unset($value['max_delay']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('jitter', $value)) {
             $this->_usedProperties['jitter'] = true;
             $this->jitter = $value['jitter'];
             unset($value['jitter']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -215,7 +311,11 @@ class RetryFailedConfig
         if (isset($this->_usedProperties['jitter'])) {
             $output['jitter'] = $this->jitter;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

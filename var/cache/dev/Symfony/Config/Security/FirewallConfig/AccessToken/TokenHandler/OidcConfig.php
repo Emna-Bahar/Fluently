@@ -16,7 +16,11 @@ class OidcConfig
     private $algorithm;
     private $key;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Claim which contains the user identifier (e.g.: sub, email..).
      * @default 'sub'
@@ -27,10 +31,17 @@ class OidcConfig
     {
         $this->_usedProperties['claim'] = true;
         $this->claim = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Audience set in the token, for validation purpose.
      * @default null
@@ -41,10 +52,17 @@ class OidcConfig
     {
         $this->_usedProperties['audience'] = true;
         $this->audience = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -54,10 +72,17 @@ class OidcConfig
     {
         $this->_usedProperties['issuers'] = true;
         $this->issuers = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Algorithm used to sign the token.
      * @default null
@@ -68,10 +93,17 @@ class OidcConfig
     {
         $this->_usedProperties['algorithm'] = true;
         $this->algorithm = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * JSON-encoded JWK used to sign the token (must contain a "kty" key).
      * @default null
@@ -82,10 +114,17 @@ class OidcConfig
     {
         $this->_usedProperties['key'] = true;
         $this->key = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('claim', $value)) {
@@ -93,36 +132,60 @@ class OidcConfig
             $this->claim = $value['claim'];
             unset($value['claim']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('audience', $value)) {
             $this->_usedProperties['audience'] = true;
             $this->audience = $value['audience'];
             unset($value['audience']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('issuers', $value)) {
             $this->_usedProperties['issuers'] = true;
             $this->issuers = $value['issuers'];
             unset($value['issuers']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('algorithm', $value)) {
             $this->_usedProperties['algorithm'] = true;
             $this->algorithm = $value['algorithm'];
             unset($value['algorithm']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('key', $value)) {
             $this->_usedProperties['key'] = true;
             $this->key = $value['key'];
             unset($value['key']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -141,7 +204,11 @@ class OidcConfig
         if (isset($this->_usedProperties['key'])) {
             $output['key'] = $this->key;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

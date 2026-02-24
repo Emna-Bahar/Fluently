@@ -1,9 +1,15 @@
 <?php return array(
     'root' => array(
         'name' => '__root__',
+<<<<<<< HEAD
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
         'reference' => '63d033234f28699455041018424ca24d63127506',
+=======
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => '53c6a383849c0f169b7a599892417982dc6cf356',
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +17,15 @@
     ),
     'versions' => array(
         '__root__' => array(
+<<<<<<< HEAD
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
             'reference' => '63d033234f28699455041018424ca24d63127506',
+=======
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '53c6a383849c0f169b7a599892417982dc6cf356',
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -145,6 +157,7 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
         'dompdf/dompdf' => array(
             'pretty_version' => 'v3.1.4',
             'version' => '3.1.4.0',
@@ -172,6 +185,8 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         'egulias/email-validator' => array(
             'pretty_version' => '4.0.4',
             'version' => '4.0.4.0',
@@ -181,6 +196,7 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
         'guzzlehttp/guzzle' => array(
             'pretty_version' => '7.10.0',
             'version' => '7.10.0.0',
@@ -226,6 +242,8 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         'masterminds/html5' => array(
             'pretty_version' => '2.10.0',
             'version' => '2.10.0.0',
@@ -233,7 +251,11 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../masterminds/html5',
             'aliases' => array(),
+<<<<<<< HEAD
             'dev_requirement' => false,
+=======
+            'dev_requirement' => true,
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         ),
         'monolog/monolog' => array(
             'pretty_version' => '3.10.0',
@@ -262,6 +284,7 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
+<<<<<<< HEAD
         'openai-php/client' => array(
             'pretty_version' => 'v0.19.0',
             'version' => '0.19.0.0',
@@ -271,6 +294,8 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         'phar-io/manifest' => array(
             'pretty_version' => '2.0.4',
             'version' => '2.0.4.0',
@@ -301,6 +326,7 @@
                 0 => '*',
             ),
         ),
+<<<<<<< HEAD
         'php-http/discovery' => array(
             'pretty_version' => '1.20.0',
             'version' => '1.20.0.0',
@@ -319,6 +345,8 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         'phpdocumentor/reflection-common' => array(
             'pretty_version' => '2.2.0',
             'version' => '2.2.0.0',
@@ -469,6 +497,7 @@
                 0 => '1.0',
             ),
         ),
+<<<<<<< HEAD
         'psr/http-client' => array(
             'pretty_version' => '1.0.3',
             'version' => '1.0.3.0',
@@ -515,6 +544,12 @@
             'provided' => array(
                 0 => '*',
                 1 => '1.0',
+=======
+        'psr/http-client-implementation' => array(
+            'dev_requirement' => false,
+            'provided' => array(
+                0 => '1.0',
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
             ),
         ),
         'psr/link' => array(
@@ -554,6 +589,7 @@
                 0 => '1.0|2.0|3.0',
             ),
         ),
+<<<<<<< HEAD
         'ralouphie/getallheaders' => array(
             'pretty_version' => '3.0.3',
             'version' => '3.0.3.0',
@@ -572,6 +608,8 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         'sebastian/cli-parser' => array(
             'pretty_version' => '3.0.2',
             'version' => '3.0.2.0',
@@ -1418,6 +1456,7 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
+<<<<<<< HEAD
         'symfony/workflow' => array(
             'pretty_version' => 'v6.4.32',
             'version' => '6.4.32.0',
@@ -1427,6 +1466,8 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         'symfony/yaml' => array(
             'pretty_version' => 'v6.4.30',
             'version' => '6.4.30.0',
@@ -1436,6 +1477,7 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
         'thecodingmachine/safe' => array(
             'pretty_version' => 'v3.3.0',
             'version' => '3.3.0.0',
@@ -1445,6 +1487,8 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         'theseer/tokenizer' => array(
             'pretty_version' => '1.3.1',
             'version' => '1.3.1.0',

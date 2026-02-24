@@ -28,7 +28,11 @@ class LoginLinkConfig
     private $failureForward;
     private $failurePathParameter;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Route that will validate the login link - e.g. "app_login_link_verify".
      * @default null
@@ -39,10 +43,17 @@ class LoginLinkConfig
     {
         $this->_usedProperties['checkRoute'] = true;
         $this->checkRoute = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * If true, only HTTP POST requests to "check_route" will be handled by the authenticator.
      * @default false
@@ -53,10 +64,17 @@ class LoginLinkConfig
     {
         $this->_usedProperties['checkPostOnly'] = true;
         $this->checkPostOnly = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -66,10 +84,17 @@ class LoginLinkConfig
     {
         $this->_usedProperties['signatureProperties'] = true;
         $this->signatureProperties = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * The lifetime of the login link in seconds.
      * @default 600
@@ -80,10 +105,17 @@ class LoginLinkConfig
     {
         $this->_usedProperties['lifetime'] = true;
         $this->lifetime = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Max number of times a login link can be used - null means unlimited within lifetime.
      * @default null
@@ -94,10 +126,17 @@ class LoginLinkConfig
     {
         $this->_usedProperties['maxUses'] = true;
         $this->maxUses = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Cache service id used to expired links of max_uses is set.
      * @default null
@@ -108,10 +147,17 @@ class LoginLinkConfig
     {
         $this->_usedProperties['usedLinkCache'] = true;
         $this->usedLinkCache = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * A service id that implements Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface.
      * @default null
@@ -122,10 +168,17 @@ class LoginLinkConfig
     {
         $this->_usedProperties['successHandler'] = true;
         $this->successHandler = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * A service id that implements Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface.
      * @default null
@@ -136,10 +189,17 @@ class LoginLinkConfig
     {
         $this->_usedProperties['failureHandler'] = true;
         $this->failureHandler = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * The user provider to load users from.
      * @default null
@@ -150,10 +210,17 @@ class LoginLinkConfig
     {
         $this->_usedProperties['provider'] = true;
         $this->provider = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default false
      * @param ParamConfigurator|bool $value
@@ -163,10 +230,17 @@ class LoginLinkConfig
     {
         $this->_usedProperties['alwaysUseDefaultTargetPath'] = true;
         $this->alwaysUseDefaultTargetPath = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default '/'
      * @param ParamConfigurator|mixed $value
@@ -176,10 +250,17 @@ class LoginLinkConfig
     {
         $this->_usedProperties['defaultTargetPath'] = true;
         $this->defaultTargetPath = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default '/login'
      * @param ParamConfigurator|mixed $value
@@ -189,10 +270,17 @@ class LoginLinkConfig
     {
         $this->_usedProperties['loginPath'] = true;
         $this->loginPath = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default '_target_path'
      * @param ParamConfigurator|mixed $value
@@ -202,10 +290,17 @@ class LoginLinkConfig
     {
         $this->_usedProperties['targetPathParameter'] = true;
         $this->targetPathParameter = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default false
      * @param ParamConfigurator|bool $value
@@ -215,10 +310,17 @@ class LoginLinkConfig
     {
         $this->_usedProperties['useReferer'] = true;
         $this->useReferer = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -228,10 +330,17 @@ class LoginLinkConfig
     {
         $this->_usedProperties['failurePath'] = true;
         $this->failurePath = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default false
      * @param ParamConfigurator|bool $value
@@ -241,10 +350,17 @@ class LoginLinkConfig
     {
         $this->_usedProperties['failureForward'] = true;
         $this->failureForward = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default '_failure_path'
      * @param ParamConfigurator|mixed $value
@@ -254,10 +370,17 @@ class LoginLinkConfig
     {
         $this->_usedProperties['failurePathParameter'] = true;
         $this->failurePathParameter = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('check_route', $value)) {
@@ -265,108 +388,180 @@ class LoginLinkConfig
             $this->checkRoute = $value['check_route'];
             unset($value['check_route']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('check_post_only', $value)) {
             $this->_usedProperties['checkPostOnly'] = true;
             $this->checkPostOnly = $value['check_post_only'];
             unset($value['check_post_only']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('signature_properties', $value)) {
             $this->_usedProperties['signatureProperties'] = true;
             $this->signatureProperties = $value['signature_properties'];
             unset($value['signature_properties']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('lifetime', $value)) {
             $this->_usedProperties['lifetime'] = true;
             $this->lifetime = $value['lifetime'];
             unset($value['lifetime']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('max_uses', $value)) {
             $this->_usedProperties['maxUses'] = true;
             $this->maxUses = $value['max_uses'];
             unset($value['max_uses']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('used_link_cache', $value)) {
             $this->_usedProperties['usedLinkCache'] = true;
             $this->usedLinkCache = $value['used_link_cache'];
             unset($value['used_link_cache']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('success_handler', $value)) {
             $this->_usedProperties['successHandler'] = true;
             $this->successHandler = $value['success_handler'];
             unset($value['success_handler']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('failure_handler', $value)) {
             $this->_usedProperties['failureHandler'] = true;
             $this->failureHandler = $value['failure_handler'];
             unset($value['failure_handler']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('provider', $value)) {
             $this->_usedProperties['provider'] = true;
             $this->provider = $value['provider'];
             unset($value['provider']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('always_use_default_target_path', $value)) {
             $this->_usedProperties['alwaysUseDefaultTargetPath'] = true;
             $this->alwaysUseDefaultTargetPath = $value['always_use_default_target_path'];
             unset($value['always_use_default_target_path']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('default_target_path', $value)) {
             $this->_usedProperties['defaultTargetPath'] = true;
             $this->defaultTargetPath = $value['default_target_path'];
             unset($value['default_target_path']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('login_path', $value)) {
             $this->_usedProperties['loginPath'] = true;
             $this->loginPath = $value['login_path'];
             unset($value['login_path']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('target_path_parameter', $value)) {
             $this->_usedProperties['targetPathParameter'] = true;
             $this->targetPathParameter = $value['target_path_parameter'];
             unset($value['target_path_parameter']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('use_referer', $value)) {
             $this->_usedProperties['useReferer'] = true;
             $this->useReferer = $value['use_referer'];
             unset($value['use_referer']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('failure_path', $value)) {
             $this->_usedProperties['failurePath'] = true;
             $this->failurePath = $value['failure_path'];
             unset($value['failure_path']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('failure_forward', $value)) {
             $this->_usedProperties['failureForward'] = true;
             $this->failureForward = $value['failure_forward'];
             unset($value['failure_forward']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('failure_path_parameter', $value)) {
             $this->_usedProperties['failurePathParameter'] = true;
             $this->failurePathParameter = $value['failure_path_parameter'];
             unset($value['failure_path_parameter']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -421,7 +616,11 @@ class LoginLinkConfig
         if (isset($this->_usedProperties['failurePathParameter'])) {
             $output['failure_path_parameter'] = $this->failurePathParameter;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

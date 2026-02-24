@@ -16,7 +16,11 @@ class RetryStrategyConfig
     private $multiplier;
     private $maxDelay;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Service id to override the retry strategy entirely
      * @default null
@@ -27,10 +31,17 @@ class RetryStrategyConfig
     {
         $this->_usedProperties['service'] = true;
         $this->service = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 3
      * @param ParamConfigurator|int $value
@@ -40,10 +51,17 @@ class RetryStrategyConfig
     {
         $this->_usedProperties['maxRetries'] = true;
         $this->maxRetries = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Time in ms to delay (or the initial value when multiplier is used)
      * @default 1000
@@ -54,10 +72,17 @@ class RetryStrategyConfig
     {
         $this->_usedProperties['delay'] = true;
         $this->delay = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * If greater than 1, delay will grow exponentially for each retry: this delay = (delay * (multiple ^ retries))
      * @default 2
@@ -68,10 +93,17 @@ class RetryStrategyConfig
     {
         $this->_usedProperties['multiplier'] = true;
         $this->multiplier = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Max time in ms that a retry should ever be delayed (0 = infinite)
      * @default 0
@@ -82,10 +114,17 @@ class RetryStrategyConfig
     {
         $this->_usedProperties['maxDelay'] = true;
         $this->maxDelay = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('service', $value)) {
@@ -93,36 +132,60 @@ class RetryStrategyConfig
             $this->service = $value['service'];
             unset($value['service']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('max_retries', $value)) {
             $this->_usedProperties['maxRetries'] = true;
             $this->maxRetries = $value['max_retries'];
             unset($value['max_retries']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('delay', $value)) {
             $this->_usedProperties['delay'] = true;
             $this->delay = $value['delay'];
             unset($value['delay']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('multiplier', $value)) {
             $this->_usedProperties['multiplier'] = true;
             $this->multiplier = $value['multiplier'];
             unset($value['multiplier']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('max_delay', $value)) {
             $this->_usedProperties['maxDelay'] = true;
             $this->maxDelay = $value['max_delay'];
             unset($value['max_delay']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -141,7 +204,11 @@ class RetryStrategyConfig
         if (isset($this->_usedProperties['maxDelay'])) {
             $output['max_delay'] = $this->maxDelay;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

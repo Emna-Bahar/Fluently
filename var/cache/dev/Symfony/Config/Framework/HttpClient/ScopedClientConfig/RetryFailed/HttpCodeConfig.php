@@ -13,7 +13,11 @@ class HttpCodeConfig
     private $code;
     private $methods;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|int $value
@@ -23,10 +27,17 @@ class HttpCodeConfig
     {
         $this->_usedProperties['code'] = true;
         $this->code = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -36,10 +47,17 @@ class HttpCodeConfig
     {
         $this->_usedProperties['methods'] = true;
         $this->methods = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('code', $value)) {
@@ -47,18 +65,30 @@ class HttpCodeConfig
             $this->code = $value['code'];
             unset($value['code']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('methods', $value)) {
             $this->_usedProperties['methods'] = true;
             $this->methods = $value['methods'];
             unset($value['methods']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -68,7 +98,11 @@ class HttpCodeConfig
         if (isset($this->_usedProperties['methods'])) {
             $output['methods'] = $this->methods;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

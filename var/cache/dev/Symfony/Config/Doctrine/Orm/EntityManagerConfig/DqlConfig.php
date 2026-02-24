@@ -14,7 +14,11 @@ class DqlConfig
     private $numericFunctions;
     private $datetimeFunctions;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @return $this
      */
@@ -22,10 +26,17 @@ class DqlConfig
     {
         $this->_usedProperties['stringFunctions'] = true;
         $this->stringFunctions[$name] = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @return $this
      */
@@ -33,10 +44,17 @@ class DqlConfig
     {
         $this->_usedProperties['numericFunctions'] = true;
         $this->numericFunctions[$name] = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @return $this
      */
@@ -44,10 +62,17 @@ class DqlConfig
     {
         $this->_usedProperties['datetimeFunctions'] = true;
         $this->datetimeFunctions[$name] = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('string_functions', $value)) {
@@ -55,24 +80,40 @@ class DqlConfig
             $this->stringFunctions = $value['string_functions'];
             unset($value['string_functions']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('numeric_functions', $value)) {
             $this->_usedProperties['numericFunctions'] = true;
             $this->numericFunctions = $value['numeric_functions'];
             unset($value['numeric_functions']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('datetime_functions', $value)) {
             $this->_usedProperties['datetimeFunctions'] = true;
             $this->datetimeFunctions = $value['datetime_functions'];
             unset($value['datetime_functions']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -85,7 +126,11 @@ class DqlConfig
         if (isset($this->_usedProperties['datetimeFunctions'])) {
             $output['datetime_functions'] = $this->datetimeFunctions;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

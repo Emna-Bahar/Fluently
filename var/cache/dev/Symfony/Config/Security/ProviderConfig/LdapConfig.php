@@ -20,7 +20,11 @@ class LdapConfig
     private $filter;
     private $passwordAttribute;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'ldap'
      * @param ParamConfigurator|mixed $value
@@ -30,10 +34,17 @@ class LdapConfig
     {
         $this->_usedProperties['service'] = true;
         $this->service = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -43,10 +54,17 @@ class LdapConfig
     {
         $this->_usedProperties['baseDn'] = true;
         $this->baseDn = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -56,10 +74,17 @@ class LdapConfig
     {
         $this->_usedProperties['searchDn'] = true;
         $this->searchDn = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -69,10 +94,17 @@ class LdapConfig
     {
         $this->_usedProperties['searchPassword'] = true;
         $this->searchPassword = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -82,10 +114,17 @@ class LdapConfig
     {
         $this->_usedProperties['extraFields'] = true;
         $this->extraFields = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed>|string $value
      *
@@ -95,10 +134,17 @@ class LdapConfig
     {
         $this->_usedProperties['defaultRoles'] = true;
         $this->defaultRoles = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'sAMAccountName'
      * @param ParamConfigurator|mixed $value
@@ -108,10 +154,17 @@ class LdapConfig
     {
         $this->_usedProperties['uidKey'] = true;
         $this->uidKey = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default '({uid_key}={username})'
      * @param ParamConfigurator|mixed $value
@@ -121,10 +174,17 @@ class LdapConfig
     {
         $this->_usedProperties['filter'] = true;
         $this->filter = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -134,10 +194,17 @@ class LdapConfig
     {
         $this->_usedProperties['passwordAttribute'] = true;
         $this->passwordAttribute = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('service', $value)) {
@@ -145,60 +212,100 @@ class LdapConfig
             $this->service = $value['service'];
             unset($value['service']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('base_dn', $value)) {
             $this->_usedProperties['baseDn'] = true;
             $this->baseDn = $value['base_dn'];
             unset($value['base_dn']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('search_dn', $value)) {
             $this->_usedProperties['searchDn'] = true;
             $this->searchDn = $value['search_dn'];
             unset($value['search_dn']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('search_password', $value)) {
             $this->_usedProperties['searchPassword'] = true;
             $this->searchPassword = $value['search_password'];
             unset($value['search_password']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('extra_fields', $value)) {
             $this->_usedProperties['extraFields'] = true;
             $this->extraFields = $value['extra_fields'];
             unset($value['extra_fields']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('default_roles', $value)) {
             $this->_usedProperties['defaultRoles'] = true;
             $this->defaultRoles = $value['default_roles'];
             unset($value['default_roles']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('uid_key', $value)) {
             $this->_usedProperties['uidKey'] = true;
             $this->uidKey = $value['uid_key'];
             unset($value['uid_key']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('filter', $value)) {
             $this->_usedProperties['filter'] = true;
             $this->filter = $value['filter'];
             unset($value['filter']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('password_attribute', $value)) {
             $this->_usedProperties['passwordAttribute'] = true;
             $this->passwordAttribute = $value['password_attribute'];
             unset($value['password_attribute']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -229,7 +336,11 @@ class LdapConfig
         if (isset($this->_usedProperties['passwordAttribute'])) {
             $output['password_attribute'] = $this->passwordAttribute;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

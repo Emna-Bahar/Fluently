@@ -14,7 +14,11 @@ class ProviderConfig
     private $domains;
     private $locales;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -24,10 +28,17 @@ class ProviderConfig
     {
         $this->_usedProperties['dsn'] = true;
         $this->dsn = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -37,10 +48,17 @@ class ProviderConfig
     {
         $this->_usedProperties['domains'] = true;
         $this->domains = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -50,10 +68,17 @@ class ProviderConfig
     {
         $this->_usedProperties['locales'] = true;
         $this->locales = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('dsn', $value)) {
@@ -61,24 +86,40 @@ class ProviderConfig
             $this->dsn = $value['dsn'];
             unset($value['dsn']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('domains', $value)) {
             $this->_usedProperties['domains'] = true;
             $this->domains = $value['domains'];
             unset($value['domains']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('locales', $value)) {
             $this->_usedProperties['locales'] = true;
             $this->locales = $value['locales'];
             unset($value['locales']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -91,7 +132,11 @@ class ProviderConfig
         if (isset($this->_usedProperties['locales'])) {
             $output['locales'] = $this->locales;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

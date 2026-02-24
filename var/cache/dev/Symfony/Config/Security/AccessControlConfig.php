@@ -22,7 +22,11 @@ class AccessControlConfig
     private $allowIf;
     private $roles;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -32,10 +36,17 @@ class AccessControlConfig
     {
         $this->_usedProperties['requestMatcher'] = true;
         $this->requestMatcher = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -45,10 +56,17 @@ class AccessControlConfig
     {
         $this->_usedProperties['requiresChannel'] = true;
         $this->requiresChannel = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * use the urldecoded format
      * @example ^/path to resource/
@@ -60,10 +78,17 @@ class AccessControlConfig
     {
         $this->_usedProperties['path'] = true;
         $this->path = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -73,10 +98,17 @@ class AccessControlConfig
     {
         $this->_usedProperties['host'] = true;
         $this->host = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|int $value
@@ -86,10 +118,17 @@ class AccessControlConfig
     {
         $this->_usedProperties['port'] = true;
         $this->port = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed>|string $value
      *
@@ -99,10 +138,17 @@ class AccessControlConfig
     {
         $this->_usedProperties['ips'] = true;
         $this->ips = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @return $this
      */
@@ -110,10 +156,17 @@ class AccessControlConfig
     {
         $this->_usedProperties['attributes'] = true;
         $this->attributes[$key] = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -123,10 +176,17 @@ class AccessControlConfig
     {
         $this->_usedProperties['route'] = true;
         $this->route = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed>|string $value
      *
@@ -136,10 +196,17 @@ class AccessControlConfig
     {
         $this->_usedProperties['methods'] = true;
         $this->methods = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -149,10 +216,17 @@ class AccessControlConfig
     {
         $this->_usedProperties['allowIf'] = true;
         $this->allowIf = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed>|string $value
      *
@@ -162,10 +236,17 @@ class AccessControlConfig
     {
         $this->_usedProperties['roles'] = true;
         $this->roles = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('request_matcher', $value)) {
@@ -173,72 +254,120 @@ class AccessControlConfig
             $this->requestMatcher = $value['request_matcher'];
             unset($value['request_matcher']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('requires_channel', $value)) {
             $this->_usedProperties['requiresChannel'] = true;
             $this->requiresChannel = $value['requires_channel'];
             unset($value['requires_channel']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('path', $value)) {
             $this->_usedProperties['path'] = true;
             $this->path = $value['path'];
             unset($value['path']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('host', $value)) {
             $this->_usedProperties['host'] = true;
             $this->host = $value['host'];
             unset($value['host']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('port', $value)) {
             $this->_usedProperties['port'] = true;
             $this->port = $value['port'];
             unset($value['port']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('ips', $value)) {
             $this->_usedProperties['ips'] = true;
             $this->ips = $value['ips'];
             unset($value['ips']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('attributes', $value)) {
             $this->_usedProperties['attributes'] = true;
             $this->attributes = $value['attributes'];
             unset($value['attributes']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('route', $value)) {
             $this->_usedProperties['route'] = true;
             $this->route = $value['route'];
             unset($value['route']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('methods', $value)) {
             $this->_usedProperties['methods'] = true;
             $this->methods = $value['methods'];
             unset($value['methods']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('allow_if', $value)) {
             $this->_usedProperties['allowIf'] = true;
             $this->allowIf = $value['allow_if'];
             unset($value['allow_if']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('roles', $value)) {
             $this->_usedProperties['roles'] = true;
             $this->roles = $value['roles'];
             unset($value['roles']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -275,7 +404,11 @@ class AccessControlConfig
         if (isset($this->_usedProperties['roles'])) {
             $output['roles'] = $this->roles;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

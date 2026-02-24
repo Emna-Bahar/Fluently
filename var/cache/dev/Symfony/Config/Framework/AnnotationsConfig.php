@@ -15,7 +15,11 @@ class AnnotationsConfig
     private $fileCacheDir;
     private $debug;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default false
      * @param ParamConfigurator|bool $value
@@ -25,10 +29,17 @@ class AnnotationsConfig
     {
         $this->_usedProperties['enabled'] = true;
         $this->enabled = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'php_array'
      * @param ParamConfigurator|'none'|'php_array'|'file' $value
@@ -38,10 +49,17 @@ class AnnotationsConfig
     {
         $this->_usedProperties['cache'] = true;
         $this->cache = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default '%kernel.cache_dir%/annotations'
      * @param ParamConfigurator|mixed $value
@@ -51,10 +69,17 @@ class AnnotationsConfig
     {
         $this->_usedProperties['fileCacheDir'] = true;
         $this->fileCacheDir = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default true
      * @param ParamConfigurator|bool $value
@@ -64,10 +89,17 @@ class AnnotationsConfig
     {
         $this->_usedProperties['debug'] = true;
         $this->debug = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('enabled', $value)) {
@@ -75,30 +107,50 @@ class AnnotationsConfig
             $this->enabled = $value['enabled'];
             unset($value['enabled']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('cache', $value)) {
             $this->_usedProperties['cache'] = true;
             $this->cache = $value['cache'];
             unset($value['cache']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('file_cache_dir', $value)) {
             $this->_usedProperties['fileCacheDir'] = true;
             $this->fileCacheDir = $value['file_cache_dir'];
             unset($value['file_cache_dir']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('debug', $value)) {
             $this->_usedProperties['debug'] = true;
             $this->debug = $value['debug'];
             unset($value['debug']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -114,7 +166,11 @@ class AnnotationsConfig
         if (isset($this->_usedProperties['debug'])) {
             $output['debug'] = $this->debug;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

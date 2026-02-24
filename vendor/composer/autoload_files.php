@@ -20,6 +20,7 @@ return array(
     'f598d06aa772fa33d905e87be6398fb1' => $vendorDir . '/symfony/polyfill-intl-idn/bootstrap.php',
     '2203a247e6fda86070a5e4e07aed533a' => $vendorDir . '/symfony/clock/Resources/now.php',
     '9d2b9fc6db0f153a0a149fefb182415e' => $vendorDir . '/symfony/polyfill-php84/bootstrap.php',
+<<<<<<< HEAD
     '72243e5536b63e298acb6476f01f1aff' => $vendorDir . '/thecodingmachine/safe/lib/special_cases.php',
     '3f648889e687f31c52f949ba8a9d0873' => $vendorDir . '/thecodingmachine/safe/generated/apache.php',
     'eeb4581d958421a4244aaa4167c6a575' => $vendorDir . '/thecodingmachine/safe/generated/apcu.php',
@@ -105,6 +106,10 @@ return array(
     '6a47392539ca2329373e0d33e1dba053' => $vendorDir . '/symfony/polyfill-intl-icu/bootstrap.php',
     '37a3dc5111fe8f707ab4c132ef1dbc62' => $vendorDir . '/guzzlehttp/guzzle/src/functions_include.php',
     '61ba3e92ef91a7a0f1cc260ebd9290e4' => $vendorDir . '/openai-php/client/src/OpenAI.php',
+=======
+    '6124b4c8570aa390c21fafd04a26c69f' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+    '6a47392539ca2329373e0d33e1dba053' => $vendorDir . '/symfony/polyfill-intl-icu/bootstrap.php',
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     'ec07570ca5a812141189b1fa81503674' => $vendorDir . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
     'a1105708a18b76903365ca1c4aa61b02' => $vendorDir . '/symfony/translation/Resources/functions.php',
 );

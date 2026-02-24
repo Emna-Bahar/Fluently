@@ -14,7 +14,11 @@ class RendererConfig
     private $innerSeparator;
     private $softBreak;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -24,10 +28,17 @@ class RendererConfig
     {
         $this->_usedProperties['blockSeparator'] = true;
         $this->blockSeparator = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -37,10 +48,17 @@ class RendererConfig
     {
         $this->_usedProperties['innerSeparator'] = true;
         $this->innerSeparator = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -50,10 +68,17 @@ class RendererConfig
     {
         $this->_usedProperties['softBreak'] = true;
         $this->softBreak = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('block_separator', $value)) {
@@ -61,24 +86,40 @@ class RendererConfig
             $this->blockSeparator = $value['block_separator'];
             unset($value['block_separator']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('inner_separator', $value)) {
             $this->_usedProperties['innerSeparator'] = true;
             $this->innerSeparator = $value['inner_separator'];
             unset($value['inner_separator']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('soft_break', $value)) {
             $this->_usedProperties['softBreak'] = true;
             $this->softBreak = $value['soft_break'];
             unset($value['soft_break']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -91,7 +132,11 @@ class RendererConfig
         if (isset($this->_usedProperties['softBreak'])) {
             $output['soft_break'] = $this->softBreak;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

@@ -16,7 +16,11 @@ class AccessDecisionManagerConfig
     private $allowIfAllAbstain;
     private $allowIfEqualGrantedDenied;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|'affirmative'|'consensus'|'unanimous'|'priority' $value
@@ -26,10 +30,17 @@ class AccessDecisionManagerConfig
     {
         $this->_usedProperties['strategy'] = true;
         $this->strategy = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -39,10 +50,17 @@ class AccessDecisionManagerConfig
     {
         $this->_usedProperties['service'] = true;
         $this->service = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -52,10 +70,17 @@ class AccessDecisionManagerConfig
     {
         $this->_usedProperties['strategyService'] = true;
         $this->strategyService = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default false
      * @param ParamConfigurator|bool $value
@@ -65,10 +90,17 @@ class AccessDecisionManagerConfig
     {
         $this->_usedProperties['allowIfAllAbstain'] = true;
         $this->allowIfAllAbstain = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default true
      * @param ParamConfigurator|bool $value
@@ -78,10 +110,17 @@ class AccessDecisionManagerConfig
     {
         $this->_usedProperties['allowIfEqualGrantedDenied'] = true;
         $this->allowIfEqualGrantedDenied = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('strategy', $value)) {
@@ -89,36 +128,60 @@ class AccessDecisionManagerConfig
             $this->strategy = $value['strategy'];
             unset($value['strategy']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('service', $value)) {
             $this->_usedProperties['service'] = true;
             $this->service = $value['service'];
             unset($value['service']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('strategy_service', $value)) {
             $this->_usedProperties['strategyService'] = true;
             $this->strategyService = $value['strategy_service'];
             unset($value['strategy_service']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('allow_if_all_abstain', $value)) {
             $this->_usedProperties['allowIfAllAbstain'] = true;
             $this->allowIfAllAbstain = $value['allow_if_all_abstain'];
             unset($value['allow_if_all_abstain']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('allow_if_equal_granted_denied', $value)) {
             $this->_usedProperties['allowIfEqualGrantedDenied'] = true;
             $this->allowIfEqualGrantedDenied = $value['allow_if_equal_granted_denied'];
             unset($value['allow_if_equal_granted_denied']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -137,7 +200,11 @@ class AccessDecisionManagerConfig
         if (isset($this->_usedProperties['allowIfEqualGrantedDenied'])) {
             $output['allow_if_equal_granted_denied'] = $this->allowIfEqualGrantedDenied;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

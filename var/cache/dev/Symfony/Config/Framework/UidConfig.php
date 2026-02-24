@@ -17,7 +17,11 @@ class UidConfig
     private $timeBasedUuidVersion;
     private $timeBasedUuidNode;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default false
      * @param ParamConfigurator|bool $value
@@ -27,10 +31,17 @@ class UidConfig
     {
         $this->_usedProperties['enabled'] = true;
         $this->enabled = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|7|6|4|1 $value
@@ -40,10 +51,17 @@ class UidConfig
     {
         $this->_usedProperties['defaultUuidVersion'] = true;
         $this->defaultUuidVersion = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 5
      * @param ParamConfigurator|5|3 $value
@@ -53,10 +71,17 @@ class UidConfig
     {
         $this->_usedProperties['nameBasedUuidVersion'] = true;
         $this->nameBasedUuidVersion = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -66,10 +91,17 @@ class UidConfig
     {
         $this->_usedProperties['nameBasedUuidNamespace'] = true;
         $this->nameBasedUuidNamespace = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|7|6|1 $value
@@ -79,10 +111,17 @@ class UidConfig
     {
         $this->_usedProperties['timeBasedUuidVersion'] = true;
         $this->timeBasedUuidVersion = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -92,10 +131,17 @@ class UidConfig
     {
         $this->_usedProperties['timeBasedUuidNode'] = true;
         $this->timeBasedUuidNode = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('enabled', $value)) {
@@ -103,42 +149,70 @@ class UidConfig
             $this->enabled = $value['enabled'];
             unset($value['enabled']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('default_uuid_version', $value)) {
             $this->_usedProperties['defaultUuidVersion'] = true;
             $this->defaultUuidVersion = $value['default_uuid_version'];
             unset($value['default_uuid_version']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('name_based_uuid_version', $value)) {
             $this->_usedProperties['nameBasedUuidVersion'] = true;
             $this->nameBasedUuidVersion = $value['name_based_uuid_version'];
             unset($value['name_based_uuid_version']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('name_based_uuid_namespace', $value)) {
             $this->_usedProperties['nameBasedUuidNamespace'] = true;
             $this->nameBasedUuidNamespace = $value['name_based_uuid_namespace'];
             unset($value['name_based_uuid_namespace']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('time_based_uuid_version', $value)) {
             $this->_usedProperties['timeBasedUuidVersion'] = true;
             $this->timeBasedUuidVersion = $value['time_based_uuid_version'];
             unset($value['time_based_uuid_version']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('time_based_uuid_node', $value)) {
             $this->_usedProperties['timeBasedUuidNode'] = true;
             $this->timeBasedUuidNode = $value['time_based_uuid_node'];
             unset($value['time_based_uuid_node']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -160,7 +234,11 @@ class UidConfig
         if (isset($this->_usedProperties['timeBasedUuidNode'])) {
             $output['time_based_uuid_node'] = $this->timeBasedUuidNode;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

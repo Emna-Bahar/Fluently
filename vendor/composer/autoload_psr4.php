@@ -27,7 +27,10 @@ return array(
     'Symfony\\Contracts\\EventDispatcher\\' => array($vendorDir . '/symfony/event-dispatcher-contracts'),
     'Symfony\\Contracts\\Cache\\' => array($vendorDir . '/symfony/cache-contracts'),
     'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
+<<<<<<< HEAD
     'Symfony\\Component\\Workflow\\' => array($vendorDir . '/symfony/workflow'),
+=======
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     'Symfony\\Component\\WebLink\\' => array($vendorDir . '/symfony/web-link'),
     'Symfony\\Component\\VarExporter\\' => array($vendorDir . '/symfony/var-exporter'),
     'Symfony\\Component\\VarDumper\\' => array($vendorDir . '/symfony/var-dumper'),
@@ -82,18 +85,24 @@ return array(
     'Symfony\\Bridge\\Twig\\' => array($vendorDir . '/symfony/twig-bridge'),
     'Symfony\\Bridge\\Monolog\\' => array($vendorDir . '/symfony/monolog-bridge'),
     'Symfony\\Bridge\\Doctrine\\' => array($vendorDir . '/symfony/doctrine-bridge'),
+<<<<<<< HEAD
     'Svg\\' => array($vendorDir . '/dompdf/php-svg-lib/src/Svg'),
     'Sabberworm\\CSS\\' => array($vendorDir . '/sabberworm/php-css-parser/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/src'),
     'Psr\\Link\\' => array($vendorDir . '/psr/link/src'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-factory/src', $vendorDir . '/psr/http-message/src'),
     'Psr\\Http\\Client\\' => array($vendorDir . '/psr/http-client/src'),
+=======
+    'Psr\\Log\\' => array($vendorDir . '/psr/log/src'),
+    'Psr\\Link\\' => array($vendorDir . '/psr/link/src'),
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     'Psr\\EventDispatcher\\' => array($vendorDir . '/psr/event-dispatcher/src'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'Psr\\Clock\\' => array($vendorDir . '/psr/clock/src'),
     'Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'PHPStan\\PhpDocParser\\' => array($vendorDir . '/phpstan/phpdoc-parser/src'),
+<<<<<<< HEAD
     'OpenAI\\' => array($vendorDir . '/openai-php/client/src'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Masterminds\\' => array($vendorDir . '/masterminds/html5/src'),
@@ -107,6 +116,11 @@ return array(
     'FontLib\\' => array($vendorDir . '/dompdf/php-font-lib/src/FontLib'),
     'Egulias\\EmailValidator\\' => array($vendorDir . '/egulias/email-validator/src'),
     'Dompdf\\' => array($vendorDir . '/dompdf/dompdf/src'),
+=======
+    'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
+    'Masterminds\\' => array($vendorDir . '/masterminds/html5/src'),
+    'Egulias\\EmailValidator\\' => array($vendorDir . '/egulias/email-validator/src'),
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     'Doctrine\\SqlFormatter\\' => array($vendorDir . '/doctrine/sql-formatter/src'),
     'Doctrine\\Persistence\\' => array($vendorDir . '/doctrine/persistence/src/Persistence'),
     'Doctrine\\ORM\\' => array($vendorDir . '/doctrine/orm/src'),

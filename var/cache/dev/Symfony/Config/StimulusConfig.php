@@ -13,7 +13,11 @@ class StimulusConfig implements \Symfony\Component\Config\Builder\ConfigBuilderI
     private $controllerPaths;
     private $controllersJson;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -23,10 +27,17 @@ class StimulusConfig implements \Symfony\Component\Config\Builder\ConfigBuilderI
     {
         $this->_usedProperties['controllerPaths'] = true;
         $this->controllerPaths = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default '%kernel.project_dir%/assets/controllers.json'
      * @param ParamConfigurator|mixed $value
@@ -36,15 +47,26 @@ class StimulusConfig implements \Symfony\Component\Config\Builder\ConfigBuilderI
     {
         $this->_usedProperties['controllersJson'] = true;
         $this->controllersJson = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function getExtensionAlias(): string
     {
         return 'stimulus';
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('controller_paths', $value)) {
@@ -52,18 +74,30 @@ class StimulusConfig implements \Symfony\Component\Config\Builder\ConfigBuilderI
             $this->controllerPaths = $value['controller_paths'];
             unset($value['controller_paths']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('controllers_json', $value)) {
             $this->_usedProperties['controllersJson'] = true;
             $this->controllersJson = $value['controllers_json'];
             unset($value['controllers_json']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -73,7 +107,11 @@ class StimulusConfig implements \Symfony\Component\Config\Builder\ConfigBuilderI
         if (isset($this->_usedProperties['controllersJson'])) {
             $output['controllers_json'] = $this->controllersJson;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

@@ -16,7 +16,11 @@ class DebugConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInte
     private $dumpDestination;
     private $theme;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Max number of displayed items past the first level, -1 means no limit
      * @default 2500
@@ -27,10 +31,17 @@ class DebugConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInte
     {
         $this->_usedProperties['maxItems'] = true;
         $this->maxItems = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Minimum tree depth to clone all the items, 1 is default
      * @default 1
@@ -41,10 +52,17 @@ class DebugConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInte
     {
         $this->_usedProperties['minDepth'] = true;
         $this->minDepth = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Max length of displayed strings, -1 means no limit
      * @default -1
@@ -55,10 +73,17 @@ class DebugConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInte
     {
         $this->_usedProperties['maxStringLength'] = true;
         $this->maxStringLength = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * A stream URL where dumps should be written to
      * @example php://stderr, or tcp://%env(VAR_DUMPER_SERVER)% when using the "server:dump" command
@@ -70,10 +95,17 @@ class DebugConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInte
     {
         $this->_usedProperties['dumpDestination'] = true;
         $this->dumpDestination = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Changes the color of the dump() output when rendered directly on the templating. "dark" (default) or "light"
      * @example dark
@@ -85,15 +117,26 @@ class DebugConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInte
     {
         $this->_usedProperties['theme'] = true;
         $this->theme = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function getExtensionAlias(): string
     {
         return 'debug';
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('max_items', $value)) {
@@ -101,36 +144,60 @@ class DebugConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInte
             $this->maxItems = $value['max_items'];
             unset($value['max_items']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('min_depth', $value)) {
             $this->_usedProperties['minDepth'] = true;
             $this->minDepth = $value['min_depth'];
             unset($value['min_depth']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('max_string_length', $value)) {
             $this->_usedProperties['maxStringLength'] = true;
             $this->maxStringLength = $value['max_string_length'];
             unset($value['max_string_length']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('dump_destination', $value)) {
             $this->_usedProperties['dumpDestination'] = true;
             $this->dumpDestination = $value['dump_destination'];
             unset($value['dump_destination']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('theme', $value)) {
             $this->_usedProperties['theme'] = true;
             $this->theme = $value['theme'];
             unset($value['theme']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -149,7 +216,11 @@ class DebugConfig implements \Symfony\Component\Config\Builder\ConfigBuilderInte
         if (isset($this->_usedProperties['theme'])) {
             $output['theme'] = $this->theme;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

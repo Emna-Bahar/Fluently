@@ -20,7 +20,11 @@ class MailerConfig
     private $envelope;
     private $headers;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default true
      * @param ParamConfigurator|bool $value
@@ -30,10 +34,17 @@ class MailerConfig
     {
         $this->_usedProperties['enabled'] = true;
         $this->enabled = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * The message bus to use. Defaults to the default bus if the Messenger component is installed.
      * @default null
@@ -44,10 +55,17 @@ class MailerConfig
     {
         $this->_usedProperties['messageBus'] = true;
         $this->messageBus = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -57,10 +75,17 @@ class MailerConfig
     {
         $this->_usedProperties['dsn'] = true;
         $this->dsn = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @return $this
      */
@@ -68,10 +93,17 @@ class MailerConfig
     {
         $this->_usedProperties['transports'] = true;
         $this->transports[$name] = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Mailer Envelope configuration
     */
@@ -83,10 +115,17 @@ class MailerConfig
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "envelope()" has already been initialized. You cannot pass values the second time you call envelope().');
         }
+<<<<<<< HEAD
     
         return $this->envelope;
     }
     
+=======
+
+        return $this->envelope;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @template TValue of mixed
      * @param TValue $value
@@ -98,20 +137,34 @@ class MailerConfig
         if (!\is_array($value)) {
             $this->_usedProperties['headers'] = true;
             $this->headers[$name] = $value;
+<<<<<<< HEAD
     
             return $this;
         }
     
+=======
+
+            return $this;
+        }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (!isset($this->headers[$name]) || !$this->headers[$name] instanceof \Symfony\Config\Framework\Mailer\HeaderConfig) {
             $this->_usedProperties['headers'] = true;
             $this->headers[$name] = new \Symfony\Config\Framework\Mailer\HeaderConfig($value);
         } elseif (1 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "header()" has already been initialized. You cannot pass values the second time you call header().');
         }
+<<<<<<< HEAD
     
         return $this->headers[$name];
     }
     
+=======
+
+        return $this->headers[$name];
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('enabled', $value)) {
@@ -119,42 +172,70 @@ class MailerConfig
             $this->enabled = $value['enabled'];
             unset($value['enabled']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('message_bus', $value)) {
             $this->_usedProperties['messageBus'] = true;
             $this->messageBus = $value['message_bus'];
             unset($value['message_bus']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('dsn', $value)) {
             $this->_usedProperties['dsn'] = true;
             $this->dsn = $value['dsn'];
             unset($value['dsn']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('transports', $value)) {
             $this->_usedProperties['transports'] = true;
             $this->transports = $value['transports'];
             unset($value['transports']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('envelope', $value)) {
             $this->_usedProperties['envelope'] = true;
             $this->envelope = new \Symfony\Config\Framework\Mailer\EnvelopeConfig($value['envelope']);
             unset($value['envelope']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('headers', $value)) {
             $this->_usedProperties['headers'] = true;
             $this->headers = array_map(fn ($v) => \is_array($v) ? new \Symfony\Config\Framework\Mailer\HeaderConfig($v) : $v, $value['headers']);
             unset($value['headers']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -176,7 +257,11 @@ class MailerConfig
         if (isset($this->_usedProperties['headers'])) {
             $output['headers'] = array_map(fn ($v) => $v instanceof \Symfony\Config\Framework\Mailer\HeaderConfig ? $v->toArray() : $v, $this->headers);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

@@ -17,7 +17,11 @@ class PseudoLocalizationConfig
     private $parseHtml;
     private $localizableHtmlAttributes;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default false
      * @param ParamConfigurator|bool $value
@@ -27,10 +31,17 @@ class PseudoLocalizationConfig
     {
         $this->_usedProperties['enabled'] = true;
         $this->enabled = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default true
      * @param ParamConfigurator|bool $value
@@ -40,10 +51,17 @@ class PseudoLocalizationConfig
     {
         $this->_usedProperties['accents'] = true;
         $this->accents = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 1.0
      * @param ParamConfigurator|float $value
@@ -53,10 +71,17 @@ class PseudoLocalizationConfig
     {
         $this->_usedProperties['expansionFactor'] = true;
         $this->expansionFactor = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default true
      * @param ParamConfigurator|bool $value
@@ -66,10 +91,17 @@ class PseudoLocalizationConfig
     {
         $this->_usedProperties['brackets'] = true;
         $this->brackets = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default false
      * @param ParamConfigurator|bool $value
@@ -79,10 +111,17 @@ class PseudoLocalizationConfig
     {
         $this->_usedProperties['parseHtml'] = true;
         $this->parseHtml = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -92,10 +131,17 @@ class PseudoLocalizationConfig
     {
         $this->_usedProperties['localizableHtmlAttributes'] = true;
         $this->localizableHtmlAttributes = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('enabled', $value)) {
@@ -103,42 +149,70 @@ class PseudoLocalizationConfig
             $this->enabled = $value['enabled'];
             unset($value['enabled']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('accents', $value)) {
             $this->_usedProperties['accents'] = true;
             $this->accents = $value['accents'];
             unset($value['accents']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('expansion_factor', $value)) {
             $this->_usedProperties['expansionFactor'] = true;
             $this->expansionFactor = $value['expansion_factor'];
             unset($value['expansion_factor']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('brackets', $value)) {
             $this->_usedProperties['brackets'] = true;
             $this->brackets = $value['brackets'];
             unset($value['brackets']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('parse_html', $value)) {
             $this->_usedProperties['parseHtml'] = true;
             $this->parseHtml = $value['parse_html'];
             unset($value['parse_html']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('localizable_html_attributes', $value)) {
             $this->_usedProperties['localizableHtmlAttributes'] = true;
             $this->localizableHtmlAttributes = $value['localizable_html_attributes'];
             unset($value['localizable_html_attributes']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -160,7 +234,11 @@ class PseudoLocalizationConfig
         if (isset($this->_usedProperties['localizableHtmlAttributes'])) {
             $output['localizable_html_attributes'] = $this->localizableHtmlAttributes;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

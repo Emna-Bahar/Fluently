@@ -14,7 +14,11 @@ class MarkingStoreConfig
     private $property;
     private $service;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|'method' $value
@@ -24,10 +28,17 @@ class MarkingStoreConfig
     {
         $this->_usedProperties['type'] = true;
         $this->type = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -37,10 +48,17 @@ class MarkingStoreConfig
     {
         $this->_usedProperties['property'] = true;
         $this->property = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -50,10 +68,17 @@ class MarkingStoreConfig
     {
         $this->_usedProperties['service'] = true;
         $this->service = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('type', $value)) {
@@ -61,24 +86,40 @@ class MarkingStoreConfig
             $this->type = $value['type'];
             unset($value['type']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('property', $value)) {
             $this->_usedProperties['property'] = true;
             $this->property = $value['property'];
             unset($value['property']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('service', $value)) {
             $this->_usedProperties['service'] = true;
             $this->service = $value['service'];
             unset($value['service']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -91,7 +132,11 @@ class MarkingStoreConfig
         if (isset($this->_usedProperties['service'])) {
             $output['service'] = $this->service;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

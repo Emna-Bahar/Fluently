@@ -25,7 +25,11 @@ class ValidationConfig
     private $notCompromisedPassword;
     private $autoMapping;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default true
      * @param ParamConfigurator|bool $value
@@ -35,10 +39,17 @@ class ValidationConfig
     {
         $this->_usedProperties['enabled'] = true;
         $this->enabled = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -48,10 +59,17 @@ class ValidationConfig
     {
         $this->_usedProperties['cache'] = true;
         $this->cache = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|bool $value
@@ -61,10 +79,17 @@ class ValidationConfig
     {
         $this->_usedProperties['enableAnnotations'] = true;
         $this->enableAnnotations = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default true
      * @param ParamConfigurator|bool $value
@@ -74,10 +99,17 @@ class ValidationConfig
     {
         $this->_usedProperties['enableAttributes'] = true;
         $this->enableAttributes = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -87,10 +119,17 @@ class ValidationConfig
     {
         $this->_usedProperties['staticMethod'] = true;
         $this->staticMethod = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'validators'
      * @param ParamConfigurator|mixed $value
@@ -100,10 +139,17 @@ class ValidationConfig
     {
         $this->_usedProperties['translationDomain'] = true;
         $this->translationDomain = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|'html5'|'html5-allow-no-tld'|'strict'|'loose' $value
@@ -113,10 +159,17 @@ class ValidationConfig
     {
         $this->_usedProperties['emailValidationMode'] = true;
         $this->emailValidationMode = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default {"paths":[]}
     */
@@ -128,10 +181,17 @@ class ValidationConfig
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "mapping()" has already been initialized. You cannot pass values the second time you call mapping().');
         }
+<<<<<<< HEAD
     
         return $this->mapping;
     }
     
+=======
+
+        return $this->mapping;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default {"enabled":true,"endpoint":null}
     */
@@ -143,10 +203,17 @@ class ValidationConfig
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "notCompromisedPassword()" has already been initialized. You cannot pass values the second time you call notCompromisedPassword().');
         }
+<<<<<<< HEAD
     
         return $this->notCompromisedPassword;
     }
     
+=======
+
+        return $this->notCompromisedPassword;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * A collection of namespaces for which auto-mapping will be enabled by default, or null to opt-in with the EnableAutoMapping constraint.
      * @example []
@@ -160,10 +227,17 @@ class ValidationConfig
         } elseif (1 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "autoMapping()" has already been initialized. You cannot pass values the second time you call autoMapping().');
         }
+<<<<<<< HEAD
     
         return $this->autoMapping[$namespace];
     }
     
+=======
+
+        return $this->autoMapping[$namespace];
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('enabled', $value)) {
@@ -171,66 +245,110 @@ class ValidationConfig
             $this->enabled = $value['enabled'];
             unset($value['enabled']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('cache', $value)) {
             $this->_usedProperties['cache'] = true;
             $this->cache = $value['cache'];
             unset($value['cache']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('enable_annotations', $value)) {
             $this->_usedProperties['enableAnnotations'] = true;
             $this->enableAnnotations = $value['enable_annotations'];
             unset($value['enable_annotations']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('enable_attributes', $value)) {
             $this->_usedProperties['enableAttributes'] = true;
             $this->enableAttributes = $value['enable_attributes'];
             unset($value['enable_attributes']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('static_method', $value)) {
             $this->_usedProperties['staticMethod'] = true;
             $this->staticMethod = $value['static_method'];
             unset($value['static_method']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('translation_domain', $value)) {
             $this->_usedProperties['translationDomain'] = true;
             $this->translationDomain = $value['translation_domain'];
             unset($value['translation_domain']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('email_validation_mode', $value)) {
             $this->_usedProperties['emailValidationMode'] = true;
             $this->emailValidationMode = $value['email_validation_mode'];
             unset($value['email_validation_mode']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('mapping', $value)) {
             $this->_usedProperties['mapping'] = true;
             $this->mapping = new \Symfony\Config\Framework\Validation\MappingConfig($value['mapping']);
             unset($value['mapping']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('not_compromised_password', $value)) {
             $this->_usedProperties['notCompromisedPassword'] = true;
             $this->notCompromisedPassword = new \Symfony\Config\Framework\Validation\NotCompromisedPasswordConfig($value['not_compromised_password']);
             unset($value['not_compromised_password']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('auto_mapping', $value)) {
             $this->_usedProperties['autoMapping'] = true;
             $this->autoMapping = array_map(fn ($v) => \is_array($v) ? new \Symfony\Config\Framework\Validation\AutoMappingConfig($v) : $v, $value['auto_mapping']);
             unset($value['auto_mapping']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -264,7 +382,11 @@ class ValidationConfig
         if (isset($this->_usedProperties['autoMapping'])) {
             $output['auto_mapping'] = array_map(fn ($v) => $v instanceof \Symfony\Config\Framework\Validation\AutoMappingConfig ? $v->toArray() : $v, $this->autoMapping);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

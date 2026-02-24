@@ -26,7 +26,11 @@ class WorkflowsConfig
     private $transitions;
     private $metadata;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default {"enabled":false}
     */
@@ -38,10 +42,17 @@ class WorkflowsConfig
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "auditTrail()" has already been initialized. You cannot pass values the second time you call auditTrail().');
         }
+<<<<<<< HEAD
     
         return $this->auditTrail;
     }
     
+=======
+
+        return $this->auditTrail;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'state_machine'
      * @param ParamConfigurator|'workflow'|'state_machine' $value
@@ -51,10 +62,17 @@ class WorkflowsConfig
     {
         $this->_usedProperties['type'] = true;
         $this->type = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function markingStore(array $value = []): \Symfony\Config\Framework\Workflows\WorkflowsConfig\MarkingStoreConfig
     {
         if (null === $this->markingStore) {
@@ -63,10 +81,17 @@ class WorkflowsConfig
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "markingStore()" has already been initialized. You cannot pass values the second time you call markingStore().');
         }
+<<<<<<< HEAD
     
         return $this->markingStore;
     }
     
+=======
+
+        return $this->markingStore;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed>|string $value
      *
@@ -76,10 +101,17 @@ class WorkflowsConfig
     {
         $this->_usedProperties['supports'] = true;
         $this->supports = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -89,10 +121,17 @@ class WorkflowsConfig
     {
         $this->_usedProperties['supportStrategy'] = true;
         $this->supportStrategy = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed>|mixed $value
      *
@@ -102,10 +141,17 @@ class WorkflowsConfig
     {
         $this->_usedProperties['initialMarking'] = true;
         $this->initialMarking = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Select which Transition events should be dispatched for this Workflow
      * @example workflow.enter
@@ -119,10 +165,17 @@ class WorkflowsConfig
     {
         $this->_usedProperties['eventsToDispatch'] = true;
         $this->eventsToDispatch = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @template TValue of mixed
      * @param TValue $value
@@ -134,6 +187,7 @@ class WorkflowsConfig
         $this->_usedProperties['places'] = true;
         if (!\is_array($value)) {
             $this->places[] = $value;
+<<<<<<< HEAD
     
             return $this;
         }
@@ -141,6 +195,15 @@ class WorkflowsConfig
         return $this->places[] = new \Symfony\Config\Framework\Workflows\WorkflowsConfig\PlaceConfig($value);
     }
     
+=======
+
+            return $this;
+        }
+
+        return $this->places[] = new \Symfony\Config\Framework\Workflows\WorkflowsConfig\PlaceConfig($value);
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @template TValue of mixed
      * @param TValue $value
@@ -152,6 +215,7 @@ class WorkflowsConfig
         $this->_usedProperties['transitions'] = true;
         if (!\is_array($value)) {
             $this->transitions[] = $value;
+<<<<<<< HEAD
     
             return $this;
         }
@@ -159,6 +223,15 @@ class WorkflowsConfig
         return $this->transitions[] = new \Symfony\Config\Framework\Workflows\WorkflowsConfig\TransitionConfig($value);
     }
     
+=======
+
+            return $this;
+        }
+
+        return $this->transitions[] = new \Symfony\Config\Framework\Workflows\WorkflowsConfig\TransitionConfig($value);
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -168,10 +241,17 @@ class WorkflowsConfig
     {
         $this->_usedProperties['metadata'] = true;
         $this->metadata = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('audit_trail', $value)) {
@@ -179,66 +259,110 @@ class WorkflowsConfig
             $this->auditTrail = \is_array($value['audit_trail']) ? new \Symfony\Config\Framework\Workflows\WorkflowsConfig\AuditTrailConfig($value['audit_trail']) : $value['audit_trail'];
             unset($value['audit_trail']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('type', $value)) {
             $this->_usedProperties['type'] = true;
             $this->type = $value['type'];
             unset($value['type']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('marking_store', $value)) {
             $this->_usedProperties['markingStore'] = true;
             $this->markingStore = new \Symfony\Config\Framework\Workflows\WorkflowsConfig\MarkingStoreConfig($value['marking_store']);
             unset($value['marking_store']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('supports', $value)) {
             $this->_usedProperties['supports'] = true;
             $this->supports = $value['supports'];
             unset($value['supports']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('support_strategy', $value)) {
             $this->_usedProperties['supportStrategy'] = true;
             $this->supportStrategy = $value['support_strategy'];
             unset($value['support_strategy']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('initial_marking', $value)) {
             $this->_usedProperties['initialMarking'] = true;
             $this->initialMarking = $value['initial_marking'];
             unset($value['initial_marking']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('events_to_dispatch', $value)) {
             $this->_usedProperties['eventsToDispatch'] = true;
             $this->eventsToDispatch = $value['events_to_dispatch'];
             unset($value['events_to_dispatch']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('places', $value)) {
             $this->_usedProperties['places'] = true;
             $this->places = array_map(fn ($v) => \is_array($v) ? new \Symfony\Config\Framework\Workflows\WorkflowsConfig\PlaceConfig($v) : $v, $value['places']);
             unset($value['places']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('transitions', $value)) {
             $this->_usedProperties['transitions'] = true;
             $this->transitions = array_map(fn ($v) => \is_array($v) ? new \Symfony\Config\Framework\Workflows\WorkflowsConfig\TransitionConfig($v) : $v, $value['transitions']);
             unset($value['transitions']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('metadata', $value)) {
             $this->_usedProperties['metadata'] = true;
             $this->metadata = $value['metadata'];
             unset($value['metadata']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -272,7 +396,11 @@ class WorkflowsConfig
         if (isset($this->_usedProperties['metadata'])) {
             $output['metadata'] = $this->metadata;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 

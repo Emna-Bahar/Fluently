@@ -99,7 +99,11 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
     private $webhook;
     private $remoteevent;
     private $_usedProperties = [];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -109,10 +113,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
     {
         $this->_usedProperties['secret'] = true;
         $this->secret = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Set true to enable support for the '_method' request parameter to determine the intended HTTP method on POST requests. Note: When using the HttpCache, you need to call the method in your front controller instead
      * @default null
@@ -123,10 +134,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
     {
         $this->_usedProperties['httpMethodOverride'] = true;
         $this->httpMethodOverride = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Set true to enable support for xsendfile in binary file responses.
      * @default false
@@ -137,10 +155,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
     {
         $this->_usedProperties['trustXSendfileTypeHeader'] = true;
         $this->trustXSendfileTypeHeader = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default '%env(default::SYMFONY_IDE)%'
      * @param ParamConfigurator|mixed $value
@@ -150,10 +175,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
     {
         $this->_usedProperties['ide'] = true;
         $this->ide = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|bool $value
@@ -163,10 +195,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
     {
         $this->_usedProperties['test'] = true;
         $this->test = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'en'
      * @param ParamConfigurator|mixed $value
@@ -176,10 +215,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
     {
         $this->_usedProperties['defaultLocale'] = true;
         $this->defaultLocale = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Whether to use the Accept-Language HTTP header to set the Request locale (only when the "_locale" request attribute is not passed).
      * @default false
@@ -190,10 +236,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
     {
         $this->_usedProperties['setLocaleFromAcceptLanguage'] = true;
         $this->setLocaleFromAcceptLanguage = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Whether to set the Content-Language HTTP header on the Response using the Request locale.
      * @default false
@@ -204,10 +257,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
     {
         $this->_usedProperties['setContentLanguageFromLocale'] = true;
         $this->setContentLanguageFromLocale = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -217,10 +277,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
     {
         $this->_usedProperties['enabledLocales'] = true;
         $this->enabledLocales = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed>|string $value
      *
@@ -230,10 +297,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
     {
         $this->_usedProperties['trustedHosts'] = true;
         $this->trustedHosts = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -243,10 +317,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
     {
         $this->_usedProperties['trustedProxies'] = true;
         $this->trustedProxies = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed>|string $value
      *
@@ -256,10 +337,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
     {
         $this->_usedProperties['trustedHeaders'] = true;
         $this->trustedHeaders = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default 'error_controller'
      * @param ParamConfigurator|mixed $value
@@ -269,10 +357,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
     {
         $this->_usedProperties['errorController'] = true;
         $this->errorController = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * HttpKernel will handle all kinds of \Throwable
      * @default null
@@ -283,10 +378,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
     {
         $this->_usedProperties['handleAllThrowables'] = true;
         $this->handleAllThrowables = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default {"enabled":null}
     */
@@ -298,10 +400,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "csrfProtection()" has already been initialized. You cannot pass values the second time you call csrfProtection().');
         }
+<<<<<<< HEAD
     
         return $this->csrfProtection;
     }
     
+=======
+
+        return $this->csrfProtection;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * form configuration
      * @default {"enabled":true,"csrf_protection":{"enabled":null,"field_name":"_token"}}
@@ -314,10 +423,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "form()" has already been initialized. You cannot pass values the second time you call form().');
         }
+<<<<<<< HEAD
     
         return $this->form;
     }
     
+=======
+
+        return $this->form;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * HTTP cache configuration
      * @default {"enabled":false,"debug":"%kernel.debug%","private_headers":[],"skip_response_headers":[]}
@@ -330,10 +446,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "httpCache()" has already been initialized. You cannot pass values the second time you call httpCache().');
         }
+<<<<<<< HEAD
     
         return $this->httpCache;
     }
     
+=======
+
+        return $this->httpCache;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * esi configuration
      * @default {"enabled":false}
@@ -346,10 +469,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "esi()" has already been initialized. You cannot pass values the second time you call esi().');
         }
+<<<<<<< HEAD
     
         return $this->esi;
     }
     
+=======
+
+        return $this->esi;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * ssi configuration
      * @default {"enabled":false}
@@ -362,10 +492,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "ssi()" has already been initialized. You cannot pass values the second time you call ssi().');
         }
+<<<<<<< HEAD
     
         return $this->ssi;
     }
     
+=======
+
+        return $this->ssi;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * fragments configuration
      * @default {"enabled":false,"hinclude_default_template":null,"path":"\/_fragment"}
@@ -378,10 +515,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "fragments()" has already been initialized. You cannot pass values the second time you call fragments().');
         }
+<<<<<<< HEAD
     
         return $this->fragments;
     }
     
+=======
+
+        return $this->fragments;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * profiler configuration
      * @default {"enabled":false,"collect":true,"collect_parameter":null,"only_exceptions":false,"only_main_requests":false,"dsn":"file:%kernel.cache_dir%\/profiler","collect_serializer_data":false}
@@ -394,10 +538,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "profiler()" has already been initialized. You cannot pass values the second time you call profiler().');
         }
+<<<<<<< HEAD
     
         return $this->profiler;
     }
     
+=======
+
+        return $this->profiler;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @template TValue of mixed
      * @param TValue $value
@@ -410,20 +561,34 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         if (!\is_array($value)) {
             $this->_usedProperties['workflows'] = true;
             $this->workflows = $value;
+<<<<<<< HEAD
     
             return $this;
         }
     
+=======
+
+            return $this;
+        }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (!$this->workflows instanceof \Symfony\Config\Framework\WorkflowsConfig) {
             $this->_usedProperties['workflows'] = true;
             $this->workflows = new \Symfony\Config\Framework\WorkflowsConfig($value);
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "workflows()" has already been initialized. You cannot pass values the second time you call workflows().');
         }
+<<<<<<< HEAD
     
         return $this->workflows;
     }
     
+=======
+
+        return $this->workflows;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * router configuration
      * @default {"enabled":false,"cache_dir":"%kernel.cache_dir%","default_uri":null,"http_port":80,"https_port":443,"strict_requirements":true,"utf8":true}
@@ -436,10 +601,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "router()" has already been initialized. You cannot pass values the second time you call router().');
         }
+<<<<<<< HEAD
     
         return $this->router;
     }
     
+=======
+
+        return $this->router;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * session configuration
      * @default {"enabled":false,"storage_factory_id":"session.storage.factory.native","cookie_httponly":true,"gc_probability":1,"metadata_update_threshold":0}
@@ -452,10 +624,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "session()" has already been initialized. You cannot pass values the second time you call session().');
         }
+<<<<<<< HEAD
     
         return $this->session;
     }
     
+=======
+
+        return $this->session;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * request configuration
      * @default {"enabled":false,"formats":[]}
@@ -468,10 +647,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "request()" has already been initialized. You cannot pass values the second time you call request().');
         }
+<<<<<<< HEAD
     
         return $this->request;
     }
     
+=======
+
+        return $this->request;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * assets configuration
      * @default {"enabled":true,"strict_mode":false,"version_strategy":null,"version":null,"version_format":"%%s?%%s","json_manifest_path":null,"base_path":"","base_urls":[],"packages":[]}
@@ -484,10 +670,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "assets()" has already been initialized. You cannot pass values the second time you call assets().');
         }
+<<<<<<< HEAD
     
         return $this->assets;
     }
     
+=======
+
+        return $this->assets;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Asset Mapper configuration
      * @default {"enabled":true,"paths":[],"excluded_patterns":[],"exclude_dotfiles":true,"server":true,"public_prefix":"\/assets\/","missing_import_mode":"warn","extensions":[],"importmap_path":"%kernel.project_dir%\/importmap.php","importmap_polyfill":"es-module-shims","importmap_script_attributes":[],"vendor_dir":"%kernel.project_dir%\/assets\/vendor"}
@@ -500,10 +693,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "assetMapper()" has already been initialized. You cannot pass values the second time you call assetMapper().');
         }
+<<<<<<< HEAD
     
         return $this->assetMapper;
     }
     
+=======
+
+        return $this->assetMapper;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * translator configuration
      * @default {"enabled":true,"fallbacks":[],"logging":false,"formatter":"translator.formatter.default","cache_dir":"%kernel.cache_dir%\/translations","default_path":"%kernel.project_dir%\/translations","paths":[],"pseudo_localization":{"enabled":false,"accents":true,"expansion_factor":1,"brackets":true,"parse_html":false,"localizable_html_attributes":[]},"providers":[]}
@@ -516,10 +716,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "translator()" has already been initialized. You cannot pass values the second time you call translator().');
         }
+<<<<<<< HEAD
     
         return $this->translator;
     }
     
+=======
+
+        return $this->translator;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @template TValue of mixed
      * @param TValue $value
@@ -533,20 +740,34 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         if (!\is_array($value)) {
             $this->_usedProperties['validation'] = true;
             $this->validation = $value;
+<<<<<<< HEAD
     
             return $this;
         }
     
+=======
+
+            return $this;
+        }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (!$this->validation instanceof \Symfony\Config\Framework\ValidationConfig) {
             $this->_usedProperties['validation'] = true;
             $this->validation = new \Symfony\Config\Framework\ValidationConfig($value);
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "validation()" has already been initialized. You cannot pass values the second time you call validation().');
         }
+<<<<<<< HEAD
     
         return $this->validation;
     }
     
+=======
+
+        return $this->validation;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * annotation configuration
      * @default {"enabled":false,"cache":"php_array","file_cache_dir":"%kernel.cache_dir%\/annotations","debug":true}
@@ -559,10 +780,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "annotations()" has already been initialized. You cannot pass values the second time you call annotations().');
         }
+<<<<<<< HEAD
     
         return $this->annotations;
     }
     
+=======
+
+        return $this->annotations;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @template TValue of mixed
      * @param TValue $value
@@ -576,20 +804,34 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         if (!\is_array($value)) {
             $this->_usedProperties['serializer'] = true;
             $this->serializer = $value;
+<<<<<<< HEAD
     
             return $this;
         }
     
+=======
+
+            return $this;
+        }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (!$this->serializer instanceof \Symfony\Config\Framework\SerializerConfig) {
             $this->_usedProperties['serializer'] = true;
             $this->serializer = new \Symfony\Config\Framework\SerializerConfig($value);
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "serializer()" has already been initialized. You cannot pass values the second time you call serializer().');
         }
+<<<<<<< HEAD
     
         return $this->serializer;
     }
     
+=======
+
+        return $this->serializer;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Property access configuration
      * @default {"enabled":true,"magic_call":false,"magic_get":true,"magic_set":true,"throw_exception_on_invalid_index":false,"throw_exception_on_invalid_property_path":true}
@@ -602,10 +844,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "propertyAccess()" has already been initialized. You cannot pass values the second time you call propertyAccess().');
         }
+<<<<<<< HEAD
     
         return $this->propertyAccess;
     }
     
+=======
+
+        return $this->propertyAccess;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Property info configuration
      * @default {"enabled":true}
@@ -618,10 +867,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "propertyInfo()" has already been initialized. You cannot pass values the second time you call propertyInfo().');
         }
+<<<<<<< HEAD
     
         return $this->propertyInfo;
     }
     
+=======
+
+        return $this->propertyInfo;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Cache configuration
      * @default {"prefix_seed":"_%kernel.project_dir%.%kernel.container_class%","app":"cache.adapter.filesystem","system":"cache.adapter.system","directory":"%kernel.cache_dir%\/pools\/app","default_redis_provider":"redis:\/\/localhost","default_memcached_provider":"memcached:\/\/localhost","default_doctrine_dbal_provider":"database_connection","default_pdo_provider":null,"pools":[]}
@@ -634,10 +890,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "cache()" has already been initialized. You cannot pass values the second time you call cache().');
         }
+<<<<<<< HEAD
     
         return $this->cache;
     }
     
+=======
+
+        return $this->cache;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * PHP errors handling configuration
      * @default {"throw":true}
@@ -650,10 +913,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "phpErrors()" has already been initialized. You cannot pass values the second time you call phpErrors().');
         }
+<<<<<<< HEAD
     
         return $this->phpErrors;
     }
     
+=======
+
+        return $this->phpErrors;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Exception handling configuration
     */
@@ -665,10 +935,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (1 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "exception()" has already been initialized. You cannot pass values the second time you call exception().');
         }
+<<<<<<< HEAD
     
         return $this->exceptions[$class];
     }
     
+=======
+
+        return $this->exceptions[$class];
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * web links configuration
      * @default {"enabled":true}
@@ -681,10 +958,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "webLink()" has already been initialized. You cannot pass values the second time you call webLink().');
         }
+<<<<<<< HEAD
     
         return $this->webLink;
     }
     
+=======
+
+        return $this->webLink;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @template TValue of mixed
      * @param TValue $value
@@ -698,20 +982,34 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         if (!\is_array($value)) {
             $this->_usedProperties['lock'] = true;
             $this->lock = $value;
+<<<<<<< HEAD
     
             return $this;
         }
     
+=======
+
+            return $this;
+        }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (!$this->lock instanceof \Symfony\Config\Framework\LockConfig) {
             $this->_usedProperties['lock'] = true;
             $this->lock = new \Symfony\Config\Framework\LockConfig($value);
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "lock()" has already been initialized. You cannot pass values the second time you call lock().');
         }
+<<<<<<< HEAD
     
         return $this->lock;
     }
     
+=======
+
+        return $this->lock;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @template TValue of mixed
      * @param TValue $value
@@ -725,20 +1023,34 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         if (!\is_array($value)) {
             $this->_usedProperties['semaphore'] = true;
             $this->semaphore = $value;
+<<<<<<< HEAD
     
             return $this;
         }
     
+=======
+
+            return $this;
+        }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (!$this->semaphore instanceof \Symfony\Config\Framework\SemaphoreConfig) {
             $this->_usedProperties['semaphore'] = true;
             $this->semaphore = new \Symfony\Config\Framework\SemaphoreConfig($value);
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "semaphore()" has already been initialized. You cannot pass values the second time you call semaphore().');
         }
+<<<<<<< HEAD
     
         return $this->semaphore;
     }
     
+=======
+
+        return $this->semaphore;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Messenger configuration
      * @default {"enabled":true,"routing":[],"serializer":{"default_serializer":"messenger.transport.native_php_serializer","symfony_serializer":{"format":"json","context":[]}},"transports":[],"failure_transport":null,"reset_on_message":true,"stop_worker_on_signals":[],"default_bus":null,"buses":{"messenger.bus.default":{"default_middleware":{"enabled":true,"allow_no_handlers":false,"allow_no_senders":true},"middleware":[]}}}
@@ -751,10 +1063,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "messenger()" has already been initialized. You cannot pass values the second time you call messenger().');
         }
+<<<<<<< HEAD
     
         return $this->messenger;
     }
     
+=======
+
+        return $this->messenger;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Scheduler configuration
      * @default {"enabled":false}
@@ -767,10 +1086,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "scheduler()" has already been initialized. You cannot pass values the second time you call scheduler().');
         }
+<<<<<<< HEAD
     
         return $this->scheduler;
     }
     
+=======
+
+        return $this->scheduler;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Enabled by default when debug is enabled.
      * @default true
@@ -781,10 +1107,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
     {
         $this->_usedProperties['disallowSearchEngineIndex'] = true;
         $this->disallowSearchEngineIndex = $value;
+<<<<<<< HEAD
     
         return $this;
     }
     
+=======
+
+        return $this;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @template TValue of mixed
      * @param TValue $value
@@ -798,20 +1131,34 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         if (!\is_array($value)) {
             $this->_usedProperties['httpClient'] = true;
             $this->httpClient = $value;
+<<<<<<< HEAD
     
             return $this;
         }
     
+=======
+
+            return $this;
+        }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (!$this->httpClient instanceof \Symfony\Config\Framework\HttpClientConfig) {
             $this->_usedProperties['httpClient'] = true;
             $this->httpClient = new \Symfony\Config\Framework\HttpClientConfig($value);
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "httpClient()" has already been initialized. You cannot pass values the second time you call httpClient().');
         }
+<<<<<<< HEAD
     
         return $this->httpClient;
     }
     
+=======
+
+        return $this->httpClient;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Mailer configuration
      * @default {"enabled":true,"message_bus":null,"dsn":null,"transports":[],"headers":[]}
@@ -824,10 +1171,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "mailer()" has already been initialized. You cannot pass values the second time you call mailer().');
         }
+<<<<<<< HEAD
     
         return $this->mailer;
     }
     
+=======
+
+        return $this->mailer;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @default {"enabled":true,"vault_directory":"%kernel.project_dir%\/config\/secrets\/%kernel.runtime_environment%","local_dotenv_file":"%kernel.project_dir%\/.env.%kernel.environment%.local","decryption_env_var":"base64:default::SYMFONY_DECRYPTION_SECRET"}
     */
@@ -839,10 +1193,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "secrets()" has already been initialized. You cannot pass values the second time you call secrets().');
         }
+<<<<<<< HEAD
     
         return $this->secrets;
     }
     
+=======
+
+        return $this->secrets;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Notifier configuration
      * @default {"enabled":true,"message_bus":null,"chatter_transports":[],"texter_transports":[],"notification_on_failed_messages":false,"channel_policy":[],"admin_recipients":[]}
@@ -855,10 +1216,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "notifier()" has already been initialized. You cannot pass values the second time you call notifier().');
         }
+<<<<<<< HEAD
     
         return $this->notifier;
     }
     
+=======
+
+        return $this->notifier;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * @template TValue of mixed
      * @param TValue $value
@@ -872,20 +1240,34 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         if (!\is_array($value)) {
             $this->_usedProperties['rateLimiter'] = true;
             $this->rateLimiter = $value;
+<<<<<<< HEAD
     
             return $this;
         }
     
+=======
+
+            return $this;
+        }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (!$this->rateLimiter instanceof \Symfony\Config\Framework\RateLimiterConfig) {
             $this->_usedProperties['rateLimiter'] = true;
             $this->rateLimiter = new \Symfony\Config\Framework\RateLimiterConfig($value);
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "rateLimiter()" has already been initialized. You cannot pass values the second time you call rateLimiter().');
         }
+<<<<<<< HEAD
     
         return $this->rateLimiter;
     }
     
+=======
+
+        return $this->rateLimiter;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Uid configuration
      * @default {"enabled":false,"name_based_uuid_version":5}
@@ -898,10 +1280,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "uid()" has already been initialized. You cannot pass values the second time you call uid().');
         }
+<<<<<<< HEAD
     
         return $this->uid;
     }
     
+=======
+
+        return $this->uid;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * HtmlSanitizer configuration
      * @default {"enabled":false,"sanitizers":[]}
@@ -914,10 +1303,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "htmlSanitizer()" has already been initialized. You cannot pass values the second time you call htmlSanitizer().');
         }
+<<<<<<< HEAD
     
         return $this->htmlSanitizer;
     }
     
+=======
+
+        return $this->htmlSanitizer;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * Webhook configuration
      * @default {"enabled":false,"message_bus":"messenger.default_bus","routing":[]}
@@ -930,10 +1326,17 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "webhook()" has already been initialized. You cannot pass values the second time you call webhook().');
         }
+<<<<<<< HEAD
     
         return $this->webhook;
     }
     
+=======
+
+        return $this->webhook;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     /**
      * RemoteEvent configuration
      * @default {"enabled":false}
@@ -946,15 +1349,26 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "remoteevent()" has already been initialized. You cannot pass values the second time you call remoteevent().');
         }
+<<<<<<< HEAD
     
         return $this->remoteevent;
     }
     
+=======
+
+        return $this->remoteevent;
+    }
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function getExtensionAlias(): string
     {
         return 'framework';
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function __construct(array $value = [])
     {
         if (array_key_exists('secret', $value)) {
@@ -962,312 +1376,520 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
             $this->secret = $value['secret'];
             unset($value['secret']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('http_method_override', $value)) {
             $this->_usedProperties['httpMethodOverride'] = true;
             $this->httpMethodOverride = $value['http_method_override'];
             unset($value['http_method_override']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('trust_x_sendfile_type_header', $value)) {
             $this->_usedProperties['trustXSendfileTypeHeader'] = true;
             $this->trustXSendfileTypeHeader = $value['trust_x_sendfile_type_header'];
             unset($value['trust_x_sendfile_type_header']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('ide', $value)) {
             $this->_usedProperties['ide'] = true;
             $this->ide = $value['ide'];
             unset($value['ide']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('test', $value)) {
             $this->_usedProperties['test'] = true;
             $this->test = $value['test'];
             unset($value['test']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('default_locale', $value)) {
             $this->_usedProperties['defaultLocale'] = true;
             $this->defaultLocale = $value['default_locale'];
             unset($value['default_locale']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('set_locale_from_accept_language', $value)) {
             $this->_usedProperties['setLocaleFromAcceptLanguage'] = true;
             $this->setLocaleFromAcceptLanguage = $value['set_locale_from_accept_language'];
             unset($value['set_locale_from_accept_language']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('set_content_language_from_locale', $value)) {
             $this->_usedProperties['setContentLanguageFromLocale'] = true;
             $this->setContentLanguageFromLocale = $value['set_content_language_from_locale'];
             unset($value['set_content_language_from_locale']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('enabled_locales', $value)) {
             $this->_usedProperties['enabledLocales'] = true;
             $this->enabledLocales = $value['enabled_locales'];
             unset($value['enabled_locales']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('trusted_hosts', $value)) {
             $this->_usedProperties['trustedHosts'] = true;
             $this->trustedHosts = $value['trusted_hosts'];
             unset($value['trusted_hosts']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('trusted_proxies', $value)) {
             $this->_usedProperties['trustedProxies'] = true;
             $this->trustedProxies = $value['trusted_proxies'];
             unset($value['trusted_proxies']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('trusted_headers', $value)) {
             $this->_usedProperties['trustedHeaders'] = true;
             $this->trustedHeaders = $value['trusted_headers'];
             unset($value['trusted_headers']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('error_controller', $value)) {
             $this->_usedProperties['errorController'] = true;
             $this->errorController = $value['error_controller'];
             unset($value['error_controller']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('handle_all_throwables', $value)) {
             $this->_usedProperties['handleAllThrowables'] = true;
             $this->handleAllThrowables = $value['handle_all_throwables'];
             unset($value['handle_all_throwables']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('csrf_protection', $value)) {
             $this->_usedProperties['csrfProtection'] = true;
             $this->csrfProtection = new \Symfony\Config\Framework\CsrfProtectionConfig($value['csrf_protection']);
             unset($value['csrf_protection']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('form', $value)) {
             $this->_usedProperties['form'] = true;
             $this->form = new \Symfony\Config\Framework\FormConfig($value['form']);
             unset($value['form']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('http_cache', $value)) {
             $this->_usedProperties['httpCache'] = true;
             $this->httpCache = \is_array($value['http_cache']) ? new \Symfony\Config\Framework\HttpCacheConfig($value['http_cache']) : $value['http_cache'];
             unset($value['http_cache']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('esi', $value)) {
             $this->_usedProperties['esi'] = true;
             $this->esi = \is_array($value['esi']) ? new \Symfony\Config\Framework\EsiConfig($value['esi']) : $value['esi'];
             unset($value['esi']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('ssi', $value)) {
             $this->_usedProperties['ssi'] = true;
             $this->ssi = \is_array($value['ssi']) ? new \Symfony\Config\Framework\SsiConfig($value['ssi']) : $value['ssi'];
             unset($value['ssi']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('fragments', $value)) {
             $this->_usedProperties['fragments'] = true;
             $this->fragments = \is_array($value['fragments']) ? new \Symfony\Config\Framework\FragmentsConfig($value['fragments']) : $value['fragments'];
             unset($value['fragments']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('profiler', $value)) {
             $this->_usedProperties['profiler'] = true;
             $this->profiler = \is_array($value['profiler']) ? new \Symfony\Config\Framework\ProfilerConfig($value['profiler']) : $value['profiler'];
             unset($value['profiler']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('workflows', $value)) {
             $this->_usedProperties['workflows'] = true;
             $this->workflows = \is_array($value['workflows']) ? new \Symfony\Config\Framework\WorkflowsConfig($value['workflows']) : $value['workflows'];
             unset($value['workflows']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('router', $value)) {
             $this->_usedProperties['router'] = true;
             $this->router = \is_array($value['router']) ? new \Symfony\Config\Framework\RouterConfig($value['router']) : $value['router'];
             unset($value['router']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('session', $value)) {
             $this->_usedProperties['session'] = true;
             $this->session = \is_array($value['session']) ? new \Symfony\Config\Framework\SessionConfig($value['session']) : $value['session'];
             unset($value['session']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('request', $value)) {
             $this->_usedProperties['request'] = true;
             $this->request = \is_array($value['request']) ? new \Symfony\Config\Framework\RequestConfig($value['request']) : $value['request'];
             unset($value['request']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('assets', $value)) {
             $this->_usedProperties['assets'] = true;
             $this->assets = new \Symfony\Config\Framework\AssetsConfig($value['assets']);
             unset($value['assets']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('asset_mapper', $value)) {
             $this->_usedProperties['assetMapper'] = true;
             $this->assetMapper = new \Symfony\Config\Framework\AssetMapperConfig($value['asset_mapper']);
             unset($value['asset_mapper']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('translator', $value)) {
             $this->_usedProperties['translator'] = true;
             $this->translator = new \Symfony\Config\Framework\TranslatorConfig($value['translator']);
             unset($value['translator']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('validation', $value)) {
             $this->_usedProperties['validation'] = true;
             $this->validation = \is_array($value['validation']) ? new \Symfony\Config\Framework\ValidationConfig($value['validation']) : $value['validation'];
             unset($value['validation']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('annotations', $value)) {
             $this->_usedProperties['annotations'] = true;
             $this->annotations = \is_array($value['annotations']) ? new \Symfony\Config\Framework\AnnotationsConfig($value['annotations']) : $value['annotations'];
             unset($value['annotations']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('serializer', $value)) {
             $this->_usedProperties['serializer'] = true;
             $this->serializer = \is_array($value['serializer']) ? new \Symfony\Config\Framework\SerializerConfig($value['serializer']) : $value['serializer'];
             unset($value['serializer']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('property_access', $value)) {
             $this->_usedProperties['propertyAccess'] = true;
             $this->propertyAccess = new \Symfony\Config\Framework\PropertyAccessConfig($value['property_access']);
             unset($value['property_access']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('property_info', $value)) {
             $this->_usedProperties['propertyInfo'] = true;
             $this->propertyInfo = new \Symfony\Config\Framework\PropertyInfoConfig($value['property_info']);
             unset($value['property_info']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('cache', $value)) {
             $this->_usedProperties['cache'] = true;
             $this->cache = new \Symfony\Config\Framework\CacheConfig($value['cache']);
             unset($value['cache']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('php_errors', $value)) {
             $this->_usedProperties['phpErrors'] = true;
             $this->phpErrors = new \Symfony\Config\Framework\PhpErrorsConfig($value['php_errors']);
             unset($value['php_errors']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('exceptions', $value)) {
             $this->_usedProperties['exceptions'] = true;
             $this->exceptions = array_map(fn ($v) => \is_array($v) ? new \Symfony\Config\Framework\ExceptionConfig($v) : $v, $value['exceptions']);
             unset($value['exceptions']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('web_link', $value)) {
             $this->_usedProperties['webLink'] = true;
             $this->webLink = new \Symfony\Config\Framework\WebLinkConfig($value['web_link']);
             unset($value['web_link']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('lock', $value)) {
             $this->_usedProperties['lock'] = true;
             $this->lock = \is_array($value['lock']) ? new \Symfony\Config\Framework\LockConfig($value['lock']) : $value['lock'];
             unset($value['lock']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('semaphore', $value)) {
             $this->_usedProperties['semaphore'] = true;
             $this->semaphore = \is_array($value['semaphore']) ? new \Symfony\Config\Framework\SemaphoreConfig($value['semaphore']) : $value['semaphore'];
             unset($value['semaphore']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('messenger', $value)) {
             $this->_usedProperties['messenger'] = true;
             $this->messenger = new \Symfony\Config\Framework\MessengerConfig($value['messenger']);
             unset($value['messenger']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('scheduler', $value)) {
             $this->_usedProperties['scheduler'] = true;
             $this->scheduler = \is_array($value['scheduler']) ? new \Symfony\Config\Framework\SchedulerConfig($value['scheduler']) : $value['scheduler'];
             unset($value['scheduler']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('disallow_search_engine_index', $value)) {
             $this->_usedProperties['disallowSearchEngineIndex'] = true;
             $this->disallowSearchEngineIndex = $value['disallow_search_engine_index'];
             unset($value['disallow_search_engine_index']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('http_client', $value)) {
             $this->_usedProperties['httpClient'] = true;
             $this->httpClient = \is_array($value['http_client']) ? new \Symfony\Config\Framework\HttpClientConfig($value['http_client']) : $value['http_client'];
             unset($value['http_client']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('mailer', $value)) {
             $this->_usedProperties['mailer'] = true;
             $this->mailer = new \Symfony\Config\Framework\MailerConfig($value['mailer']);
             unset($value['mailer']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('secrets', $value)) {
             $this->_usedProperties['secrets'] = true;
             $this->secrets = new \Symfony\Config\Framework\SecretsConfig($value['secrets']);
             unset($value['secrets']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('notifier', $value)) {
             $this->_usedProperties['notifier'] = true;
             $this->notifier = new \Symfony\Config\Framework\NotifierConfig($value['notifier']);
             unset($value['notifier']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('rate_limiter', $value)) {
             $this->_usedProperties['rateLimiter'] = true;
             $this->rateLimiter = \is_array($value['rate_limiter']) ? new \Symfony\Config\Framework\RateLimiterConfig($value['rate_limiter']) : $value['rate_limiter'];
             unset($value['rate_limiter']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('uid', $value)) {
             $this->_usedProperties['uid'] = true;
             $this->uid = \is_array($value['uid']) ? new \Symfony\Config\Framework\UidConfig($value['uid']) : $value['uid'];
             unset($value['uid']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('html_sanitizer', $value)) {
             $this->_usedProperties['htmlSanitizer'] = true;
             $this->htmlSanitizer = \is_array($value['html_sanitizer']) ? new \Symfony\Config\Framework\HtmlSanitizerConfig($value['html_sanitizer']) : $value['html_sanitizer'];
             unset($value['html_sanitizer']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('webhook', $value)) {
             $this->_usedProperties['webhook'] = true;
             $this->webhook = \is_array($value['webhook']) ? new \Symfony\Config\Framework\WebhookConfig($value['webhook']) : $value['webhook'];
             unset($value['webhook']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if (array_key_exists('remote-event', $value)) {
             $this->_usedProperties['remoteevent'] = true;
             $this->remoteevent = \is_array($value['remote-event']) ? new \Symfony\Config\Framework\RemoteeventConfig($value['remote-event']) : $value['remote-event'];
             unset($value['remote-event']);
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
     public function toArray(): array
     {
         $output = [];
@@ -1424,7 +2046,11 @@ class FrameworkConfig implements \Symfony\Component\Config\Builder\ConfigBuilder
         if (isset($this->_usedProperties['remoteevent'])) {
             $output['remote-event'] = $this->remoteevent instanceof \Symfony\Config\Framework\RemoteeventConfig ? $this->remoteevent->toArray() : $this->remoteevent;
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6c9df7ec80ddf3eeef0e90abce79c2110332efac
         return $output;
     }
 
