@@ -58,7 +58,7 @@ public function sendMessage(
 
     $message = new Message();
     $message->setContenu($contenu);
-    $user = $userRepository->find(1);  ##PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER PLACEHOLDER 
+    $user = $userRepository->find(1);  #TABDILET ID USER AVEC LA SESSION
     $message->setIdUser($user);
     $message->setIdGroupe($groupe);
     
