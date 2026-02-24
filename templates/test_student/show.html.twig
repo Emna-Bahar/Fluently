@@ -676,8 +676,26 @@ document.addEventListener('visibilitychange', function() {
     if (document.hidden) {
         examEvents.tabSwitches++;
         logExamEvent('tab_switch', {count: examEvents.tabSwitches, timestamp: new Date().toISOString()});
+        
         if (examEvents.tabSwitches >= 3) {
-            alert('⚠️ ATTENTION: Changement d\'onglet détecté (' + examEvents.tabSwitches + ' fois)!\n\nCe comportement est enregistré.');
+            // ✅ SOUMISSION AUTOMATIQUE APRÈS 3 CHANGEMENTS
+            alert('⚠️ LIMITE ATTEINTE: 3 changements d\'onglet!\n\n🔒 Le test va être soumis automatiquement.');
+            
+            // Arrêter le timer
+            if (typeof timerInterval !== 'undefined' && timerInterval) {
+                clearInterval(timerInterval);
+                console.log('⏱️ Timer arrêté (auto-submit)');
+            }
+            
+            // Soumettre le formulaire
+            const testForm = document.getElementById('testForm');
+            if (testForm && !window.testAlreadySubmitted) {
+                window.testAlreadySubmitted = true;
+                testForm.submit();
+            }
+        } else {
+            // Avertissement pour les 1er et 2ème changements
+            alert('⚠️ ATTENTION: Changement d\'onglet détecté (' + examEvents.tabSwitches + '/3)!\n\n' + (3 - examEvents.tabSwitches) + ' changement(s) restant(s) avant soumission automatique.');
         }
     }
 });

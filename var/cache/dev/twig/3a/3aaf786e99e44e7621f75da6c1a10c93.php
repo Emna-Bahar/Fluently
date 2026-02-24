@@ -574,62 +574,61 @@ $context["question"], "type", [], "any", false, false, false, 320) == "texte_lib
                         // line 349
                         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["test"]) || array_key_exists("test", $context) ? $context["test"] : (function () { throw new RuntimeError('Variable "test" does not exist.', 349, $this->source); })()), "langue", [], "any", false, false, false, 349), "nom", [], "any", false, false, false, 349), "html_attr");
                         yield "\"
-                                                onclick=\"startRecognition(this.dataset.questionId, this.dataset.expected, this.dataset.lang)\">
-                                            <i class=\"fas fa-microphone\"></i> TAP TO SPEAK
+                                                onclick=\"startRecognition(this.dataset.questionId, this.dataset.expected, this.dataset.lang)\">TAP TO SPEAK
                                         </button>
                                     </div>
 
                                     <div class=\"oral-result\" id=\"result_";
-                        // line 355
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 355), "html", null, true);
+                        // line 354
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 354), "html", null, true);
                         yield "\" style=\"display: none;\">
                                         <div class=\"alert\" id=\"alert_";
-                        // line 356
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 356), "html", null, true);
+                        // line 355
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 355), "html", null, true);
                         yield "\"></div>
                                         <p><strong>Tu as dit :</strong> <span id=\"transcript_";
-                        // line 357
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 357), "html", null, true);
+                        // line 356
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 356), "html", null, true);
                         yield "\"></span></p>
                                         <p><strong>Attendu :</strong> ";
-                        // line 358
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "enonce", [], "any", false, false, false, 358), "html", null, true);
+                        // line 357
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "enonce", [], "any", false, false, false, 357), "html", null, true);
                         yield "</p>
                                     </div>
 
                                     <input type=\"hidden\" name=\"oral_";
-                        // line 361
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 361), "html", null, true);
+                        // line 360
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 360), "html", null, true);
                         yield "\" id=\"oral_answer_";
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 361), "html", null, true);
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 360), "html", null, true);
                         yield "\" value=\"\">
                                 </div>
 
                             ";
-                    } elseif ((CoreExtension::getAttribute($this->env, $this->source,                     // line 364
-$context["question"], "type", [], "any", false, false, false, 364) == "texte_libre")) {
-                        // line 365
+                    } elseif ((CoreExtension::getAttribute($this->env, $this->source,                     // line 363
+$context["question"], "type", [], "any", false, false, false, 363) == "texte_libre")) {
+                        // line 364
                         yield "                                ";
-                        // line 366
+                        // line 365
                         yield "                                <div class=\"text-libre-container\" id=\"texte_libre_";
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 366), "html", null, true);
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 365), "html", null, true);
                         yield "\">
                                     <div class=\"form-group\">
                                         <label for=\"texte_";
-                        // line 368
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 368), "html", null, true);
+                        // line 367
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 367), "html", null, true);
                         yield "\" class=\"form-label fw-bold\">
                                             Écris ta réponse (minimum 50 mots) :
                                         </label>
                                         <textarea 
                                             class=\"form-control\" 
                                             name=\"texte_";
-                        // line 373
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 373), "html", null, true);
+                        // line 372
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 372), "html", null, true);
                         yield "\" 
                                             id=\"texte_";
-                        // line 374
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 374), "html", null, true);
+                        // line 373
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 373), "html", null, true);
                         yield "\"
                                             rows=\"10\"
                                             placeholder=\"Écris ta réponse ici...\"
@@ -637,8 +636,8 @@ $context["question"], "type", [], "any", false, false, false, 364) == "texte_lib
                                             minlength=\"50\"></textarea>
                                         <small class=\"text-muted\">
                                             <span id=\"word_count_";
-                        // line 380
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 380), "html", null, true);
+                        // line 379
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 379), "html", null, true);
                         yield "\">0</span> mots
                                         </small>
                                     </div>
@@ -646,14 +645,14 @@ $context["question"], "type", [], "any", false, false, false, 364) == "texte_lib
 
                                 <script>
                                 document.getElementById('texte_";
-                        // line 386
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 386), "html", null, true);
+                        // line 385
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 385), "html", null, true);
                         yield "').addEventListener('input', function() {
                                     const text = this.value.trim();
                                     const wordCount = text ? text.split(/\\s+/).length : 0;
                                     document.getElementById('word_count_";
-                        // line 389
-                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 389), "html", null, true);
+                        // line 388
+                        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 388), "html", null, true);
                         yield "').textContent = wordCount;
                                     if (wordCount >= 50) {
                                         updateProgress();
@@ -662,40 +661,40 @@ $context["question"], "type", [], "any", false, false, false, 364) == "texte_lib
                                 </script>
 
                             ";
-                    } elseif ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source,                     // line 396
-$context["question"], "reponses", [], "any", false, false, false, 396)) > 0)) {
+                    } elseif ((Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source,                     // line 395
+$context["question"], "reponses", [], "any", false, false, false, 395)) > 0)) {
+                        // line 396
+                        yield "                                ";
                         // line 397
                         yield "                                ";
-                        // line 398
-                        yield "                                ";
                         $context['_parent'] = $context;
-                        $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "reponses", [], "any", false, false, false, 398));
+                        $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "reponses", [], "any", false, false, false, 397));
                         foreach ($context['_seq'] as $context["_key"] => $context["reponse"]) {
-                            // line 399
+                            // line 398
                             yield "                                    <div class=\"answer-option\">
                                         <input class=\"form-check-input\" 
                                                type=\"radio\" 
                                                name=\"question_";
-                            // line 402
-                            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 402), "html", null, true);
+                            // line 401
+                            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["question"], "id", [], "any", false, false, false, 401), "html", null, true);
                             yield "\" 
                                                id=\"rep_";
-                            // line 403
-                            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["reponse"], "id", [], "any", false, false, false, 403), "html", null, true);
+                            // line 402
+                            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["reponse"], "id", [], "any", false, false, false, 402), "html", null, true);
                             yield "\" 
                                                value=\"";
-                            // line 404
-                            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["reponse"], "id", [], "any", false, false, false, 404), "html", null, true);
+                            // line 403
+                            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["reponse"], "id", [], "any", false, false, false, 403), "html", null, true);
                             yield "\"
                                                onchange=\"updateProgress()\"
                                                required>
                                         <label class=\"form-check-label\" for=\"rep_";
-                            // line 407
-                            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["reponse"], "id", [], "any", false, false, false, 407), "html", null, true);
+                            // line 406
+                            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["reponse"], "id", [], "any", false, false, false, 406), "html", null, true);
                             yield "\">
                                             ";
-                            // line 408
-                            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["reponse"], "contenuRep", [], "any", false, false, false, 408), "html", null, true);
+                            // line 407
+                            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["reponse"], "contenuRep", [], "any", false, false, false, 407), "html", null, true);
                             yield "
                                         </label>
                                     </div>
@@ -704,16 +703,16 @@ $context["question"], "reponses", [], "any", false, false, false, 396)) > 0)) {
                         $_parent = $context['_parent'];
                         unset($context['_seq'], $context['_key'], $context['reponse'], $context['_parent']);
                         $context = array_intersect_key($context, $_parent) + $_parent;
-                        // line 412
+                        // line 411
                         yield "                            ";
                     } else {
-                        // line 413
+                        // line 412
                         yield "                                <div class=\"alert alert-warning\">
                                     Aucune réponse disponible pour cette question.
                                 </div>
                             ";
                     }
-                    // line 417
+                    // line 416
                     yield "                        </div>
                     ";
                     ++$context['loop']['index0'];
@@ -728,37 +727,34 @@ $context["question"], "reponses", [], "any", false, false, false, 396)) > 0)) {
                 $_parent = $context['_parent'];
                 unset($context['_seq'], $context['_key'], $context['question'], $context['_parent'], $context['loop']);
                 $context = array_intersect_key($context, $_parent) + $_parent;
-                // line 419
+                // line 418
                 yield "
                     <div class=\"submit-section\">
                         ";
-                // line 421
-                if ((($tmp = $this->extensions['Symfony\Bridge\Twig\Extension\WorkflowExtension']->canTransition((isset($context["passageEnCours"]) || array_key_exists("passageEnCours", $context) ? $context["passageEnCours"] : (function () { throw new RuntimeError('Variable "passageEnCours" does not exist.', 421, $this->source); })()), "mettre_en_pause", "test_passage")) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-                    // line 422
+                // line 420
+                if ((($tmp = $this->extensions['Symfony\Bridge\Twig\Extension\WorkflowExtension']->canTransition((isset($context["passageEnCours"]) || array_key_exists("passageEnCours", $context) ? $context["passageEnCours"] : (function () { throw new RuntimeError('Variable "passageEnCours" does not exist.', 420, $this->source); })()), "mettre_en_pause", "test_passage")) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                    // line 421
                     yield "                            <button type=\"button\" 
                                     class=\"btn btn-warning btn-lg me-3\" 
-                                    onclick=\"submitToPause(event)\">
-                                <i class=\"fas fa-pause\"></i> Mettre en pause
-                            </button>
+                                    onclick=\"submitToPause(event)\">Mettre en pause</button>
+                                
                         ";
                 }
-                // line 428
+                // line 426
                 yield "
-                        <button type=\"submit\" class=\"btn-submit\" id=\"submitBtn\">
-                            <i class=\"fas fa-paper-plane\"></i> Soumettre mes réponses
-                        </button>
+                        <button type=\"submit\" class=\"btn-submit\" id=\"submitBtn\">Soumettre mes réponses</button>
                     </div>
                 </form>
             ";
             }
-            // line 435
+            // line 431
             yield "        ";
         } else {
-            // line 436
+            // line 432
             yield "            <div class=\"text-center py-4\">
                 <form method=\"post\" action=\"";
-            // line 437
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_test_student_start", ["id" => CoreExtension::getAttribute($this->env, $this->source, (isset($context["test"]) || array_key_exists("test", $context) ? $context["test"] : (function () { throw new RuntimeError('Variable "test" does not exist.', 437, $this->source); })()), "id", [], "any", false, false, false, 437)]), "html", null, true);
+            // line 433
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_test_student_start", ["id" => CoreExtension::getAttribute($this->env, $this->source, (isset($context["test"]) || array_key_exists("test", $context) ? $context["test"] : (function () { throw new RuntimeError('Variable "test" does not exist.', 433, $this->source); })()), "id", [], "any", false, false, false, 433)]), "html", null, true);
             yield "\">
                     <button type=\"submit\" class=\"btn-start btn-lg\">
                         <i class=\"fas fa-play\"></i> Démarrer le test
@@ -770,17 +766,17 @@ $context["question"], "reponses", [], "any", false, false, false, 396)) > 0)) {
             </div>
         ";
         }
-        // line 447
+        // line 443
         yield "    </div>
 </div>
 
 <form id=\"pauseForm\" method=\"post\" action=\"";
-        // line 450
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_test_student_pause", ["id" => CoreExtension::getAttribute($this->env, $this->source, (isset($context["test"]) || array_key_exists("test", $context) ? $context["test"] : (function () { throw new RuntimeError('Variable "test" does not exist.', 450, $this->source); })()), "id", [], "any", false, false, false, 450)]), "html", null, true);
+        // line 446
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_test_student_pause", ["id" => CoreExtension::getAttribute($this->env, $this->source, (isset($context["test"]) || array_key_exists("test", $context) ? $context["test"] : (function () { throw new RuntimeError('Variable "test" does not exist.', 446, $this->source); })()), "id", [], "any", false, false, false, 446)]), "html", null, true);
         yield "\" style=\"display:none;\"></form>
 <form id=\"resumeForm\" method=\"post\" action=\"";
-        // line 451
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_test_student_resume", ["id" => CoreExtension::getAttribute($this->env, $this->source, (isset($context["test"]) || array_key_exists("test", $context) ? $context["test"] : (function () { throw new RuntimeError('Variable "test" does not exist.', 451, $this->source); })()), "id", [], "any", false, false, false, 451)]), "html", null, true);
+        // line 447
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_test_student_resume", ["id" => CoreExtension::getAttribute($this->env, $this->source, (isset($context["test"]) || array_key_exists("test", $context) ? $context["test"] : (function () { throw new RuntimeError('Variable "test" does not exist.', 447, $this->source); })()), "id", [], "any", false, false, false, 447)]), "html", null, true);
         yield "\" style=\"display:none;\"></form>
 ";
         
@@ -792,7 +788,7 @@ $context["question"], "reponses", [], "any", false, false, false, 396)) > 0)) {
         yield from [];
     }
 
-    // line 454
+    // line 450
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -805,13 +801,13 @@ $context["question"], "reponses", [], "any", false, false, false, 396)) > 0)) {
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "js"));
 
-        // line 455
+        // line 451
         yield from $this->yieldParentBlock("js", $context, $blocks);
         yield "
 <script>
 const totalQuestions = ";
-        // line 457
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, (isset($context["test"]) || array_key_exists("test", $context) ? $context["test"] : (function () { throw new RuntimeError('Variable "test" does not exist.', 457, $this->source); })()), "questions", [], "any", false, false, false, 457)), "html", null, true);
+        // line 453
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::length($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, (isset($context["test"]) || array_key_exists("test", $context) ? $context["test"] : (function () { throw new RuntimeError('Variable "test" does not exist.', 453, $this->source); })()), "questions", [], "any", false, false, false, 453)), "html", null, true);
         yield ";
 
 function updateProgress() {
@@ -883,15 +879,15 @@ function submitToResume(event) {
 }
 
 ";
-        // line 527
-        if (((isset($context["passageEnCours"]) || array_key_exists("passageEnCours", $context) ? $context["passageEnCours"] : (function () { throw new RuntimeError('Variable "passageEnCours" does not exist.', 527, $this->source); })()) && (CoreExtension::getAttribute($this->env, $this->source, (isset($context["passageEnCours"]) || array_key_exists("passageEnCours", $context) ? $context["passageEnCours"] : (function () { throw new RuntimeError('Variable "passageEnCours" does not exist.', 527, $this->source); })()), "statut", [], "any", false, false, false, 527) == "en_cours"))) {
-            // line 528
+        // line 523
+        if (((isset($context["passageEnCours"]) || array_key_exists("passageEnCours", $context) ? $context["passageEnCours"] : (function () { throw new RuntimeError('Variable "passageEnCours" does not exist.', 523, $this->source); })()) && (CoreExtension::getAttribute($this->env, $this->source, (isset($context["passageEnCours"]) || array_key_exists("passageEnCours", $context) ? $context["passageEnCours"] : (function () { throw new RuntimeError('Variable "passageEnCours" does not exist.', 523, $this->source); })()), "statut", [], "any", false, false, false, 523) == "en_cours"))) {
+            // line 524
             yield "const dureeMinutes = ";
-            yield ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["test"]) || array_key_exists("test", $context) ? $context["test"] : (function () { throw new RuntimeError('Variable "test" does not exist.', 528, $this->source); })()), "dureeEstimee", [], "any", false, false, false, 528)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["test"]) || array_key_exists("test", $context) ? $context["test"] : (function () { throw new RuntimeError('Variable "test" does not exist.', 528, $this->source); })()), "dureeEstimee", [], "any", false, false, false, 528), "html", null, true)) : (15));
+            yield ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["test"]) || array_key_exists("test", $context) ? $context["test"] : (function () { throw new RuntimeError('Variable "test" does not exist.', 524, $this->source); })()), "dureeEstimee", [], "any", false, false, false, 524)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["test"]) || array_key_exists("test", $context) ? $context["test"] : (function () { throw new RuntimeError('Variable "test" does not exist.', 524, $this->source); })()), "dureeEstimee", [], "any", false, false, false, 524), "html", null, true)) : (15));
             yield ";
 const dateDebut = new Date(\"";
-            // line 529
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, (isset($context["passageEnCours"]) || array_key_exists("passageEnCours", $context) ? $context["passageEnCours"] : (function () { throw new RuntimeError('Variable "passageEnCours" does not exist.', 529, $this->source); })()), "dateDebut", [], "any", false, false, false, 529), "Y-m-d H:i:s"), "html", null, true);
+            // line 525
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, (isset($context["passageEnCours"]) || array_key_exists("passageEnCours", $context) ? $context["passageEnCours"] : (function () { throw new RuntimeError('Variable "passageEnCours" does not exist.', 525, $this->source); })()), "dateDebut", [], "any", false, false, false, 525), "Y-m-d H:i:s"), "html", null, true);
             yield "\");
 const now = new Date();
 const tempsEcoule = Math.floor((now - dateDebut) / 1000);
@@ -947,7 +943,7 @@ if (tempsRestant <= 0 && testForm && !window.testAlreadySubmitted) {
 }
 ";
         }
-        // line 583
+        // line 579
         yield "
 const languageMap = {
     'English': 'en-US',
@@ -1025,9 +1021,9 @@ function startRecognition(questionId, expectedText, langue) {
 </script>
 
 ";
-        // line 660
-        if ((((isset($context["isExamMode"]) || array_key_exists("isExamMode", $context) ? $context["isExamMode"] : (function () { throw new RuntimeError('Variable "isExamMode" does not exist.', 660, $this->source); })()) && (isset($context["passageEnCours"]) || array_key_exists("passageEnCours", $context) ? $context["passageEnCours"] : (function () { throw new RuntimeError('Variable "passageEnCours" does not exist.', 660, $this->source); })())) && (CoreExtension::getAttribute($this->env, $this->source, (isset($context["passageEnCours"]) || array_key_exists("passageEnCours", $context) ? $context["passageEnCours"] : (function () { throw new RuntimeError('Variable "passageEnCours" does not exist.', 660, $this->source); })()), "statut", [], "any", false, false, false, 660) == "en_cours"))) {
-            // line 661
+        // line 656
+        if ((((isset($context["isExamMode"]) || array_key_exists("isExamMode", $context) ? $context["isExamMode"] : (function () { throw new RuntimeError('Variable "isExamMode" does not exist.', 656, $this->source); })()) && (isset($context["passageEnCours"]) || array_key_exists("passageEnCours", $context) ? $context["passageEnCours"] : (function () { throw new RuntimeError('Variable "passageEnCours" does not exist.', 656, $this->source); })())) && (CoreExtension::getAttribute($this->env, $this->source, (isset($context["passageEnCours"]) || array_key_exists("passageEnCours", $context) ? $context["passageEnCours"] : (function () { throw new RuntimeError('Variable "passageEnCours" does not exist.', 656, $this->source); })()), "statut", [], "any", false, false, false, 656) == "en_cours"))) {
+            // line 657
             yield "<script>
 console.log('🔒 Mode examen activé - Surveillance active');
 
@@ -1040,8 +1036,8 @@ let examEvents = {
 
 function logExamEvent(eventType, details = {}) {
     fetch('";
-            // line 672
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_exam_log_event", ["id" => CoreExtension::getAttribute($this->env, $this->source, (isset($context["passageEnCours"]) || array_key_exists("passageEnCours", $context) ? $context["passageEnCours"] : (function () { throw new RuntimeError('Variable "passageEnCours" does not exist.', 672, $this->source); })()), "id", [], "any", false, false, false, 672)]), "html", null, true);
+            // line 668
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_exam_log_event", ["id" => CoreExtension::getAttribute($this->env, $this->source, (isset($context["passageEnCours"]) || array_key_exists("passageEnCours", $context) ? $context["passageEnCours"] : (function () { throw new RuntimeError('Variable "passageEnCours" does not exist.', 668, $this->source); })()), "id", [], "any", false, false, false, 668)]), "html", null, true);
             yield "', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -1053,8 +1049,26 @@ document.addEventListener('visibilitychange', function() {
     if (document.hidden) {
         examEvents.tabSwitches++;
         logExamEvent('tab_switch', {count: examEvents.tabSwitches, timestamp: new Date().toISOString()});
+        
         if (examEvents.tabSwitches >= 3) {
-            alert('⚠️ ATTENTION: Changement d\\'onglet détecté (' + examEvents.tabSwitches + ' fois)!\\n\\nCe comportement est enregistré.');
+            // ✅ SOUMISSION AUTOMATIQUE APRÈS 3 CHANGEMENTS
+            alert('⚠️ LIMITE ATTEINTE: 3 changements d\\'onglet!\\n\\n🔒 Le test va être soumis automatiquement.');
+            
+            // Arrêter le timer
+            if (typeof timerInterval !== 'undefined' && timerInterval) {
+                clearInterval(timerInterval);
+                console.log('⏱️ Timer arrêté (auto-submit)');
+            }
+            
+            // Soumettre le formulaire
+            const testForm = document.getElementById('testForm');
+            if (testForm && !window.testAlreadySubmitted) {
+                window.testAlreadySubmitted = true;
+                testForm.submit();
+            }
+        } else {
+            // Avertissement pour les 1er et 2ème changements
+            alert('⚠️ ATTENTION: Changement d\\'onglet détecté (' + examEvents.tabSwitches + '/3)!\\n\\n' + (3 - examEvents.tabSwitches) + ' changement(s) restant(s) avant soumission automatique.');
         }
     }
 });
@@ -1154,7 +1168,7 @@ if (!sessionStorage.getItem('exam_warning_shown')) {
      */
     public function getDebugInfo(): array
     {
-        return array (  1044 => 672,  1031 => 661,  1029 => 660,  951 => 583,  894 => 529,  889 => 528,  887 => 527,  814 => 457,  809 => 455,  796 => 454,  783 => 451,  779 => 450,  774 => 447,  761 => 437,  758 => 436,  755 => 435,  746 => 428,  738 => 422,  736 => 421,  732 => 419,  717 => 417,  711 => 413,  708 => 412,  698 => 408,  694 => 407,  688 => 404,  684 => 403,  680 => 402,  675 => 399,  670 => 398,  668 => 397,  666 => 396,  656 => 389,  650 => 386,  641 => 380,  632 => 374,  628 => 373,  620 => 368,  614 => 366,  612 => 365,  610 => 364,  602 => 361,  596 => 358,  592 => 357,  588 => 356,  584 => 355,  575 => 349,  571 => 348,  567 => 347,  563 => 346,  551 => 337,  545 => 334,  541 => 333,  532 => 328,  530 => 327,  528 => 326,  523 => 323,  519 => 321,  517 => 320,  514 => 319,  512 => 318,  508 => 317,  504 => 316,  499 => 314,  493 => 312,  476 => 311,  467 => 306,  465 => 305,  452 => 294,  449 => 293,  447 => 292,  445 => 291,  437 => 286,  429 => 281,  421 => 276,  411 => 269,  405 => 266,  399 => 262,  391 => 256,  389 => 255,  383 => 252,  379 => 250,  376 => 249,  373 => 247,  367 => 243,  364 => 242,  361 => 240,  348 => 239,  108 => 9,  95 => 8,  69 => 3,  58 => 1,  56 => 6,  43 => 1,);
+        return array (  1040 => 668,  1027 => 657,  1025 => 656,  947 => 579,  890 => 525,  885 => 524,  883 => 523,  810 => 453,  805 => 451,  792 => 450,  779 => 447,  775 => 446,  770 => 443,  757 => 433,  754 => 432,  751 => 431,  744 => 426,  737 => 421,  735 => 420,  731 => 418,  716 => 416,  710 => 412,  707 => 411,  697 => 407,  693 => 406,  687 => 403,  683 => 402,  679 => 401,  674 => 398,  669 => 397,  667 => 396,  665 => 395,  655 => 388,  649 => 385,  640 => 379,  631 => 373,  627 => 372,  619 => 367,  613 => 365,  611 => 364,  609 => 363,  601 => 360,  595 => 357,  591 => 356,  587 => 355,  583 => 354,  575 => 349,  571 => 348,  567 => 347,  563 => 346,  551 => 337,  545 => 334,  541 => 333,  532 => 328,  530 => 327,  528 => 326,  523 => 323,  519 => 321,  517 => 320,  514 => 319,  512 => 318,  508 => 317,  504 => 316,  499 => 314,  493 => 312,  476 => 311,  467 => 306,  465 => 305,  452 => 294,  449 => 293,  447 => 292,  445 => 291,  437 => 286,  429 => 281,  421 => 276,  411 => 269,  405 => 266,  399 => 262,  391 => 256,  389 => 255,  383 => 252,  379 => 250,  376 => 249,  373 => 247,  367 => 243,  364 => 242,  361 => 240,  348 => 239,  108 => 9,  95 => 8,  69 => 3,  58 => 1,  56 => 6,  43 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -1508,8 +1522,7 @@ if (!sessionStorage.getItem('exam_warning_shown')) {
                                                 data-question-id=\"{{ question.id }}\"
                                                 data-expected=\"{{ question.enonce|e('html_attr') }}\"
                                                 data-lang=\"{{ test.langue.nom|e('html_attr') }}\"
-                                                onclick=\"startRecognition(this.dataset.questionId, this.dataset.expected, this.dataset.lang)\">
-                                            <i class=\"fas fa-microphone\"></i> TAP TO SPEAK
+                                                onclick=\"startRecognition(this.dataset.questionId, this.dataset.expected, this.dataset.lang)\">TAP TO SPEAK
                                         </button>
                                     </div>
 
@@ -1582,14 +1595,11 @@ if (!sessionStorage.getItem('exam_warning_shown')) {
                         {% if workflow_can(passageEnCours, 'mettre_en_pause', 'test_passage') %}
                             <button type=\"button\" 
                                     class=\"btn btn-warning btn-lg me-3\" 
-                                    onclick=\"submitToPause(event)\">
-                                <i class=\"fas fa-pause\"></i> Mettre en pause
-                            </button>
+                                    onclick=\"submitToPause(event)\">Mettre en pause</button>
+                                
                         {% endif %}
 
-                        <button type=\"submit\" class=\"btn-submit\" id=\"submitBtn\">
-                            <i class=\"fas fa-paper-plane\"></i> Soumettre mes réponses
-                        </button>
+                        <button type=\"submit\" class=\"btn-submit\" id=\"submitBtn\">Soumettre mes réponses</button>
                     </div>
                 </form>
             {% endif %}
@@ -1841,8 +1851,26 @@ document.addEventListener('visibilitychange', function() {
     if (document.hidden) {
         examEvents.tabSwitches++;
         logExamEvent('tab_switch', {count: examEvents.tabSwitches, timestamp: new Date().toISOString()});
+        
         if (examEvents.tabSwitches >= 3) {
-            alert('⚠️ ATTENTION: Changement d\\'onglet détecté (' + examEvents.tabSwitches + ' fois)!\\n\\nCe comportement est enregistré.');
+            // ✅ SOUMISSION AUTOMATIQUE APRÈS 3 CHANGEMENTS
+            alert('⚠️ LIMITE ATTEINTE: 3 changements d\\'onglet!\\n\\n🔒 Le test va être soumis automatiquement.');
+            
+            // Arrêter le timer
+            if (typeof timerInterval !== 'undefined' && timerInterval) {
+                clearInterval(timerInterval);
+                console.log('⏱️ Timer arrêté (auto-submit)');
+            }
+            
+            // Soumettre le formulaire
+            const testForm = document.getElementById('testForm');
+            if (testForm && !window.testAlreadySubmitted) {
+                window.testAlreadySubmitted = true;
+                testForm.submit();
+            }
+        } else {
+            // Avertissement pour les 1er et 2ème changements
+            alert('⚠️ ATTENTION: Changement d\\'onglet détecté (' + examEvents.tabSwitches + '/3)!\\n\\n' + (3 - examEvents.tabSwitches) + ' changement(s) restant(s) avant soumission automatique.');
         }
     }
 });
