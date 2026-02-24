@@ -19,10 +19,16 @@ class SessionType extends AbstractType
     {
         $builder
             ->add('dateHeure', DateTimeType::class, [
-                'widget' => 'single_text',
-                'label' => 'Date et Heure',
-                'attr' => ['class' => 'form-control'],
-            ])
+    'widget'     => 'single_text',
+    'label'      => 'Date et Heure',
+    'attr'       => ['class' => 'form-control'],
+    'required'   => false,
+    'empty_data' => null,
+    'html5'      => false,
+    'format'     => 'dd/MM/yyyy HH:mm',  // ← AJOUTER CETTE LIGNE
+    'model_timezone' => 'UTC',
+    'view_timezone'  => 'UTC',
+])
             ->add('statut', ChoiceType::class, [
                 'choices' => [
                     'Planifiée' => 'planifiée',

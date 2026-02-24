@@ -19,10 +19,51 @@ class SessionRepository extends ServiceEntityRepository
     }
 
     /**
-     * Retourne une Query filtrée et triée prête pour KnpPaginator
+     * Sessions avec relations pour FullCalendar
+     * ✅ Utilise s.group et s.user (noms réels dans Session.php)
+     *
+     * @return Session[]
      */
-    public function getFilteredQuery(array $filters = [], string $sortBy = 'dateHeure', string $order = 'DESC'): Query
+    public function findAllWithRelations(): array
     {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.group',    'g')->addSelect('g')
+            ->leftJoin('g.idLangue', 'l')->addSelect('l')
+            ->leftJoin('g.idNiveau', 'n')->addSelect('n')
+            ->leftJoin('s.user',     'u')->addSelect('u')
+            ->orderBy('s.dateHeure', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Sessions planifiées avec places dispo — pour le contexte IA
+     *
+     * @return Session[]
+     */
+    public function findSessionsDisponibles(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.group',    'g')->addSelect('g')
+            ->leftJoin('g.idLangue', 'l')->addSelect('l')
+            ->leftJoin('g.idNiveau', 'n')->addSelect('n')
+            ->where('s.statut = :statut')
+            ->andWhere('s.dateHeure >= :now')
+            ->setParameter('statut', 'planifiée')
+            ->setParameter('now', new \DateTime())
+            ->orderBy('s.dateHeure', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Query filtrée pour KnpPaginator (liste admin/prof)
+     */
+    public function getFilteredQuery(
+        array  $filters = [],
+        string $sortBy  = 'dateHeure',
+        string $order   = 'DESC'
+    ): Query {
         $qb = $this->createQueryBuilder('s')
             ->leftJoin('s.group', 'g')
             ->addSelect('g');
@@ -39,32 +80,44 @@ class SessionRepository extends ServiceEntityRepository
 
         if (!empty($filters['search'])) {
             $search = '%' . trim($filters['search']) . '%';
-            $qb->andWhere('s.lienReunion LIKE :search OR s.statut LIKE :search OR g.nom LIKE :search')
-               ->setParameter('search', $search);
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('s.lienReunion', ':search'),
+                    $qb->expr()->like('s.statut', ':search'),
+                    $qb->expr()->like('g.nom', ':search')
+                )
+            )->setParameter('search', $search);
         }
 
         $allowedSort = ['dateHeure', 'statut'];
         $sortBy = in_array($sortBy, $allowedSort) ? $sortBy : 'dateHeure';
-
         $qb->orderBy('s.' . $sortBy, $order);
 
         return $qb->getQuery();
     }
 
     /**
-     * Sessions d'un professeur donné (renommé pour éviter magie Doctrine)
+     * Sessions d'un professeur donné
+     *
+     * @return Session[]
      */
-    public function getSessionsByProf(User $prof, array $filters = [], string $sortBy = 'dateHeure', string $order = 'DESC'): array
-    {
+    public function getSessionsByProf(
+        User   $prof,
+        array  $filters = [],
+        string $sortBy  = 'dateHeure',
+        string $order   = 'DESC'
+    ): array {
         $qb = $this->createQueryBuilder('s')
             ->andWhere('s.user = :prof')
             ->setParameter('prof', $prof);
 
         if (!empty($filters['statut'])) {
             $qb->andWhere('s.statut = :statut')
-            ->setParameter('statut', $filters['statut']);
+               ->setParameter('statut', $filters['statut']);
         }
 
+        $allowedSort = ['dateHeure', 'statut'];
+        $sortBy = in_array($sortBy, $allowedSort) ? $sortBy : 'dateHeure';
         $qb->orderBy('s.' . $sortBy, $order);
 
         return $qb->getQuery()->getResult();
@@ -72,6 +125,8 @@ class SessionRepository extends ServiceEntityRepository
 
     /**
      * Sessions terminées d'un professeur
+     *
+     * @return Session[]
      */
     public function getTerminatedSessionsByProf(User $prof): array
     {

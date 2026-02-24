@@ -3,11 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\GroupeRepository;
-use BcMath\Number;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+
+// ✅ use BcMath\Number SUPPRIMÉ — c'était la cause du TypeError
 
 #[ORM\Entity(repositoryClass: GroupeRepository::class)]
 class Groupe
@@ -23,6 +24,7 @@ class Groupe
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
+    // ✅ CORRIGÉ : propriété ?int, cohérent avec BDD (int(11))
     #[ORM\Column]
     private ?int $capacite = null;
 
@@ -55,12 +57,13 @@ class Groupe
     /**
      * @var Collection<int, Session>
      */
-    #[ORM\OneToMany(targetEntity: Session::class, mappedBy: 'Id_group')]
+    // ✅ mappedBy: 'group' — car dans Session.php la propriété est $group
+    #[ORM\OneToMany(targetEntity: Session::class, mappedBy: 'group')]
     private Collection $sessions;
 
     public function __construct()
     {
-        $this->Id_user = new ArrayCollection();
+        $this->Id_user  = new ArrayCollection();
         $this->messages = new ArrayCollection();
         $this->sessions = new ArrayCollection();
     }
@@ -78,7 +81,6 @@ class Groupe
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -90,19 +92,19 @@ class Groupe
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
-    public function getCapacite(): ?Number
+    // ✅ CORRIGÉ : ?int au lieu de ?Number — plus de TypeError
+    public function getCapacite(): ?int
     {
         return $this->capacite;
     }
 
-    public function setCapacite(Number $capacite): static
+    // ✅ CORRIGÉ : int au lieu de Number
+    public function setCapacite(int $capacite): static
     {
         $this->capacite = $capacite;
-
         return $this;
     }
 
@@ -114,7 +116,6 @@ class Groupe
     public function setStatut(string $statut): static
     {
         $this->statut = $statut;
-
         return $this;
     }
 
@@ -126,7 +127,6 @@ class Groupe
     public function setDateCreation(\DateTime $date_creation): static
     {
         $this->date_creation = $date_creation;
-
         return $this;
     }
 
@@ -138,7 +138,6 @@ class Groupe
     public function setIDLangue(?Langue $ID_langue): static
     {
         $this->ID_langue = $ID_langue;
-
         return $this;
     }
 
@@ -150,7 +149,6 @@ class Groupe
     public function setIdNiveau(?Niveau $Id_niveau): static
     {
         $this->Id_niveau = $Id_niveau;
-
         return $this;
     }
 
@@ -167,14 +165,12 @@ class Groupe
         if (!$this->Id_user->contains($idUser)) {
             $this->Id_user->add($idUser);
         }
-
         return $this;
     }
 
     public function removeIdUser(User $idUser): static
     {
         $this->Id_user->removeElement($idUser);
-
         return $this;
     }
 
@@ -192,19 +188,16 @@ class Groupe
             $this->messages->add($message);
             $message->setIdGroupe($this);
         }
-
         return $this;
     }
 
     public function removeMessage(Message $message): static
     {
         if ($this->messages->removeElement($message)) {
-            // set the owning side to null (unless already changed)
             if ($message->getIdGroupe() === $this) {
                 $message->setIdGroupe(null);
             }
         }
-
         return $this;
     }
 
@@ -220,21 +213,20 @@ class Groupe
     {
         if (!$this->sessions->contains($session)) {
             $this->sessions->add($session);
-            $session->setIdGroup($this);
+            // ✅ CORRIGÉ : Session.php a setGroup() et getGroup(), PAS setIdGroup()
+            $session->setGroup($this);
         }
-
         return $this;
     }
 
     public function removeSession(Session $session): static
     {
         if ($this->sessions->removeElement($session)) {
-            // set the owning side to null (unless already changed)
-            if ($session->getIdGroup() === $this) {
-                $session->setIdGroup(null);
+            // ✅ CORRIGÉ : Session.php a getGroup(), PAS getIdGroup()
+            if ($session->getGroup() === $this) {
+                $session->setGroup(null);
             }
         }
-
         return $this;
     }
 }

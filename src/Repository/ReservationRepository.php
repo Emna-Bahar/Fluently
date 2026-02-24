@@ -44,17 +44,20 @@ class ReservationRepository extends ServiceEntityRepository
 
     /**
      * Réservations en attente pour un professeur (sessions qu'il anime)
+     * Comparaison par ID pour éviter les problèmes de référence d'objet
      */
     public function findPendingForProf(User $prof): array
     {
         return $this->createQueryBuilder('r')
             ->join('r.session', 's')
-            ->andWhere('s.user = :prof')
+            ->join('s.user', 'u')
+            ->andWhere('u.id = :profId')
             ->andWhere('r.statut = :statut')
-            ->setParameter('prof', $prof)
+            ->setParameter('profId', $prof->getId())
             ->setParameter('statut', 'en attente')
             ->orderBy('r.dateReservation', 'ASC')
             ->getQuery()
             ->getResult();
     }
+    
 }

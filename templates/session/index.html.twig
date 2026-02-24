@@ -109,14 +109,15 @@
                             </td>
                             <td class="text-center">
                                 <div class="btn-group btn-group-sm">
-                                    <button type="button"
-                                            class="btn btn-primary note-session-btn"
-                                            data-toggle="modal"
-                                            data-target="#ratingModal"
-                                            data-session-id="{{ session.id }}"
-                                            data-current-rating="{{ session.rating|default(0) }}">
-                                        <i class="fa fa-star"></i> Note
-                                    </button>
+                                   <button type="button"
+                        class="btn btn-primary note-session-btn"
+                        data-toggle="modal"
+                        data-target="#ratingModal"
+                        data-session-id="{{ session.id }}"
+                        data-current-rating="{{ session.rating|default(0) }}"
+                        data-rate-url="{{ path('app_session_rate', {id: session.id}) }}">
+                    <i class="fa fa-star"></i> <span class="note-label">Note</span>
+                </button>
 
                                     {% set maReservation = null %}
                                     {% for reservation in myReservations %}
@@ -189,9 +190,6 @@
         </div>
     </div>
 
-    {# ─────────────────────────────────────────────── #}
-    {# JAVASCRIPT – LA VERSION QUI MARCHE #}
-    {# ─────────────────────────────────────────────── #}
     <script>
 $(document).ready(function() {
 
@@ -208,29 +206,9 @@ $(document).ready(function() {
             }
         });
     }
+{# Dans la boucle du tableau, remplace le bouton Note par ça : #}
 
-    // Quand on clique sur le bouton "Note"
-    $('.note-session-btn').on('click', function(e) {
-        e.preventDefault();
-        console.log("Bouton Note cliqué");
-
-        var sessionId = $(this).data('session-id');
-        var current = parseInt($(this).data('current-rating')) || 0;
-
-        selectedRating = current;
-        $('#selected-rating').val(selectedRating);
-        $('#rating-message').text('').removeClass('text-success text-danger');
-        $('#confirm-rating-btn').prop('disabled', selectedRating === 0);
-
-        updateStars(selectedRating);
-
-        var date = $(this).closest('tr').find('td:first').text().trim();
-        $('#modal-session-info').text(date ? 'Session du ' + date : 'Noter cette session');
-
-        $('#confirm-rating-btn').data('session-id', sessionId);
-
-        $('#ratingModal').modal('show');
-    });
+    
 
     // IMPORTANT : attacher les événements seulement quand la modale est affichée
     $('#ratingModal').on('shown.bs.modal', function () {
@@ -270,6 +248,145 @@ $(document).ready(function() {
     $('.btn-secondary[data-dismiss="modal"]').on('click', function() {
         console.log("Annuler cliqué");
     });
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    console.log("Système de notation v3 – version consolidée");
+
+    let currentRating = 0;
+    let currentSessionId = null;
+    let currentRateUrl = null;
+
+    const modal = document.querySelector("#ratingModal");
+    if (!modal) {
+        console.warn("Modal #ratingModal introuvable");
+        return;
+    }
+
+    // Fonction commune de mise à jour des étoiles
+    function paintStars(rating) {
+        const stars = modal.querySelectorAll(".rating-star");
+        stars.forEach(star => {
+            const value = parseInt(star.dataset.value, 10);
+            star.classList.toggle("text-warning", value <= rating);
+            star.classList.toggle("text-muted",   value >  rating);
+        });
+    }
+
+    // 1. Quand on clique sur "Note" → ouvre la modale et initialise
+    document.addEventListener("click", function(e) {
+        const btn = e.target.closest(".note-session-btn");
+        if (!btn) return;
+
+        e.preventDefault();
+
+        currentSessionId = btn.dataset.sessionId;
+        currentRateUrl   = btn.dataset.rateUrl;
+        currentRating    = parseInt(btn.dataset.currentRating || "0", 10);
+
+        // Mise à jour texte modale
+        const dateCell = btn.closest("tr")?.querySelector("td:first-child");
+        const dateText = dateCell ? dateCell.textContent.trim() : "";
+        modal.querySelector("#modal-session-info").textContent = dateText ? `Session du ${dateText}` : "Noter cette session";
+
+        // Initialisation étoiles + bouton confirmer
+        document.querySelector("#selected-rating").value = currentRating;
+        document.querySelector("#confirm-rating-btn").disabled = (currentRating === 0);
+        paintStars(currentRating);
+
+        document.querySelector("#rating-message").innerHTML = "";
+    });
+
+
+    // 2. Clic sur une étoile
+    modal.addEventListener("click", function(e) {
+        const star = e.target.closest(".rating-star");
+        if (!star) return;
+
+        currentRating = parseInt(star.dataset.value, 10);
+        document.querySelector("#selected-rating").value = currentRating;
+        paintStars(currentRating);
+        document.querySelector("#confirm-rating-btn").disabled = false;
+    });
+
+
+    // 3. Survol des étoiles (preview)
+    modal.addEventListener("mouseover", function(e) {
+        const star = e.target.closest(".rating-star");
+        if (!star) return;
+        paintStars(parseInt(star.dataset.value, 10));
+    });
+
+    modal.addEventListener("mouseout", function(e) {
+        const star = e.target.closest(".rating-star");
+        if (!star) return;
+        paintStars(currentRating);
+    });
+
+
+    // 4. Clic sur "Confirmer" → AJAX
+    document.querySelector("#confirm-rating-btn").addEventListener("click", function() {
+        if (currentRating < 1) return;
+
+        const btn = this;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Envoi...';
+
+        fetch(currentRateUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            body: `rating=${currentRating}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Mise à jour visuelle du bouton dans le tableau
+                const noteBtn = document.querySelector(`.note-session-btn[data-session-id="${currentSessionId}"]`);
+                if (noteBtn) {
+                    noteBtn.dataset.currentRating = currentRating;
+                    noteBtn.querySelector(".note-label").textContent = `${currentRating}/5`;
+                    noteBtn.querySelector("i.fa-star").classList.add("text-warning");
+                }
+
+                const msg = modal.querySelector("#rating-message");
+                msg.innerHTML = '<i class="fa fa-check-circle text-success"></i> Note enregistrée !';
+                msg.className = "mt-3 fw-bold text-success";
+
+                setTimeout(() => {
+                    bootstrap.Modal.getInstance(modal).hide();
+                }, 1100);
+            } else {
+                throw new Error(data.error || "Erreur inconnue");
+            }
+        })
+        .catch(err => {
+            const msg = modal.querySelector("#rating-message");
+            msg.innerHTML = `<i class="fa fa-times-circle text-danger"></i> ${err.message}`;
+            msg.className = "mt-3 fw-bold text-danger";
+            console.error(err);
+        })
+        .finally(() => {
+            btn.disabled = false;
+            btn.textContent = "Confirmer";
+        });
+    });
+
+
+    // 5. Reset quand la modale se ferme
+    modal.addEventListener("hidden.bs.modal", function () {
+        currentRating = 0;
+        currentSessionId = null;
+        currentRateUrl = null;
+        paintStars(0);
+        document.querySelector("#rating-message").innerHTML = "";
+        document.querySelector("#selected-rating").value = "0";
+    });
+
 });
 </script>
 {% endblock %}

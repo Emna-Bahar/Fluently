@@ -16,24 +16,26 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/reservation')]
 class ReservationController extends AbstractController
 {
+    /**
+     * Récupère le user courant (même logique que SessionController)
+     */
+    private function getCurrentUser(EntityManagerInterface $em): ?User
+    {
+        $user = $this->getUser();
+        if ($user instanceof User) {
+            return $user;
+        }
+        // Fallback développement uniquement
+        return $em->getRepository(User::class)->find(1);
+    }
+
     #[Route('/', name: 'app_reservation_index', methods: ['GET'])]
     public function index(ReservationRepository $reservationRepository, EntityManagerInterface $em): Response
     {
-        $user = $this->getTestUser($em);
+        $user = $this->getCurrentUser($em);
         $reservations = $reservationRepository->findByUser($user);
 
         return $this->render('reservation/index.html.twig', [
-            'reservations' => $reservations,
-        ]);
-    }
-
-    #[Route('/professeur/reservations', name: 'reservation_professeur', methods: ['GET'])]
-    public function espaceProfesseurReservations(ReservationRepository $reservationRepository, EntityManagerInterface $em): Response
-    {
-        $user = $this->getTestUser($em);
-        $reservations = $reservationRepository->findPendingForProf($user);
-
-        return $this->render('reservation/professeur.html.twig', [
             'reservations' => $reservations,
         ]);
     }
@@ -46,7 +48,7 @@ class ReservationController extends AbstractController
     ): Response
     {
         $reservation = new Reservation();
-        $reservation->setUser($this->getTestUser($em));
+        $reservation->setUser($this->getCurrentUser($em));
         $reservation->setStatut('en attente');
 
         $sessionId = $request->query->get('session_id');
@@ -63,13 +65,10 @@ class ReservationController extends AbstractController
 
         $form->handleRequest($request);
 
-        $successMessage = null;
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($reservation);
             $em->flush();
-            $successMessage = 'Demande de réservation envoyée avec succès.';
-            $this->addFlash('success', $successMessage);
+            $this->addFlash('success', 'Demande de réservation envoyée avec succès.');
             return $this->redirectToRoute('app_session_index');
         }
 
@@ -78,7 +77,7 @@ class ReservationController extends AbstractController
             'reservation'     => $reservation,
             'edit'            => false,
             'is_student_view' => true,
-            'successMessage'  => $successMessage,
+            'successMessage'  => null,
         ]);
     }
 
@@ -97,7 +96,9 @@ class ReservationController extends AbstractController
         EntityManagerInterface $em
     ): Response
     {
-        if ($reservation->getSession()->getUser() !== $this->getTestUser($em)) {
+        $user = $this->getCurrentUser($em);
+
+        if ($reservation->getSession()->getUser()->getId() !== $user->getId()) {
             throw $this->createAccessDeniedException();
         }
 
@@ -107,13 +108,10 @@ class ReservationController extends AbstractController
 
         $form->handleRequest($request);
 
-        $successMessage = null;
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
-            $successMessage = 'Réservation modifiée avec succès.';
-            $this->addFlash('success', $successMessage);
-            return $this->redirectToRoute('reservation_professeur');
+            $this->addFlash('success', 'Réservation modifiée avec succès.');
+            return $this->redirectToRoute('session_prof_dashboard');
         }
 
         return $this->render('reservation/form.html.twig', [
@@ -121,8 +119,41 @@ class ReservationController extends AbstractController
             'reservation'     => $reservation,
             'edit'            => true,
             'is_student_view' => false,
-            'successMessage'  => $successMessage,
+            'successMessage'  => null,
         ]);
+    }
+
+    /**
+     * Mise à jour rapide du statut (Confirmer / Refuser) depuis le dashboard
+     */
+    #[Route('/{id}/statut', name: 'app_reservation_update_statut', methods: ['POST'])]
+    public function updateStatut(
+        Request $request,
+        Reservation $reservation,
+        EntityManagerInterface $em
+    ): Response
+    {
+        $user = $this->getCurrentUser($em);
+
+        if ($reservation->getSession()->getUser()->getId() !== $user->getId()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $statut  = $request->request->get('statut');
+        $allowed = ['confirmée', 'refusée', 'annulée'];
+
+        if (
+            in_array($statut, $allowed) &&
+            $this->isCsrfTokenValid('resa_statut_' . $reservation->getId(), $request->request->get('_token'))
+        ) {
+            $reservation->setStatut($statut);
+            $em->flush();
+            $this->addFlash('success', 'Réservation marquée comme "' . $statut . '".');
+        } else {
+            $this->addFlash('error', 'Action invalide.');
+        }
+
+        return $this->redirectToRoute('session_prof_dashboard');
     }
 
     #[Route('/{id}', name: 'app_reservation_delete', methods: ['POST'])]
@@ -132,7 +163,9 @@ class ReservationController extends AbstractController
         EntityManagerInterface $em
     ): Response
     {
-        if ($reservation->getSession()->getUser() !== $this->getTestUser($em)) {
+        $user = $this->getCurrentUser($em);
+
+        if ($reservation->getSession()->getUser()->getId() !== $user->getId()) {
             throw $this->createAccessDeniedException();
         }
 
@@ -142,11 +175,6 @@ class ReservationController extends AbstractController
             $this->addFlash('success', 'Réservation supprimée.');
         }
 
-        return $this->redirectToRoute('reservation_professeur');
-    }
-
-    private function getTestUser(EntityManagerInterface $em): ?User
-    {
-        return $em->getRepository(User::class)->find(1); // Change par un ID valide
+        return $this->redirectToRoute('session_prof_dashboard');
     }
 }

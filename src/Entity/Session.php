@@ -18,13 +18,13 @@ class Session
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\NotBlank(message: "La date et heure de la session sont obligatoires.")]
-    #[Assert\GreaterThanOrEqual(
-        value: "now",
-        message: "La session ne peut pas être planifiée dans le passé."
-    )]
-    private ?\DateTimeInterface $dateHeure = null;
+#[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+#[Assert\NotBlank(message: "La date et heure de la session sont obligatoires.")]
+#[Assert\GreaterThanOrEqual(
+    value: "now",
+    message: "La session ne peut pas être planifiée dans le passé."
+)]
+private ?\DateTimeInterface $dateHeure = null;
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank(message: "Le statut est obligatoire.")]

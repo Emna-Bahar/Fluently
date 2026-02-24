@@ -14,8 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Session[]    findAll()
  * @method Session[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SessionRepository extends ServiceEntityRepository
-{
+class ReponseRepository extends ServiceEntityRepository{
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Session::class);

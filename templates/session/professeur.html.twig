@@ -16,7 +16,7 @@
         </div>
 
         <div class="mb-4 text-end">
-            <a href="{{ path('reservation_professeur') }}" class="btn btn-primary btn-lg shadow">
+<a href="{{ path('app_reservation_index') }}" class="btn btn-primary btn-lg shadow">
                 <i class="fa fa-cog me-2"></i> Gérer les reservations
             </a>
         </div>
@@ -70,13 +70,13 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group btn-group-sm">
-                                        <a href="{{ path('app_session_show', {'id': session.id}) }}" class="btn btn-info">
+<a href="{{ path('prof_session_show', {'id': session.id}) }}" class="btn btn-info">
                                             <i class="fa fa-eye"></i> Voir
                                         </a>
-                                        <a href="{{ path('app_session_edit', {'id': session.id}) }}" class="btn btn-warning">
+{{ path('prof_session_edit', {'id': session.id}) }}
                                             <i class="fa fa-edit"></i> Modifier
                                         </a>
-                                        <form method="post" action="{{ path('app_session_delete', {'id': session.id}) }}" 
+                                        <form method="post" action="{{ path('prof_session_delete', {'id': session.id}) }}" 
                                               onsubmit="return confirm('Vraiment supprimer cette session ?');" class="d-inline">
                                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ session.id) }}">
                                             <button type="submit" class="btn btn-danger">
@@ -88,7 +88,7 @@
                             </tr>
                         {% else %}
                                 <tr>
-    <td colspan="6" class="text-center py-5 text-muted fs-5"> {# ← 6 colonnes maintenant #}
+    <td colspan="6" class="text-center py-5 text-muted fs-5"> 
         <i class="fa fa-folder-open fa-2x mb-3 d-block"></i>
         Aucune session trouvée
     </td>
