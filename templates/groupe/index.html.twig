@@ -1,0 +1,161 @@
+{# templates/instructor/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Instructeurs - Fluently{% endblock %}
+
+{% block body %}
+    <!-- Hero Section -->
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('assets/images/bg_2.jpg') }}');">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text align-items-end justify-content-center">
+                <div class="col-md-9 ftco-animate pb-5 text-center">
+                    <p class="breadcrumbs">
+                        <span class="mr-2">
+                            <a href="{{ path('app_home') }}">Home <i class="fa fa-chevron-right"></i></a>
+                        </span> 
+                        <span>Groupes<i class="fa fa-chevron-right"></i></span>
+                    </p>
+                    <h1 class="mb-0 bread">Nos Groupes</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instructors Grid -->
+    <section class="ftco-section bg-light">
+        <div class="container">
+
+          {# Flash messages from access-check redirects #}
+          {% for msg in app.flashes('error') %}
+            <div class="alert alert-danger alert-dismissible" role="alert" style="border-radius:8px; margin-bottom:12px;">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <i class="fa fa-lock mr-1"></i> {{ msg }}
+            </div>
+          {% endfor %}
+          {% for msg in app.flashes('success') %}
+            <div class="alert alert-success alert-dismissible" role="alert" style="border-radius:8px; margin-bottom:12px;">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{ msg }}
+            </div>
+          {% endfor %}
+
+            <div class="row">
+  {% for g in groupes %}
+    {% set memberCount  = g.getIdUser().count() %}
+    {% set capPct       = g.capacite > 0 ? ((memberCount / g.capacite) * 100)|round : 0 %}
+    {% set isFull       = memberCount >= g.capacite %}
+    {% set hasProgress  = g.id in unlockedGroupIds %}
+    {% set isMember     = g.id in userGroupIds %}
+    {% set canAccess    = hasProgress and (not isFull or isMember) %}
+
+    <div class="col-md-4 d-flex align-items-stretch ftco-animate mb-4">
+      <div class="staff bg-white" style="border-radius:10px; overflow:hidden; position:relative; width:100%;">
+
+        {# top accent strip: red if full, orange otherwise #}
+        <div style="height:5px; background:{{ isFull ? '#e74c3c' : '#f96d00' }};"></div>
+
+        {% if isFull %}
+          <div style="position:absolute; top:14px; right:12px;">
+            <span class="badge badge-danger" style="font-size:.72rem; letter-spacing:.3px;">COMPLET</span>
+          </div>
+        {% endif %}
+
+        <div class="text pt-3 px-3 pb-4 text-center">
+          <h3 class="mb-1">{{ g.nom }}</h3>
+
+          {# language + level pills #}
+          <div class="d-flex justify-content-center flex-wrap mb-2" style="gap:6px;">
+            {% if g.IDLangue %}
+              <span class="badge badge-pill badge-light">
+                <i class="fa fa-globe mr-1"></i>{{ g.IDLangue.nom }}
+              </span>
+            {% endif %}
+            {% if g.idNiveau %}
+              <span class="badge badge-pill badge-light">
+                <i class="fa fa-bar-chart mr-1" style="font-size:.7rem;"></i>{{ g.idNiveau.titre }}
+              </span>
+            {% endif %}
+          </div>
+
+          {# capacity bar #}
+          <div class="mb-2 px-2">
+            <div class="d-flex justify-content-between" style="font-size:.78rem; color:#555; margin-bottom:4px;">
+              <span><i class="fa fa-users mr-1"></i>{{ memberCount }} / {{ g.capacite }} membres</span>
+              <span>{{ capPct }}%</span>
+            </div>
+            <div class="progress" style="height:6px; border-radius:999px; background:rgba(0,0,0,.08);">
+              <div class="progress-bar {{ isFull ? 'bg-danger' : (capPct >= 75 ? 'bg-warning' : 'bg-success') }}"
+                   role="progressbar"
+                   style="width:{{ capPct }}%; border-radius:999px;"
+                   aria-valuenow="{{ capPct }}" aria-valuemin="0" aria-valuemax="100">
+              </div>
+            </div>
+          </div>
+
+          <p class="mb-3" style="font-size:.9rem; color:#555;">{{ g.description }}</p>
+
+          {# access warning #}
+          {% if not hasProgress and g.IDLangue %}
+            <div class="alert alert-warning py-1 px-2 mb-2" style="font-size:.78rem; border-radius:8px;">
+              <i class="fa fa-lock mr-1"></i>
+              Complétez le test de
+              {% if g.idNiveau %}<strong>{{ g.idNiveau.titre }}</strong>{% endif %}
+              en <strong>{{ g.IDLangue.nom }}</strong> pour débloquer ce groupe
+            </div>
+          {% endif %}
+
+          {% if isMember %}
+            <span class="badge badge-pill badge-primary mb-2 d-block">
+              <i class="fa fa-check mr-1"></i>Vous êtes membre
+            </span>
+          {% endif %}
+
+          {% if canAccess %}
+            <a class="btn btn-primary btn-sm"
+               href="{{ path('app_groupe_details', {id: g.id}) }}">
+              <i class="fa fa-sign-in mr-1"></i> Ouvrir le groupe
+            </a>
+          {% elseif isFull and not isMember %}
+            <button class="btn btn-secondary btn-sm" disabled title="Groupe complet">
+              <i class="fa fa-ban mr-1"></i> Groupe complet
+            </button>
+          {% else %}
+            <button class="btn btn-outline-secondary btn-sm" disabled title="Langue requise">
+              <i class="fa fa-lock mr-1"></i> Accès restreint
+            </button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <div class="col-12">
+      <p>Aucun groupe.</p>
+    </div>
+  {% endfor %}
+</div>
+
+        </div>
+    </section>
+{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <style>
+        .staff {
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+        .staff:hover {
+            transform: translateY(-10px);
+        }
+        .img-wrap {
+            height: 250px;
+        }
+        .img {
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+{% endblock %}

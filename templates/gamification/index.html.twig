@@ -1,0 +1,176 @@
+{% extends 'base.html.twig' %}
+{% block title %}Gamification - Fluently{% endblock %}
+
+{% block body %}
+
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('assets/images/bg_1.jpg') }}');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <h1 class="mb-2 bread">🏆 Mes Récompenses</h1>
+                <p class="breadcrumbs">
+                    <span class="mr-2"><a href="{{ path('app_home') }}">Accueil <i class="fa fa-chevron-right"></i></a></span>
+                    <span>Gamification</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section bg-light">
+<div class="container">
+
+    {# ── Stats ── #}
+    <div class="row mb-4">
+
+        {# Niveau #}
+        <div class="col-md-4 mb-3">
+            <div class="card border-0 shadow h-100 text-center p-4"
+                 style="border-radius:20px; background:linear-gradient(135deg, {{ niveau.couleur }}, {{ niveau.couleur }}bb);">
+                <div style="font-size:4rem;">{{ niveau.icone }}</div>
+                <h3 class="text-white mt-2 mb-1">{{ niveau.label }}</h3>
+                <p class="mb-2" style="color:rgba(255,255,255,0.7);">Votre niveau actuel</p>
+                <div class="progress mb-2" style="height:10px; border-radius:10px; background:rgba(255,255,255,0.3);">
+                    <div class="progress-bar bg-white" style="width:{{ progression }}%; border-radius:10px;"></div>
+                </div>
+                <small style="color:rgba(255,255,255,0.7);">{{ totalPoints }} / {{ niveau.prochain }} pts</small>
+            </div>
+        </div>
+
+        {# Points #}
+        <div class="col-md-4 mb-3">
+            <div class="card border-0 shadow h-100 text-center p-4" style="border-radius:20px;">
+                <div style="font-size:3rem;">💎</div>
+                <h2 class="mb-0 mt-2" style="color:#4f6df5; font-weight:800;">{{ totalPoints }}</h2>
+                <p class="text-muted mb-3">Points totaux</p>
+                <div class="row">
+                    <div class="col-6 border-right">
+                        <p class="mb-0"><span class="badge badge-success px-2">+{{ pointsTaches }} pts</span></p>
+                        <small class="text-muted">{{ nbTaches }} tâche(s)</small>
+                    </div>
+                    <div class="col-6">
+                        <p class="mb-0"><span class="badge badge-warning px-2">+{{ pointsObjectifs }} pts</span></p>
+                        <small class="text-muted">{{ nbObjectifs }} objectif(s)</small>
+                    </div>
+                </div>
+                <hr>
+                <div class="text-left" style="font-size:.82rem; color:#636e72;">
+                    <div>✅ Tâche terminée = <strong>+10 pts</strong></div>
+                    <div>🎯 Objectif complété = <strong>+50 pts</strong></div>
+                </div>
+            </div>
+        </div>
+
+        {# Badges obtenus #}
+        <div class="col-md-4 mb-3">
+            <div class="card border-0 shadow h-100 text-center p-4" style="border-radius:20px;">
+                <div style="font-size:3rem;">🏅</div>
+                <h2 class="mb-0 mt-2" style="color:#f39c12; font-weight:800;">{{ badgesObtenus|length }}</h2>
+                <p class="text-muted">/{{ badgesObtenus|length + badgesLocked|length }} badges débloqués</p>
+                <div style="font-size:1.8rem; line-height:2;">
+                    {% for badge in badgesObtenus %}
+                        <span title="{{ badge.nom }}">{{ badge.icone }}</span>
+                    {% endfor %}
+                    {% if badgesObtenus|length == 0 %}
+                        <p class="text-muted small">Complète des tâches !</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        {# ── Badges ── #}
+        <div class="col-md-8 mb-4">
+
+            {# Débloqués #}
+            {% if badgesObtenus|length > 0 %}
+                <h4 class="mb-3">✅ Badges débloqués</h4>
+                <div class="row mb-4">
+                    {% for badge in badgesObtenus %}
+                        <div class="col-md-4 col-6 mb-3">
+                            <div class="card border-0 shadow-sm text-center p-3 badge-card"
+                                 style="border-radius:15px; border-top:4px solid {{ badge.couleur }} !important;">
+                                <div style="font-size:2.5rem;">{{ badge.icone }}</div>
+                                <h6 class="mt-2 mb-1 font-weight-bold">{{ badge.nom }}</h6>
+                                <small class="text-muted">{{ badge.description }}</small>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {# Locked #}
+            <h4 class="mb-3">🔒 Badges à débloquer</h4>
+            <div class="row">
+                {% for badge in badgesLocked %}
+                    <div class="col-md-4 col-6 mb-3">
+                        <div class="card border-0 shadow-sm text-center p-3"
+                             style="border-radius:15px; opacity:0.4; filter:grayscale(100%);">
+                            <div style="font-size:2.5rem;">{{ badge.icone }}</div>
+                            <h6 class="mt-2 mb-1">{{ badge.nom }}</h6>
+                            <small class="text-muted">{{ badge.description }}</small>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% if badgesLocked|length == 0 %}
+                    <div class="col-12 text-center py-3">
+                        <span style="font-size:2rem;">🎉</span>
+                        <p class="text-success font-weight-bold mt-2">Tous les badges débloqués !</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {# ── Classement ── #}
+        <div class="col-md-4 mb-4">
+            <h4 class="mb-3">🏆 Classement</h4>
+            <div class="card border-0 shadow" style="border-radius:15px;">
+                <div class="card-body p-0">
+                    {% for joueur in classement %}
+                        <div class="d-flex align-items-center p-3 {% if not loop.last %}border-bottom{% endif %} classement-row">
+                            <div class="mr-3 text-center" style="min-width:30px;">
+                                {% if loop.index == 1 %}🥇
+                                {% elseif loop.index == 2 %}🥈
+                                {% elseif loop.index == 3 %}🥉
+                                {% else %}<span class="text-muted">{{ loop.index }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="mr-3 d-flex align-items-center justify-content-center text-white font-weight-bold"
+                                 style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#4f6df5,#6a82fb);font-size:.85rem;flex-shrink:0;">
+                                {{ joueur.nom|split(' ')[0]|slice(0,1)|upper }}{{ joueur.nom|split(' ')[1]|default('')|slice(0,1)|upper }}
+                            </div>
+                            <div class="flex-grow-1">
+                                <strong style="font-size:.88rem;">{{ joueur.nom }}</strong><br>
+                                <small class="text-muted">{{ joueur.taches }} tâches · {{ joueur.objectifs }} objectifs</small>
+                            </div>
+                            <span class="badge badge-primary px-2 py-1">{{ joueur.points }} pts</span>
+                        </div>
+                    {% else %}
+                        <div class="text-center p-4 text-muted">
+                            <div style="font-size:2rem;">👥</div>
+                            Pas encore de classement
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <a href="{{ path('app_objectif_index') }}" class="btn btn-outline-primary btn-block mt-3" style="border-radius:20px;">
+                <i class="fa fa-arrow-left mr-1"></i> Mes Objectifs
+            </a>
+        </div>
+
+    </div>
+</div>
+</section>
+
+<style>
+.badge-card { transition: transform 0.2s, box-shadow 0.2s; }
+.badge-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.12) !important; }
+.classement-row:hover { background: #f8f9ff; }
+.progress { background: rgba(255,255,255,0.3); }
+</style>
+
+{% endblock %}

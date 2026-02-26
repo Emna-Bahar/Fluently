@@ -1,0 +1,94 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Détails Tâche{% endblock %}
+
+{% block body %}
+<div class="nxl-content">
+    <div class="page-header">
+        <div class="page-header-left d-flex align-items-center">
+            <div class="page-header-title">
+                <h5 class="m-b-10">Détails de la Tâche</h5>
+            </div>
+        </div>
+        <div class="page-header-right ms-auto">
+            <a href="{{ path('app_tache_admin_index') }}" class="btn btn-secondary">
+                <i class="feather-arrow-left"></i> Retour
+            </a>
+            <a href="{{ path('app_tache_admin_edit', {'id': tache.id}) }}" class="btn btn-warning">
+                <i class="feather-edit"></i> Modifier
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">{{ tache.titre }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th width="200">ID</th>
+                                    <td>{{ tache.id }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Titre</th>
+                                    <td>{{ tache.titre }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Description</th>
+                                    <td>{{ tache.description }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Date limite</th>
+                                    <td>{{ tache.dateLimite ? tache.dateLimite|date('d/m/Y') : '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Statut</th>
+                                    <td>
+                                        {% if tache.statut == 'terminee' %}
+                                            <span class="badge bg-success">Terminée</span>
+                                        {% elseif tache.statut == 'en_cours' %}
+                                            <span class="badge bg-primary">En cours</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">{{ tache.statut }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Priorité</th>
+                                    <td>
+                                        {% if tache.priorite == 'urgente' %}
+                                            <span class="badge bg-danger">Urgente</span>
+                                        {% elseif tache.priorite == 'haute' %}
+                                            <span class="badge bg-warning">Haute</span>
+                                        {% else %}
+                                            <span class="badge bg-info">{{ tache.priorite }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Objectif</th>
+                                    <td>{{ tache.idObjectif.titre }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="mt-4">
+                            <form method="post" action="{{ path('app_tache_admin_delete', {'id': tache.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette tâche ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ tache.id) }}">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="feather-trash"></i> Supprimer
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+<div class="form-card">
+    <h2 class="form-title">{{ question.id ? 'Modifier la question' : 'Ajouter une question' }}</h2>
+
+    {{ form_start(form) }}
+
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="form-group">
+                {{ form_label(form.enonce, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.enonce, {'attr': {'class': 'form-control', 'rows': 4, 'placeholder': 'Énoncez clairement la question ici...'}}) }}
+                {{ form_errors(form.enonce) }}
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form.type, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.type, {'attr': {'class': 'form-select'}}) }}
+                {{ form_errors(form.type) }}
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form.score_max, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.score_max, {'attr': {'class': 'form-control', 'placeholder': '10', 'min': 1}}) }}
+                <div class="form-help">Points attribués à cette question</div>
+                {{ form_errors(form.score_max) }}
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="form-group">
+                {{ form_label(form.Id_test, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.Id_test, {'attr': {'class': 'form-select'}}) }}
+                {{ form_errors(form.Id_test) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex gap-3 mt-5">
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save me-2"></i> {{ button_label|default('Enregistrer') }}
+        </button>
+        <a href="{{ path('app_question_index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-2"></i> Retour à la liste
+        </a>
+    </div>
+
+    {{ form_end(form) }}
+</div>

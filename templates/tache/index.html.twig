@@ -1,0 +1,553 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Tâches - Fluently{% endblock %}
+
+{% block body %}
+
+<style>
+/* ── Page ── */
+.task-page { margin-bottom: 60px; }
+
+/* ── Card principale ── */
+.task-card {
+    border-radius: 20px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.08);
+}
+
+/* ── En-tête ── */
+.task-header h3 { color: #4f6df5; font-weight: 600; }
+
+/* ── Filtres ── */
+.filter-bar .form-select,
+.filter-bar .form-control {
+    border-radius: 20px;
+    padding: 6px 16px;
+    border: 1px solid #dde3f0;
+    background: #fafbff;
+}
+.filter-bar .form-select:focus,
+.filter-bar .form-control:focus {
+    border-color: #4f6df5;
+    box-shadow: 0 0 0 3px rgba(79,109,245,0.15);
+}
+
+/* ── Tableau ── */
+.table thead th {
+    background: #343a40;
+    color: #fff;
+    font-weight: 600;
+    font-size: .9rem;
+    letter-spacing: .3px;
+    padding: 14px 12px;
+    border: none;
+}
+.table tbody tr { transition: all 0.2s ease; }
+.table tbody tr:hover { background: #f0f4ff; transform: scale(1.002); }
+.table tbody td { vertical-align: middle; padding: 12px; border-color: #f0f0f0; }
+
+/* ── Badges statut ── */
+.badge-status-done     { background: #2ecc71; color: #fff; padding: 5px 12px; border-radius: 20px; font-size: .8rem; }
+.badge-status-progress { background: #4f6df5; color: #fff; padding: 5px 12px; border-radius: 20px; font-size: .8rem; }
+.badge-status-blocked  { background: #e74c3c; color: #fff; padding: 5px 12px; border-radius: 20px; font-size: .8rem; }
+.badge-status-todo     { background: #95a5a6; color: #fff; padding: 5px 12px; border-radius: 20px; font-size: .8rem; }
+
+/* ── Badges priorité ── */
+.badge-priority-urgent { background: #c0392b; color: #fff; padding: 5px 12px; border-radius: 20px; font-size: .8rem; }
+.badge-priority-high   { background: #e74c3c; color: #fff; padding: 5px 12px; border-radius: 20px; font-size: .8rem; }
+.badge-priority-medium { background: #f1c40f; color: #000; padding: 5px 12px; border-radius: 20px; font-size: .8rem; }
+.badge-priority-low    { background: #2ecc71; color: #fff; padding: 5px 12px; border-radius: 20px; font-size: .8rem; }
+
+/* ── Badge objectif ── */
+.objectif-badge {
+    background: #eef3ff;
+    color: #4f6df5;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+.objectif-badge:hover {
+    background: #4f6df5;
+    color: #fff;
+}
+
+/* ── Progression ── */
+.progress { height: 8px; border-radius: 20px; background: #eee; }
+.progress-bar { background: linear-gradient(135deg, #4f6df5, #6a82fb); border-radius: 20px; }
+
+/* ── Boutons actions ── */
+.btn-action {
+    border-radius: 10px;
+    padding: 6px 10px;
+    transition: all 0.2s;
+}
+.btn-action:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+
+/* ── Stats rapides ── */
+.stat-mini {
+    background: #fff;
+    border-radius: 14px;
+    padding: 12px 18px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    text-align: center;
+    transition: all 0.3s;
+}
+.stat-mini:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+</style>
+
+{# ── Hero Section ── #}
+<section class="hero-wrap hero-wrap-2" style="background-image: url('{{ asset('assets/images/bg_1.jpg') }}');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <h1 class="mb-2 bread">Mes Tâches</h1>
+                <p class="breadcrumbs">
+                    <span class="mr-2"><a href="{{ path('app_home') }}">Accueil <i class="fa fa-chevron-right"></i></a></span>
+                    <span class="mr-2"><a href="{{ path('app_objectif_index') }}">Objectifs <i class="fa fa-chevron-right"></i></a></span>
+                    <span>Tâches</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section bg-light task-page">
+<div class="container">
+
+    {# ── Statistiques rapides ── #}
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="stat-mini">
+                <div style="font-size:1.6rem;">📋</div>
+                <h4 class="mb-0" style="color:#4f6df5; font-weight:800;">{{ taches|length }}</h4>
+                <small class="text-muted">Total tâches</small>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-mini">
+                <div style="font-size:1.6rem;">✅</div>
+                <h4 class="mb-0" style="color:#2ecc71; font-weight:800;">{{ taches|filter(t => t.statut == 'terminee')|length }}</h4>
+                <small class="text-muted">Terminées</small>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-mini">
+                <div style="font-size:1.6rem;">⏳</div>
+                <h4 class="mb-0" style="color:#4f6df5; font-weight:800;">{{ taches|filter(t => t.statut == 'en_cours')|length }}</h4>
+                <small class="text-muted">En cours</small>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-mini">
+                <div style="font-size:1.6rem;">🔴</div>
+                <h4 class="mb-0" style="color:#e74c3c; font-weight:800;">{{ taches|filter(t => t.priorite == 'urgente')|length }}</h4>
+                <small class="text-muted">Urgentes</small>
+            </div>
+        </div>
+    </div>
+
+<div class="card task-card border-0">
+<div class="card-body p-4">
+
+    {# ── Messages flash ── #}
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type == 'success' ? 'success' : 'danger' }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {# ── En-tête ── #}
+    <div class="d-flex justify-content-between align-items-center mb-4 task-header">
+        <h3><i class="fa fa-tasks me-2"></i>Liste des tâches</h3>
+        <div class="d-flex gap-2">
+            <a href="{{ path('app_objectif_index') }}" class="btn btn-outline-secondary rounded-pill">
+                <i class="fa fa-arrow-left me-1"></i> Retour aux objectifs
+            </a>
+            <a href="{{ path('app_gamification_index') }}" class="btn btn-outline-warning rounded-pill">
+                <i class="fa fa-trophy me-1"></i> Gamification
+            </a>
+            <a href="{{ path('app_tache_new') }}" class="btn btn-primary rounded-pill">
+                <i class="fa fa-plus me-1"></i> Nouvelle tâche
+            </a>
+        </div>
+    </div>
+
+    {# ── Widget Gamification ── #}
+    {% if gamification is defined %}
+    <div class="row mb-4">
+        {# Niveau #}
+        <div class="col-md-3 mb-3">
+            <div class="card border-0 shadow-sm h-100 text-center p-3"
+                 style="border-radius:16px; background:linear-gradient(135deg, {{ gamification.niveau.couleur }}, {{ gamification.niveau.couleur }}bb);">
+                <div style="font-size:2.5rem;">{{ gamification.niveau.icone }}</div>
+                <h5 class="text-white mt-1 mb-1">{{ gamification.niveau.label }}</h5>
+                <div class="progress mb-1" style="height:8px; border-radius:10px; background:rgba(255,255,255,0.3);">
+                    <div class="progress-bar bg-white" style="width:{{ gamification.progression }}%; border-radius:10px;"></div>
+                </div>
+                <small style="color:rgba(255,255,255,0.7);">{{ gamification.totalPoints }} / {{ gamification.niveau.prochain }} pts</small>
+            </div>
+        </div>
+
+        {# Points #}
+        <div class="col-md-3 mb-3">
+            <div class="card border-0 shadow-sm h-100 text-center p-3" style="border-radius:16px;">
+                <div style="font-size:2rem;">💎</div>
+                <h3 class="mb-0 mt-1" style="color:#4f6df5; font-weight:800;">{{ gamification.totalPoints }}</h3>
+                <p class="text-muted mb-0" style="font-size:.85rem;">Points totaux</p>
+            </div>
+        </div>
+
+        {# Tâches terminées #}
+        <div class="col-md-3 mb-3">
+            <div class="card border-0 shadow-sm h-100 text-center p-3" style="border-radius:16px;">
+                <div style="font-size:2rem;">✅</div>
+                <h3 class="mb-0 mt-1" style="color:#2ecc71; font-weight:800;">{{ gamification.nbTaches }}</h3>
+                <p class="text-muted mb-0" style="font-size:.85rem;">Tâches terminées</p>
+                <small class="text-success">+{{ gamification.pointsTaches }} pts</small>
+            </div>
+        </div>
+
+        {# Badges #}
+        <div class="col-md-3 mb-3">
+            <div class="card border-0 shadow-sm h-100 text-center p-3" style="border-radius:16px;">
+                <div style="font-size:2rem;">🏆</div>
+                {% if gamification.badgesObtenus|length > 0 %}
+                    <div style="display:flex; justify-content:center; flex-wrap:wrap; gap:4px; margin-top:6px;">
+                        {% for badge in gamification.badgesObtenus|slice(0, 3) %}
+                            <span title="{{ badge.nom }}" style="font-size:1.3rem; cursor:pointer;">{{ badge.icone }}</span>
+                        {% endfor %}
+                        {% if gamification.badgesObtenus|length > 3 %}
+                            <span style="font-size:.75rem; color:#999; align-self:center;">+{{ gamification.badgesObtenus|length - 3 }}</span>
+                        {% endif %}
+                    </div>
+                    <p class="text-muted mb-0 mt-1" style="font-size:.8rem;">{{ gamification.badgesObtenus|length }} badge(s)</p>
+                {% else %}
+                    <p class="text-muted mb-0 mt-2" style="font-size:.8rem;">Aucun badge encore</p>
+                {% endif %}
+                <a href="{{ path('app_gamification_index') }}" class="btn btn-sm btn-outline-primary mt-2" style="border-radius:10px; font-size:.75rem;">
+                    Tout voir
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {# ── BARRE DE FILTRES AJAX ── #}
+    <div class="filter-bar d-flex flex-wrap gap-2 align-items-end mb-3">
+
+        {# Recherche texte #}
+        <div style="min-width:220px; flex:1">
+            <label class="form-label mb-1 fw-semibold small">
+                <i class="fa fa-search me-1"></i>Recherche
+            </label>
+            <input type="text"
+                   id="searchInput"
+                   class="form-control"
+                   placeholder="Titre ou description…">
+        </div>
+
+        {# Filtre Statut #}
+        <div style="min-width:160px">
+            <label class="form-label mb-1 fw-semibold small">Statut</label>
+            <select id="filterStatut" class="form-select">
+                <option value="">Tous</option>
+                <option value="a_faire">À faire</option>
+                <option value="en_cours">En cours</option>
+                <option value="terminee">Terminée</option>
+                <option value="bloquee">Bloquée</option>
+            </select>
+        </div>
+
+        {# Filtre Priorité #}
+        <div style="min-width:160px">
+            <label class="form-label mb-1 fw-semibold small">Priorité</label>
+            <select id="filterPriorite" class="form-select">
+                <option value="">Toutes</option>
+                <option value="basse">Basse</option>
+                <option value="moyenne">Moyenne</option>
+                <option value="haute">Haute</option>
+                <option value="urgente">Urgente</option>
+            </select>
+        </div>
+
+        {# Bouton reset #}
+        <div>
+            <label class="form-label mb-1 d-block">&nbsp;</label>
+            <button id="resetFilters"
+                    class="btn btn-outline-secondary rounded-pill"
+                    title="Réinitialiser les filtres">
+                <i class="fa fa-refresh me-1"></i> Reset
+            </button>
+        </div>
+
+    </div>
+
+    {# Compteur de résultats #}
+    <div class="mb-2">
+        <small id="resultCount" class="text-muted fst-italic"></small>
+    </div>
+
+    {# ── Spinner chargement ── #}
+    <div id="loadingSpinner" class="text-center py-4 d-none">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Chargement…</span>
+        </div>
+        <p class="text-muted mt-2 small">Recherche en cours…</p>
+    </div>
+
+    {# ── Tableau ── #}
+    <div class="table-responsive" id="tableWrapper">
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Objectif</th>
+                <th>Date limite</th>
+                <th>Priorité</th>
+                <th>Statut</th>
+                <th>Progression</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="taskTableBody">
+            {# ── Chargement initial SSR ── #}
+            {% for tache in taches %}
+            <tr>
+                <td><strong>{{ tache.titre }}</strong></td>
+                <td>
+                    {% if tache.idObjectif %}
+                        <span class="objectif-badge">🎯 {{ tache.idObjectif.titre }}</span>
+                    {% else %}-{% endif %}
+                </td>
+                <td>{{ tache.dateLimite|date('d/m/Y') }}</td>
+                <td>
+                    {% if tache.priorite == 'urgente' %}
+                        <span class="badge badge-priority-urgent">🔴 Urgente</span>
+                    {% elseif tache.priorite == 'haute' %}
+                        <span class="badge badge-priority-high">Haute</span>
+                    {% elseif tache.priorite == 'moyenne' %}
+                        <span class="badge badge-priority-medium">Moyenne</span>
+                    {% else %}
+                        <span class="badge badge-priority-low">Basse</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if tache.statut == 'terminee' %}
+                        <span class="badge badge-status-done">✔ Terminée</span>
+                    {% elseif tache.statut == 'en_cours' %}
+                        <span class="badge badge-status-progress">⏳ En cours</span>
+                    {% elseif tache.statut == 'bloquee' %}
+                        <span class="badge badge-status-blocked">🚫 Bloquée</span>
+                    {% else %}
+                        <span class="badge badge-status-todo">📋 À faire</span>
+                    {% endif %}
+                </td>
+                <td style="width:120px">
+                    <div class="progress">
+                        <div class="progress-bar"
+                             style="width:{{ tache.statut == 'terminee' ? 100 : (tache.statut == 'en_cours' ? 50 : 0) }}%">
+                        </div>
+                    </div>
+                </td>
+                <td class="d-flex gap-1">
+                    <a href="{{ path('app_tache_show', {'id': tache.id}) }}"
+                       class="btn btn-info btn-sm btn-action" title="Voir">
+                        <i class="fa fa-eye"></i>
+                    </a>
+                    <a href="{{ path('app_tache_edit', {'id': tache.id}) }}"
+                       class="btn btn-warning btn-sm btn-action" title="Modifier">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <form method="post"
+                          action="{{ path('app_tache_delete', {'id': tache.id}) }}"
+                          onsubmit="return confirm('Supprimer cette tâche ?');">
+                        <input type="hidden" name="_token"
+                               value="{{ csrf_token('delete' ~ tache.id) }}">
+                        <button class="btn btn-danger btn-sm btn-action" title="Supprimer">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="7" class="text-center text-muted py-4">
+                    Aucune tâche trouvée
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+</div>
+</div>
+</div>
+</div>
+</section>
+
+{# ══════════════════════════════════════════════
+   SCRIPT AJAX — fetch POST → app_tache_search
+   ══════════════════════════════════════════════ #}
+<script>
+(function () {
+    'use strict';
+
+    /* ── Références DOM ── */
+    var searchInput    = document.getElementById('searchInput');
+    var filterStatut   = document.getElementById('filterStatut');
+    var filterPriorite = document.getElementById('filterPriorite');
+    var resetBtn       = document.getElementById('resetFilters');
+    var tableBody      = document.getElementById('taskTableBody');
+    var spinner        = document.getElementById('loadingSpinner');
+    var tableWrapper   = document.getElementById('tableWrapper');
+    var resultCount    = document.getElementById('resultCount');
+
+    /* ── URL Symfony générée côté serveur ── */
+    var SEARCH_URL = '{{ path('app_tache_search') }}';
+
+    /* ── Debounce (évite trop de requêtes pendant la frappe) ── */
+    var debounceTimer = null;
+    function debounce(fn, delay) {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(fn, delay);
+    }
+
+    /* ── Échappe le HTML (anti-XSS) ── */
+    function esc(str) {
+        if (!str) return '-';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    /* ── Badge Statut ── */
+    function badgeStatut(statut) {
+        var map = {
+            terminee : '<span class="badge badge-status-done">✔ Terminée</span>',
+            en_cours : '<span class="badge badge-status-progress">⏳ En cours</span>',
+            bloquee  : '<span class="badge badge-status-blocked">🚫 Bloquée</span>',
+            a_faire  : '<span class="badge badge-status-todo">📋 À faire</span>'
+        };
+        return map[statut] || '<span class="badge bg-secondary">' + esc(statut) + '</span>';
+    }
+
+    /* ── Badge Priorité ── */
+    function badgePriorite(priorite) {
+        var map = {
+            urgente : '<span class="badge badge-priority-urgent">🔴 Urgente</span>',
+            haute   : '<span class="badge badge-priority-high">Haute</span>',
+            moyenne : '<span class="badge badge-priority-medium">Moyenne</span>',
+            basse   : '<span class="badge badge-priority-low">Basse</span>'
+        };
+        return map[priorite] || '<span class="badge bg-secondary">' + esc(priorite) + '</span>';
+    }
+
+    /* ── Barre de progression ── */
+    function progressBar(statut) {
+        var pct = statut === 'terminee' ? 100 : (statut === 'en_cours' ? 50 : 0);
+        return '<div class="progress"><div class="progress-bar" style="width:' + pct + '%"></div></div>';
+    }
+
+    /* ── Objectif badge ── */
+    function objectifBadge(objectif) {
+        return objectif && objectif !== '-'
+            ? '<span class="objectif-badge">🎯 ' + esc(objectif) + '</span>'
+            : '-';
+    }
+
+    /* ── Construit une ligne <tr> depuis les données JSON ── */
+    function buildRow(t) {
+        return '<tr>'
+            + '<td><strong>' + esc(t.titre) + '</strong></td>'
+            + '<td>' + objectifBadge(t.objectif) + '</td>'
+            + '<td>' + esc(t.dateLimite) + '</td>'
+            + '<td>' + badgePriorite(t.priorite) + '</td>'
+            + '<td>' + badgeStatut(t.statut) + '</td>'
+            + '<td style="width:120px">' + progressBar(t.statut) + '</td>'
+            + '<td class="d-flex gap-1">'
+            +   '<a href="' + t.urlShow + '" class="btn btn-info btn-sm btn-action" title="Voir"><i class="fa fa-eye"></i></a>'
+            +   '<a href="' + t.urlEdit + '" class="btn btn-warning btn-sm btn-action" title="Modifier"><i class="fa fa-edit"></i></a>'
+            + '</td>'
+            + '</tr>';
+    }
+
+    /* ── Requête AJAX principale ── */
+    function fetchTaches() {
+        var formData = new FormData();
+        formData.append('search',   searchInput.value.trim());
+        formData.append('statut',   filterStatut.value);
+        formData.append('priorite', filterPriorite.value);
+
+        /* Affiche spinner, cache tableau */
+        spinner.classList.remove('d-none');
+        tableWrapper.classList.add('d-none');
+        resultCount.textContent = '';
+
+        fetch(SEARCH_URL, {
+            method: 'POST',
+            body:   formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error('Erreur serveur : ' + response.status);
+            }
+            return response.json();
+        })
+        .then(function (data) {
+            tableBody.innerHTML = '';
+
+            if (data.success && data.taches.length > 0) {
+                data.taches.forEach(function (t) {
+                    tableBody.insertAdjacentHTML('beforeend', buildRow(t));
+                });
+                resultCount.textContent = data.count + ' tâche(s) trouvée(s)';
+            } else {
+                tableBody.innerHTML =
+                    '<tr><td colspan="7" class="text-center text-muted py-4">'
+                    + 'Aucune tâche ne correspond aux critères'
+                    + '</td></tr>';
+                resultCount.textContent = '0 tâche trouvée';
+            }
+        })
+        .catch(function (err) {
+            tableBody.innerHTML =
+                '<tr><td colspan="7" class="text-center text-danger py-4">'
+                + '<i class="fa fa-exclamation-triangle me-1"></i>'
+                + 'Une erreur est survenue. Veuillez réessayer.'
+                + '</td></tr>';
+            console.error('AJAX error:', err);
+        })
+        .finally(function () {
+            spinner.classList.add('d-none');
+            tableWrapper.classList.remove('d-none');
+        });
+    }
+
+    /* ── Écouteurs ── */
+    searchInput.addEventListener('input', function () {
+        debounce(fetchTaches, 350);   /* debounce 350 ms sur la frappe */
+    });
+
+    filterStatut.addEventListener('change', fetchTaches);     /* immédiat */
+    filterPriorite.addEventListener('change', fetchTaches);   /* immédiat */
+
+    resetBtn.addEventListener('click', function () {
+        searchInput.value    = '';
+        filterStatut.value   = '';
+        filterPriorite.value = '';
+        fetchTaches();
+    });
+
+}());
+</script>
+
+{% endblock %}

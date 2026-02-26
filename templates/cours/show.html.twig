@@ -1,0 +1,124 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Admin - Détails du cours n°{{ cour.numero }}{% endblock %}
+
+{% block body %}
+
+    <div class="nxl-content">
+
+        <!-- En-tête admin -->
+        <div class="page-header">
+            <div class="page-header-left d-flex align-items-center">
+                <div class="page-header-title">
+                    <h5 class="m-b-10 fw-bold">
+                        <i class="feather-eye text-info me-2"></i>
+                        Détails du cours n°{{ cour.numero }}
+                    </h5>
+                    <h6 class="m-b-0 text-muted">
+                        {{ cour.idNiveau.titre }} • {{ cour.idNiveau.idLangue.nom }}
+                    </h6>
+                </div>
+            </div>
+            <div class="page-header-right ms-auto">
+                <a href="{{ path('app_cours_index') }}" class="btn btn-outline-secondary px-4 me-2">
+                    <i class="feather-arrow-left me-2"></i> Retour à la liste
+                </a>
+                <a href="{{ path('app_cours_edit', {'id': cour.id}) }}" class="btn btn-warning px-4">
+                    <i class="feather-edit-2 me-2"></i> Modifier
+                </a>
+            </div>
+        </div>
+
+        <!-- Contenu -->
+        <div class="row">
+            <div class="col-xl-10 col-lg-11 mx-auto">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="card-header bg-gradient-info text-white py-4 px-5">
+                        <h5 class="m-0 fw-bold">
+                            <i class="feather-info me-2"></i> 
+                            Informations du cours
+                        </h5>
+                    </div>
+
+                    <div class="card-body p-5">
+                        <div class="row g-4">
+
+                            <!-- Infos principales -->
+                            <div class="col-md-6">
+                                <div class="bg-light rounded-3 p-4 shadow-sm">
+                                    <h6 class="fw-bold mb-3">Détails</h6>
+                                    <p><strong>ID :</strong> {{ cour.id }}</p>
+                                    <p><strong>Langue :</strong> {{ cour.idNiveau.idLangue.nom }}</p>
+                                    <p><strong>Niveau :</strong> {{ cour.idNiveau.titre }} ({{ cour.idNiveau.difficulte }})</p>
+                                    <p><strong>Numéro :</strong> {{ cour.numero }}</p>
+                                    {% if cour.coursPrecedentId %}
+                                        <p><strong>Cours précédent :</strong> {{ cour.coursPrecedentId.numero }}</p>
+                                    {% else %}
+                                        <p><strong>Cours précédent :</strong> Aucun</p>
+                                    {% endif %}
+                                    <p><strong>Créé le :</strong> {{ cour.dateCreation ? cour.dateCreation|date('d/m/Y à H:i') : '—' }}</p>
+                                </div>
+                            </div>
+
+                            <!-- Nombre de ressources (corrigé : on compte uniquement ce qui est en base) -->
+                            <div class="col-md-6">
+                                <div class="bg-light rounded-3 p-4 shadow-sm text-center">
+                                    <h6 class="fw-bold mb-3">Ressources</h6>
+                                    {% set dbResources = cour.ressource ? cour.ressource|split('\n')|filter(v => v|trim) : [] %}
+                                    {% set nb = dbResources|length %}
+                                    <div class="display-4 fw-bold {{ nb > 0 ? 'text-success' : 'text-muted' }}">
+                                        {{ nb }}
+                                    </div>
+                                    <p class="text-muted">ressource{{ nb != 1 ? 's' : '' }}</p>
+                                </div>
+                            </div>
+
+                            <!-- Liste des ressources (seulement ce qui est stocké en base) -->
+                            <div class="col-12">
+                                <h6 class="fw-bold mb-3">Ressources du cours</h6>
+
+                                {% if dbResources|length > 0 %}
+                                    <div class="list-group">
+                                        {% for res in dbResources %}
+                                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div class="d-flex align-items-center">
+                                                    {% if 'youtube.com' in res or 'youtu.be' in res %}
+                                                        <i class="feather-video text-danger me-2"></i>
+                                                        <span>Vidéo YouTube</span>
+                                                    {% else %}
+                                                        <i class="feather-file-text text-primary me-2"></i>
+                                                        <span>{{ res }}</span>
+                                                    {% endif %}
+                                                </div>
+
+                                                {% if 'youtube.com' in res or 'youtu.be' in res %}
+                                                    <a href="{{ res }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                        <i class="feather-external-link me-1"></i> Ouvrir
+                                                    </a>
+                                                {% else %}
+                                                    <a href="{{ public_path ~ '/' ~ res }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                        <i class="feather-eye me-1"></i> Voir
+                                                    </a>
+                                                {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <div class="alert alert-info mb-0">
+                                        Aucune ressource enregistrée pour ce cours.
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card-footer bg-light text-muted small text-center py-3">
+                        Liste basée uniquement sur les ressources enregistrées en base de données
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

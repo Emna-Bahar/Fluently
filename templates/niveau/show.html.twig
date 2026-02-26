@@ -1,0 +1,125 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Détails du niveau : {{ niveau.titre }}{% endblock %}
+
+{% block body %}
+
+    <div class="nxl-content">
+
+        <!-- En-tête de page -->
+        <div class="page-header">
+            <div class="page-header-left d-flex align-items-center">
+                <div class="page-header-title">
+                    <h5 class="m-b-10 fw-bold">
+                        <i class="feather-eye text-info me-2"></i>
+                        Détails du niveau : {{ niveau.titre }}
+                    </h5>
+                    <h6 class="m-b-0 text-muted">
+                        {{ niveau.IdLangue.nom }} • Ordre {{ niveau.ordre }}
+                    </h6>
+                </div>
+            </div>
+            <div class="page-header-right ms-auto d-flex gap-3">
+                <a href="{{ path('app_niveau_index') }}" class="btn btn-outline-secondary px-4">
+                    <i class="feather-arrow-left me-2"></i> Retour à la liste
+                </a>
+                <a href="{{ path('app_niveau_edit', {'id': niveau.id}) }}" class="btn btn-warning px-4">
+                    <i class="feather-edit-2 me-2"></i> Modifier
+                </a>
+            </div>
+        </div>
+
+        <!-- Contenu principal -->
+        <div class="row">
+            <div class="col-xl-10 col-lg-11 mx-auto">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="card-header bg-gradient-info text-white py-4 px-5">
+                        <h5 class="m-0 fw-bold">
+                            <i class="feather-info me-2"></i> Informations du niveau
+                        </h5>
+                    </div>
+
+                    <div class="card-body p-5">
+                        <div class="row g-5 align-items-center">
+
+                            <!-- Colonne gauche : détails texte -->
+                            <div class="col-lg-6">
+                                <div class="row g-4">
+                                    <div class="col-6">
+                                        <strong class="d-block text-muted small">ID</strong>
+                                        <p class="mb-0 fw-medium">{{ niveau.id }}</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <strong class="d-block text-muted small">Langue</strong>
+                                        <p class="mb-0 fw-medium">{{ niveau.IdLangue.nom }}</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <strong class="d-block text-muted small">Titre</strong>
+                                        <p class="mb-0 fw-medium">{{ niveau.titre }}</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <strong class="d-block text-muted small">Ordre</strong>
+                                        <p class="mb-0 fw-medium">{{ niveau.ordre }}</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <strong class="d-block text-muted small">Difficulté</strong>
+                                        <p class="mb-0 fw-medium">{{ niveau.difficulte }}</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <strong class="d-block text-muted small">Score minimum</strong>
+                                        <p class="mb-0 fw-medium">{{ niveau.seuilScoreMin }}</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <strong class="d-block text-muted small">Score maximum</strong>
+                                        <p class="mb-0 fw-medium">{{ niveau.seuilScoreMax }}</p>
+                                    </div>
+                                </div>
+
+                                <!-- Description -->
+                                <div class="mt-5">
+                                    <h6 class="fw-bold text-dark mb-3">Description :</h6>
+                                    <p class="text-dark lh-lg" style="white-space: pre-wrap;">
+                                        {{ niveau.description|nl2br|default('Aucune description disponible.') }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Colonne droite : image de couverture -->
+                            <div class="col-lg-6 text-center">
+                                {% if niveau.imageCouverture %}
+                                    <img src="{{ asset('uploads/niveaux/' ~ niveau.imageCouverture) }}" 
+                                         alt="Couverture {{ niveau.titre }}" 
+                                         class="img-fluid rounded-4 shadow-lg" 
+                                         style="max-height: 380px; object-fit: cover; border: 1px solid rgba(0,0,0,0.1);">
+                                {% else %}
+                                    <div class="bg-light rounded-4 p-5 d-flex align-items-center justify-content-center shadow" style="height: 380px;">
+                                        <p class="text-muted fs-4">Aucune image de couverture</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions admin -->
+        <div class="text-center mt-5 pt-4">
+            <div class="btn-group btn-group-lg">
+                <a href="{{ path('app_niveau_edit', {'id': niveau.id}) }}" class="btn btn-warning">
+                    <i class="feather-edit-2 me-2"></i> Modifier ce niveau
+                </a>
+                <form method="post" action="{{ path('app_niveau_delete', {'id': niveau.id}) }}" 
+                      onsubmit="return confirm('Supprimer ce niveau ? Cette action est irréversible.');" 
+                      class="d-inline">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ niveau.id) }}">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="feather-trash-2 me-2"></i> Supprimer
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

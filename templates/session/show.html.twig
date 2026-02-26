@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Details Session - Fluently{% endblock %}
+
+{% block body %}
+    <div class="container py-5" style="margin-top: 100px;">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card-header bg-primary text-white py-4">
+                        <h4 class="mb-0 fw-bold">
+                            <i class="bi bi-info-circle me-2"></i> Details de la session #{{ session.id }}
+                        </h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <th class="ps-0" style="width: 250px;">
+                                        <i class="bi bi-calendar-event text-primary me-2"></i> Date et heure:
+                                    </th>
+                                    <td class="fw-bold">
+                                        {{ session.dateHeure ? session.dateHeure|date('d/m/Y H:i') : '-' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="ps-0">
+                                        <i class="bi bi-flag text-primary me-2"></i> Statut:
+                                    </th>
+                                    <td>
+                                        {% if session.statut == 'planifiée' %}
+                                            <span class="badge rounded-pill px-3 py-2 bg-warning text-dark">Planifiee</span>
+                                        {% elseif session.statut == 'en_cours' %}
+                                            <span class="badge rounded-pill px-3 py-2 bg-success">En cours</span>
+                                        {% elseif session.statut == 'terminée' %}
+                                            <span class="badge rounded-pill px-3 py-2 bg-info">Terminee</span>
+                                        {% elseif session.statut == 'annulée' %}
+                                            <span class="badge rounded-pill px-3 py-2 bg-danger">Annulee</span>
+                                        {% else %}
+                                            <span class="badge rounded-pill px-3 py-2 bg-secondary">{{ session.statut }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="ps-0">
+                                        <i class="bi bi-link-45deg text-primary me-2"></i> Lien reunion:
+                                    </th>
+                                    <td>
+                                        {% if session.lienReunion %}
+                                            <a href="{{ session.lienReunion }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                <i class="bi bi-box-arrow-up-right me-1"></i> {{ session.lienReunion }}
+                                            </a>
+                                        {% else %}
+                                            <span class="text-muted">--</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="ps-0">
+                                        <i class="bi bi-people text-primary me-2"></i> Groupe:
+                                    </th>
+                                    <td>{{ session.groupe ? session.groupe.nom : '--' }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="ps-0">
+                                        <i class="bi bi-person text-primary me-2"></i> Formateur:
+                                    </th>
+                                    <td>
+                                        {% if session.user %}
+                                            <strong>{{ session.user.prenom }} {{ session.user.nom }}</strong>
+                                            {% if session.user.email is defined and session.user.email %}
+                                                <br><small class="text-muted">{{ session.user.email }}</small>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="text-muted">--</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="ps-0">
+                                        <i class="bi bi-bookmark-check text-primary me-2"></i> Réservations:
+                                    </th>
+                                    <td>
+                                        <span class="badge bg-primary rounded-pill px-3 py-2">
+                                            {{ session.reservations|length }} réservation{{ session.reservations|length > 1 ? 's' : '' }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="mt-4 d-flex gap-2 flex-wrap">
+                            <a href="{{ path('app_session_index') }}" class="btn btn-secondary px-4">
+                                <i class="bi bi-arrow-left me-1"></i> Retour a la liste
+                            </a>
+                            <a href="{{ path('app_session_edit', {'id': session.id}) }}" class="btn btn-warning px-4">
+                                <i class="bi bi-pencil me-1"></i> Modifier
+                            </a>
+                            <a href="{{ path('app_session_reservations', {'id': session.id}) }}" class="btn btn-primary px-4">
+                                <i class="bi bi-bookmark-check me-1"></i> Voir les réservations
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

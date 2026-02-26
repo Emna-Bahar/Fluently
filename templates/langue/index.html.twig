@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Langues Disponibles - Fluently{% endblock %}
+
+{% block body %}
+<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 0;">
+<br><br><br><br><br>
+    <!-- Barre de recherche et tri (style premium, proche navbar) -->
+    <div style="background: rgba(255,255,255,0.12); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.15); padding: 24px 0;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
+                <!-- Titre principal (gros, gras, comme navbar) -->
+                <h1 style="color: white; font-size: 2.5rem; font-weight: 900; margin: 0 0 8px; text-shadow: 0 4px 12px rgba(0,0,0,0.4);">
+                    Langues Disponibles
+                </h1>
+
+                <!-- Formulaire recherche + tri -->
+                <form method="GET" action="{{ path('app_langue_index') }}" style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; align-items: center; width: 100%; max-width: 900px;">
+                    <!-- Recherche -->
+                    <div style="flex: 1; min-width: 280px;">
+                        <input type="text" name="search" value="{{ search|default('') }}" 
+                               placeholder="Rechercher une langue (ex: Français, Anglais...)" 
+                               style="width: 100%; padding: 16px 20px; border: none; border-radius: 50px; font-size: 1.1rem; background: rgba(255,255,255,0.95); box-shadow: 0 6px 16px rgba(0,0,0,0.15); outline: none; transition: all 0.3s;" 
+                               onfocus="this.style.boxShadow='0 8px 24px rgba(0,0,0,0.25)';">
+                    </div>
+
+                    <!-- Tri -->
+                    <div style="min-width: 220px;">
+                        <select name="sortBy" style="width: 100%; padding: 16px 20px; border: none; border-radius: 50px; font-size: 1.1rem; background: rgba(255,255,255,0.95); box-shadow: 0 6px 16px rgba(0,0,0,0.15); outline: none; appearance: none; cursor: pointer; transition: all 0.3s;">
+                            <option value="">-- Aucun tri --</option>
+                            <option value="nom"        {% if sortBy == 'nom'        %}selected{% endif %}>Nom (A-Z)</option>
+                            <option value="popularite" {% if sortBy == 'popularite' %}selected{% endif %}>Popularité</option>
+                        </select>
+                    </div>
+
+                    <!-- Bouton Filtrer -->
+                    <button type="submit" style="background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; border: none; border-radius: 50px; padding: 16px 40px; font-size: 1.1rem; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(79,70,229,0.4); transition: all 0.3s;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 12px 28px rgba(79,70,229,0.5)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 20px rgba(79,70,229,0.4)';">
+                        Filtrer
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sous-titre -->
+    <div style="padding: 40px 20px 20px; text-align: center;">
+        <p style="color: rgba(255,255,255,0.95); font-size: 1.4rem; margin: 0; max-width: 800px; margin: 0 auto; font-weight: 500;">
+            Choisissez une langue et commencez votre aventure linguistique dès aujourd'hui !
+        </p>
+    </div>
+
+    <!-- Cartes des langues -->
+    <div style="padding: 0 20px 100px;">
+        <div style="max-width: 1400px; margin: 0 auto;">
+            {% if langues %}
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 40px;">
+                    {% for langue in langues %}
+                        <a href="{{ path('app_langue_apprentissage', {'id': langue.id}) }}" style="text-decoration: none;">
+                            <div style="background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.2); transition: all 0.4s ease; height: 100%; display: flex; flex-direction: column;" 
+                                 onmouseover="this.style.transform='translateY(-16px)'; this.style.boxShadow='0 30px 80px rgba(0,0,0,0.3)';" 
+                                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 12px 40px rgba(0,0,0,0.2)';">
+                                
+                                <!-- Drapeau (plus grand et centré) -->
+                                <div style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center;">
+                                    {% if langue.drapeau %}
+                                        {# ✅ CORRIGÉ : images/langues/ → uploads/langues/ #}
+                                        <img src="{{ asset('uploads/langues/' ~ langue.drapeau) }}" 
+                                             alt="Drapeau {{ langue.nom }}" 
+                                             style="width: 100%; height: 100%; object-fit: cover;">
+                                    {% else %}
+                                        <span style="color: white; font-size: 6rem; opacity: 0.5;">🌍</span>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Contenu -->
+                                <div style="padding: 32px; display: flex; flex-direction: column; flex-grow: 1; text-align: center;">
+                                    <h3 style="font-size: 2.1rem; font-weight: 900; color: #111827; margin: 0 0 16px;">{{ langue.nom }}</h3>
+                                    <p style="color: #4b5563; margin: 0 0 32px; line-height: 1.6; flex-grow: 1; font-size: 1.15rem;">
+                                        {{ langue.description|slice(0, 140) }}{% if langue.description|length > 140 %}...{% endif %}
+                                    </p>
+                                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 18px 40px; border-radius: 50px; font-weight: 800; font-size: 1.3rem; margin-top: auto; box-shadow: 0 6px 20px rgba(102,110,234,0.4); transition: all 0.3s;" onmouseover="this.style.transform='scale(1.08)';" onmouseout="this.style.transform='scale(1)';">
+                                        Commencer →
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div style="background: white; border-radius: 24px; padding: 100px 40px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.25);">
+                    <h3 style="color: #1e293b; font-size: 2rem; margin-bottom: 24px;">Aucune langue trouvée</h3>
+                    <p style="color: #4b5563; font-size: 1.3rem; margin-bottom: 40px;">Essayez de modifier vos critères de recherche.</p>
+                    <a href="{{ path('app_langue_index') }}" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 18px 48px; border-radius: 50px; text-decoration: none; font-weight: 800; font-size: 1.3rem; box-shadow: 0 8px 24px rgba(102,110,234,0.4); transition: all 0.3s;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">
+                        Réinitialiser les filtres
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

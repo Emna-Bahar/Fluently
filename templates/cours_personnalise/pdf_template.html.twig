@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Cours personnalisé</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .date {
+            color: #7f8c8d;
+            font-size: 12px;
+            text-align: right;
+        }
+        .content {
+            margin-top: 30px;
+        }
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            color: #bdc3c7;
+            font-size: 11px;
+            border-top: 1px solid #ecf0f1;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="date">Généré le {{ date|date('d/m/Y à H:i') }}</div>
+    
+    <div class="header">
+        <h1>Cours personnalisé - {{ cours.idNiveau.titre }}</h1>
+        <p>{{ cours.idNiveau.idLangue.nom }} • Niveau {{ cours.idNiveau.difficulte }}</p>
+    </div>
+    
+    <div class="content">
+        {{ contenu|nl2br }}
+    </div>
+    
+    <div class="footer">
+        Généré par IA - Fluently
+    </div>
+</body>
+</html>

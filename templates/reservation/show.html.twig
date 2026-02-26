@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails Réservation - Fluently{% endblock %}
+
+{% block body %}
+    <div class="container py-5" style="margin-top: 100px;">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card-header bg-success text-white py-4">
+                        <h4 class="mb-0 fw-bold">
+                            <i class="bi bi-info-circle me-2"></i> Détails de la réservation #{{ reservation.id }}
+                        </h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <th class="ps-0" style="width: 250px;">
+                                        <i class="bi bi-calendar-event text-success me-2"></i> Date de réservation:
+                                    </th>
+                                    <td class="fw-bold">
+                                        {{ reservation.dateReservation ? reservation.dateReservation|date('d/m/Y') : '-' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="ps-0">
+                                        <i class="bi bi-flag text-success me-2"></i> Statut:
+                                    </th>
+                                    <td>
+                                        <span class="badge rounded-pill px-3 py-2 bg-{{ reservation.statut == 'confirmee' ? 'success' : (reservation.statut == 'en_attente' ? 'warning text-dark' : (reservation.statut == 'annulee' ? 'danger' : 'secondary')) }}">
+                                            {{ reservation.statut|replace({'_': ' '})|capitalize }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="ps-0">
+                                        <i class="bi bi-calendar-check text-success me-2"></i> Session:
+                                    </th>
+                                    <td>
+                                        {% if reservation.session %}
+                                            <strong>{{ reservation.session.dateHeure|date('d/m/Y à H:i') }}</strong>
+                                            {% if reservation.session.groupe %}
+                                                <br><small class="text-muted">Groupe: {{ reservation.session.groupe.nom }}</small>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="text-muted">—</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="ps-0">
+                                        <i class="bi bi-person text-success me-2"></i> Apprenant:
+                                    </th>
+                                    <td>
+                                        {% if reservation.user %}
+                                            <strong>{{ reservation.user.prenom }} {{ reservation.user.nom }}</strong>
+                                            {% if reservation.user.email %}
+                                                <br><small class="text-muted">{{ reservation.user.email }}</small>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="text-muted">—</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="mt-4 d-flex gap-2">
+                            <a href="{{ path('app_reservation_index') }}" class="btn btn-secondary px-4">
+                                <i class="bi bi-arrow-left me-1"></i> Retour à la liste
+                            </a>
+                            <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}" class="btn btn-warning px-4">
+                                <i class="bi bi-pencil me-1"></i> Modifier
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

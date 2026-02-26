@@ -1,0 +1,187 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résultats de ton test - Fluently{% endblock %}
+
+{% block css %}
+{{ parent() }}
+<style>
+    .result-container {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 60px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .result-card {
+        background: white;
+        border-radius: 30px;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+        max-width: 800px;
+        overflow: hidden;
+        color: #1e293b;
+    }
+    .result-header {
+        padding: 50px 30px;
+        text-align: center;
+        color: white;
+        {% if passage.resultat >= 80 %}
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        {% elseif passage.resultat >= 50 %}
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        {% else %}
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        {% endif %}
+    }
+    .score-circle {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 30px;
+        border: 10px solid rgba(255,255,255,0.4);
+    }
+    .score-number {
+        font-size: 4rem;
+        font-weight: 900;
+    }
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 20px;
+        padding: 30px;
+        background: #f8f9fa;
+    }
+    .stat-item {
+        text-align: center;
+        padding: 20px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .details-section {
+        padding: 30px;
+    }
+    .question-result {
+        padding: 20px;
+        margin-bottom: 15px;
+        border-radius: 12px;
+        border-left: 5px solid;
+    }
+    .question-result.correct {
+        background: #d1fae5;
+        border-color: #10b981;
+    }
+    .question-result.incorrect {
+        background: #fee2e2;
+        border-color: #ef4444;
+    }
+    .action-buttons {
+        padding: 30px;
+        text-align: center;
+        background: #f8f9fa;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="result-container">
+    <div class="result-card">
+        <div class="result-header">
+            <div class="score-circle">
+                <div class="score-number">{{ passage.resultat|number_format(1) }}%</div>
+            </div>
+            <h1 class="mb-3">
+                {% if passage.resultat >= 80 %}
+                    🎉 Excellent !
+                {% elseif passage.resultat >= 50 %}
+                    👍 Bien joué !
+                {% else %}
+                    💪 Continue !
+                {% endif %}
+            </h1>
+            <p class="mb-0">
+                {{ passage.test.type }} - {{ passage.test.langue.nom }}
+            </p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-item">
+                
+                <h3>{{ passage.score }}</h3>
+                <small>Ton score</small>
+            </div>
+            <div class="stat-item">
+                
+                <h3>{{ passage.scoreMax }}</h3>
+                <small>Maximum</small>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-clock text-primary fa-2x mb-2"></i>
+                <h3>{{ (passage.tempsPasse / 60)|number_format(0) }} min</h3>
+                <small>Temps passé</small>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-calendar-check text-info fa-2x mb-2"></i>
+                <h3>{{ passage.dateFin|date('d/m/Y H:i') }}</h3>
+                <small>Terminé le</small>
+            </div>
+        </div>
+        {# Juste AVANT la section "Détails de tes réponses" #}
+
+        {% if passage.test.type == 'Test de niveau' or passage.test.type == 'Test de fin de niveau' %}
+            <div class="details-section" style="border-top: 3px solid #e5e7eb;">
+                <h3 class="mb-4 text-center">
+                    <i class="fas fa-shield-alt"></i> Rapport de Surveillance (Mode Examen)
+                </h3>
+
+                {# Récupérer l'analyse via le service #}
+                {# Note: Il faudra passer cette variable depuis le controller #}
+                {% if examAnalysis is defined %}
+                    <div class="alert alert-{{ examAnalysis.color }}" style="padding: 25px; border-radius: 15px;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Score de Suspicion</h4>
+                                <div style="font-size: 3rem; font-weight: 900;">
+                                    {{ examAnalysis.suspicion_score }}/100
+                                </div>
+                                <p class="mb-0"><strong>{{ examAnalysis.recommendation }}</strong></p>
+                            </div>
+                            <div class="col-md-6">
+                                <h4>Événements Détectés</h4>
+                                <ul class="list-unstyled">
+                                    <li>🔄 Changements d'onglet : <strong>{{ examAnalysis.events.tab_switches }}</strong></li>
+                                    <li>📋 Tentatives copier-coller : <strong>{{ examAnalysis.events.copy_pastes }}</strong></li>
+                                    <li>👁️ Pertes de focus : <strong>{{ examAnalysis.events.page_blurs }}</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        {% if examAnalysis.flags|length > 0 %}
+                            <hr>
+                            <h5>⚠️ Alertes :</h5>
+                            <ul>
+                                {% for flag in examAnalysis.flags %}
+                                    <li>{{ flag }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <hr>
+                            <p class="text-success mb-0">✅ Aucun comportement suspect détecté</p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+        
+
+        <div class="action-buttons">
+            <a href="{{ path('app_langue_apprentissage', {id: passage.test.langue.id}) }}" class="btn btn-primary btn-lg">Retour au parcours</a>
+            <a href="{{ path('app_langue_index') }}" class="btn btn-outline-secondary btn-lg ms-2">Autres langues</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

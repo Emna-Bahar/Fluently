@@ -1,0 +1,145 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Admin - Gestion des utilisateurs{% endblock %}
+
+{% block body %}
+
+<div class="nxl-content">
+
+    <!-- Header -->
+    <div class="page-header">
+        <div class="page-header-left d-flex align-items-center">
+            <div class="page-header-title">
+                <h5 class="m-b-10">Gestion des utilisateurs</h5>
+            </div>
+        </div>
+       <div class="page-header-right ms-auto d-flex gap-3">
+       <a href="{{ path('dashboard_export_google_sheets') }}" class="btn btn-success btn-lg">
+    <img src="https://www.google.com/favicon.ico" width="16" class="me-2"> Ouvrir Google Sheets
+</a>
+       <a href="{{ path('dashboard_users_viewer') }}" class="btn btn-info btn-lg">
+        <i class="feather-grid me-2"></i> Voir Table
+    </a>
+    <a href="{{ path('dashboard_export_users') }}" class="btn btn-success btn-lg" onclick="setTimeout(() => window.location.href=this.href, 100)" download>
+    <i class="feather-download me-2"></i> Exporter Excel
+</a>
+</div>
+    </div>
+
+    <div class="main-content">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                    <h6 class="m-0">Liste des utilisateurs</h6>
+
+                    <!-- Filters -->
+                    <form method="GET" class="d-flex align-items-center gap-3 flex-wrap">
+                        <div class="input-group" style="width: 280px;">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="feather-search"></i>
+                            </span>
+                            <input type="text" name="search" value="{{ app.request.query.get('search') }}" 
+                                   class="form-control" placeholder="Rechercher un utilisateur...">
+                        </div>
+
+                        <div class="input-group" style="width: 180px;">
+                            <select name="role" class="form-select">
+                                <option value="">Tous les rôles</option>
+                                <option value="ROLE_USER" {% if app.request.query.get('role') == 'ROLE_USER' %}selected{% endif %}>Utilisateur</option>
+                                <option value="ROLE_ADMIN" {% if app.request.query.get('role') == 'ROLE_ADMIN' %}selected{% endif %}>Administrateur</option>
+                                <option value="ROLE_TEACHER" {% if app.request.query.get('role') == 'ROLE_TEACHER' %}selected{% endif %}>Professeur</option>
+                                <option value="ROLE_STUDENT" {% if app.request.query.get('role') == 'ROLE_STUDENT' %}selected{% endif %}>Étudiant</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group" style="width: 180px;">
+                            <select name="status" class="form-select">
+                                <option value="">Tous les statuts</option>
+                                <option value="online" {% if app.request.query.get('status') == 'online' %}selected{% endif %}>En ligne</option>
+                                <option value="offline" {% if app.request.query.get('status') == 'offline' %}selected{% endif %}>Hors ligne</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-outline-primary">
+                            <i class="feather-filter me-2"></i> Filtrer
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Email</th>
+                                <th>Rôle</th>
+                                <th>Statut</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% if users is defined %}
+                            {% for user in users %}
+                                <tr>
+                                    <td class="fw-medium">{{ user.id }}</td>
+                                    <td class="fw-bold">{{ user.nom }} {{ user.prenom }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.roles[0]|replace({'ROLE_':''}) }}</td>
+                                    <td>
+                                        {% if user.statut == 'online' %}
+                                            <span class="badge bg-success-subtle text-success px-3 py-2">En ligne</span>
+                                        {% elseif user.statut == 'disabled' %}
+                                            <span class="badge bg-secondary-subtle text-secondary px-3 py-2">Désactivé</span>
+                                        {% else %}
+                                            <span class="badge bg-danger-subtle text-danger px-3 py-2">Hors ligne</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="d-flex gap-2 justify-content-center">
+                                            <a href="{{ path('dashboard_edit_user', {'id': user.id}) }}" 
+                                               class="btn btn-sm btn-outline-warning" data-bs-toggle="tooltip" title="Modifier">
+                                                <i class="feather-edit-2"></i>
+                                            </a>
+
+                                            {% if user.statut != 'disabled' %}
+                                                <form method="post" action="{{ path('dashboard_disable_user', {'id': user.id}) }}" style="display: inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir désactiver cet utilisateur ?');">
+                                                    <button type="submit" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="Désactiver">
+                                                        <i class="feather-x-circle"></i>
+                                                    </button>
+                                                </form>
+                                            {% else %}
+                                                <span class="badge bg-secondary">Désactivé</span>
+                                            {% endif %}
+
+                                            <form method="post" action="{{ path('dashboard_delete_user', {'id': user.id}) }}" style="display: inline;" onsubmit="return confirm('Confirmer la suppression de cet utilisateur ?');">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Supprimer">
+                                                    <i class="feather-trash-2"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="6" class="text-center py-5 text-muted">
+                                        <h5 class="mb-3">Aucun utilisateur trouvé</h5>
+                                        <a href="{{ path('dashboard') }}" class="btn btn-primary">
+                                            <i class="feather-plus me-2"></i> Ajouter un utilisateur
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

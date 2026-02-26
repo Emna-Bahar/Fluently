@@ -1,0 +1,242 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}
+    {{ app.request.attributes.get('_route') == 'app_admin_langue_new' ? 'Nouvelle Langue' : 'Modifier Langue' }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .status-buttons .btn-check:checked + label {
+            border-width: 3px !important;
+            box-shadow: 0 0 0 0.25rem rgba(25,135,84,0.25);
+        }
+        .status-buttons label:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+        .status-buttons .btn-outline-success {
+            border-color: #198754;
+            color: #198754;
+        }
+        .status-buttons .btn-outline-danger {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+        .status-buttons .btn-check.is-invalid + label {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.25rem rgba(220,53,69,0.25) !important;
+        }
+        .transition-all { transition: all 0.25s ease; }
+        .form-error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+        /* Cacher le label généré automatiquement par Symfony pour isActive */
+        .status-radio-group {
+            display: none !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="nxl-content">
+        <!-- En-tête -->
+        <div class="page-header">
+            <div class="page-header-left d-flex align-items-center">
+                <div class="page-header-title">
+                    <h5 class="m-b-10 fw-bold">
+                        <i class="feather-globe text-primary me-2"></i>
+                        {{ app.request.attributes.get('_route') == 'app_admin_langue_new' ? 'Nouvelle Langue' : 'Modifier la Langue' }}
+                    </h5>
+                    <h6 class="m-b-0 text-muted">
+                        {% if app.request.attributes.get('_route') == 'app_admin_langue_new' %}
+                            Ajouter une nouvelle langue au catalogue
+                        {% else %}
+                            Modifier les informations de cette langue
+                        {% endif %}
+                    </h6>
+                </div>
+            </div>
+            <div class="page-header-right ms-auto">
+                <a href="{{ path('app_admin_langue_index') }}" class="btn btn-outline-secondary px-4">
+                    <i class="feather-arrow-left me-2"></i> Retour
+                </a>
+            </div>
+        </div>
+
+        <!-- Messages Flash -->
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+
+        <!-- Formulaire -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-11">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="card-header bg-gradient-primary text-white py-4 px-5">
+                        <h6 class="m-0 fw-bold fs-5">
+                            {{ app.request.attributes.get('_route') == 'app_admin_langue_new' ? 'Créer une nouvelle langue' : 'Modifier la langue' }}
+                        </h6>
+                        <small class="opacity-90">Tous les champs marqués * sont obligatoires</small>
+                    </div>
+
+                    <div class="card-body p-5">
+                        {# AJOUT DE NOVALIDATE POUR DÉSACTIVER LA VALIDATION HTML5 #}
+                        {{ form_start(form, {'attr': {'class': 'row g-4', 'novalidate': 'novalidate'}}) }}
+
+                        {# Affichage des erreurs globales du formulaire #}
+                        {{ form_errors(form) }}
+
+                        <div class="row g-4">
+                            <!-- Nom de la langue -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold mb-2">Nom de la langue *</label>
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-text"><i class="feather-globe"></i></span>
+                                    {{ form_widget(form.nom, {'attr': {
+                                        'class': 'form-control ' ~ (form.nom.vars.errors|length ? 'is-invalid' : ''),
+                                        'placeholder': 'Ex : Anglais, Français, Espagnol...'
+                                    }}) }}
+                                </div>
+                                {% if form.nom.vars.errors|length %}
+                                    <div class="form-error-message">
+                                        {{ form_errors(form.nom) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Popularité -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold mb-2">Popularité *</label>
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-text"><i class="feather-star"></i></span>
+                                    {{ form_widget(form.popularite, {'attr': {
+                                        'class': 'form-control ' ~ (form.popularite.vars.errors|length ? 'is-invalid' : ''),
+                                        'placeholder': 'Ex : Très haute, Haute, Moyenne, Faible...'
+                                    }}) }}
+                                </div>
+                                {% if form.popularite.vars.errors|length %}
+                                    <div class="form-error-message">
+                                        {{ form_errors(form.popularite) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Description -->
+                            <div class="col-12">
+                                <label class="form-label fw-bold mb-2">Description détaillée *</label>
+                                {{ form_widget(form.description, {'attr': {
+                                    'class': 'form-control ' ~ (form.description.vars.errors|length ? 'is-invalid' : ''),
+                                    'rows': 5,
+                                    'placeholder': 'Décrivez la langue, son usage, son importance...'
+                                }}) }}
+                                {% if form.description.vars.errors|length %}
+                                    <div class="form-error-message">
+                                        {{ form_errors(form.description) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- NE PAS AFFICHER LE CHAMP isActive AUTO DE SYMFONY -->
+                            {{ form_widget(form.isActive, {'attr': {'class': 'd-none'}}) }}
+
+                            <!-- Statut (Radio personnalisé) -->
+                            <div class="col-md-6 status-buttons">
+                                <label class="form-label fw-bold mb-3">Statut de la langue *</label>
+                                
+                                {% if form.isActive.vars.errors|length %}
+                                    {% set radio_class = 'is-invalid' %}
+                                {% endif %}
+
+                                <div class="row g-3">
+                                    <div class="col-6">
+                                        <input class="btn-check {{ radio_class|default('') }}" 
+                                               type="radio" 
+                                               name="{{ form.isActive.vars.full_name }}" 
+                                               id="isActive_yes" 
+                                               value="1" 
+                                               {{ form.isActive.vars.value ? 'checked' : '' }}>
+                                        <label class="btn btn-outline-success w-100 py-4 text-center transition-all" for="isActive_yes">
+                                            <div class="fw-bold fs-5">Active</div>
+                                            <small>Visible aux étudiants</small>
+                                        </label>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <input class="btn-check {{ radio_class|default('') }}" 
+                                               type="radio" 
+                                               name="{{ form.isActive.vars.full_name }}" 
+                                               id="isActive_no" 
+                                               value="0" 
+                                               {{ not form.isActive.vars.value ? 'checked' : '' }}>
+                                        <label class="btn btn-outline-danger w-100 py-4 text-center transition-all" for="isActive_no">
+                                            <div class="fw-bold fs-5">Inactive</div>
+                                            <small>Masquée temporairement</small>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                {% if form.isActive.vars.errors|length %}
+                                    <div class="form-error-message mt-2">
+                                        {{ form_errors(form.isActive) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Drapeau -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold mb-2">
+                                    Drapeau de la langue 
+                                    {% if app.request.attributes.get('_route') == 'app_admin_langue_new' %}
+                                        *
+                                    {% endif %}
+                                </label>
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-text"><i class="feather-image"></i></span>
+                                    {{ form_widget(form.drapeauFile, {'attr': {
+                                        'class': 'form-control ' ~ (form.drapeauFile.vars.errors|length ? 'is-invalid' : ''),
+                                        'accept': 'image/jpeg,image/png,image/webp'
+                                    }}) }}
+                                </div>
+                                <small class="text-muted">
+                                    Formats acceptés : JPG, PNG, WebP (max 2 Mo)
+                                    {% if app.request.attributes.get('_route') != 'app_admin_langue_new' %}
+                                        - Laissez vide pour conserver le drapeau actuel
+                                    {% endif %}
+                                </small>
+                                {% if form.drapeauFile.vars.errors|length %}
+                                    <div class="form-error-message">
+                                        {{ form_errors(form.drapeauFile) }}
+                                    </div>
+                                {% endif %}
+
+                                {% if app.request.attributes.get('_route') != 'app_admin_langue_new' and langue.drapeau is defined and langue.drapeau %}
+                                    <div class="mt-4 text-center">
+                                        <p class="small text-muted mb-2">Drapeau actuel :</p>
+                                        <img src="{{ asset('images/langues/' ~ langue.drapeau) }}" alt="Drapeau" class="img-fluid rounded shadow-sm" style="max-height: 100px;">
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Submit -->
+                            <div class="col-12 text-end mt-5 pt-4 border-top">
+                                <button type="submit" class="btn btn-primary btn-lg px-5 py-3 fw-bold shadow-lg transition-all">
+                                    <i class="feather-save me-2"></i>
+                                    {{ app.request.attributes.get('_route') == 'app_admin_langue_new' ? 'Créer la langue' : 'Mettre à jour la langue' }}
+                                </button>
+                            </div>
+                        </div>
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

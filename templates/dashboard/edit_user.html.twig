@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Modifier Utilisateur - Fluently</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.ico') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendors/css/vendors.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/theme.min.css') }}" />
+</head>
+
+<body>
+    <!-- Sidebar same as user_show -->
+    <nav class="nxl-navigation">
+        <div class="navbar-wrapper">
+            <div class="m-header">
+                <a href="{{ path('app_home') }}" class="b-brand">
+                    <img src="{{ asset('assets/images/fluently.png') }}" alt="Fluently" class="logo logo-lg" />
+                    <img src="{{ asset('assets/images/fluently.png') }}" alt="Fluently" class="logo logo-sm" />
+                </a>
+            </div>
+            <div class="navbar-content">
+                <ul class="nxl-navbar">
+                    <li class="nxl-item nxl-caption"><label>Navigation</label></li>
+                    <li class="nxl-item nxl-hasmenu">
+                        <a href="javascript:void(0);" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-airplay"></i></span>
+                            <span class="nxl-mtext">Dashboards_User</span>
+                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                        </a>
+                        <ul class="nxl-submenu">
+                            <li class="nxl-item"><a class="nxl-link" href="{{ path('dashboard') }}">Gestion Utilisateurs</a></li>
+                        </ul>
+                    </li>
+                    <!-- add other menu items same as user_show -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header same as user_show -->
+    <header class="nxl-header">
+        <div class="header-wrapper">
+            <div class="header-right ms-auto">
+                <div class="d-flex align-items-center">
+                    <a href="{{ path('dashboard') }}" class="btn btn-sm btn-light-brand">
+                        <i class="feather-arrow-left me-2"></i>Retour au Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="nxl-container">
+        <div class="nxl-content">
+            <div class="container mt-4">
+                <h2 class="mb-4">Modifier l'utilisateur</h2>
+
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Modifier les informations</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="nom" class="form-label">Nom <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="nom" name="nom" value="{{ user.nom }}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="prenom" class="form-label">Prénom <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="prenom" name="prenom" value="{{ user.prenom }}" required>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="role" class="form-label">Rôle <span class="text-danger">*</span></label>
+                                    <select class="form-control" id="role" name="role" required>
+                                        {% set userRole = user.roles[0]|replace({'ROLE_':''})|lower %}
+                                        <option value="user" {{ userRole == 'user' ? 'selected' }}>Utilisateur</option>
+                                        <option value="admin" {{ userRole == 'admin' ? 'selected' }}>Administrateur</option>
+                                        <option value="teacher" {{ userRole == 'teacher' ? 'selected' }}>Enseignant</option>
+                                        <option value="student" {{ userRole == 'student' ? 'selected' }}>Étudiant</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="statut" class="form-label">Statut</label>
+                                    <select class="form-control" id="statut" name="statut">
+                                        <option value="online" {{ user.statut == 'online' ? 'selected' }}>En ligne</option>
+                                        <option value="offline" {{ user.statut == 'offline' ? 'selected' }}>Hors ligne</option>
+                                        <option value="disabled" {{ user.statut == 'disabled' ? 'selected' }}>Désactivé</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+                            <h5 class="mb-3">Changer le mot de passe (optionnel)</h5>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="password" class="form-label">Nouveau mot de passe</label>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Laisser vide pour ne pas changer">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="confirm_password" class="form-label">Confirmer le mot de passe</label>
+                                    <input type="password" class="form-control" id="confirm_password" name="confirm_password">
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="{{ path('dashboard') }}" class="btn btn-secondary">
+                                    <i class="feather-arrow-left me-2"></i>Annuler
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="feather-save me-2"></i>Enregistrer les modifications
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="{{ asset('assets/vendors/js/vendors.min.js') }}"></script>
+    <script src="{{ asset('assets/js/common-init.min.js') }}"></script>
+</body>
+
+</html>

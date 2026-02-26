@@ -1,0 +1,242 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Passages des Tests - Admin{% endblock %}
+
+{% block body %}
+<div class="content-wrapper">
+    <div class="page-header">
+        <h3 class="page-title">
+            <span class="page-title-icon bg-gradient-primary text-white me-2">
+                <i class="mdi mdi-chart-bar"></i>
+            </span> Passages des Tests
+        </h3>
+        <nav aria-label="breadcrumb">
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('dashboard') }}">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Passages des Tests</li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Statistiques rapides (garde comme avant) -->
+    <div class="row">
+        <div class="col-md-3 grid-margin stretch-card">
+            <div class="card bg-gradient-primary text-white">
+                <div class="card-body">
+                    <h4 class="card-title">Total Passages</h4>
+                    <h2 class="mb-0">{{ totalPassages }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 grid-margin stretch-card">
+            <div class="card bg-gradient-success text-white">
+                <div class="card-body">
+                    <h4 class="card-title">Tests Terminés</h4>
+                    <h2 class="mb-0">{{ termineCount }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 grid-margin stretch-card">
+            <div class="card bg-gradient-info text-white">
+                <div class="card-body">
+                    <h4 class="card-title">En Cours</h4>
+                    <h2 class="mb-0">{{ enCoursCount }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 grid-margin stretch-card">
+            <div class="card bg-gradient-warning text-white">
+                <div class="card-body">
+                    <h4 class="card-title">Score Moyen</h4>
+                    <h2 class="mb-0">{{ scoreMoyen }}%</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtres (garde comme avant) -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form method="get" class="row g-3">
+                        <div class="col-md-4">
+                            <input type="text" name="search" class="form-control" placeholder="Rechercher (email, test, langue)" value="{{ search }}">
+                        </div>
+                        <div class="col-md-3">
+                            <select name="statut" class="form-select">
+                                <option value="">Tous statuts</option>
+                                <option value="non_commence" {{ statut == 'non_commence' ? 'selected' }}>Non commencé</option>
+                                <option value="en_cours" {{ statut == 'en_cours' ? 'selected' }}>En cours</option>
+                                <option value="en_pause" {{ statut == 'en_pause' ? 'selected' }}>En pause</option>
+                                <option value="soumis" {{ statut == 'soumis' ? 'selected' }}>Soumis</option>
+                                <option value="termine" {{ statut == 'termine' ? 'selected' }}>Terminé</option>
+                                <option value="expire" {{ statut == 'expire' ? 'selected' }}>Expiré</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search"></i> Filtrer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ TABLEAU ENRICHI AVEC WORKFLOW -->
+    <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        Historique des passages 
+                        <span class="badge bg-info">Workflow activé</span>
+                    </h4>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Utilisateur</th>
+                                    <th>Test</th>
+                                    <th>Langue</th>
+                                    <th>Score</th>
+                                    <th>Résultat</th>
+                                    <th>Durée</th>
+                                    <th>État actuel</th>
+                                    <th>Transitions possibles</th>
+                                    <th>Date</th>
+                                    <th>Actions Workflow</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for passage in passages %}
+                                    <tr>
+                                        <td>{{ loop.index }}</td>
+                                        <td>
+                                            <strong>{{ passage.user.nom }}</strong><br>
+                                            <small class="text-muted">{{ passage.user.email }}</small>
+                                        </td>
+                                        <td>{{ passage.test.titre }}</td>
+                                        <td>
+                                            <span class="badge bg-primary">{{ passage.test.langue.nom }}</span>
+                                        </td>
+                                        <td>{{ passage.score }} / {{ passage.scoreMax }}</td>
+                                        <td>
+                                            <span class="badge {{ passage.resultat >= 70 ? 'bg-success' : (passage.resultat >= 50 ? 'bg-warning' : 'bg-danger') }}">
+                                                {{ passage.resultat|number_format(1) }}%
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {% if passage.tempsPasse %}
+                                                {{ (passage.tempsPasse / 60)|number_format(0) }} min
+                                            {% else %}
+                                                <span class="text-muted">-</span>
+                                            {% endif %}
+                                        </td>
+                                        
+                                        {# ✅ ÉTAT AVEC WORKFLOW #}
+                                        <td>
+                                            {% set statutColors = {
+                                                'non_commence': 'secondary',
+                                                'en_cours': 'info',
+                                                'en_pause': 'warning',
+                                                'soumis': 'primary',
+                                                'en_correction': 'info',
+                                                'termine': 'success',
+                                                'expire': 'danger'
+                                            } %}
+                                            <span class="badge bg-{{ statutColors[passage.statut] ?? 'secondary' }}">
+                                                {{ passage.statut|upper }}
+                                            </span>
+                                        </td>
+                                        
+                                        {# ✅ TRANSITIONS POSSIBLES #}
+                                        <td>
+                                            {% for transition in workflow_transitions(passage, 'test_passage') %}
+                                                <span class="badge bg-light text-dark" title="Peut {{ transition.name }}">
+                                                    {{ transition.name }}
+                                                </span>
+                                            {% else %}
+                                                <span class="text-muted">-</span>
+                                            {% endfor %}
+                                        </td>
+                                        
+                                        <td>{{ passage.dateFin ? passage.dateFin|date('d/m/Y H:i') : 'En cours' }}</td>
+                                        
+                                        {# ✅ ACTIONS WORKFLOW #}
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                {# Bouton Voir #}
+                                                <a href="{{ path('app_test_show', {'id': passage.test.id}) }}" 
+                                                   class="btn btn-sm btn-info" 
+                                                   title="Voir le test">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                
+                                                {# ✅ Bouton Expirer (si possible) #}
+                                                {% if workflow_can(passage, 'expirer', 'test_passage') %}
+                                                    <form method="post" 
+                                                          action="{{ path('admin_expire_passage', {id: passage.id}) }}" 
+                                                          style="display:inline;"
+                                                          onsubmit="return confirm('⚠️ Expirer ce test ? Le score sera mis à 0.');">
+                                                        <input type="hidden" name="_token" value="{{ csrf_token('expire' ~ passage.id) }}">
+                                                        <button type="submit" class="btn btn-sm btn-danger" title="Expirer">
+                                                            <i class="fas fa-clock"></i>
+                                                        </button>
+                                                    </form>
+                                                {% endif %}
+                                                
+                                                {# ✅ Bouton Finaliser (si en correction) #}
+                                                {% if workflow_can(passage, 'finaliser', 'test_passage') %}
+                                                    <form method="post" 
+                                                          action="{{ path('admin_finaliser_passage', {id: passage.id}) }}" 
+                                                          style="display:inline;">
+                                                        <input type="hidden" name="_token" value="{{ csrf_token('finaliser' ~ passage.id) }}">
+                                                        <button type="submit" class="btn btn-sm btn-success" title="Finaliser">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    </form>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="11" class="text-center py-4 text-muted">
+                                            Aucun passage trouvé
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# ✅ LÉGENDE DES ÉTATS #}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">🔄 Workflow - Légende des états</h5>
+                    <div class="d-flex flex-wrap gap-3">
+                        <span class="badge bg-secondary">NON_COMMENCE</span> → 
+                        <span class="badge bg-info">EN_COURS</span> ↔ 
+                        <span class="badge bg-warning">EN_PAUSE</span> → 
+                        <span class="badge bg-primary">SOUMIS</span> → 
+                        <span class="badge bg-info">EN_CORRECTION</span> → 
+                        <span class="badge bg-success">TERMINE</span>
+                        <br>
+                        <span class="badge bg-danger">EXPIRE</span> (si temps écoulé)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

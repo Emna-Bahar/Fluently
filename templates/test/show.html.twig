@@ -1,0 +1,110 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Détails du Test #{{ test.id }} - Fluently{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Détails du Test #{{ test.id }}</h1>
+            <div>
+                <a href="{{ path('app_test_edit', {'id': test.id}) }}" class="btn btn-warning me-2">
+                    <i class="fas fa-edit"></i> Modifier
+                </a>
+                <a href="{{ path('app_test_index') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour à la liste
+                </a>
+            </div>
+        </div>
+
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-info text-white">
+                <h5>Informations générales</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Titre :</strong> {{ test.titre ?: 'Sans titre' }}</p>
+                        <p><strong>Type :</strong> {{ test.type ?: 'Non défini' }}</p>
+                        <p><strong>Langue :</strong> 
+                            {% if test.langue %}
+                                <span class="badge bg-info">{{ test.langue.nom }}</span>
+                            {% else %}
+                                —
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Durée estimée :</strong> 
+                            {% if test.dureeEstimee %}
+                                {{ test.dureeEstimee }} minutes
+                            {% else %}
+                                —
+                            {% endif %}
+                        </p>
+                        <p><strong>Nombre de questions :</strong> 
+                            <span class="badge bg-secondary">{{ test.questions|length }}</span>
+                        </p>
+                        <p><strong>Score maximum possible :</strong> 
+                            <span class="badge bg-dark">{{ test.scoreMax }} points</span>
+                        </p>
+                        <p><strong>Tentatives enregistrées :</strong> 
+                            <span class="badge bg-warning text-dark">{{ test.passages|length }}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5>Questions associées ({{ test.questions|length }})</h5>
+                <a href="{{ path('app_question_new', {'test_id': test.id}) }}" class="btn btn-light btn-sm">
+                    <i class="fas fa-plus"></i> Ajouter une question
+                </a>
+            </div>
+            <div class="card-body p-0">
+                {% if test.questions|length > 0 %}
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Énoncé</th>
+                                <th>Type</th>
+                                <th>Score max</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for question in test.questions %}
+                                <tr>
+                                    <td>{{ question.id }}</td>
+                                    <td>{{ question.enonce|length > 80 ? question.enonce|slice(0, 80) ~ '...' : question.enonce }}</td>
+                                    <td>{{ question.type ?: '-' }}</td>
+                                    <td>{{ question.scoreMax }} pts</td>
+                                    <td>
+                                        <a href="{{ path('app_question_show', {'id': question.id}) }}" 
+                                           class="btn btn-sm btn-info">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="{{ path('app_question_edit', {'id': question.id}) }}" 
+                                           class="btn btn-sm btn-warning">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-question-circle fa-3x text-muted mb-3"></i>
+                        <p class="lead">Aucune question pour ce test pour le moment.</p>
+                        <a href="{{ path('app_question_new', {'test_id': test.id}) }}" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i> Ajouter la première question
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Face Verification</title>
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <div class="card p-4 shadow">
+                <h3 class="mb-3">Face Verification</h3>
+                <p class="text-muted">Please look at the camera to verify your identity</p>
+
+                <div id="status" class="alert alert-info">Loading face detection...</div>
+
+                <div class="position-relative d-inline-block mb-3">
+                    <video id="video" width="400" height="300" autoplay muted class="rounded border"></video>
+                    <canvas id="overlay" width="400" height="300" class="position-absolute top-0 start-0"></canvas>
+                </div>
+
+                <button id="verifyBtn" class="btn btn-success btn-lg w-100 mb-2" disabled>
+                    Verify My Face
+                </button>
+
+                <a href="{{ path('app_logout') }}" class="btn btn-outline-danger w-100">
+                    Cancel & Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+
+<script>
+const userId = {{ user.id }};
+const video = document.getElementById('video');
+const overlay = document.getElementById('overlay');
+const verifyBtn = document.getElementById('verifyBtn');
+const status = document.getElementById('status');
+
+async function loadModels() {
+    const MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/';
+    await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+    await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+    await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
+    status.textContent = 'Ready! Look at the camera and click Verify.';
+    status.className = 'alert alert-success';
+    startCamera();
+}
+
+async function startCamera() {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    video.srcObject = stream;
+    video.addEventListener('play', () => {
+        verifyBtn.disabled = false;
+        detectFace();
+    });
+}
+
+async function detectFace() {
+    const ctx = overlay.getContext('2d');
+    setInterval(async () => {
+        const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+            .withFaceLandmarks();
+        ctx.clearRect(0, 0, overlay.width, overlay.height);
+        faceapi.draw.drawDetections(overlay, detections);
+        faceapi.draw.drawFaceLandmarks(overlay, detections);
+    }, 100);
+}
+
+verifyBtn.addEventListener('click', async () => {
+    status.textContent = 'Scanning face...';
+    status.className = 'alert alert-warning';
+    verifyBtn.disabled = true;
+
+    const detection = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
+        .withFaceLandmarks()
+        .withFaceDescriptor();
+
+    if (!detection) {
+        status.textContent = 'No face detected! Please look at the camera.';
+        status.className = 'alert alert-danger';
+        verifyBtn.disabled = false;
+        return;
+    }
+
+    const descriptor = Array.from(detection.descriptor);
+
+    const response = await fetch('{{ path("app_face_verify") }}', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId, descriptor: descriptor })
+    });
+
+    const result = await response.json();
+
+    if (result.match) {
+        status.textContent = 'Face verified! Redirecting...';
+        status.className = 'alert alert-success';
+        window.location.href = '{{ path("app_face_success") }}';
+    } else {
+        status.textContent = 'Face not recognized! Try again or logout.';
+        status.className = 'alert alert-danger';
+        verifyBtn.disabled = false;
+    }
+});
+
+loadModels();
+</script>
+
+</body>
+</html>

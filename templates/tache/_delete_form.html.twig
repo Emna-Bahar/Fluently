@@ -1,0 +1,11 @@
+<form method="post"
+      action="{{ path('app_tache_delete', {'id': tache.id}) }}"
+      onsubmit="return confirm('Voulez-vous vraiment supprimer cette tâche ?');">
+
+    <input type="hidden" name="_token"
+           value="{{ csrf_token('delete' ~ tache.id) }}">
+
+    <button class="btn btn-danger rounded-pill">
+        🗑 Supprimer la tâche
+    </button>
+</form>
