@@ -5,8 +5,6 @@
 {% block body %}
 
     <div class="nxl-content">
-
-        <!-- En-tête de page -->
         <div class="page-header">
             <div class="page-header-left d-flex align-items-center">
                 <div class="page-header-title">
@@ -30,8 +28,6 @@
                 {% endif %}
             </div>
         </div>
-
-        <!-- Contenu principal -->
         <div class="row">
             <div class="col-xl-10 col-lg-11 mx-auto">
                 <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
@@ -53,12 +49,9 @@
 
                     <div class="card-body p-5">
                         <div class="row g-5">
-
-                            <!-- Colonne gauche : Drapeau + statut rapide -->
                             <div class="col-lg-4 text-center">
                                 {% if langue.drapeau %}
                                     <div class="bg-light rounded-4 p-4 shadow-sm mb-4">
-                                        {# ✅ CORRIGÉ : images/langues/ → uploads/langues/ #}
                                         <img src="{{ asset('uploads/langues/' ~ langue.drapeau) }}" 
                                              alt="Drapeau {{ langue.nom }}" 
                                              class="img-fluid rounded-3 shadow" 
@@ -77,8 +70,6 @@
                                     </span>
                                 </div>
                             </div>
-
-                            <!-- Colonne droite : Informations -->
                             <div class="col-lg-8">
                                 <div class="bg-light rounded-4 p-4 mb-4 shadow-sm">
                                     <h5 class="fw-bold mb-4 pb-3 border-bottom border-primary">
@@ -104,8 +95,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Actions Admin -->
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <div class="d-flex gap-3 justify-content-center mt-5 pt-4 border-top">
                                         <a href="{{ path('app_admin_langue_edit', {'id': langue.id}) }}" 
@@ -125,8 +114,6 @@
                                 {% endif %}
                             </div>
                         </div>
-
-                        <!-- Niveaux associés -->
                         {% if langue.niveaux|length > 0 %}
                             <div class="mt-5 pt-5 border-top">
                                 <h4 class="text-center fw-bold mb-5">

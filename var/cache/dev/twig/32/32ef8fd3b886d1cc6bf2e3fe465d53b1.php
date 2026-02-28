@@ -96,6 +96,6 @@ class __TwigTemplate_273e93fb12747d8edf4e907ac94bfd36 extends Template
     <button type=\"submit\" class=\"btn btn-danger btn-sm\" onclick=\"return confirm('Êtes-vous sûr de vouloir supprimer cette réservation ?');\">
         <i class=\"bi bi-trash me-1\"></i> Supprimer
     </button>
-</form>", "reservation/_delete_form.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\reservation\\_delete_form.html.twig");
+</form>", "reservation/_delete_form.html.twig", "C:\\Users\\oumai\\Langue\\Fluently\\templates\\reservation\\_delete_form.html.twig");
     }
 }

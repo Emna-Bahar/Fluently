@@ -17,7 +17,6 @@ class NiveauType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            // Langue → obligatoire
             ->add('Id_langue', EntityType::class, [
                 'class'        => Langue::class,
                 'choice_label' => 'nom',
@@ -27,8 +26,6 @@ class NiveauType extends AbstractType
                     new Assert\NotBlank(['message' => 'La langue est obligatoire.']),
                 ],
             ])
-
-            // Titre → obligatoire
             ->add('titre', TextType::class, [
                 'label'       => 'Titre du niveau',
                 'constraints' => [
@@ -42,8 +39,7 @@ class NiveauType extends AbstractType
                 ],
             ])
 
-            // Description → obligatoire
-            ->add('description', TextType::class, [ // ou TextareaType si tu préfères plusieurs lignes
+            ->add('description', TextType::class, [ 
                 'label'       => 'Description',
                 'constraints' => [
                     new Assert\NotBlank(['message' => 'La description est obligatoire.']),
@@ -54,7 +50,6 @@ class NiveauType extends AbstractType
                 ],
             ])
 
-            // Image → obligatoire en création seulement
             ->add('imageCouvertureFile', FileType::class, [
                 'label'       => 'Image de couverture (jpg, png, webp)',
                 'mapped'      => false,
@@ -62,7 +57,7 @@ class NiveauType extends AbstractType
                 'constraints' => [
                     new Assert\NotBlank([
                         'message' => 'L\'image de couverture est obligatoire lors de la création.',
-                        'groups'  => ['create'], // seulement en création
+                        'groups'  => ['create'],
                     ]),
                     new Assert\File([
                         'maxSize'          => '5M',
@@ -73,7 +68,6 @@ class NiveauType extends AbstractType
                 ],
             ])
 
-            // Difficulté → obligatoire
             ->add('difficulte', TextType::class, [
                 'label'       => 'Difficulté',
                 'constraints' => [
@@ -81,7 +75,6 @@ class NiveauType extends AbstractType
                 ],
             ])
 
-            // Ordre → obligatoire
             ->add('ordre', null, [
                 'label'       => 'Ordre (1 = A1, 2 = A2, etc.)',
                 'constraints' => [
@@ -94,7 +87,6 @@ class NiveauType extends AbstractType
                 ],
             ])
 
-            // Seuil min → obligatoire
             ->add('seuil_score_min', null, [
                 'label'       => 'Score minimum pour réussir',
                 'constraints' => [
@@ -106,7 +98,6 @@ class NiveauType extends AbstractType
                 ],
             ])
 
-            // Seuil max → obligatoire
             ->add('seuil_score_max', null, [
                 'label'       => 'Score maximum possible',
                 'constraints' => [
@@ -125,8 +116,6 @@ class NiveauType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Niveau::class,
             'validation_groups' => function ($form) {
-                // En création → image obligatoire
-                // En édition → image facultative
                 if ($form->getData() && $form->getData()->getId()) {
                     return ['Default', 'edit'];
                 }

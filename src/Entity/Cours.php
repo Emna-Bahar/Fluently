@@ -13,7 +13,10 @@ class Cours
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    /**
+     * @var int|null L'ID est généré automatiquement par Doctrine
+     */
+    private ?int $id = null; // @phpstan-ignore-line
 
     #[ORM\Column]
     #[Assert\NotBlank(message: "Le numéro du cours est obligatoire.")]
@@ -38,18 +41,6 @@ class Cours
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotNull(message: "Le niveau est obligatoire.")]
     private ?Niveau $Id_niveau = null;
-
-    /**
-     * COMMENTEZ OU SUPPRIMEZ cette contrainte pour le moment
-     * Nous gérerons la validation dans le contrôleur
-     */
-    /*
-    #[Assert\IsTrue(message: "Le cours doit contenir au moins une ressource (fichier ou lien YouTube).")]
-    public function hasAtLeastOneResource(): bool
-    {
-        return !empty($this->ressource);
-    }
-    */
 
     public function getId(): ?int
     {

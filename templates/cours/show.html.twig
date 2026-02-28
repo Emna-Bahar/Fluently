@@ -3,10 +3,7 @@
 {% block title %}Admin - Détails du cours n°{{ cour.numero }}{% endblock %}
 
 {% block body %}
-
     <div class="nxl-content">
-
-        <!-- En-tête admin -->
         <div class="page-header">
             <div class="page-header-left d-flex align-items-center">
                 <div class="page-header-title">
@@ -29,7 +26,6 @@
             </div>
         </div>
 
-        <!-- Contenu -->
         <div class="row">
             <div class="col-xl-10 col-lg-11 mx-auto">
                 <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
@@ -42,8 +38,6 @@
 
                     <div class="card-body p-5">
                         <div class="row g-4">
-
-                            <!-- Infos principales -->
                             <div class="col-md-6">
                                 <div class="bg-light rounded-3 p-4 shadow-sm">
                                     <h6 class="fw-bold mb-3">Détails</h6>
@@ -60,7 +54,6 @@
                                 </div>
                             </div>
 
-                            <!-- Nombre de ressources (corrigé : on compte uniquement ce qui est en base) -->
                             <div class="col-md-6">
                                 <div class="bg-light rounded-3 p-4 shadow-sm text-center">
                                     <h6 class="fw-bold mb-3">Ressources</h6>
@@ -73,7 +66,6 @@
                                 </div>
                             </div>
 
-                            <!-- Liste des ressources (seulement ce qui est stocké en base) -->
                             <div class="col-12">
                                 <h6 class="fw-bold mb-3">Ressources du cours</h6>
 

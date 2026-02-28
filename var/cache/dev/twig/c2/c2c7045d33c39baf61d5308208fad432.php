@@ -903,6 +903,6 @@ class __TwigTemplate_7f1dac7c8628ffa856e4029a9155da4e extends Template
    
 </body>
 
-</html>", "dashboard/index.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\dashboard\\index.html.twig");
+</html>", "dashboard/index.html.twig", "C:\\Users\\oumai\\Langue\\Fluently\\templates\\dashboard\\index.html.twig");
     }
 }

@@ -34,7 +34,6 @@
             margin-top: 0.25rem;
             display: block;
         }
-        /* Cacher le label généré automatiquement par Symfony pour isActive */
         .status-radio-group {
             display: none !important;
         }
@@ -43,7 +42,6 @@
 
 {% block body %}
     <div class="nxl-content">
-        <!-- En-tête -->
         <div class="page-header">
             <div class="page-header-left d-flex align-items-center">
                 <div class="page-header-title">
@@ -66,8 +64,6 @@
                 </a>
             </div>
         </div>
-
-        <!-- Messages Flash -->
         {% for message in app.flashes('error') %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{ message }}
@@ -87,10 +83,7 @@
                     </div>
 
                     <div class="card-body p-5">
-                        {# AJOUT DE NOVALIDATE POUR DÉSACTIVER LA VALIDATION HTML5 #}
                         {{ form_start(form, {'attr': {'class': 'row g-4', 'novalidate': 'novalidate'}}) }}
-
-                        {# Affichage des erreurs globales du formulaire #}
                         {{ form_errors(form) }}
 
                         <div class="row g-4">
@@ -142,8 +135,6 @@
                                     </div>
                                 {% endif %}
                             </div>
-
-                            <!-- NE PAS AFFICHER LE CHAMP isActive AUTO DE SYMFONY -->
                             {{ form_widget(form.isActive, {'attr': {'class': 'd-none'}}) }}
 
                             <!-- Statut (Radio personnalisé) -->
@@ -224,7 +215,6 @@
                                 {% endif %}
                             </div>
 
-                            <!-- Submit -->
                             <div class="col-12 text-end mt-5 pt-4 border-top">
                                 <button type="submit" class="btn btn-primary btn-lg px-5 py-3 fw-bold shadow-lg transition-all">
                                     <i class="feather-save me-2"></i>
