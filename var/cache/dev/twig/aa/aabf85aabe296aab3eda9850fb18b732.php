@@ -395,7 +395,7 @@ body {
 
         // line 280
         yield "<div class=\"container py-5\">
-
+<br><br><br><br><br><br>
     <div class=\"d-flex align-items-center justify-content-between mb-4\" style=\"animation: fadeInDown 0.5s ease;\">
         <h1 class=\"page-title mb-0\">
             <i class=\"fa fa-calendar-check-o mr-2\"></i> Mes Réservations
@@ -939,7 +939,7 @@ body {
 
 {% block body %}
 <div class=\"container py-5\">
-
+<br><br><br><br><br><br>
     <div class=\"d-flex align-items-center justify-content-between mb-4\" style=\"animation: fadeInDown 0.5s ease;\">
         <h1 class=\"page-title mb-0\">
             <i class=\"fa fa-calendar-check-o mr-2\"></i> Mes Réservations
