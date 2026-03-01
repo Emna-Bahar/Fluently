@@ -39,7 +39,7 @@ class TestPassage
 
     #[ORM\Column(length: 20)]
     //private ?string $statut = 'en_cours'; // en_cours, termine, abandonne
-    private ?string $statut = 'non_commence';
+    private string $statut = 'non_commence';
 
     #[ORM\Column(nullable: true)]
     private ?int $tempsPasse = null; // en secondes
@@ -126,7 +126,7 @@ class TestPassage
         return $this;
     }
 
-    public function getStatut(): ?string
+    public function getStatut(): string
     {
         return $this->statut;
     }

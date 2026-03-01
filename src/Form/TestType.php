@@ -49,7 +49,9 @@ class TestType extends AbstractType
             ->add('niveau', EntityType::class, [
                 'class' => Niveau::class,
                 'choice_label' => function(Niveau $niveau) {
-                    return $niveau->getIdLangue()->getNom() . ' - ' . $niveau->getTitre();
+                    $langue = $niveau->getIdLangue();
+                    $langueNom = $langue ? $langue->getNom() : 'Sans langue';
+                    return $langueNom . ' - ' . $niveau->getTitre();
                 },
                 'required' => false,
                 'placeholder' => '(Optionnel - Pour test de fin de niveau uniquement)',

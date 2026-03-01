@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "fc0fb31ea7d581233e70280ac3c8e1bf",
+=======
+    "content-hash": "40d7326a44bd968675ab8da826319a7d",
+>>>>>>> gestTest
     "packages": [
         {
             "name": "composer/pcre",
