@@ -15,25 +15,25 @@ class Message
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $contenu = null;
+    private string $contenu = '';
 
     #[ORM\Column(length: 50)]
-    private ?string $type_message = null;
+    private string $type_message = '';
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $emoji_react = null;
 
     #[ORM\Column]
-    private ?bool $is_epingle = null;
+    private bool $is_epingle = false;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTime $date_creation = null;
+    private \DateTime $date_creation;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTime $date_modif = null;
+    private \DateTime $date_modif;
 
     #[ORM\Column(length: 50)]
-    private ?string $statut_message = null;
+    private string $statut_message = '';
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
     private ?Groupe $Id_groupe = null;
@@ -46,7 +46,7 @@ class Message
         return $this->id;
     }
 
-    public function getContenu(): ?string
+    public function getContenu(): string
     {
         return $this->contenu;
     }
@@ -58,7 +58,7 @@ class Message
         return $this;
     }
 
-    public function getTypeMessage(): ?string
+    public function getTypeMessage(): string
     {
         return $this->type_message;
     }
@@ -82,7 +82,7 @@ class Message
         return $this;
     }
 
-    public function isEpingle(): ?bool
+    public function isEpingle(): bool
     {
         return $this->is_epingle;
     }
@@ -94,7 +94,7 @@ class Message
         return $this;
     }
 
-    public function getDateCreation(): ?\DateTime
+    public function getDateCreation(): \DateTime
     {
         return $this->date_creation;
     }
@@ -106,7 +106,7 @@ class Message
         return $this;
     }
 
-    public function getDateModif(): ?\DateTime
+    public function getDateModif(): \DateTime
     {
         return $this->date_modif;
     }
@@ -118,7 +118,7 @@ class Message
         return $this;
     }
 
-    public function getStatutMessage(): ?string
+    public function getStatutMessage(): string
     {
         return $this->statut_message;
     }

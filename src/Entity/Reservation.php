@@ -17,14 +17,14 @@ class Reservation
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotBlank(message: "La date de réservation est obligatoire")]
-    private ?\DateTimeInterface $dateReservation = null;
+    private \DateTimeInterface $dateReservation;
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank(message: "Le statut est obligatoire")]
     #[Assert\Choice(choices: ['en_attente', 'confirmee', 'annulee', 'terminee'], message: "Statut invalide")]
-    private ?string $statut = 'en_attente';
+    private string $statut = 'en_attente';
 
-    #[ORM\ManyToOne(targetEntity: Session::class)]
+    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'reservations')]
     #[ORM\JoinColumn(name: "id_session_id", referencedColumnName: "id", nullable: false)]
     #[Assert\NotNull(message: "La session est obligatoire")]
     private ?Session $session = null;
@@ -45,7 +45,7 @@ class Reservation
         return $this->id;
     }
 
-    public function getDateReservation(): ?\DateTimeInterface
+    public function getDateReservation(): \DateTimeInterface
     {
         return $this->dateReservation;
     }
@@ -56,7 +56,7 @@ class Reservation
         return $this;
     }
 
-    public function getStatut(): ?string
+    public function getStatut(): string
     {
         return $this->statut;
     }

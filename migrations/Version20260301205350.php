@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20260223223323 extends AbstractMigration
+final class Version20260301205350 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,14 @@ final class Version20260223223323 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE message_log (id INT AUTO_INCREMENT NOT NULL, action VARCHAR(20) NOT NULL, message_id INT DEFAULT NULL, groupe_id INT NOT NULL, user_id INT DEFAULT NULL, user_name VARCHAR(255) NOT NULL, original_content LONGTEXT NOT NULL, new_content LONGTEXT DEFAULT NULL, created_at DATETIME NOT NULL, PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci`');
+        $this->addSql('ALTER TABLE message_log ADD CONSTRAINT FK_A60AE229537A1329 FOREIGN KEY (message_id) REFERENCES message (id) ON DELETE SET NULL');
+        $this->addSql('CREATE INDEX IDX_A60AE229537A1329 ON message_log (message_id)');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP TABLE message_log');
+        $this->addSql('ALTER TABLE message_log DROP FOREIGN KEY FK_A60AE229537A1329');
+        $this->addSql('DROP INDEX IDX_A60AE229537A1329 ON message_log');
     }
 }

@@ -20,12 +20,12 @@ class Session
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Assert\NotBlank(message: "La date et heure sont obligatoires")]
-    private ?\DateTimeInterface $dateHeure = null;
+    private \DateTimeInterface $dateHeure;
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank(message: "Le statut est obligatoire")]
     #[Assert\Choice(choices: ['planifiée', 'en_cours', 'terminée', 'annulée'], message: "Statut invalide")]
-    private ?string $statut = null;
+    private string $statut = '';
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $lienReunion = null;
@@ -57,7 +57,7 @@ class Session
         return $this->id;
     }
 
-    public function getDateHeure(): ?\DateTimeInterface
+    public function getDateHeure(): \DateTimeInterface
     {
         return $this->dateHeure;
     }
@@ -68,7 +68,7 @@ class Session
         return $this;
     }
 
-    public function getStatut(): ?string
+    public function getStatut(): string
     {
         return $this->statut;
     }

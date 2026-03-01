@@ -28,13 +28,13 @@ class UserProgress
     private ?Cours $dernierCoursComplete = null;
 
     #[ORM\Column]
-    private ?int $dernierNumeroCours = 0;
+    private int $dernierNumeroCours = 0;
 
     #[ORM\Column]
     private bool $testNiveauComplete = false;  // CORRECTION: enlevé le ?
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?\DateTime $dateDerniereActivite = null;
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $dateDerniereActivite = null;
 
     public function getId(): ?int
     {
@@ -93,7 +93,7 @@ class UserProgress
         return $this;
     }
 
-    public function getDernierNumeroCours(): ?int
+    public function getDernierNumeroCours(): int
     {
         return $this->dernierNumeroCours;
     }
@@ -122,7 +122,7 @@ class UserProgress
         return $this->dateDerniereActivite;
     }
 
-    public function setDateDerniereActivite(?\DateTime $date): static
+    protected function setDateDerniereActivite(?\DateTime $date): static
     {
         $this->dateDerniereActivite = $date;
 

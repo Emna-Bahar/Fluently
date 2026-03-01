@@ -25,7 +25,7 @@ class Groupe
         minMessage: 'Le nom du groupe doit contenir au moins {{ limit }} caractères.',
         maxMessage: 'Le nom du groupe ne peut pas dépasser {{ limit }} caractères.'
     )]
-    private ?string $nom = null;
+    private string $nom = '';
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'La description est obligatoire.')]
@@ -35,12 +35,12 @@ class Groupe
         minMessage: 'La description doit contenir au moins {{ limit }} caractères.',
         maxMessage: 'La description ne peut pas dépasser {{ limit }} caractères.'
     )]
-    private ?string $description = null;
+    private string $description = '';
 
     #[ORM\Column]
     #[Assert\NotNull(message: 'La capacité est obligatoire.')]
     #[Assert\Positive(message: 'La capacité doit être un nombre positif.')]
-    private ?int $capacite = null;
+    private int $capacite = 0;
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank(message: 'Le statut est obligatoire.')]
@@ -50,11 +50,11 @@ class Groupe
         minMessage: 'Le statut doit contenir au moins {{ limit }} caractères.',
         maxMessage: 'Le statut ne peut pas dépasser {{ limit }} caractères.'
     )]
-    private ?string $statut = null;
+    private string $statut = '';
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotNull(message: 'La date de création est obligatoire.')]
-    private ?\DateTime $date_creation = null;
+    private \DateTime $date_creation;
 
     #[ORM\ManyToOne(inversedBy: 'groupes')]
     #[ORM\JoinColumn(nullable: false)]
@@ -94,7 +94,7 @@ class Groupe
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getNom(): string
     {
         return $this->nom;
     }
@@ -106,7 +106,7 @@ class Groupe
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -118,7 +118,7 @@ class Groupe
         return $this;
     }
 
-    public function getCapacite(): ?int
+    public function getCapacite(): int
     {
         return $this->capacite;
     }
@@ -130,7 +130,7 @@ class Groupe
         return $this;
     }
 
-    public function getStatut(): ?string
+    public function getStatut(): string
     {
         return $this->statut;
     }
@@ -142,7 +142,7 @@ class Groupe
         return $this;
     }
 
-    public function getDateCreation(): ?\DateTime
+    public function getDateCreation(): \DateTime
     {
         return $this->date_creation;
     }

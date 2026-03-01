@@ -22,14 +22,14 @@ class Cours
     #[Assert\NotBlank(message: "Le numéro du cours est obligatoire.")]
     #[Assert\Positive(message: "Le numéro doit être un nombre positif.")]
     #[Assert\Type(type: "integer", message: "Le numéro doit être un nombre entier.")]
-    private ?int $numero = null;
+    private int $numero = 0;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $ressource = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotNull(message: "La date de création est obligatoire.")]
-    private ?\DateTime $date_creation = null;
+    private \DateTime $date_creation;
 
     #[ORM\OneToOne(targetEntity: self::class, inversedBy: 'cours', cascade: ['persist', 'remove'])]
     private ?self $cours_precedent_id = null;
@@ -47,7 +47,7 @@ class Cours
         return $this->id;
     }
 
-    public function getNumero(): ?int
+    public function getNumero(): int
     {
         return $this->numero;
     }
@@ -71,7 +71,7 @@ class Cours
         return $this;
     }
 
-    public function getDateCreation(): ?\DateTime
+    public function getDateCreation(): \DateTime
     {
         return $this->date_creation;
     }

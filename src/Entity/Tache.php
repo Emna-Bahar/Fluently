@@ -16,22 +16,22 @@ class Tache
 private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $titre = null;
+    private string $titre = '';
 
     #[ORM\Column(length: 100)]
-    private ?string $description = null;
+    private string $description = '';
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTime $date_limite = null;
+    private \DateTime $date_limite;
 
     #[ORM\Column(length: 50)]
-    private ?string $statut = null;
+    private string $statut = '';
 
     #[ORM\Column(length: 50)]
-    private ?string $priorite = null;
+    private string $priorite = '';
 
     #[ORM\ManyToOne(inversedBy: 'taches')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Objectif $Id_objectif = null;
 
     public function getId(): ?int
@@ -39,7 +39,7 @@ private ?int $id = null;
         return $this->id;
     }
 
-    public function getTitre(): ?string
+    public function getTitre(): string
     {
         return $this->titre;
     }
@@ -51,7 +51,7 @@ private ?int $id = null;
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -63,7 +63,7 @@ private ?int $id = null;
         return $this;
     }
 
-    public function getDateLimite(): ?\DateTime
+    public function getDateLimite(): \DateTime
     {
         return $this->date_limite;
     }
@@ -75,7 +75,7 @@ private ?int $id = null;
         return $this;
     }
 
-    public function getStatut(): ?string
+    public function getStatut(): string
     {
         return $this->statut;
     }
@@ -87,7 +87,7 @@ private ?int $id = null;
         return $this;
     }
 
-    public function getPriorite(): ?string
+    public function getPriorite(): string
     {
         return $this->priorite;
     }

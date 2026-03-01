@@ -15,7 +15,7 @@ class TestPassage
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'testPassages')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Test $test = null;
 
     #[ORM\ManyToOne(inversedBy: 'testPassages')]
@@ -35,7 +35,7 @@ class TestPassage
     private ?int $score = null;
 
     #[ORM\Column]
-    private ?int $scoreMax = null;
+    private int $scoreMax = 0;
 
     #[ORM\Column(length: 20)]
     //private ?string $statut = 'en_cours'; // en_cours, termine, abandonne
@@ -76,7 +76,7 @@ class TestPassage
         return $this->dateDebut;
     }
 
-    public function setDateDebut(\DateTimeInterface $dateDebut): static
+    protected function setDateDebut(\DateTimeInterface $dateDebut): static
     {
         $this->dateDebut = $dateDebut;
         return $this;
@@ -87,7 +87,7 @@ class TestPassage
         return $this->dateFin;
     }
 
-    public function setDateFin(?\DateTimeInterface $dateFin): static
+    protected function setDateFin(?\DateTimeInterface $dateFin): static
     {
         $this->dateFin = $dateFin;
         return $this;
@@ -115,7 +115,7 @@ class TestPassage
         return $this;
     }
 
-    public function getScoreMax(): ?int
+    public function getScoreMax(): int
     {
         return $this->scoreMax;
     }

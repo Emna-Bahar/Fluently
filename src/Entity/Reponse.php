@@ -18,16 +18,16 @@ class Reponse
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Contenu obligatoire")]
     #[Assert\Length(min: 2, max: 255)]
-    private ?string $contenu_rep = null;
+    private string $contenu_rep = '';
 
     #[ORM\Column]
-    private ?bool $is_correct = null;
+    private bool $is_correct = false;
 
     #[ORM\Column]
-    private ?float $score = null;
+    private float $score = 0.0;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTime $date_reponse = null;
+    private \DateTime $date_reponse;
 
     #[ORM\ManyToOne(inversedBy: 'reponses')]
     #[ORM\JoinColumn(nullable: false)]
@@ -42,7 +42,7 @@ class Reponse
         return $this->id;
     }
 
-    public function getContenuRep(): ?string
+    public function getContenuRep(): string
     {
         return $this->contenu_rep;
     }
@@ -54,7 +54,7 @@ class Reponse
         return $this;
     }
 
-    public function isCorrect(): ?bool
+    public function isCorrect(): bool
     {
         return $this->is_correct;
     }
@@ -66,7 +66,7 @@ class Reponse
         return $this;
     }
 
-    public function getScore(): ?float
+    public function getScore(): float
     {
         return $this->score;
     }
@@ -78,7 +78,7 @@ class Reponse
         return $this;
     }
 
-    public function getDateReponse(): ?\DateTime
+    public function getDateReponse(): \DateTime
     {
         return $this->date_reponse;
     }

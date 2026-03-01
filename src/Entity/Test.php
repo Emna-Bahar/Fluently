@@ -19,11 +19,11 @@ class Test
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Le titre est obligatoire")]
-    private ?string $titre = null;
+    private string $titre = '';
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank(message: "Le type est obligatoire")]
-    private ?string $type = null;
+    private string $type = '';
 
     #[ORM\Column(nullable: true)]
     private ?int $dureeEstimee = null; // en minutes
@@ -35,14 +35,14 @@ class Test
     /**
      * @var Collection<int, Question>
      */
-    #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'Id_test', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'Id_test', cascade: ['persist'])]
     private Collection $questions;
 
     /**
      * @var Collection<int, TestPassage>
      */
-    #[ORM\OneToMany(targetEntity: TestPassage::class, mappedBy: 'test', cascade: ['remove'])]
-    private Collection $passages;
+    #[ORM\OneToMany(targetEntity: TestPassage::class, mappedBy: 'test', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $testPassages;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: true)]
@@ -51,7 +51,7 @@ class Test
     public function __construct()
     {
         $this->questions = new ArrayCollection();
-        $this->passages = new ArrayCollection();
+        $this->testPassages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -59,7 +59,7 @@ class Test
         return $this->id;
     }
 
-    public function getTitre(): ?string
+    public function getTitre(): string
     {
         return $this->titre;
     }
@@ -70,7 +70,7 @@ class Test
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -135,13 +135,13 @@ class Test
      */
     public function getPassages(): Collection
     {
-        return $this->passages;
+        return $this->testPassages;
     }
 
     public function addPassage(TestPassage $passage): static
     {
-        if (!$this->passages->contains($passage)) {
-            $this->passages->add($passage);
+        if (!$this->testPassages->contains($passage)) {
+            $this->testPassages->add($passage);
             $passage->setTest($this);
         }
         return $this;
@@ -149,7 +149,7 @@ class Test
 
     public function removePassage(TestPassage $passage): static
     {
-        if ($this->passages->removeElement($passage)) {
+        if ($this->testPassages->removeElement($passage)) {
             if ($passage->getTest() === $this) {
                 $passage->setTest(null);
             }

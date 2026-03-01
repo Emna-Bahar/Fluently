@@ -18,25 +18,25 @@ class Niveau
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $titre = null;
+    private string $titre = '';
 
     #[ORM\Column(length: 255)]
-    private ?string $description = null;
+    private string $description = '';
 
     #[ORM\Column(length: 255)]
-    private ?string $image_couverture = null;
+    private string $image_couverture = '';
 
     #[ORM\Column(length: 50)]
-    private ?string $difficulte = null;
+    private string $difficulte = '';
 
     #[ORM\Column]
-    private ?int $ordre = null;
+    private int $ordre = 0;
 
     #[ORM\Column]
-    private ?float $seuil_score_max = null;
+    private float $seuil_score_max = 0.0;
 
     #[ORM\Column]
-    private ?float $seuil_score_min = null;
+    private float $seuil_score_min = 0.0;
 
     #[ORM\ManyToOne(inversedBy: 'niveaux')]
     #[ORM\JoinColumn(nullable: false)]
@@ -65,7 +65,7 @@ class Niveau
         return $this->id;
     }
 
-    public function getTitre(): ?string
+    public function getTitre(): string
     {
         return $this->titre;
     }
@@ -77,7 +77,7 @@ class Niveau
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -89,7 +89,7 @@ class Niveau
         return $this;
     }
 
-    public function getImageCouverture(): ?string
+    public function getImageCouverture(): string
     {
         return $this->image_couverture;
     }
@@ -101,7 +101,7 @@ class Niveau
         return $this;
     }
 
-    public function getDifficulte(): ?string
+    public function getDifficulte(): string
     {
         return $this->difficulte;
     }
@@ -113,7 +113,7 @@ class Niveau
         return $this;
     }
 
-    public function getOrdre(): ?int
+    public function getOrdre(): int
     {
         return $this->ordre;
     }
@@ -125,7 +125,7 @@ class Niveau
         return $this;
     }
 
-    public function getSeuilScoreMax(): ?float
+    public function getSeuilScoreMax(): float
     {
         return $this->seuil_score_max;
     }
@@ -137,7 +137,7 @@ class Niveau
         return $this;
     }
 
-    public function getSeuilScoreMin(): ?float
+    public function getSeuilScoreMin(): float
     {
         return $this->seuil_score_min;
     }

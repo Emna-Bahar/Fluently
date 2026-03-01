@@ -34,7 +34,7 @@ class Langue
         minMessage: "Le nom doit contenir au moins {{ limit }} caractères.",
         maxMessage: "Le nom ne peut pas dépasser {{ limit }} caractères."
     )]
-    private ?string $nom = null;
+    private string $nom = '';
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $drapeau = null;
@@ -51,17 +51,17 @@ class Langue
         min: 5,
         minMessage: "La description doit contenir au moins {{ limit }} caractères."
     )]
-    private ?string $description = null;
+    private string $description = '';
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $popularite = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTime $date_ajout = null;
+    private \DateTime $date_ajout;
 
     #[ORM\Column]
     #[Assert\NotNull(message: "Veuillez indiquer si la langue est active ou non.")]
-    private ?bool $is_active = null;
+    private bool $is_active = false;
 
     /**
      * @var Collection<int, User>
@@ -84,10 +84,10 @@ class Langue
     /**
      * @var Collection<int, Test>
      */
-    #[ORM\OneToMany(targetEntity: Test::class, mappedBy: 'Id_langue')]
+    #[ORM\OneToMany(targetEntity: Test::class, mappedBy: 'langue')]
     private Collection $tests;
 
-public function setDrapeauFile(?File $drapeauFile = null): void
+    public function setDrapeauFile(?File $drapeauFile = null): void
     {
         $this->drapeauFile = $drapeauFile;
         
@@ -106,7 +106,7 @@ public function setDrapeauFile(?File $drapeauFile = null): void
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    protected function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
         return $this;
@@ -129,7 +129,7 @@ public function setDrapeauFile(?File $drapeauFile = null): void
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getNom(): string
     {
         return $this->nom;
     }
@@ -153,7 +153,7 @@ public function setDrapeauFile(?File $drapeauFile = null): void
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -177,7 +177,7 @@ public function setDrapeauFile(?File $drapeauFile = null): void
         return $this;
     }
 
-    public function getDateAjout(): ?\DateTime
+    public function getDateAjout(): \DateTime
     {
         return $this->date_ajout;
     }
@@ -189,7 +189,7 @@ public function setDrapeauFile(?File $drapeauFile = null): void
         return $this;
     }
 
-    public function isActive(): ?bool
+    public function isActive(): bool
     {
         return $this->is_active;
     }

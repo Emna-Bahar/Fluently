@@ -19,17 +19,17 @@ class Question
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "L'énoncé est obligatoire")]
     #[Assert\Length(min: 5, max: 255, minMessage: "Au moins 5 caractères", maxMessage: "Max 255 caractères")]
-    private ?string $enonce = null;
+    private string $enonce = '';
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank(message: "Le type est obligatoire")]
     #[Assert\Choice(choices: ['qcm', 'texte_libre', 'oral'], message: "Type invalide (qcm, texte_libre, oral)")]
-    private ?string $type = null;
+    private string $type = '';
 
     #[ORM\Column]
     #[Assert\NotBlank(message: "Score max obligatoire")]
     #[Assert\Range(min: 1, max: 20, notInRangeMessage: "Score max entre 1 et 20")]
-    private ?float $score_max = null;
+    private float $score_max = 0.0;
 
     #[ORM\ManyToOne(inversedBy: 'questions')]
     #[ORM\JoinColumn(nullable: false)]
@@ -51,7 +51,7 @@ class Question
         return $this->id;
     }
 
-    public function getEnonce(): ?string
+    public function getEnonce(): string
     {
         return $this->enonce;
     }
@@ -63,7 +63,7 @@ class Question
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -75,7 +75,7 @@ class Question
         return $this;
     }
 
-    public function getScoreMax(): ?float
+    public function getScoreMax(): float
     {
         return $this->score_max;
     }
