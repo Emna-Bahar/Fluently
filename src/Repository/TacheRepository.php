@@ -17,12 +17,10 @@ class TacheRepository extends ServiceEntityRepository
     }
 
     /**
-     * Recherche de tâches par titre, description, statut et priorité
-     * 
-     * @param string|null $search Terme de recherche
-     * @param string|null $statut Filtre par statut
-     * @param string|null $priorite Filtre par priorité
-     * @return Tache[] Tableau de tâches
+     * @param string|null $search
+     * @param string|null $statut
+     * @param string|null $priorite
+     * @return Tache[]
      */
     public function searchTaches(?string $search = null, ?string $statut = null, ?string $priorite = null): array
     {
@@ -30,19 +28,16 @@ class TacheRepository extends ServiceEntityRepository
             ->leftJoin('t.Id_objectif', 'o')
             ->addSelect('o');
 
-        // Filtre de recherche par titre ou description
         if ($search) {
             $qb->andWhere('t.titre LIKE :search OR t.description LIKE :search')
                ->setParameter('search', '%' . $search . '%');
         }
 
-        // Filtre par statut
         if ($statut) {
             $qb->andWhere('t.statut = :statut')
                ->setParameter('statut', $statut);
         }
 
-        // Filtre par priorité
         if ($priorite) {
             $qb->andWhere('t.priorite = :priorite')
                ->setParameter('priorite', $priorite);
@@ -54,14 +49,12 @@ class TacheRepository extends ServiceEntityRepository
     }
 
     /**
-     * Compte les tâches par statut et priorité
-     * 
-     * @return array
+     * @return array{total: int, statuts: array<string, int>, priorites: array<string, int>}
      */
     public function countByStatusAndPriority(): array
     {
         $total = $this->count([]);
-        
+
         $statuts = $this->createQueryBuilder('t')
             ->select('t.statut, COUNT(t.id) as count')
             ->groupBy('t.statut')
@@ -75,9 +68,9 @@ class TacheRepository extends ServiceEntityRepository
             ->getResult();
 
         $counts = [
-            'total' => $total,
-            'statuts' => [],
-            'priorites' => []
+            'total'     => $total,
+            'statuts'   => [],
+            'priorites' => [],
         ];
 
         foreach ($statuts as $item) {
@@ -89,5 +82,16 @@ class TacheRepository extends ServiceEntityRepository
         }
 
         return $counts;
+    }
+
+    /**
+     * @return Tache[]
+     */
+    public function findAllOrderedByDateLimite(): array
+    {
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.date_limite', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 }

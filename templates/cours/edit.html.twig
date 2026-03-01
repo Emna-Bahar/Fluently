@@ -82,7 +82,6 @@
                     <div class="card-body p-5">
                         {{ form_start(form, {'attr': {'class': 'row g-4', 'novalidate': 'novalidate'}}) }}
 
-                        {# Erreurs globales du formulaire #}
                         {{ form_errors(form) }}
 
                         <div class="row g-4">
@@ -226,7 +225,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Gestion dynamique des niveaux selon la langue
             const langueSelect = document.getElementById('cours_langue');
             const niveauSelect = document.getElementById('niveau-select');
 
@@ -242,7 +240,6 @@
                     const currentValue = niveauSelect.value;
                     niveauSelect.innerHTML = '';
 
-                    // Ajouter l'option placeholder
                     const placeholder = new Option('Choisir un niveau', '');
                     placeholder.disabled = true;
                     placeholder.selected = !currentValue;
@@ -262,7 +259,6 @@
                 updateNiveaux();
             }
 
-            // Ajout dynamique de ressources
             const collectionHolder = document.getElementById('ressources-list');
             const addButton = document.getElementById('add-ressource-btn');
             let index = {{ form.ressourcesFiles|length|default(0) }};

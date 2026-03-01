@@ -10,13 +10,13 @@ use Doctrine\ORM\EntityManagerInterface;
 class PerformanceAnalyzerService
 {
     public function __construct(
-        private EntityManagerInterface $em,
         private TestPassageRepository $testPassageRepository,
         private AITextCorrectionService $aiService
     ) {}
 
     /**
      * Analyse complète des performances d'un utilisateur
+     * @return array{competences: array<string, array{score: float, count: int, niveau: string}>, stats_globales: array<string, mixed>, progression: array<int, array{date: string, score: float, test: string}>, has_data: bool}
      */
     public function analyzeUserPerformance(User $user, Langue $langue): array
     {
@@ -40,6 +40,7 @@ class PerformanceAnalyzerService
                     'score_moyen' => 0,
                     'temps_total' => 0
                 ],
+                'progression' => [],
                 'has_data' => false
             ];
         }
@@ -63,6 +64,8 @@ class PerformanceAnalyzerService
 
     /**
      * Calcule les scores par compétence
+     * @param array<int, \App\Entity\TestPassage> $passages
+     * @return array<string, array{score: float, count: int, niveau: string}>
      */
     private function calculateCompetences(array $passages): array
     {
@@ -75,6 +78,9 @@ class PerformanceAnalyzerService
 
         foreach ($passages as $passage) {
             $test = $passage->getTest();
+                if (!$test) {
+                    continue;
+                }
             $questions = $test->getQuestions();
 
             foreach ($questions as $question) {
@@ -117,19 +123,23 @@ class PerformanceAnalyzerService
 
     /**
      * Calcule les statistiques globales
+     * @param array<int, \App\Entity\TestPassage> $passages
+     * @return array<string, mixed>
      */
     private function calculateGlobalStats(array $passages): array
     {
         $totalTests = count($passages);
-        $scores = array_map(fn($p) => $p->getResultat(), $passages);
-        $scoreMoyen = array_sum($scores) / $totalTests;
+        $scores = array_map(fn($p) => $p->getResultat() ?? 0.0, $passages);
+        $scoreMoyen = $totalTests > 0 ? array_sum($scores) / $totalTests : 0;
         
         $tempsTotal = array_sum(array_map(fn($p) => $p->getTempsPasse() ?? 0, $passages));
         
-        $meilleurScore = max($scores);
+        $meilleurScore = !empty($scores) ? max($scores) : 0.0;
         $dernierTest = end($passages);
-        $dernierScore = $dernierTest->getResultat();
-
+        $dernierScore = 0.0;
+        if ($dernierTest !== false) {
+            $dernierScore = $dernierTest->getResultat() ?? 0.0;  // ✅ Protection
+        }
         return [
             'tests_passes' => $totalTests,
             'score_moyen' => round($scoreMoyen, 1),
@@ -143,17 +153,35 @@ class PerformanceAnalyzerService
 
     /**
      * Calcule la progression dans le temps
+     * @param array<int, \App\Entity\TestPassage> $passages
+     * @return array<int, array{date: string, score: float, test: string}>
      */
     private function calculateProgression(array $passages): array
     {
         $progression = [];
         
         foreach ($passages as $passage) {
-            $date = $passage->getDateFin()->format('Y-m-d');
+            $dateFin = $passage->getDateFin();
+            $test = $passage->getTest();
+            
+            // ✅ PROTECTIONS
+            if (!$dateFin || !$test) {
+                continue;
+            }
+            $titre = $test->getTitre();
+        
+            // ✅ SKIP si le titre est null
+            if ($titre === null) {
+                continue;
+            }
+            
+            $date = $dateFin->format('Y-m-d');
+            $resultat = $passage->getResultat() ?? 0.0;
+            
             $progression[] = [
                 'date' => $date,
-                'score' => round($passage->getResultat(), 1),
-                'test' => $passage->getTest()->getTitre()
+                'score' => round($resultat, 1),
+                'test' => $titre
             ];
         }
 
@@ -162,6 +190,7 @@ class PerformanceAnalyzerService
 
     /**
      * Détermine la tendance de progression
+     * @param array<int, \App\Entity\TestPassage> $passages
      */
     private function calculateProgressionTrend(array $passages): string
     {
@@ -169,9 +198,10 @@ class PerformanceAnalyzerService
             return 'stable';
         }
 
-        $scores = array_map(fn($p) => $p->getResultat(), $passages);
-        $firstHalf = array_slice($scores, 0, ceil(count($scores) / 2));
-        $secondHalf = array_slice($scores, ceil(count($scores) / 2));
+        $scores = array_map(fn($p) => $p->getResultat() ?? 0.0, $passages);
+        $halfCount = (int) ceil(count($scores) / 2);
+        $firstHalf = array_slice($scores, 0, $halfCount);
+        $secondHalf = array_slice($scores, $halfCount);
 
         $avgFirst = array_sum($firstHalf) / count($firstHalf);
         $avgSecond = array_sum($secondHalf) / count($secondHalf);
@@ -197,6 +227,8 @@ class PerformanceAnalyzerService
 
     /**
      * Génère des recommandations personnalisées avec l'IA
+     * @param array<string, mixed> $analysis
+     * @return array{recommandations: array<mixed>, message_encouragement: string}
      */
     public function generateAIRecommendations(User $user, Langue $langue, array $analysis): array
     {
@@ -217,6 +249,10 @@ class PerformanceAnalyzerService
         }
     }
 
+    /**
+     * @param array<string, array{score: float, count: int, niveau: string}> $competences
+     * @param array<string, mixed> $stats
+     */
     private function buildRecommendationPrompt(User $user, Langue $langue, array $competences, array $stats): string
     {
         $competencesText = '';
@@ -257,13 +293,17 @@ Commence directement par { et termine par }.
 PROMPT;
     }
 
+    /**
+     * @param array<string, array{score: float, count: int, niveau: string}> $competences
+     * @return array{recommandations: array<mixed>, message_encouragement: string}
+     */
     private function generateDefaultRecommendations(array $competences): array
     {
         $recommendations = [];
 
-        // Trouver la compétence la plus faible
-        $minScore = 100;
+        $minScore = 100.0;
         $weakestComp = null;
+        
         foreach ($competences as $comp => $data) {
             if ($data['score'] < $minScore && $data['count'] > 0) {
                 $minScore = $data['score'];
@@ -271,7 +311,7 @@ PROMPT;
             }
         }
 
-        if ($weakestComp) {
+        if ($weakestComp !== null) {  // ✅ Enlever le is_string()
             $recommendations[] = [
                 'titre' => 'Améliorer ' . ucfirst($weakestComp),
                 'description' => 'Cette compétence nécessite plus de travail',

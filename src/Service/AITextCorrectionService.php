@@ -16,6 +16,9 @@ class AITextCorrectionService
     /**
      * Corrige un texte libre avec DeepSeek (gratuit et performant)
      */
+    /**
+    * @return array{score: int, grammaire: int, vocabulaire: int, coherence: int, erreurs: array<string>, corrections: array<string>, commentaire: string}
+     */
     public function correctFreeText(
         string $studentText,
         string $expectedTheme,
@@ -121,9 +124,15 @@ PROMPT;
     private function cleanJsonResponse(string $content): string
     {
         $content = trim($content);
-        $content = preg_replace('/^```json\s*/i', '', $content);
-        $content = preg_replace('/\s*```$/', '', $content);
-        $content = preg_replace('/^```/', '', $content);
+        
+        $cleaned = preg_replace('/^```json\s*/i', '', $content);
+        $content = $cleaned !== null ? $cleaned : $content;
+        
+        $cleaned = preg_replace('/\s*```$/', '', $content);
+        $content = $cleaned !== null ? $cleaned : $content;
+        
+        $cleaned = preg_replace('/^```/', '', $content);
+        $content = $cleaned !== null ? $cleaned : $content;
 
         if (preg_match('/(\{[\s\S]*\})/', $content, $matches)) {
             $content = $matches[1];
@@ -133,6 +142,9 @@ PROMPT;
     }
     /**
      * Génère des recommandations pédagogiques personnalisées
+     */
+    /**
+    * @return array{recommandations: array<mixed>, message_encouragement: string}
      */
     public function generateRecommendations(string $prompt): array
     {

@@ -16,8 +16,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class ReponseType extends AbstractType
 {
-    private $requestStack;
-    private $entityManager;
+    private RequestStack $requestStack;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {

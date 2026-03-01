@@ -32,8 +32,9 @@
                         </h4>
                     </div>
                     <div class="card-body p-5">
+
                         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-                        
+
                         {# Titre #}
                         <div class="form-group mb-4">
                             <label for="{{ form.titre.vars.id }}" class="font-weight-bold">
@@ -91,7 +92,7 @@
                             </div>
                         </div>
 
-                        {# Statut et Utilisateur #}
+                        {# Statut + Utilisateur connecté (lecture seule) #}
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-4">
@@ -105,14 +106,28 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                {# ── Champ Id_user caché — valeur forcée côté controller ── #}
+                                {{ form_widget(form.Id_user, {'attr': {'style': 'display:none;'}}) }}
+
+                                {# ── Affichage lecture seule de l'utilisateur connecté ── #}
                                 <div class="form-group mb-4">
-                                    <label for="{{ form.Id_user.vars.id }}" class="font-weight-bold">
-                                        <i class="fa fa-user text-info"></i> Utilisateur *
+                                    <label class="font-weight-bold">
+                                        <i class="fa fa-user text-info"></i> Propriétaire
                                     </label>
-                                    {{ form_widget(form.Id_user, {
-                                        'attr': {'class': 'form-control custom-select'}
-                                    }) }}
-                                    {{ form_errors(form.Id_user) }}
+                                    <div class="form-control d-flex align-items-center" 
+                                         style="background:#f8f9fa; cursor:default; height:auto; min-height:38px;">
+                                        <span class="mr-2" style="font-size:1.2rem;">👤</span>
+                                        <span>
+                                            {% if app.user %}
+                                                <strong>{{ app.user.prenom }} {{ app.user.nom }}</strong>
+                                                <small class="text-muted d-block">{{ app.user.email }}</small>
+                                            {% else %}
+                                                Utilisateur connecté
+                                            {% endif %}
+                                        </span>
+                                        <span class="ml-auto badge badge-info">Vous</span>
+                                    </div>
+                                    <small class="form-text text-muted">Le propriétaire de l'objectif ne peut pas être modifié.</small>
                                 </div>
                             </div>
                         </div>
@@ -188,8 +203,6 @@
         border-color: #f5576c;
         box-shadow: 0 0 0 0.2rem rgba(245, 87, 108, 0.25);
     }
-    .card {
-        overflow: hidden;
-    }
+    .card { overflow: hidden; }
 </style>
 {% endblock %}

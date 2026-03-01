@@ -12,7 +12,9 @@ class TestScoringService
         private ReponseRepository $reponseRepository,
         private SpeechEvaluationService $speechService
     ) {}
-    
+    /**
+     * @return array{total_score: float, max_score: int, percentage: float, details: array<int, mixed>}
+     */
     public function calculateTestScore(Test $test, Request $request): array
     {
         $scoreTotal = 0;
@@ -24,12 +26,13 @@ class TestScoringService
             if ($question->getType() === 'oral') {
                 // ✅ Récupérer la transcription envoyée par le frontend
                 $spokenText = $request->request->get('oral_' . $question->getId());
-                $expectedText = $question->getEnonce();
+                $spokenTextStr = is_string($spokenText) ? $spokenText : '';
+                $expectedText = $question->getEnonce() ?? '';
+                $status = $this->speechService->evaluateAnswer($spokenTextStr, $expectedText);
                 
-                // ✅ Utiliser le service PHP pour évaluer
-                $status = $this->speechService->evaluateAnswer($spokenText ?? '', $expectedText);
-                $questionScore = $this->speechService->calculateScore($status, $question->getScoreMax());
-                
+                $maxScore = $question->getScoreMax() ?? 0.0;
+                $questionScore = $this->speechService->calculateScore($status, $maxScore);
+
                 $details[] = [
                     'question_id' => $question->getId(),
                     'type' => 'oral',
@@ -37,7 +40,7 @@ class TestScoringService
                     'expected' => $expectedText,
                     'status' => $status,
                     'score' => $questionScore,
-                    'max_score' => $question->getScoreMax()
+                    'max_score' => $maxScore
                 ];
             } else {
                 // Question QCM

@@ -26,29 +26,42 @@ class ExamModeService
 
     /**
      * Log un événement suspect dans les fichiers Symfony
+     * @param array<string, mixed> $details
      */
+
     public function logEvent(
         TestPassage $passage,
         string $eventType,
         array $details = []
     ): void {
+        $user = $passage->getUser();
+        $test = $passage->getTest();
+            
+        if (!$user || !$test) {
+            return;
+        }
+        
         $this->logger->warning('🔒 EXAM EVENT', [
             'passage_id' => $passage->getId(),
-            'user_id' => $passage->getUser()->getId(),
-            'user_email' => $passage->getUser()->getEmail(),
-            'test_id' => $passage->getTest()->getId(),
-            'test_titre' => $passage->getTest()->getTitre(),
+            'user_id' => $user->getId(),  // ✅ Utiliser la variable $user
+            'user_email' => $user->getEmail(),  // ✅ Utiliser la variable $user
+            'test_id' => $test->getId(),  // ✅ Utiliser la variable $test
+            'test_titre' => $test->getTitre(),  // ✅ Utiliser la variable $test
             'event_type' => $eventType,
             'timestamp' => (new \DateTime())->format('Y-m-d H:i:s'),
             'details' => $details
         ]);
 
         // ✅ AUSSI : Stocker dans la session pour affichage immédiat
-        $this->addEventToSession($passage->getId(), $eventType, $details);
+        $passageId = $passage->getId();
+        if ($passageId !== null) {
+            $this->addEventToSession($passageId, $eventType, $details);
+        }
     }
 
     /**
      * Stocke les événements dans la session (temporaire)
+     * @param array<string, mixed> $details
      */
     private function addEventToSession(int $passageId, string $eventType, array $details): void
     {
@@ -67,6 +80,7 @@ class ExamModeService
 
     /**
      * Récupère les événements depuis la session
+     * @return array<int, array<string, mixed>>
      */
     public function getSessionEvents(int $passageId): array
     {
@@ -76,10 +90,21 @@ class ExamModeService
 
     /**
      * Analyse les comportements suspects
+     * @return array{suspicion_score: int, flags: array<string>, events: array<string, int>, recommendation: string, color: string}
      */
     public function analyzeSuspiciousActivity(TestPassage $passage): array
     {
-        $events = $this->getSessionEvents($passage->getId());
+        $passageId = $passage->getId();
+        if ($passageId === null) {
+            return [
+                'suspicion_score' => 0,
+                'flags' => [],
+                'events' => ['tab_switches' => 0, 'copy_pastes' => 0, 'page_blurs' => 0, 'total_events' => 0],
+                'recommendation' => 'VALIDER',
+                'color' => 'success'
+            ];
+        }
+        $events = $this->getSessionEvents($passageId);
 
         $suspicionScore = 0;
         $flags = [];
@@ -121,9 +146,10 @@ class ExamModeService
         }
 
         // Analyse du temps (si déjà soumis)
-        if ($passage->getTempsPasse()) {
+        $test = $passage->getTest();
+        if ($passage->getTempsPasse() && $test) {
             $tempsPasse = $passage->getTempsPasse();
-            $tempsAttendu = ($passage->getTest()->getDureeEstimee() ?: 15) * 60;
+            $tempsAttendu = ($test->getDureeEstimee() ?: 15) * 60;
             
             if ($tempsPasse < $tempsAttendu * 0.3) {
                 $suspicionScore += 25;

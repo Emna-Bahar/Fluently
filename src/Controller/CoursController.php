@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Cours;
 use App\Entity\Langue;
 use App\Entity\Niveau;
@@ -16,7 +17,6 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -28,58 +28,44 @@ final class CoursController extends AbstractController
     {
         $langueId = $request->query->get('langue');
         $difficulte = $request->query->get('difficulte');
-
+        $langueId = $langueId !== null ? (int) $langueId : null;
+        $difficulte = $difficulte !== null ? (string) $difficulte : null;
         $niveaux = $niveauRepository->findAll();
-
-        $query = $coursRepository->createQueryBuilder('c')
-            ->join('c.Id_niveau', 'n')
-            ->join('n.Id_langue', 'l')
-            ->orderBy('l.nom', 'ASC')
-            ->addOrderBy('n.ordre', 'ASC')
-            ->addOrderBy('c.numero', 'ASC');
-
-        if ($langueId) {
-            $query->andWhere('l.id = :langueId')
-                  ->setParameter('langueId', $langueId);
-        }
-
-        if ($difficulte) {
-            $query->andWhere('n.difficulte = :difficulte')
-                  ->setParameter('difficulte', $difficulte);
-        }
-
-        $cours = $query->getQuery()->getResult();
+        $cours = $coursRepository->findCoursFiltres($langueId, $difficulte);
 
         return $this->render('cours/index.html.twig', [
             'cours' => $cours,
             'niveaux' => $niveaux,
         ]);
     }
-
+    
+    private function getTypedUser(): ?User
+    {
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            return null;
+        }
+        return $user;
+    }
+    
     #[Route('/admin/cours/new', name: 'app_admin_cours_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
     {
         $cours = new Cours();
         $cours->setDateCreation(new \DateTime());
-
         $form = $this->createForm(CoursType::class, $cours, [
             'is_edit' => false,
         ]);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $langue = $form->get('langue')->getData();
             $niveau = $form->get('Id_niveau')->getData();
-
             if (!$langue || !$niveau || $niveau->getIdLangue()->getId() !== $langue->getId()) {
                 $this->addFlash('danger', 'La langue et le niveau ne correspondent pas.');
                 return $this->render('cours/new.html.twig', ['form' => $form->createView()]);
             }
-
             $cours->setIdNiveau($niveau);
-
             $allRessources = [];
-
             $files = $form->get('ressourcesFiles')->getData() ?? [];
             if ($files) {
                 $uploadDir = $this->getCoursUploadDir($cours);
@@ -99,7 +85,6 @@ final class CoursController extends AbstractController
                     }
                 }
             }
-
             $youtubeLinksInput = $form->get('youtubeLinks')->getData();
             if ($youtubeLinksInput && !empty(trim($youtubeLinksInput))) {
                 $lines = explode("\n", trim($youtubeLinksInput));
@@ -117,76 +102,67 @@ final class CoursController extends AbstractController
                     }
                 }
             }
-
             if (!empty($allRessources)) {
                 $cours->setRessource(implode("\n", $allRessources));
             }
-
             $em->persist($cours);
             $em->flush();
-
             $this->addFlash('success', 'Cours créé avec succès.');
             return $this->redirectToRoute('app_cours_index');
         }
-
         return $this->render('cours/new.html.twig', ['form' => $form->createView()]);
     }
 
     #[Route('/{id}', name: 'app_cours_show', methods: ['GET'])]
-    public function show(Cours $cour, Request $request, EntityManagerInterface $em): Response
+    public function show(Cours $cour, Request $request, EntityManagerInterface $em, UserProgressRepository $progressRepository): Response
     {
-        // ✅ FIXED: use Symfony security instead of session
-        $user = $this->getUser();
-
+        $user = $this->getTypedUser();
         if (!$user) {
             $this->addFlash('error', 'Vous devez être connecté.');
             return $this->redirectToRoute('app_login');
         }
-
-        $langue = $cour->getIdNiveau()->getIdLangue();
-
-        $progressRepo = $em->getRepository(UserProgress::class);
-        $progress = $progressRepo->findOneBy([
-            'user' => $user,
-            'langue' => $langue
-        ]);
-
+        $niveau = $cour->getIdNiveau();
+        if (!$niveau) {
+            throw $this->createNotFoundException('Niveau non trouvé');
+        }
+        $langue = $niveau->getIdLangue();
+        if (!$langue) {
+            throw $this->createNotFoundException('Langue non trouvée');
+        }
+        $progress = $progressRepository->findUserProgress($user, $langue);
         $estDebloque = false;
-
         if ($progress) {
             $niveauActuel = $progress->getNiveauActuel();
-            $niveauCours = $cour->getIdNiveau();
-
+            $niveauCours = $niveau;
             if ($niveauActuel && $niveauActuel->getId() === $niveauCours->getId()) {
                 $estDebloque = $cour->getNumero() <= $progress->getDernierNumeroCours() + 1;
             }
         }
-
         if (!$estDebloque) {
             $this->addFlash('warning', 'Ce cours n\'est pas encore débloqué.');
             return $this->redirectToRoute('app_langue_apprentissage', ['id' => $langue->getId()]);
         }
-
-        $difficulte = $cour->getIdNiveau()->getDifficulte();
-
-        $langSlug = (new \Symfony\Component\String\Slugger\AsciiSlugger())->slug($langue->getNom())->lower();
+        $difficulte = $niveau->getDifficulte() ?? 'default';
+        $langSlug = (new \Symfony\Component\String\Slugger\AsciiSlugger())->slug($langue->getNom() ?? 'langue')->lower();
         $nivSlug = (new \Symfony\Component\String\Slugger\AsciiSlugger())->slug($difficulte)->lower();
-
         $dirPath = $this->getParameter('kernel.project_dir') . "/public/uploads/cours/$langSlug/$nivSlug";
         $publicPath = "/uploads/cours/$langSlug/$nivSlug";
-
-        $filesAdmin = is_dir($dirPath) ? array_values(array_diff(scandir($dirPath), ['.', '..'])) : [];
-
+        $filesAdmin = [];
+        if (is_dir($dirPath)) {
+            $safeDirPath = is_string($dirPath) ? $dirPath : '';
+            /** @var list<string>|false $files */
+            $files = scandir($safeDirPath);
+            if (is_array($files)) {
+                $filesAdmin = array_values(array_diff($files, ['.', '..']));
+            }
+        }
         $dbResources = $cour->getRessource() ? explode("\n", trim($cour->getRessource())) : [];
         $dbResources = array_filter($dbResources, fn($v) => trim($v) !== '');
-
         $ressourcesNormales = [];
         $ressourcesPersonnalisees = [];
-
         foreach ($filesAdmin as $file) {
             $ressourcesNormales[] = $file;
         }
-
         foreach ($dbResources as $res) {
             $res = trim($res);
             if (strpos($res, '/uploads/cours_personnalises/') === 0) {
@@ -199,10 +175,8 @@ final class CoursController extends AbstractController
                 $ressourcesNormales[] = $res;
             }
         }
-
         $ressourcesNormales = array_unique($ressourcesNormales);
         $ressourcesPersonnalisees = array_unique($ressourcesPersonnalisees);
-
         return $this->render('cours/base_apprentissage.html.twig', [
             'cour' => $cour,
             'files' => $ressourcesNormales,
@@ -216,17 +190,27 @@ final class CoursController extends AbstractController
     public function adminShow(Cours $cour): Response
     {
         $niveau = $cour->getIdNiveau();
+        if (!$niveau) {
+            throw $this->createNotFoundException('Niveau non trouvé');
+        }
         $langue = $niveau->getIdLangue();
-        $difficulte = $niveau->getDifficulte();
-
-        $langSlug = (new \Symfony\Component\String\Slugger\AsciiSlugger())->slug($langue->getNom())->lower();
+        if (!$langue) {
+            throw $this->createNotFoundException('Langue non trouvée');
+        }
+        $difficulte = $niveau->getDifficulte() ?? 'default';
+        $langSlug = (new \Symfony\Component\String\Slugger\AsciiSlugger())->slug($langue->getNom() ?? 'langue')->lower();
         $nivSlug = (new \Symfony\Component\String\Slugger\AsciiSlugger())->slug($difficulte)->lower();
-
         $dirPath = $this->getParameter('kernel.project_dir') . "/public/uploads/cours/$langSlug/$nivSlug";
         $publicPath = "/uploads/cours/$langSlug/$nivSlug";
-
-        $files = is_dir($dirPath) ? array_values(array_diff(scandir($dirPath), ['.', '..'])) : [];
-
+        $files = [];
+        if (is_dir($dirPath)) {
+            $safeDirPath = is_string($dirPath) ? $dirPath : '';
+            /** @var list<string>|false $scanResult */
+            $scanResult = scandir($safeDirPath);
+            if (is_array($scanResult)) {
+                $files = array_values(array_diff($scanResult, ['.', '..']));
+            }
+        }
         return $this->render('cours/show.html.twig', [
             'cour' => $cour,
             'files' => $files,
@@ -241,7 +225,6 @@ final class CoursController extends AbstractController
             'is_edit' => true,
         ]);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $langue = $form->get('langue')->getData();
             $niveau = $cour->getIdNiveau();
@@ -252,7 +235,6 @@ final class CoursController extends AbstractController
                     'form' => $form->createView(),
                 ]);
             }
-
             $deleteFiles = $request->request->all()['delete_ressources'] ?? [];
             $deleteFiles = is_array($deleteFiles) ? $deleteFiles : [];
             if ($deleteFiles) {
@@ -269,9 +251,7 @@ final class CoursController extends AbstractController
                 }
                 $cour->setRessource(implode("\n", $currentFiles));
             }
-
             $newFiles = $form->get('ressourcesFiles')->getData() ?? [];
-
             if (!empty($newFiles)) {
                 $uploadDir = $this->getCoursUploadDir($cour);
                 $existingFiles = array_filter(explode("\n", $cour->getRessource() ?? ''));
@@ -282,7 +262,6 @@ final class CoursController extends AbstractController
                         $safeName = $slugger->slug($originalName);
                         $extension = $file->guessExtension();
                         $newFilename = $safeName . '-' . uniqid() . '.' . $extension;
-
                         try {
                             $file->move($uploadDir, $newFilename);
                             $existingFiles[] = $newFilename;
@@ -291,16 +270,12 @@ final class CoursController extends AbstractController
                         }
                     }
                 }
-
                 $cour->setRessource(implode("\n", $existingFiles));
             }
-
             $em->flush();
-
             $this->addFlash('success', 'Cours modifié avec succès.');
             return $this->redirectToRoute('app_cours_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->render('cours/edit.html.twig', [
             'cour' => $cour,
             'form' => $form->createView(),
@@ -314,85 +289,73 @@ final class CoursController extends AbstractController
             $entityManager->remove($cour);
             $entityManager->flush();
         }
-
         return $this->redirectToRoute('app_cours_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/terminer', name: 'app_cours_terminer', methods: ['POST'])]
-    public function terminer(Cours $cours, Request $request, EntityManagerInterface $em): Response
+    public function terminer(Cours $cours, Request $request, EntityManagerInterface $em, CoursRepository $coursRepository, NiveauRepository $niveauRepository, UserProgressRepository $progressRepository): Response
     {
-        // ✅ FIXED: use Symfony security instead of session
-        $user = $this->getUser();
-
+        $user = $this->getTypedUser();
         if (!$user) {
             return $this->json(['success' => false, 'message' => 'Vous devez être connecté']);
         }
-
-        $langue = $cours->getIdNiveau()->getIdLangue();
-
-        $progressRepo = $em->getRepository(UserProgress::class);
-        $progress = $progressRepo->findOneBy([
-            'user' => $user,
-            'langue' => $langue
-        ]);
-
+        $niveau = $cours->getIdNiveau();
+        if (!$niveau) {
+            return $this->json(['success' => false, 'message' => 'Niveau non trouvé']);
+        }
+        $langue = $niveau->getIdLangue();
+        if (!$langue) {
+            return $this->json(['success' => false, 'message' => 'Langue non trouvée']);
+        }
+        $progress = $progressRepository->findUserProgress($user, $langue);
         if (!$progress) {
             return $this->json(['success' => false, 'message' => 'Progression non trouvée']);
         }
-
-        $niveauCours = $cours->getIdNiveau();
+        $niveauCours = $niveau;
         $niveauActuel = $progress->getNiveauActuel();
-
         if ($niveauActuel && $niveauActuel->getId() === $niveauCours->getId()) {
             $numeroCours = $cours->getNumero();
-            $dernierNumero = $progress->getDernierNumeroCours();
-
+            $dernierNumero = $progress->getDernierNumeroCours() ?? 0;
             if ($numeroCours >= $dernierNumero) {
                 $progress->setDernierCoursComplete($cours);
-                $progress->setDernierNumeroCours($numeroCours);
+                $progress->setDernierNumeroCours((int) $numeroCours);
                 $progress->setDateDerniereActivite(new \DateTime());
-
-                $coursRepository = $em->getRepository(Cours::class);
-                $totalCoursNiveau = $coursRepository->count(['Id_niveau' => $niveauActuel]);
-
+                $totalCoursNiveau = $coursRepository->countByNiveau($niveauActuel);
                 if ($numeroCours >= $totalCoursNiveau) {
-                    $niveauSuivant = $em->getRepository(\App\Entity\Niveau::class)
-                        ->findOneBy([
-                            'Id_langue' => $langue,
-                            'ordre' => $niveauActuel->getOrdre() + 1
-                        ]);
-
+                    $niveauSuivant = $niveauRepository->findNiveauSuivant($langue, $niveauActuel->getOrdre() ?? 0);
                     if ($niveauSuivant) {
                         $progress->setNiveauActuel($niveauSuivant);
                         $progress->setDernierNumeroCours(0);
                         $this->addFlash('success', '🎉 Félicitations ! Vous passez au niveau ' . $niveauSuivant->getDifficulte());
                     }
                 }
-
                 $em->flush();
-
                 return $this->json(['success' => true]);
             }
         }
-
         return $this->json(['success' => false, 'message' => 'Impossible de terminer ce cours']);
     }
 
     private function getCoursUploadDir(Cours $cours): string
     {
         $niveau = $cours->getIdNiveau();
+        if (!$niveau) {
+            throw new \InvalidArgumentException('Le cours doit avoir un niveau');
+        }
         $langue = $niveau->getIdLangue();
-
-        $langSlug = (new \Symfony\Component\String\Slugger\AsciiSlugger())->slug($langue->getNom())->lower();
-        $nivSlug = (new \Symfony\Component\String\Slugger\AsciiSlugger())->slug($niveau->getDifficulte())->lower();
-
+        if (!$langue) {
+            throw new \InvalidArgumentException('Le niveau doit avoir une langue');
+        }
+        $langSlug = (new \Symfony\Component\String\Slugger\AsciiSlugger())->slug($langue->getNom() ?? 'langue')->lower();
+        $nivSlug = (new \Symfony\Component\String\Slugger\AsciiSlugger())->slug($niveau->getDifficulte() ?? 'default')->lower();
         $baseDir = $this->getParameter('kernel.project_dir') . '/public/uploads/cours';
-        $dir = "$baseDir/$langSlug/$nivSlug";
-
+        $baseDir = is_string($baseDir) ? $baseDir : '';
+        $langSlug = $langSlug ?? 'langue';
+        $nivSlug = $nivSlug ?? 'default';
+        $dir = sprintf('%s/%s/%s', $baseDir, $langSlug, $nivSlug);
         if (!is_dir($dir)) {
             mkdir($dir, 0777, true);
         }
-
         return $dir;
     }
 

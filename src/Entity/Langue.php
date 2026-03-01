@@ -246,7 +246,6 @@ public function setDrapeauFile(?File $drapeauFile = null): void
     public function removeNiveau(Niveau $niveau): static
     {
         if ($this->niveaux->removeElement($niveau)) {
-            // set the owning side to null (unless already changed)
             if ($niveau->getIdLangue() === $this) {
                 $niveau->setIdLangue(null);
             }
@@ -276,7 +275,6 @@ public function setDrapeauFile(?File $drapeauFile = null): void
     public function removeGroupe(Groupe $groupe): static
     {
         if ($this->groupes->removeElement($groupe)) {
-            // set the owning side to null (unless already changed)
             if ($groupe->getIDLangue() === $this) {
                 $groupe->setIDLangue(null);
             }
@@ -306,7 +304,6 @@ public function setDrapeauFile(?File $drapeauFile = null): void
     public function removeTest(Test $test): static
     {
         if ($this->tests->removeElement($test)) {
-            // set the owning side to null (unless already changed)
             if ($test->getIdLangue() === $this) {
                 $test->setIdLangue(null);
             }

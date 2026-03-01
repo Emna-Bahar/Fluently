@@ -4,15 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Test;
 use App\Entity\TestPassage;
-use App\Entity\Question;
 use App\Entity\User;
-use App\Entity\Reponse;
 use App\Entity\Langue;
 use App\Form\TestType;
 use App\Service\TestScoringService;
 use App\Service\ExamModeService;
 use App\Repository\TestRepository;
-use App\Repository\ReponseRepository;
 use App\Repository\TestPassageRepository;
 use App\Repository\LangueRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -36,46 +33,29 @@ final class TestController extends AbstractController
         $this->logger = $logger;
     }
 
-    // ==================== PARTIE ADMIN ====================
+#[Route('', name: 'app_test_index', methods: ['GET'])]
+public function index(Request $request, TestRepository $testRepository, LangueRepository $langueRepository): Response
+{
+    $search = $request->query->get('search', '');
+    $type = $request->query->get('type', '');
+    $langueId = $request->query->get('langue', '');
 
-    #[Route('', name: 'app_test_index', methods: ['GET'])]
-    public function index(Request $request, TestRepository $testRepository, LangueRepository $langueRepository): Response
-    {
-        $search = $request->query->get('search', '');
-        $type = $request->query->get('type', '');
-        $langueId = $request->query->get('langue', '');
+    // ✅ Utiliser la méthode du repository
+    $searchStr = is_string($search) ? $search : null;
+    $typeStr = is_string($type) ? $type : null;
+    $langueIdStr = is_string($langueId) ? $langueId : null;
+    
+    $tests = $testRepository->findByFilters($searchStr, $typeStr, $langueIdStr);
+    $langues = $langueRepository->findBy([], ['nom' => 'ASC']);
 
-        $queryBuilder = $testRepository->createQueryBuilder('t')
-            ->leftJoin('t.langue', 'l')
-            ->leftJoin('t.questions', 'q')
-            ->orderBy('t.titre', 'ASC');
-
-        if ($search) {
-            $queryBuilder->andWhere('LOWER(t.titre) LIKE :search OR LOWER(t.type) LIKE :search')
-                         ->setParameter('search', '%' . strtolower($search) . '%');
-        }
-
-        if ($type) {
-            $queryBuilder->andWhere('t.type = :type')
-                         ->setParameter('type', $type);
-        }
-
-        if ($langueId) {
-            $queryBuilder->andWhere('l.id = :langue')
-                         ->setParameter('langue', $langueId);
-        }
-
-        $tests = $queryBuilder->getQuery()->getResult();
-        $langues = $langueRepository->findBy([], ['nom' => 'ASC']);
-
-        return $this->render('test/index.html.twig', [
-            'tests'  => $tests,
-            'langues' => $langues,
-            'search' => $search,
-            'type'   => $type,
-            'langue' => $langueId,
-        ]);
-    }
+    return $this->render('test/index.html.twig', [
+        'tests'  => $tests,
+        'langues' => $langues,
+        'search' => $search,
+        'type'   => $type,
+        'langue' => $langueId,
+    ]);
+}
 
     #[Route('/new', name: 'app_test_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -126,7 +106,10 @@ final class TestController extends AbstractController
     #[Route('/{id}', name: 'app_test_delete', methods: ['POST'])]
     public function delete(Request $request, Test $test, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $test->getId(), $request->request->get('_token'))) {
+        $token = $request->request->get('_token');
+        $tokenStr = is_string($token) ? $token : '';
+        
+        if ($this->isCsrfTokenValid('delete' . $test->getId(), $tokenStr)) {
             $entityManager->remove($test);
             $entityManager->flush();
             $this->addFlash('success', 'Test supprimé avec succès !');
@@ -134,8 +117,6 @@ final class TestController extends AbstractController
 
         return $this->redirectToRoute('app_test_index', [], Response::HTTP_SEE_OTHER);
     }
-
-    // ==================== PARTIE ÉTUDIANT ====================
 
     #[Route('/etudiant/{id}', name: 'app_test_student_show', methods: ['GET'])]
     public function studentShow(
@@ -145,11 +126,10 @@ final class TestController extends AbstractController
         TestPassageRepository $testPassageRepository,
         WorkflowInterface $testPassageStateMachine
     ): Response {
-        // ✅ FIXED: use Symfony security instead of session
         $user = $this->getUser();
 
-        if (!$user) {
-            $this->addFlash('error', 'Vous devez être connecté pour passer un test.');
+        if (!$user instanceof User) {
+            $this->addFlash('error', 'Vous devez être connecté.');
             return $this->redirectToRoute('app_login');
         }
 
@@ -171,20 +151,22 @@ final class TestController extends AbstractController
         ]);
 
         if ($passage && $passage->getStatut() === 'en_cours') {
-            $dureeMinutes = $test->getDureeEstimee() ?: 15;
-            $dureeSecondes = $dureeMinutes * 60;
-            $tempsEcoule = (new DateTime())->getTimestamp() - $passage->getDateDebut()->getTimestamp();
+            $dateDebut = $passage->getDateDebut();
+            if ($dateDebut) {
+                $dureeMinutes = $test->getDureeEstimee() ?: 15;
+                $dureeSecondes = $dureeMinutes * 60;
+                $tempsEcoule = (new DateTime())->getTimestamp() - $dateDebut->getTimestamp();
 
-            if ($tempsEcoule >= $dureeSecondes) {
-                try {
-                    if ($passage->getStatut() === 'en_cours') {
+                if ($tempsEcoule >= $dureeSecondes) {
+                    try {
                         $testPassageStateMachine->apply($passage, 'expirer');
                         $entityManager->flush();
+                        
+                        $this->addFlash('warning', '⏰ Temps écoulé.');
+                        return $this->redirectToRoute('app_test_student_result', ['id' => $passage->getId()]);
+                    } catch (\Exception $e) {
+                        $this->addFlash('error', 'Erreur : ' . $e->getMessage());
                     }
-                    $this->addFlash('warning', '⏰ Le temps est écoulé. Le test a été soumis automatiquement avec un score de 0.');
-                    return $this->redirectToRoute('app_test_student_result', ['id' => $passage->getId()]);
-                } catch (\Exception $e) {
-                    $this->addFlash('error', 'Erreur lors de l\'expiration : ' . $e->getMessage());
                 }
             }
         }
@@ -203,11 +185,10 @@ final class TestController extends AbstractController
         EntityManagerInterface $em,
         WorkflowInterface $testPassageStateMachine
     ): Response {
-        // ✅ FIXED: use Symfony security instead of session
         $user = $this->getUser();
 
-        if (!$user) {
-            $this->addFlash('error', 'Vous devez être connecté pour démarrer un test.');
+        if (!$user instanceof User) {
+            $this->addFlash('error', 'Vous devez être connecté.');
             return $this->redirectToRoute('app_login');
         }
 
@@ -234,7 +215,7 @@ final class TestController extends AbstractController
         try {
             $testPassageStateMachine->apply($passage, 'demarrer');
             $em->flush();
-            $this->addFlash('success', 'Test démarré ! Bonne chance ! 🚀');
+            $this->addFlash('success', 'Test démarré ! 🚀');
         } catch (\Exception $e) {
             $this->addFlash('error', 'Impossible de démarrer : ' . $e->getMessage());
             return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
@@ -250,10 +231,9 @@ final class TestController extends AbstractController
         EntityManagerInterface $em,
         WorkflowInterface $testPassageStateMachine
     ): Response {
-        // ✅ FIXED: use Symfony security instead of session
         $user = $this->getUser();
 
-        if (!$user) {
+        if (!$user instanceof User) {
             return $this->redirectToRoute('app_login');
         }
 
@@ -268,7 +248,7 @@ final class TestController extends AbstractController
         try {
             $testPassageStateMachine->apply($passage, 'mettre_en_pause');
             $em->flush();
-            $this->addFlash('info', 'Test mis en pause. Vous pourrez le reprendre plus tard.');
+            $this->addFlash('info', 'Test mis en pause.');
         } catch (\Exception $e) {
             $this->addFlash('error', 'Impossible de mettre en pause : ' . $e->getMessage());
         }
@@ -283,10 +263,9 @@ final class TestController extends AbstractController
         EntityManagerInterface $em,
         WorkflowInterface $testPassageStateMachine
     ): Response {
-        // ✅ FIXED: use Symfony security instead of session
         $user = $this->getUser();
 
-        if (!$user) {
+        if (!$user instanceof User) {
             return $this->redirectToRoute('app_login');
         }
 
@@ -301,7 +280,7 @@ final class TestController extends AbstractController
         try {
             $testPassageStateMachine->apply($passage, 'reprendre');
             $em->flush();
-            $this->addFlash('success', 'Test repris ! Bonne continuation !');
+            $this->addFlash('success', 'Test repris !');
         } catch (\Exception $e) {
             $this->addFlash('error', 'Impossible de reprendre : ' . $e->getMessage());
         }
@@ -316,7 +295,10 @@ final class TestController extends AbstractController
         EntityManagerInterface $em,
         Request $request
     ): Response {
-        if (!$this->isCsrfTokenValid('expire' . $passage->getId(), $request->request->get('_token'))) {
+        $token = $request->request->get('_token');
+        $tokenStr = is_string($token) ? $token : '';
+        
+        if (!$this->isCsrfTokenValid('expire' . $passage->getId(), $tokenStr)) {
             $this->addFlash('error', 'Token CSRF invalide.');
             return $this->redirectToRoute('app_admin_test_passages');
         }
@@ -324,7 +306,7 @@ final class TestController extends AbstractController
         try {
             $testPassageStateMachine->apply($passage, 'expirer');
             $em->flush();
-            $this->addFlash('success', '⏰ Test expiré avec succès.');
+            $this->addFlash('success', '⏰ Test expiré.');
         } catch (\Exception $e) {
             $this->addFlash('error', 'Impossible d\'expirer : ' . $e->getMessage());
         }
@@ -339,7 +321,10 @@ final class TestController extends AbstractController
         EntityManagerInterface $em,
         Request $request
     ): Response {
-        if (!$this->isCsrfTokenValid('finaliser' . $passage->getId(), $request->request->get('_token'))) {
+        $token = $request->request->get('_token');
+        $tokenStr = is_string($token) ? $token : '';
+        
+        if (!$this->isCsrfTokenValid('finaliser' . $passage->getId(), $tokenStr)) {
             $this->addFlash('error', 'Token CSRF invalide.');
             return $this->redirectToRoute('app_admin_test_passages');
         }
@@ -347,7 +332,7 @@ final class TestController extends AbstractController
         try {
             $testPassageStateMachine->apply($passage, 'finaliser');
             $em->flush();
-            $this->addFlash('success', '✅ Test finalisé avec succès.');
+            $this->addFlash('success', '✅ Test finalisé.');
         } catch (\Exception $e) {
             $this->addFlash('error', 'Impossible de finaliser : ' . $e->getMessage());
         }
@@ -363,10 +348,9 @@ final class TestController extends AbstractController
         TestScoringService $scoringService,
         AITextCorrectionService $aiCorrection
     ): Response {
-        // ✅ FIXED: use Symfony security instead of session
         $user = $this->getUser();
 
-        if (!$user) {
+        if (!$user instanceof User) {
             $this->addFlash('error', 'Vous devez être connecté.');
             return $this->redirectToRoute('app_login');
         }
@@ -391,45 +375,66 @@ final class TestController extends AbstractController
             if ($question->getType() === 'texte_libre') {
                 $studentText = $request->request->get('texte_' . $question->getId());
 
-                if ($studentText && strlen(trim($studentText)) >= 50) {
-                    $correction = $aiCorrection->correctFreeText(
-                        $studentText,
-                        $question->getEnonce(),
-                        $test->getLangue()->getNom(),
-                        'B1'
-                    );
+                if (is_string($studentText) && strlen(trim($studentText)) >= 50) {
+                    $enonce = $question->getEnonce();
+                    $langue = $test->getLangue();
+                    
+                    if ($enonce && $langue) {
+                        $langueNom = $langue->getNom();
+                        
+                        if ($langueNom) {
+                            $correction = $aiCorrection->correctFreeText(
+                                $studentText,
+                                $enonce,
+                                $langueNom,
+                                'B1'
+                            );
 
-                    $questionScore = ($correction['score'] / 100) * $question->getScoreMax();
-                    $scoreTotal += $questionScore;
+                            $scoreMax = $question->getScoreMax() ?? 0.0;
+                            $questionScore = ($correction['score'] / 100) * $scoreMax;
+                            $scoreTotal += $questionScore;
 
-                    $this->logger->info('Correction texte libre', [
-                        'question_id' => $question->getId(),
-                        'score'       => $correction['score'],
-                        'commentaire' => $correction['commentaire']
-                    ]);
+                            $this->logger->info('Correction texte libre', [
+                                'question_id' => $question->getId(),
+                                'score'       => $correction['score'],
+                                'commentaire' => $correction['commentaire']
+                            ]);
+                        }
+                    }
                 }
             }
         }
 
-        $passage->setScore($scoreTotal);
+        $passage->setScore((int) round($scoreTotal));
         $passage->setResultat(($scoreTotal / $scoreMax) * 100);
         $passage->setDateFin(new \DateTime());
-        $passage->setTempsPasse((new \DateTime())->getTimestamp() - $passage->getDateDebut()->getTimestamp());
+        
+        $dateDebut = $passage->getDateDebut();
+        if ($dateDebut) {
+            $passage->setTempsPasse((new \DateTime())->getTimestamp() - $dateDebut->getTimestamp());
+        }
+        
         $passage->setStatut('termine');
 
         $entityManager->flush();
 
-        $niveau = $this->determinerNiveau($passage->getResultat());
+        $resultat = $passage->getResultat() ?? 0.0;
+        $niveau = $this->determinerNiveau($resultat);
 
         $this->addFlash('success', sprintf(
-            'Test terminé ! Score : %.1f%% → Niveau estimé : %s',
-            $passage->getResultat(),
+            'Test terminé ! Score : %.1f%% → Niveau : %s',
+            $resultat,
             $niveau
         ));
 
-        return $this->redirectToRoute('app_langue_apprentissage', [
-            'id' => $test->getLangue()->getId()
-        ]);
+        $langue = $test->getLangue();
+        if ($langue) {
+            return $this->redirectToRoute('app_langue_apprentissage', [
+                'id' => $langue->getId()
+            ]);
+        }
+        
+        return $this->redirectToRoute('app_test_index');
     }
 
     #[Route('/etudiant/result/{id}', name: 'app_test_student_result', methods: ['GET'])]
@@ -439,31 +444,37 @@ final class TestController extends AbstractController
         ExamModeService $examService,
         EntityManagerInterface $entityManager
     ): Response {
-        // ✅ FIXED: use Symfony security instead of session
         $user = $this->getUser();
 
-        if (!$user) {
+        if (!$user instanceof User) {
             $this->addFlash('error', 'Vous devez être connecté.');
             return $this->redirectToRoute('app_login');
         }
 
         if ($passage->getUser() !== $user) {
-            throw $this->createAccessDeniedException('Vous ne pouvez pas voir les résultats d\'un autre utilisateur.');
+            throw $this->createAccessDeniedException();
         }
 
         $test = $passage->getTest();
 
         $examAnalysis = null;
-        if ($examService->isExamMode($passage->getTest())) {
+        if ($test && $examService->isExamMode($test)) {
             $examAnalysis = $examService->analyzeSuspiciousActivity($passage);
-            $examService->clearSessionEvents($passage->getId());
+            
+            $passageId = $passage->getId();
+            if ($passageId) {
+                $examService->clearSessionEvents($passageId);
+            }
         }
+
+        $langue = $test ? $test->getLangue() : null;
+        $resultat = $passage->getResultat() ?? 0.0;
 
         return $this->render('test_student/result.html.twig', [
             'test'         => $test,
             'passage'      => $passage,
-            'langue'       => $test->getLangue(),
-            'niveau'       => $this->determinerNiveau($passage->getResultat()),
+            'langue'       => $langue,
+            'niveau'       => $this->determinerNiveau($resultat),
             'examAnalysis' => $examAnalysis,
         ]);
     }
@@ -478,68 +489,43 @@ final class TestController extends AbstractController
         return 'A1';
     }
 
-    #[Route('/admin/test/passages', name: 'app_admin_test_passages', methods: ['GET'])]
-    public function adminTestPassages(
-        Request $request,
-        TestPassageRepository $testPassageRepository
-    ): Response {
-        $search = $request->query->get('search', '');
-        $statut = $request->query->get('statut', '');
-        $langueId = $request->query->get('langue', '');
-        $testId = $request->query->get('test', '');
+#[Route('/admin/test/passages', name: 'app_admin_test_passages', methods: ['GET'])]
+public function adminTestPassages(
+    Request $request,
+    TestPassageRepository $testPassageRepository
+): Response {
+    $search = $request->query->get('search', '');
+    $statut = $request->query->get('statut', '');
+    $langueId = $request->query->get('langue', '');
+    $testId = $request->query->get('test', '');
 
-        $queryBuilder = $testPassageRepository->createQueryBuilder('tp')
-            ->leftJoin('tp.test', 't')
-            ->leftJoin('t.langue', 'l')
-            ->leftJoin('tp.user', 'u');
+    // ✅ Utiliser la méthode du repository
+    $searchStr = is_string($search) ? $search : null;
+    $statutStr = is_string($statut) ? $statut : null;
+    $langueIdStr = is_string($langueId) ? $langueId : null;
+    $testIdStr = is_string($testId) ? $testId : null;
+    
+    $passages = $testPassageRepository->findByFilters($searchStr, $statutStr, $langueIdStr, $testIdStr);
 
-        if ($search) {
-            $queryBuilder->andWhere('
-                LOWER(u.email) LIKE :search OR 
-                LOWER(t.titre) LIKE :search OR 
-                LOWER(l.nom) LIKE :search
-            ')->setParameter('search', '%' . strtolower($search) . '%');
-        }
+    $totalPassages = $testPassageRepository->count([]);
+    $termineCount  = $testPassageRepository->count(['statut' => 'termine']);
+    $enCoursCount  = $testPassageRepository->count(['statut' => 'en_cours']);
+    
+    // ✅ Utiliser la méthode du repository
+    $scoreMoyen = $testPassageRepository->getAverageScore();
 
-        if ($statut) {
-            $queryBuilder->andWhere('tp.statut = :statut')
-                         ->setParameter('statut', $statut);
-        }
-
-        if ($langueId) {
-            $queryBuilder->andWhere('l.id = :langue')
-                         ->setParameter('langue', $langueId);
-        }
-
-        if ($testId) {
-            $queryBuilder->andWhere('t.id = :test')
-                         ->setParameter('test', $testId);
-        }
-
-        $queryBuilder->orderBy('tp.dateFin', 'DESC');
-
-        $passages = $queryBuilder->getQuery()->getResult();
-
-        $totalPassages = $testPassageRepository->count([]);
-        $termineCount  = $testPassageRepository->count(['statut' => 'termine']);
-        $enCoursCount  = $testPassageRepository->count(['statut' => 'en_cours']);
-        $scoreMoyen    = $testPassageRepository->createQueryBuilder('tp')
-            ->select('AVG(tp.resultat)')
-            ->getQuery()
-            ->getSingleScalarResult() ?? 0;
-
-        return $this->render('test/passages.html.twig', [
-            'passages'      => $passages,
-            'totalPassages' => $totalPassages,
-            'termineCount'  => $termineCount,
-            'enCoursCount'  => $enCoursCount,
-            'scoreMoyen'    => round($scoreMoyen, 1),
-            'search'        => $search,
-            'statut'        => $statut,
-            'langueId'      => $langueId,
-            'testId'        => $testId,
-        ]);
-    }
+    return $this->render('test/passages.html.twig', [
+        'passages'      => $passages,
+        'totalPassages' => $totalPassages,
+        'termineCount'  => $termineCount,
+        'enCoursCount'  => $enCoursCount,
+        'scoreMoyen'    => round($scoreMoyen, 1),
+        'search'        => $search,
+        'statut'        => $statut,
+        'langueId'      => $langueId,
+        'testId'        => $testId,
+    ]);
+}
 
     #[Route('/exam/log-event/{id}', name: 'app_exam_log_event', methods: ['POST'])]
     public function logExamEvent(
@@ -561,10 +547,9 @@ final class TestController extends AbstractController
         EntityManagerInterface $em,
         PerformanceAnalyzerService $analyzer
     ): Response {
-        // ✅ FIXED: use Symfony security instead of session
         $user = $this->getUser();
 
-        if (!$user) {
+        if (!$user instanceof User) {
             $this->addFlash('error', 'Vous devez être connecté.');
             return $this->redirectToRoute('app_login');
         }

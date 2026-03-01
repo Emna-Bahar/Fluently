@@ -101,8 +101,6 @@
             <!-- ============ STATISTIQUES DE PROGRESSION ============ -->
             <div style="margin: 30px auto 50px; max-width: 900px;">
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-                    
-                    <!-- Carte 1 : Cours complétés -->
                     <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 20px; padding: 25px; text-align: center; border: 1px solid rgba(255,255,255,0.2); transition: all 0.3s;" 
                          onmouseover="this.style.transform='translateY(-5px)'; this.style.background='rgba(255,255,255,0.25)';"
                          onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255,255,255,0.15)';">
@@ -110,8 +108,6 @@
                         <div style="font-size: 2.5rem; font-weight: 800; color: white;">{{ coursCompletes }}</div>
                         <div style="color: rgba(255,255,255,0.8); font-size: 1.1rem;">Cours complétés</div>
                     </div>
-                    
-                    <!-- Carte 2 : Temps d'étude -->
                     <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 20px; padding: 25px; text-align: center; border: 1px solid rgba(255,255,255,0.2); transition: all 0.3s;"
                          onmouseover="this.style.transform='translateY(-5px)'; this.style.background='rgba(255,255,255,0.25)';"
                          onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255,255,255,0.15)';">
@@ -119,8 +115,6 @@
                         <div style="font-size: 2.5rem; font-weight: 800; color: white;">{{ tempsTotal }} min</div>
                         <div style="color: rgba(255,255,255,0.8); font-size: 1.1rem;">Temps d'étude</div>
                     </div>
-                    
-                    <!-- Carte 3 : Progression (remplace streak) -->
                     <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 20px; padding: 25px; text-align: center; border: 1px solid rgba(255,255,255,0.2); transition: all 0.3s;"
                          onmouseover="this.style.transform='translateY(-5px)'; this.style.background='rgba(255,255,255,0.25)';"
                          onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255,255,255,0.15)';">
@@ -130,7 +124,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- ============ BARRE DE PROGRESSION ============ -->
             {% if niveauUtilisateur %}
             <div style="margin: 40px auto; max-width: 700px;">
@@ -153,45 +146,29 @@
                 </div>
             </div>
             {% endif %}
-
-            {# ============ AFFICHAGE DES 6 NIVEAUX × 3 COURS ============ #}
-            {# 18 CERCLES - TOUS LES NIVEAUX SONT VISIBLES #}
-            
             {% set niveaux = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] %}
             {% set couleurs = ['#22c55e', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#7c3aed'] %}
             {% set ordreNiveaux = [1, 2, 3, 4, 5, 6] %}
-            
-            {# Récupérer l'ordre du niveau de l'utilisateur #}
             {% set niveauActuelOrdre = niveauUtilisateur ? niveauUtilisateur.ordre : 1 %}
-            
-            {# Récupérer le dernier cours terminé depuis progress #}
             {% set dernierCoursTermine = progress ? progress.dernierNumeroCours : 0 %}
-            
-            {# Parcourir les 6 niveaux #}
+        
             {% for niveauIndex in 0..5 %}
                 {% set niveauNom = niveaux[niveauIndex] %}
                 {% set niveauOrdre = ordreNiveaux[niveauIndex] %}
                 {% set niveauCouleur = couleurs[niveauIndex] %}
                 
-                {# Récupérer l'entité Niveau correspondante #}
                 {% set niveauEntity = null %}
                 {% for cours in allCours %}
                     {% if niveauEntity is null and cours.IdNiveau.difficulte == niveauNom and cours.IdNiveau.IdLangue.id == langue.id %}
                         {% set niveauEntity = cours.IdNiveau %}
                     {% endif %}
                 {% endfor %}
-                
-                {# Vérifier si le niveau existe pour cette langue #}
                 {% if niveauEntity %}
-                    
-                    <!-- TITRE DU NIVEAU -->
                     <div style="position: relative; margin: {% if niveauIndex == 0 %}0{% else %}100{% endif %}px 0 40px; text-align: center; z-index: 3;">
                         <div style="font-size: 2.8rem; font-weight: 900; color: white; margin-bottom: 30px; text-shadow: 0 6px 16px rgba(0,0,0,0.5);">
                             Niveau {{ niveauNom }}
                         </div>
                     </div>
-                    
-                    {# Récupérer les cours de ce niveau #}
                     {% set coursDuNiveau = [] %}
                     {% for cours in allCours %}
                         {% if cours.IdNiveau.id == niveauEntity.id %}
@@ -199,29 +176,19 @@
                         {% endif %}
                     {% endfor %}
                     
-                    {# Trier les cours par numéro #}
                     {% set coursDuNiveau = coursDuNiveau|sort((a, b) => a.numero <=> b.numero) %}
-                    
-                    {# Afficher les 3 cours du niveau #}
+                
                     {% for cours in coursDuNiveau|slice(0, 3) %}
                         {% set coursNumero = loop.index %}
                         {% set coursReelNumero = cours.numero %}
-                        
-                        {# Déterminer si le cours est débloqué #}
                         {% set isUnlocked = false %}
-                        
-                        {# Cas 1: Niveau inférieur au niveau actuel - TOUS débloqués #}
                         {% if niveauOrdre < niveauActuelOrdre %}
                             {% set isUnlocked = true %}
                         {% endif %}
-                        
-                        {# Cas 2: Niveau égal au niveau actuel #}
                         {% if niveauOrdre == niveauActuelOrdre %}
-                            {# Premier cours toujours débloqué #}
                             {% if coursNumero == 1 %}
                                 {% set isUnlocked = true %}
                             {% else %}
-                                {# Vérifier si le cours précédent de ce niveau est terminé via progress #}
                                 {% set coursPrecedentTermine = false %}
                                 {% if dernierCoursTermine >= coursReelNumero - 1 %}
                                     {% set coursPrecedentTermine = true %}
@@ -229,13 +196,9 @@
                                 {% set isUnlocked = coursPrecedentTermine %}
                             {% endif %}
                         {% endif %}
-                        
-                        {# Cas 3: Niveau supérieur au niveau actuel - TOUS verrouillés #}
                         {% if niveauOrdre > niveauActuelOrdre %}
                             {% set isUnlocked = false %}
                         {% endif %}
-                        
-                        {# Vérifier si le cours est déjà terminé #}
                         {% set isCompleted = false %}
                         {% if niveauOrdre == niveauActuelOrdre and dernierCoursTermine >= coursReelNumero %}
                             {% set isCompleted = true %}
@@ -307,10 +270,8 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-                
                 {# ============ TEST DE FIN DE NIVEAU ============ #}
                 {% if niveauEntity %}
-                    {# Récupérer le test de fin de niveau pour ce niveau spécifique #}
                     {% set testFinNiveau = null %}
                     {% for test in testsLangue %}
                         {% if test.type == 'Test de fin de niveau' and test.niveau and test.niveau.id == niveauEntity.id %}
@@ -319,7 +280,6 @@
                     {% endfor %}
 
                     {% if testFinNiveau %}
-                        {# Vérifier si tous les cours du niveau sont terminés #}
                         {% set tousCoursTermines = true %}
                         {% for cours in coursDuNiveau|slice(0, 3) %}
                             {% set coursReelNumero = cours.numero %}
@@ -327,16 +287,12 @@
                                 {% set tousCoursTermines = false %}
                             {% endif %}
                         {% endfor %}
-
-                        {# Vérifier si le test est déjà passé #}
                         {% set testDejaPassé = false %}
                         {% for passage in testFinNiveau.passages %}
                             {% if passage.user.id == user.id and passage.statut == 'termine' %}
                                 {% set testDejaPassé = true %}
                             {% endif %}
                         {% endfor %}
-
-                        {# Afficher le cercle de test #}
                         <div style="position: relative; margin: 100px 0; text-align: center; z-index: 3;">
                             {% if tousCoursTermines or testDejaPassé %}
                                 <a href="{{ path('app_test_student_show', {id: testFinNiveau.id}) }}" style="text-decoration: none;">
@@ -399,9 +355,6 @@
                     {% endif %}
                 {% endif %}
             {% endfor %}
-
-            
-            
             {# ============ TESTS HORS PARCOURS (À DROITE) ============ #}
             <div style="position: fixed; right: 30px; top: 50%; transform: translateY(-50%); z-index: 10; display: flex; flex-direction: column; gap: 30px;">
 
@@ -414,7 +367,6 @@
 
                 {% if testsHorsParcours|length > 0 %}
                     {% for test in testsHorsParcours %}
-                        {# Vérifier si déjà passé #}
                         {% set testPassé = false %}
                         {% if app.user %}
                             {% for passage in test.passages %}
