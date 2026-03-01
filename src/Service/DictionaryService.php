@@ -6,7 +6,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class DictionaryService
 {
-    private $httpClient;
+    private HttpClientInterface $httpClient;
 
     public function __construct(HttpClientInterface $httpClient)
     {
@@ -14,93 +14,119 @@ class DictionaryService
     }
 
     /**
-     * Récupère la définition d'un mot via l'API Wiktionary
+     * 
      * @param string $word Le mot à rechercher
-     * @param string $fromLang Langue source (non utilisé pour Wiktionary)
-     * @param string $toLang Langue cible (non utilisé pour Wiktionary)
+     * @param string $fromLang Langue source (fr, en, etc.)
+     * @param string $toLang Langue cible (non utilisé actuellement)
+     * @return array{
+     *     word?: string,
+     *     definitions?: string[],
+     *     examples?: string[],
+     *     functional_label?: string,
+     *     error: string
+     * }|array{
+     *     word: string,
+     *     definitions: string[],
+     *     examples: string[],
+     *     functional_label?: string
+     * } Résultat avec définitions ou message d'erreur
      */
     public function getDefinition(string $word, string $fromLang = 'fr', string $toLang = 'en'): array
     {
-        // URL de l'API Wiktionary (Wiktionnaire français)
-        $url = sprintf(
-            'https://fr.wiktionary.org/api/rest_v1/page/definition/%s',
-            urlencode($word)
-        );
-
         try {
-            $response = $this->httpClient->request('GET', $url);
+            $response = $this->httpClient->request('GET', 
+                "https://{$fromLang}.wiktionary.org/api/rest_v1/page/definition/" . urlencode($word));
             $data = $response->toArray();
-
+            
             if (empty($data)) {
-                return ['error' => 'Mot non trouvé'];
+                return $this->tryOtherLanguage($word, $fromLang === 'fr' ? 'en' : 'fr');
             }
 
-            return $this->formatWiktionaryData($data, $word);
-
+            return $this->formatData($data, $word);
         } catch (\Exception $e) {
-            // Si l'API française échoue, essayer l'API anglaise
-            return $this->tryEnglishWiktionary($word);
+            return $this->tryOtherLanguage($word, $fromLang === 'fr' ? 'en' : 'fr');
         }
     }
 
     /**
-     * Essai avec l'API Wiktionary anglaise
+     * 
+     * @param string $word Le mot à rechercher
+     * @param string $lang Langue alternative
+     * @return array{
+     *     word?: string,
+     *     definitions?: string[],
+     *     examples?: string[],
+     *     functional_label?: string,
+     *     error: string
+     * }|array{
+     *     word: string,
+     *     definitions: string[],
+     *     examples: string[],
+     *     functional_label?: string
+     * } Résultat ou message d'erreur
      */
-    private function tryEnglishWiktionary(string $word): array
+    private function tryOtherLanguage(string $word, string $lang): array
     {
         try {
-            $url = sprintf(
-                'https://en.wiktionary.org/api/rest_v1/page/definition/%s',
-                urlencode($word)
-            );
-            
-            $response = $this->httpClient->request('GET', $url);
-            $data = $response->toArray();
-
-            if (empty($data)) {
-                return ['error' => 'Mot non trouvé'];
-            }
-
-            return $this->formatWiktionaryData($data, $word);
-
+            $response = $this->httpClient->request('GET', 
+                "https://{$lang}.wiktionary.org/api/rest_v1/page/definition/" . urlencode($word));
+            return $this->formatData($response->toArray(), $word);
         } catch (\Exception $e) {
-            return ['error' => 'Mot non trouvé dans les dictionnaires'];
+            return ['error' => 'Mot non trouvé'];
         }
     }
 
     /**
-     * Formate les données de Wiktionary
+     * Formate les données brutes de l'API Wiktionary
+     * 
+     * @param array<mixed> $data Données brutes de l'API
+     * @param string $word Mot recherché
+     * @return array{
+     *     word: string,
+     *     definitions: string[],
+     *     examples: string[],
+     *     functional_label?: string
+     * } Données formatées
      */
-    private function formatWiktionaryData(array $data, string $word): array
+    private function formatData(array $data, string $word): array
     {
         $result = [
             'word' => $word,
-            'functional_label' => '',
             'definitions' => [],
-            'translations' => [],
             'examples' => []
         ];
 
-        // Parcourir les différentes langues dans la réponse
-        foreach ($data as $langCode => $langData) {
+        foreach ($data as $langData) {
+            if (!is_array($langData)) {
+                continue;
+            }
+            
             foreach ($langData as $entry) {
-                if (isset($entry['partOfSpeech'])) {
+                if (!is_array($entry)) {
+                    continue;
+                }
+                
+                if (isset($entry['partOfSpeech']) && is_string($entry['partOfSpeech'])) {
                     $result['functional_label'] = $entry['partOfSpeech'];
                 }
                 
                 if (isset($entry['definitions']) && is_array($entry['definitions'])) {
-                    foreach ($entry['definitions'] as $definition) {
-                        if (isset($definition['definition'])) {
-                            // Nettoyer la définition (enlever les balises HTML)
-                            $cleanDef = strip_tags($definition['definition']);
-                            $result['definitions'][] = $cleanDef;
+                    foreach ($entry['definitions'] as $def) {
+                        if (!is_array($def)) {
+                            continue;
                         }
                         
-                        // Récupérer les exemples
-                        if (isset($definition['parsedExamples']) && is_array($definition['parsedExamples'])) {
-                            foreach ($definition['parsedExamples'] as $example) {
-                                if (isset($example['example'])) {
-                                    $result['examples'][] = strip_tags($example['example']);
+                        if (isset($def['definition']) && is_string($def['definition'])) {
+                            $result['definitions'][] = strip_tags($def['definition']);
+                        }
+                        
+                        if (isset($def['parsedExamples']) && is_array($def['parsedExamples'])) {
+                            foreach ($def['parsedExamples'] as $ex) {
+                                if (!is_array($ex)) {
+                                    continue;
+                                }
+                                if (isset($ex['example']) && is_string($ex['example'])) {
+                                    $result['examples'][] = strip_tags($ex['example']);
                                 }
                             }
                         }
@@ -109,15 +135,15 @@ class DictionaryService
             }
         }
 
-        // Limiter le nombre de définitions pour l'affichage
         $result['definitions'] = array_slice($result['definitions'], 0, 5);
         $result['examples'] = array_slice($result['examples'], 0, 3);
-
+        
         return $result;
     }
 
     /**
-     * Liste des codes de langue supportés
+     * 
+     * @return array<string, string> Tableau associatif code => nom
      */
     public function getSupportedLanguages(): array
     {
@@ -127,11 +153,7 @@ class DictionaryService
             'es' => 'Espagnol',
             'de' => 'Allemand',
             'it' => 'Italien',
-            'pt' => 'Portugais',
-            'ru' => 'Russe',
-            'zh' => 'Chinois',
-            'ja' => 'Japonais',
-            'ar' => 'Arabe',
+            'pt' => 'Portugais'
         ];
     }
 }

@@ -26,7 +26,6 @@
 
 {% block body %}
     <div class="nxl-content">
-        <!-- En-tête de page -->
         <div class="page-header">
             <div class="page-header-left d-flex align-items-center">
                 <div class="page-header-title">
@@ -45,8 +44,6 @@
                 </a>
             </div>
         </div>
-
-        <!-- Messages Flash -->
         {% for message in app.flashes('danger') %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{ message }}
@@ -60,8 +57,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         {% endfor %}
-
-        <!-- Formulaire principal -->
         <div class="row justify-content-center">
             <div class="col-xl-10 col-lg-11">
                 <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
@@ -78,13 +73,9 @@
                             </small>
                         </div>
                     </div>
-
                     <div class="card-body p-5">
                         {{ form_start(form, {'attr': {'class': 'row g-4', 'novalidate': 'novalidate'}}) }}
-
-                        {# Erreurs globales du formulaire #}
                         {{ form_errors(form) }}
-
                         <div class="row g-4">
                             <!-- Langue -->
                             <div class="col-md-6">
@@ -148,12 +139,9 @@
                                     </div>
                                 {% endif %}
                             </div>
-
-                            <!-- Date de création (cachée car auto-générée) -->
                             <div style="display: none;">
                                 {{ form_widget(form.date_creation) }}
                             </div>
-
                             <!-- Liens YouTube -->
                             <div class="col-12">
                                 <label class="form-label fw-bold mb-2">Liens YouTube (optionnel)</label>
@@ -171,11 +159,9 @@
                                     </div>
                                 {% endif %}
                             </div>
-
                             <!-- Ajout de ressources -->
                             <div class="col-12">
                                 <label class="form-label fw-bold mb-3">Fichiers ressources</label>
-                                
                                 <div id="ressources-list" 
                                      data-prototype="{{ form_widget(form.ressourcesFiles.vars.prototype)|e('html_attr') }}" 
                                      class="mb-3">
@@ -193,11 +179,9 @@
                                         </div>
                                     {% endfor %}
                                 </div>
-
                                 <button type="button" class="btn btn-outline-primary btn-lg px-4" id="add-ressource-btn">
                                     <i class="feather-plus me-2"></i> Ajouter un fichier
                                 </button>
-
                                 <div class="text-muted small mt-2">
                                     Formats acceptés : PDF, MP4, JPG, PNG, MP3, WAV, OGG... (max 50 Mo)
                                 </div>
@@ -207,8 +191,6 @@
                                     </div>
                                 {% endif %}
                             </div>
-
-                            <!-- Bouton de création -->
                             <div class="col-12 text-end mt-5 pt-4 border-top">
                                 <button type="submit" class="btn btn-success btn-lg px-5 py-3 fw-bold shadow-lg transition-all">
                                     <i class="feather-save me-2"></i> 
@@ -216,7 +198,6 @@
                                 </button>
                             </div>
                         </div>
-
                         {{ form_end(form) }}
                     </div>
                 </div>
@@ -226,7 +207,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Gestion dynamique des niveaux selon la langue
             const langueSelect = document.getElementById('cours_langue');
             const niveauSelect = document.getElementById('niveau-select');
 
@@ -241,8 +221,6 @@
                     const selectedLangue = langueSelect.value;
                     const currentValue = niveauSelect.value;
                     niveauSelect.innerHTML = '';
-
-                    // Ajouter l'option placeholder
                     const placeholder = new Option('Choisir un niveau', '');
                     placeholder.disabled = true;
                     placeholder.selected = !currentValue;
@@ -261,8 +239,6 @@
                 langueSelect.addEventListener('change', updateNiveaux);
                 updateNiveaux();
             }
-
-            // Ajout dynamique de ressources
             const collectionHolder = document.getElementById('ressources-list');
             const addButton = document.getElementById('add-ressource-btn');
             let index = {{ form.ressourcesFiles|length|default(0) }};

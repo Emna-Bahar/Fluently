@@ -182,7 +182,6 @@ class Niveau
     public function removeCour(Cours $cour): static
     {
         if ($this->cours->removeElement($cour)) {
-            // set the owning side to null (unless already changed)
             if ($cour->getIdNiveau() === $this) {
                 $cour->setIdNiveau(null);
             }
@@ -212,7 +211,6 @@ class Niveau
     public function removeGroupe(Groupe $groupe): static
     {
         if ($this->groupes->removeElement($groupe)) {
-            // set the owning side to null (unless already changed)
             if ($groupe->getIdNiveau() === $this) {
                 $groupe->setIdNiveau(null);
             }

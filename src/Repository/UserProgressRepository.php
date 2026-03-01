@@ -1,7 +1,5 @@
 <?php
 
-// src/Repository/UserProgressRepository.php
-
 namespace App\Repository;
 
 use App\Entity\Langue;
@@ -20,12 +18,6 @@ class UserProgressRepository extends ServiceEntityRepository
         parent::__construct($registry, UserProgress::class);
     }
 
-    /**
-     * Returns the UserProgress row if the user has completed the niveau test
-     * for the given langue (testNiveauComplete = true).
-     * Niveau ID is intentionally NOT checked because the groupe and user_progress
-     * may reference different Niveau rows that represent the same level.
-     */
     public function findCompletedForGroup(User $user, int $langueId, ?int $niveauId): ?UserProgress
     {
         return $this->createQueryBuilder('up')
@@ -58,5 +50,13 @@ class UserProgressRepository extends ServiceEntityRepository
         }
 
         return $progress;
+    }
+
+    public function findUserProgress(User $user, Langue $langue): ?UserProgress
+    {
+        return $this->findOneBy([
+            'user' => $user,
+            'langue' => $langue
+        ]);
     }
 }

@@ -17,9 +17,9 @@ class DictionaryController extends AbstractController
         Request $request,
         DictionaryService $dictionary
     ): JsonResponse {
-        // Récupérer les paramètres de langue (pour compatibilité)
-        $fromLang = $request->query->get('from', 'fr');
-        $toLang = $request->query->get('to', 'en');
+
+        $fromLang = (string) $request->query->get('from', 'fr');
+        $toLang = (string) $request->query->get('to', 'en');
         
         $result = $dictionary->getDefinition($word, $fromLang, $toLang);
         return $this->json($result);

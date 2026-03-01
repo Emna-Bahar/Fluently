@@ -3,11 +3,7 @@
 {% block title %}Admin - Gestion des langues{% endblock %}
 
 {% block body %}
-
-    <!-- Contenu principal -->
     <div class="nxl-content">
-
-        <!-- Header de la page -->
         <div class="page-header">
             <div class="page-header-left d-flex align-items-center">
                 <div class="page-header-title">
@@ -21,15 +17,12 @@
                 </a>
             </div>
         </div>
-
-        <!-- Card principale -->
         <div class="main-content">
 
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white border-bottom">
                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                         <h6 class="m-0">Liste des langues</h6>
-
                         <!-- Filtres -->
                         <form method="GET" class="d-flex align-items-center gap-3 flex-wrap">
                             <div class="input-group" style="width: 280px;">
@@ -75,7 +68,6 @@
                                     <td class="fw-bold">{{ langue.nom }}</td>
                                     <td class="text-center">
                                         {% if langue.drapeau %}
-                                            {# ✅ CORRIGÉ : images/langues/ → uploads/langues/ #}
                                             <img src="{{ asset('uploads/langues/' ~ langue.drapeau) }}" 
                                                  alt="{{ langue.nom }}" 
                                                  class="rounded" 

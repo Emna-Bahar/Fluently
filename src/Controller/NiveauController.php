@@ -18,52 +18,25 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 final class NiveauController extends AbstractController
 {
     #[Route('/', name: 'app_niveau_index', methods: ['GET'])]
-public function index(Request $request, NiveauRepository $niveauRepository, LangueRepository $langueRepository): Response
-{
-    $langueId     = $request->query->get('langue');
-    $difficulte   = $request->query->get('difficulte');
-    $seuilMin     = $request->query->get('seuil_min');
-    $seuilMax     = $request->query->get('seuil_max');
+    public function index(Request $request, NiveauRepository $niveauRepository, LangueRepository $langueRepository): Response
+    {
+        $langueId   = $request->query->get('langue');
+        $difficulte = $request->query->get('difficulte');
+        $seuilMin   = $request->query->get('seuil_min');
+        $seuilMax   = $request->query->get('seuil_max');
+        $langueId = $langueId !== null ? (int) $langueId : null;
+        $difficulte = is_string($difficulte) ? $difficulte : null;
+        $seuilMin = $seuilMin !== null ? (int) $seuilMin : null;
+        $seuilMax = $seuilMax !== null ? (int) $seuilMax : null;
+        $langues = $langueRepository->findAll();
+        $niveaux = $niveauRepository->findNiveauxFiltres($langueId, $difficulte, $seuilMin, $seuilMax);
 
-    $langues = $langueRepository->findAll();
-
-    $query = $niveauRepository->createQueryBuilder('n');
-
-    if ($langueId) {
-        $query->andWhere('n.Id_langue = :langue')
-              ->setParameter('langue', $langueId);
+        return $this->render('niveau/index.html.twig', [
+            'niveaux'        => $niveaux,
+            'langues'        => $langues,
+            'selectedLangue' => $langueId ? $langueRepository->find($langueId) : null,
+        ]);
     }
-
-    $difficulte = $request->query->get('difficulte');
-$seuilMin   = $request->query->get('seuil_min');
-$seuilMax   = $request->query->get('seuil_max');
-
-if ($difficulte) {
-    $query->andWhere('n.difficulte = :difficulte')
-          ->setParameter('difficulte', $difficulte);
-}
-
-if ($seuilMin !== null && $seuilMin !== '') {
-    $query->andWhere('n.seuil_score_min >= :seuilMin')
-          ->setParameter('seuilMin', $seuilMin);
-}
-
-if ($seuilMax !== null && $seuilMax !== '') {
-    $query->andWhere('n.seuil_score_max <= :seuilMax')
-          ->setParameter('seuilMax', $seuilMax);
-}
-
-    $query->orderBy('n.Id_langue', 'ASC')
-          ->addOrderBy('n.ordre', 'ASC');
-
-    $niveaux = $query->getQuery()->getResult();
-
-    return $this->render('niveau/index.html.twig', [
-        'niveaux'        => $niveaux,
-        'langues'        => $langues,
-        'selectedLangue' => $langueId ? $langueRepository->find($langueId) : null,
-    ]);
-}
 
     #[Route('/new', name: 'app_niveau_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
@@ -125,7 +98,6 @@ if ($seuilMax !== null && $seuilMax !== '') {
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
 
                 try {
-                    // Supprimer l'ancienne image
                     if ($niveau->getImageCouverture()) {
                         $oldPath = $this->getParameter('kernel.project_dir') . '/public/uploads/niveaux/' . $niveau->getImageCouverture();
                         if (file_exists($oldPath)) {
@@ -158,7 +130,10 @@ if ($seuilMax !== null && $seuilMax !== '') {
     #[Route('/{id}', name: 'app_niveau_delete', methods: ['POST'])]
     public function delete(Request $request, Niveau $niveau, EntityManagerInterface $em): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $niveau->getId(), $request->request->get('_token'))) {
+        $token = $request->request->get('_token');
+        $token = is_string($token) ? $token : '';
+        
+        if ($this->isCsrfTokenValid('delete' . $niveau->getId(), $token)) {
             if ($niveau->getImageCouverture()) {
                 $filePath = $this->getParameter('kernel.project_dir') . '/public/uploads/niveaux/' . $niveau->getImageCouverture();
                 if (file_exists($filePath)) {

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Cours;
+use App\Entity\Niveau;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +17,58 @@ class CoursRepository extends ServiceEntityRepository
         parent::__construct($registry, Cours::class);
     }
 
-    //    /**
-    //     * @return Cours[] Returns an array of Cours objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * @param int|null $langueId
+     * @param string|null $difficulte
+     * @return Cours[] Tableau d'objets Cours
+     */
+    public function findCoursFiltres(?int $langueId, ?string $difficulte): array
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->join('c.Id_niveau', 'n')
+            ->join('n.Id_langue', 'l')
+            ->orderBy('l.nom', 'ASC')
+            ->addOrderBy('n.ordre', 'ASC')
+            ->addOrderBy('c.numero', 'ASC');
 
-    //    public function findOneBySomeField($value): ?Cours
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        if ($langueId) {
+            $qb->andWhere('l.id = :langueId')
+               ->setParameter('langueId', $langueId);
+        }
+
+        if ($difficulte) {
+            $qb->andWhere('n.difficulte = :difficulte')
+               ->setParameter('difficulte', $difficulte);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param Niveau $niveau
+     * @return Cours[] Tableau d'objets Cours
+     */
+    public function findCoursByLangue(Niveau $niveau): array
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.Id_niveau', 'n')
+            ->where('n.Id_langue = :langue')
+            ->setParameter('langue', $niveau->getIdLangue())
+            ->orderBy('n.ordre', 'ASC')
+            ->addOrderBy('c.numero', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function countByNiveau(Niveau $niveau): int
+    {
+        $result = $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            ->where('c.Id_niveau = :niveau')
+            ->setParameter('niveau', $niveau)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $result !== null ? (int) $result : 0;
+    }
 }

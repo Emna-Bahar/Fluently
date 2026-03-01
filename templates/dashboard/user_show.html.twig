@@ -87,7 +87,7 @@
                                     <td class="fw-medium">{{ user.id }}</td>
                                     <td class="fw-bold">{{ user.nom }} {{ user.prenom }}</td>
                                     <td>{{ user.email }}</td>
-                                    <td>{{ user.roles[0]|replace({'ROLE_':''}) }}</td>
+                                   
                                     <td>
                                         {% if user.statut == 'online' %}
                                             <span class="badge bg-success-subtle text-success px-3 py-2">En ligne</span>
