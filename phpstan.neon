@@ -1,0 +1,12 @@
+parameters:
+ level: 8
+ paths:
+  - src
+ ignoreErrors:
+  - # Doctrine GeneratedValue: PHPStan cannot see that ORM assigns int via reflection
+    message: '#Property App\\Entity\\Groupe\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.#'
+    path: src/Entity/Groupe.php
+  - message: '#Property App\\Entity\\Message\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.#'
+    path: src/Entity/Message.php
+  - message: '#Property App\\Entity\\MessageLog\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.#'
+    path: src/Entity/MessageLog.php

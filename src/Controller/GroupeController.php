@@ -122,7 +122,7 @@ final class GroupeController extends AbstractController
             if ($groupLangue) {
                 $progress = $progressRepo->findCompletedForGroup(
                     $user,
-                    $groupLangue->getId(),
+                    (int) $groupLangue->getId(),
                     $groupNiveau?->getId()
                 );
 
@@ -165,10 +165,7 @@ final class GroupeController extends AbstractController
         $isMember    = $user ? $members->exists(fn($k, $m) => $m->getId() === $currentUserId) : false;
         $isFull      = $memberCount >= (int) $groupe->getCapacite();
 
-        $qb = $messageRepository->createQueryBuilder('m')
-            ->andWhere('m.Id_groupe = :g')
-            ->setParameter('g', $groupe)
-            ->orderBy('m.date_creation', 'DESC');
+        $qb = $messageRepository->findByGroupeQueryBuilder($groupe);
 
         $pagination = $paginator->paginate(
             $qb,
@@ -189,11 +186,13 @@ final class GroupeController extends AbstractController
     #[Route('/messages/{id}/delete', name: 'app_message_delete', methods: ['POST'])]
     public function deleteMessage(Message $message, Request $request, EntityManagerInterface $em): Response
     {
-        if (!$this->isCsrfTokenValid('del_msg_' . $message->getId(), $request->request->get('_token'))) {
+        if (!$this->isCsrfTokenValid('del_msg_' . $message->getId(), $request->request->getString('_token'))) {
             throw $this->createAccessDeniedException('Bad CSRF token');
         }
 
-        $currentUserId = $this->getUser()?->getId();
+        /** @var \App\Entity\User|null $currentUser */
+        $currentUser = $this->getUser();
+        $currentUserId = $currentUser?->getId();
         $ownerId = $message->getIdUser()?->getId();
 
         if ($ownerId !== $currentUserId) {
@@ -228,7 +227,9 @@ final class GroupeController extends AbstractController
         EntityManagerInterface $em,
         HttpClientInterface $client
     ): Response {
-        $currentUserId = $this->getUser()?->getId();
+        /** @var \App\Entity\User|null $editCurrentUser */
+        $editCurrentUser = $this->getUser();
+        $currentUserId = $editCurrentUser?->getId();
         $ownerId = $message->getIdUser()?->getId();
 
         if ($ownerId !== $currentUserId) {
@@ -329,15 +330,9 @@ final class GroupeController extends AbstractController
 
     private function getGroupLanguageCode(Groupe $groupe): ?string
     {
-        $langEntity = null;
+        $langEntity = $groupe->getIDLangue();
 
-        if (method_exists($groupe, 'getIDLangue')) {
-            $langEntity = $groupe->getIDLangue();
-        } elseif (method_exists($groupe, 'getIdLangue')) {
-            $langEntity = $groupe->getIdLangue();
-        }
-
-        if (!$langEntity || !method_exists($langEntity, 'getNom')) {
+        if (!$langEntity) {
             return null;
         }
 
@@ -355,7 +350,7 @@ final class GroupeController extends AbstractController
 
             $data = $resp->toArray(false);
 
-            if (is_array($data) && isset($data[0]['language']) && is_string($data[0]['language'])) {
+            if (isset($data[0]['language']) && is_string($data[0]['language'])) {
                 return $data[0]['language'];
             }
 
@@ -411,7 +406,7 @@ final class GroupeController extends AbstractController
     public function adminGroupIndex(GroupeRepository $groupeRepo, LangueRepository $langueRepo, NiveauRepository $niveauRepo): Response
     {
         return $this->render('groupe/admin_groups.html.twig', [
-            'groupes' => $groupeRepo->findAll(),
+            'groupes' => $groupeRepo->findAllWithDetails(),
             'langues' => $langueRepo->findAll(),
             'niveaux' => $niveauRepo->findAll(),
         ]);
@@ -497,21 +492,12 @@ final class GroupeController extends AbstractController
         $q = trim((string) $request->query->get('q', ''));
 
         if ($q !== '') {
-            $messages = $messageRepo->createQueryBuilder('m')
-                ->leftJoin('m.Id_user', 'u')
-                ->andWhere('m.Id_groupe = :g')
-                ->andWhere('m.contenu LIKE :q OR u.nom LIKE :q OR u.prenom LIKE :q')
-                ->setParameter('g', $groupe)
-                ->setParameter('q', '%' . $q . '%')
-                ->orderBy('m.date_creation', 'DESC')
-                ->addOrderBy('m.id', 'DESC')
-                ->getQuery()
-                ->getResult();
+            $messages = $messageRepo->searchByGroupe($groupe, $q);
         } else {
-            $messages = $messageRepo->findBy(['Id_groupe' => $groupe], ['date_creation' => 'DESC']);
+            $messages = $messageRepo->findByGroupe($groupe);
         }
 
-        $logs = $logRepo->findByGroupe($groupe->getId(), 60);
+        $logs = $logRepo->findByGroupe((int) $groupe->getId(), 60);
 
         return $this->render('groupe/admin_group_chat.html.twig', [
             'groupe'   => $groupe,
@@ -527,17 +513,21 @@ final class GroupeController extends AbstractController
         Request $request,
         EntityManagerInterface $em
     ): Response {
-        if (!$this->isCsrfTokenValid('admin_del_msg_' . $message->getId(), $request->request->get('_token'))) {
+        if (!$this->isCsrfTokenValid('admin_del_msg_' . $message->getId(), $request->request->getString('_token'))) {
             throw $this->createAccessDeniedException('Bad CSRF token');
         }
 
-        $groupId = $message->getIdGroupe()->getId();
+        $idGroupe = $message->getIdGroupe();
+        if ($idGroupe === null) {
+            throw $this->createNotFoundException('Message has no groupe.');
+        }
+        $groupId = (int) $idGroupe->getId();
 
         // --- Log admin deletion ---
         $log = new MessageLog();
         $log->setAction('deleted');
         $log->setMessageId($message->getId());
-        $log->setGroupeId($groupId);
+        $log->setGroupeId((int) $groupId);
         $adminDelUser = $message->getIdUser();
         $log->setUserId($adminDelUser?->getId());
         $log->setUserName($adminDelUser ? trim($adminDelUser->getNom() . ' ' . $adminDelUser->getPrenom()) : 'Inconnu');

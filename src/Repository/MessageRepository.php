@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Groupe;
 use App\Entity\Message;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -16,28 +18,47 @@ class MessageRepository extends ServiceEntityRepository
         parent::__construct($registry, Message::class);
     }
 
-    //    /**
-    //     * @return Message[] Returns an array of Message objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('m.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * Returns a QueryBuilder of messages for a groupe, ordered by date DESC.
+     * Intended for KNP Paginator.
+     */
+    public function findByGroupeQueryBuilder(Groupe $groupe): QueryBuilder
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.Id_groupe = :g')
+            ->setParameter('g', $groupe)
+            ->orderBy('m.date_creation', 'DESC');
+    }
 
-    //    public function findOneBySomeField($value): ?Message
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * Returns all messages of a groupe ordered by date DESC.
+     *
+     * @return Message[]
+     */
+    public function findByGroupe(Groupe $groupe): array
+    {
+        return $this->findBy(
+            ['Id_groupe' => $groupe],
+            ['date_creation' => 'DESC']
+        );
+    }
+
+    /**
+     * Searches messages of a groupe by content, author first name or last name.
+     *
+     * @return Message[]
+     */
+    public function searchByGroupe(Groupe $groupe, string $q): array
+    {
+        return $this->createQueryBuilder('m')
+            ->leftJoin('m.Id_user', 'u')
+            ->andWhere('m.Id_groupe = :g')
+            ->andWhere('m.contenu LIKE :q OR u.nom LIKE :q OR u.prenom LIKE :q')
+            ->setParameter('g', $groupe)
+            ->setParameter('q', '%' . $q . '%')
+            ->orderBy('m.date_creation', 'DESC')
+            ->addOrderBy('m.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }
