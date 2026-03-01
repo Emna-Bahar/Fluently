@@ -25,23 +25,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 50)]
     private ?string $prenom = null;
 
+    /** @var array<string> */
     #[ORM\Column(type: 'json')]
-private array $roles = [];
-
+    private array $roles = [];
 
     #[ORM\Column]
     private ?string $password = null;
 
     #[ORM\Column(length: 100)]
     private ?string $statut = null;
-    
 
     #[ORM\Column(type: 'text', nullable: true)]
-private ?string $faceDescriptor = null;
+    private ?string $faceDescriptor = null;
 
+    /** @var Collection<int, Langue> */
     #[ORM\ManyToMany(targetEntity: Langue::class, mappedBy: 'Id_user')]
     private Collection $langues;
 
+    /** @var Collection<int, Groupe> */
     #[ORM\ManyToMany(targetEntity: Groupe::class, mappedBy: 'Id_user')]
     private Collection $groupes;
 
@@ -66,6 +67,7 @@ private ?string $faceDescriptor = null;
     public function getStatut(): ?string { return $this->statut; }
     public function setStatut(string $statut): static { $this->statut = $statut; return $this; }
 
+    /** @return array<string> */
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -73,6 +75,7 @@ private ?string $faceDescriptor = null;
         return array_unique($roles);
     }
 
+    /** @param array<string> $roles */
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
@@ -84,30 +87,32 @@ private ?string $faceDescriptor = null;
 
     public function eraseCredentials(): void {}
 
+    // Fix: return $this->email ?? '' to avoid returning null when string expected
     public function getUserIdentifier(): string
     {
-        return $this->email;
+        return $this->email ?? '';
     }
-    public function getFaceDescriptor(): ?string
-{
-    return $this->faceDescriptor;
-}
 
-public function setFaceDescriptor(?string $faceDescriptor): static
-{
-    $this->faceDescriptor = $faceDescriptor;
-    return $this;
-}
- public function getLangues(): Collection
+    public function getFaceDescriptor(): ?string
+    {
+        return $this->faceDescriptor;
+    }
+
+    public function setFaceDescriptor(?string $faceDescriptor): static
+    {
+        $this->faceDescriptor = $faceDescriptor;
+        return $this;
+    }
+
+    /** @return Collection<int, Langue> */
+    public function getLangues(): Collection
     {
         return $this->langues;
     }
 
+    /** @return Collection<int, Groupe> */
     public function getGroupes(): Collection
     {
         return $this->groupes;
     }
-
-
-    
 }

@@ -3518,6 +3518,6 @@ style.textContent = `
 document.head.appendChild(style);
 </script>
 </div>
-{% endblock %}", "cours/base_apprentissage.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\cours\\base_apprentissage.html.twig");
+{% endblock %}", "cours/base_apprentissage.html.twig", "C:\\Users\\MSI\\Desktop\\5idma\\Fluently\\templates\\cours\\base_apprentissage.html.twig");
     }
 }

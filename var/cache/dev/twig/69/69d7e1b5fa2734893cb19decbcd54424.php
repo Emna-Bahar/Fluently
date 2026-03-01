@@ -202,6 +202,6 @@ class __TwigTemplate_47d513c4664f8b410a2aed488c682462 extends Template
 
 <button class=\"btn btn-primary\">{{ button_label|default('Enregistrer') }}</button>
 
-{{ form_end(form) }}", "langue/_form.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\langue\\_form.html.twig");
+{{ form_end(form) }}", "langue/_form.html.twig", "C:\\Users\\MSI\\Desktop\\5idma\\Fluently\\templates\\langue\\_form.html.twig");
     }
 }

@@ -26,9 +26,9 @@ class ForgotPasswordController extends AbstractController
         LoginFormAuthenticator $authenticator
     ): Response
     {
-        // STEP 1: Check if user submitted email
         if ($request->isMethod('POST') && $request->request->get('email')) {
-            $email = $request->request->get('email');
+            // Fix line 40: cast to string
+            $email = (string) $request->request->get('email', '');
             $user = $em->getRepository(User::class)->findOneBy(['email' => $email]);
 
             if (!$user) {
@@ -36,10 +36,9 @@ class ForgotPasswordController extends AbstractController
                 return $this->redirectToRoute('app_forgot_password');
             }
 
-            // STEP 2: Generate 6-digit reset code
-            $code = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+            // Fix line 40: str_pad expects string, cast random_int result to string
+            $code = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
 
-            // STEP 3: Save code with expiration 10 minutes
             $reset = new PasswordResetCode();
             $reset->setUser($user);
             $reset->setCode($code);
@@ -48,10 +47,10 @@ class ForgotPasswordController extends AbstractController
             $em->persist($reset);
             $em->flush();
 
-            // STEP 4: Send email
+            // Fix line 54: getEmail() returns string|null, use ?? ''
             $emailMessage = (new Email())
                 ->from('azeraissaoui123@gmail.com')
-                ->to($user->getEmail())
+                ->to($user->getEmail() ?? '')
                 ->subject('Your Password Reset Code')
                 ->text("Hello {$user->getNom()},\n\nYour password reset code is: {$code}\n\nIt expires in 10 minutes.");
 
@@ -64,57 +63,55 @@ class ForgotPasswordController extends AbstractController
         return $this->render('login/forgot_password.html.twig');
     }
 
+    #[Route('/forgot-password/code', name: 'app_forgot_password_code')]
+    public function verifyCode(
+        Request $request,
+        EntityManagerInterface $em,
+        UserAuthenticatorInterface $userAuthenticator,
+        LoginFormAuthenticator $authenticator,
+        UserPasswordHasherInterface $passwordHasher
+    ): Response
+    {
+        // Fix line 104: cast to string
+        $email = (string) $request->query->get('email', '');
+        $user = $em->getRepository(User::class)->findOneBy(['email' => $email]);
 
-#[Route('/forgot-password/code', name: 'app_forgot_password_code')]
-public function verifyCode(
-    Request $request,
-    EntityManagerInterface $em,
-    UserAuthenticatorInterface $userAuthenticator,
-    LoginFormAuthenticator $authenticator,
-    UserPasswordHasherInterface $passwordHasher
-): Response
-{
-    $email = $request->query->get('email');
-    $user = $em->getRepository(User::class)->findOneBy(['email' => $email]);
-
-    if (!$user) {
-        $this->addFlash('error', 'Invalid email.');
-        return $this->redirectToRoute('app_forgot_password');
-    }
-
-    if ($request->isMethod('POST') && $request->request->get('code')) {
-        $inputCode = $request->request->get('code');
-        $newPassword = $request->request->get('new_password');
-        $confirmPassword = $request->request->get('confirm_password');
-
-        $resetRepo = $em->getRepository(PasswordResetCode::class);
-        $reset = $resetRepo->findOneBy(['user' => $user, 'code' => $inputCode]);
-
-        if (!$reset || $reset->getExpiresAt() < new \DateTime()) {
-            $this->addFlash('error', 'Invalid or expired code.');
-            return $this->redirectToRoute('app_forgot_password_code', ['email' => $email]);
+        if (!$user) {
+            $this->addFlash('error', 'Invalid email.');
+            return $this->redirectToRoute('app_forgot_password');
         }
 
-        if ($newPassword !== $confirmPassword) {
-            $this->addFlash('error', 'Passwords do not match.');
-            return $this->redirectToRoute('app_forgot_password_code', ['email' => $email]);
+        if ($request->isMethod('POST') && $request->request->get('code')) {
+            $inputCode    = (string) $request->request->get('code', '');
+            $newPassword  = (string) $request->request->get('new_password', '');
+            $confirmPassword = (string) $request->request->get('confirm_password', '');
+
+            $resetRepo = $em->getRepository(PasswordResetCode::class);
+            $reset = $resetRepo->findOneBy(['user' => $user, 'code' => $inputCode]);
+
+            if (!$reset || $reset->getExpiresAt() < new \DateTime()) {
+                $this->addFlash('error', 'Invalid or expired code.');
+                return $this->redirectToRoute('app_forgot_password_code', ['email' => $email]);
+            }
+
+            if ($newPassword !== $confirmPassword) {
+                $this->addFlash('error', 'Passwords do not match.');
+                return $this->redirectToRoute('app_forgot_password_code', ['email' => $email]);
+            }
+
+            // Fix line 104: hashPassword expects string, $newPassword is already (string)
+            $hashed = $passwordHasher->hashPassword($user, $newPassword);
+            $user->setPassword($hashed);
+
+            $em->remove($reset);
+            $em->flush();
+
+            $this->addFlash('success', 'Password reset successfully. Please login.');
+            return $this->redirectToRoute('app_login');
         }
 
-        // Hash and save new password
-        $hashed = $passwordHasher->hashPassword($user, $newPassword);
-        $user->setPassword($hashed);
-
-        // Delete reset code
-        $em->remove($reset);
-        $em->flush();
-
-        $this->addFlash('success', 'Password reset successfully. Please login.');
-        return $this->redirectToRoute('app_login');
+        return $this->render('login/forgot_password_code.html.twig', [
+            'email' => $email
+        ]);
     }
-
-    return $this->render('login/forgot_password_code.html.twig', [
-        'email' => $email
-    ]);
-}
-    
 }

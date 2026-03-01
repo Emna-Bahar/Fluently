@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -19,25 +20,22 @@ class ProfileController extends AbstractController
         UserPasswordHasherInterface $passwordHasher
     ): Response
     {
-        // Get logged-in user (Symfony way)
-       $user = $this->getUser();
+        $user = $this->getUser();
 
-if (!$user instanceof User) {
-    return $this->redirectToRoute('app_login');
-}
-
-
+        if (!$user instanceof User) {
+            return $this->redirectToRoute('app_login');
+        }
 
         $session = $request->getSession();
 
         if ($request->isMethod('POST')) {
-
-            $nom = $request->request->get('nom');
-            $prenom = $request->request->get('prenom');
-            $email = $request->request->get('email');
-            $role = $request->request->get('role');
-            $password = $request->request->get('password');
-            $confirmPassword = $request->request->get('confirm_password');
+            // Fix all argument.type errors: cast all request values to string
+            $nom             = (string) $request->request->get('nom', '');
+            $prenom          = (string) $request->request->get('prenom', '');
+            $email           = (string) $request->request->get('email', '');
+            $role            = (string) $request->request->get('role', '');
+            $password        = (string) $request->request->get('password', '');
+            $confirmPassword = (string) $request->request->get('confirm_password', '');
 
             $this->clearSessionErrors($session);
             $hasError = false;
@@ -121,9 +119,7 @@ if (!$user instanceof User) {
             $user->setNom($nom);
             $user->setPrenom($prenom);
             $user->setEmail($email);
-            // Convert role to Symfony format
             $user->setRoles(['ROLE_' . strtoupper($role)]);
-
 
             if (!empty($password)) {
                 $hashedPassword = $passwordHasher->hashPassword($user, $password);
@@ -143,7 +139,8 @@ if (!$user instanceof User) {
         ]);
     }
 
-    private function clearSessionErrors($session): void
+    // Fix line 146: add SessionInterface type to $session parameter
+    private function clearSessionErrors(SessionInterface $session): void
     {
         $errors = [
             'error_nom', 'error_prenom', 'error_email',

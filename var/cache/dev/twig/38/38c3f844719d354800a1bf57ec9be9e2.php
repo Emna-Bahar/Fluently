@@ -396,6 +396,6 @@ $context["session"], "statut", [], "any", false, false, false, 63) == "annulée"
         </div>
     </div>
 </div>
-{% endblock %}", "dashboard/session/index.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\dashboard\\session\\index.html.twig");
+{% endblock %}", "dashboard/session/index.html.twig", "C:\\Users\\MSI\\Desktop\\5idma\\Fluently\\templates\\dashboard\\session\\index.html.twig");
     }
 }

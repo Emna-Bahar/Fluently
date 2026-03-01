@@ -38,7 +38,9 @@ class GoogleAuthenticator extends OAuth2Authenticator
             new UserBadge($accessToken->getToken(), function () use ($accessToken, $client) {
                 /** @var GoogleUser $googleUser */
                 $googleUser = $client->fetchUserFromToken($accessToken);
-                $email = $googleUser->getEmail();
+
+                // Fix line 47: getEmail() returns string|null, use ?? ''
+                $email = $googleUser->getEmail() ?? '';
 
                 $user = $this->em->getRepository(User::class)->findOneBy(['email' => $email]);
 

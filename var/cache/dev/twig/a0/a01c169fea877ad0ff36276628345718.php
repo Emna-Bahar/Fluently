@@ -848,6 +848,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 {% endblock %}
-", "tache/new.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\tache\\new.html.twig");
+", "tache/new.html.twig", "C:\\Users\\MSI\\Desktop\\5idma\\Fluently\\templates\\tache\\new.html.twig");
     }
 }
