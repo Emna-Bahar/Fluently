@@ -160,11 +160,11 @@ class Test
     // Méthodes utiles pour les templates
     public function getScoreMax(): int
     {
-        $total = 0;
+        $total = 0.0;  // ✅ On commence avec float
         foreach ($this->questions as $question) {
             $total += $question->getScoreMax();
         }
-        return $total;
+        return (int) round($total);  // ✅ On convertit en int à la fin
     }
 
     // COMPATIBILITÉ TEMPORAIRE (pour les anciens templates)
