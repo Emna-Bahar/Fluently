@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Objectif;
+use App\Entity\User;
 use App\Form\ObjectifType;
 use App\Repository\ObjectifRepository;
 use App\Repository\TacheRepository;
@@ -25,24 +26,19 @@ final class ObjectifController extends AbstractController
         TacheRepository $tacheRepository,
         PaginatorInterface $paginator
     ): Response {
-        $query = $objectifRepository->createQueryBuilder('o')
-            ->orderBy('o.id', 'DESC')
-            ->getQuery();
-
         $pagination = $paginator->paginate(
-            $query,
+            $objectifRepository->createOrderedByIdDescQuery(),
             $request->query->getInt('page', 1),
             3
         );
 
-        // ── Calcul de la gamification ──
         $gamification = $this->calculerGamification(
             $objectifRepository->findAll(),
             $tacheRepository->findAll()
         );
 
         return $this->render('objectif/index.html.twig', [
-            'objectifs' => $pagination,
+            'objectifs'    => $pagination,
             'gamification' => $gamification,
         ]);
     }
@@ -89,7 +85,13 @@ final class ObjectifController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $objectif = new Objectif();
-        $form     = $this->createForm(ObjectifType::class, $objectif);
+
+        $user = $this->getUser();
+        if ($user instanceof User) {
+            $objectif->setIdUser($user);
+        }
+
+        $form = $this->createForm(ObjectifType::class, $objectif);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -118,6 +120,11 @@ final class ObjectifController extends AbstractController
     #[Route('/{id}/edit', name: 'app_objectif_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Objectif $objectif, EntityManagerInterface $entityManager): Response
     {
+        if ($objectif->getIdUser() !== $this->getUser()) {
+            $this->addFlash('danger', 'Vous ne pouvez modifier que vos propres objectifs.');
+            return $this->redirectToRoute('app_objectif_index');
+        }
+
         $form = $this->createForm(ObjectifType::class, $objectif);
         $form->handleRequest($request);
 
@@ -137,6 +144,11 @@ final class ObjectifController extends AbstractController
     #[Route('/{id}', name: 'app_objectif_delete', methods: ['POST'])]
     public function delete(Request $request, Objectif $objectif, EntityManagerInterface $entityManager): Response
     {
+        if ($objectif->getIdUser() !== $this->getUser()) {
+            $this->addFlash('danger', 'Vous ne pouvez supprimer que vos propres objectifs.');
+            return $this->redirectToRoute('app_objectif_index');
+        }
+
         if ($this->isCsrfTokenValid('delete' . $objectif->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($objectif);
             $entityManager->flush();
@@ -147,17 +159,20 @@ final class ObjectifController extends AbstractController
     }
 
     // ===================== CALCUL GAMIFICATION =====================
+    /**
+     * @param Objectif[] $objectifs
+     * @param \App\Entity\Tache[] $taches
+     * @return array<string, mixed>
+     */
     private function calculerGamification(array $objectifs, array $taches): array
     {
-        // ── Calcul des points ──
-        $tachesTerminees   = array_filter($taches,    fn($t) => $t->getStatut() === 'terminee');
+        $tachesTerminees    = array_filter($taches,    fn($t) => $t->getStatut() === 'terminee');
         $objectifsCompletes = array_filter($objectifs, fn($o) => $o->getStatut() === 'complete');
 
-        $pointsTaches    = count($tachesTerminees)   * 10;  // 10 pts par tâche
-        $pointsObjectifs = count($objectifsCompletes) * 50; // 50 pts par objectif
+        $pointsTaches    = count($tachesTerminees)    * 10;
+        $pointsObjectifs = count($objectifsCompletes) * 50;
         $totalPoints     = $pointsTaches + $pointsObjectifs;
 
-        // ── Niveau ──
         $niveau = match(true) {
             $totalPoints >= 1000 => ['label' => 'Légende',       'icone' => '🦁', 'couleur' => '#8e44ad', 'prochain' => 1000],
             $totalPoints >= 500  => ['label' => 'Expert',        'icone' => '🌟', 'couleur' => '#f39c12', 'prochain' => 1000],
@@ -168,31 +183,30 @@ final class ObjectifController extends AbstractController
 
         $progression = min(100, round(($totalPoints / $niveau['prochain']) * 100));
 
-        // ── Badges ──
         $nbTaches    = count($tachesTerminees);
         $nbObjectifs = count($objectifsCompletes);
 
         $tousBadges = [
-            ['icone' => '🎯', 'nom' => 'Premier pas',     'description' => '1 tâche complétée',      'couleur' => '#2ecc71', 'obtenu' => $nbTaches >= 1],
-            ['icone' => '⚡', 'nom' => 'En route',         'description' => '5 tâches complétées',    'couleur' => '#3498db', 'obtenu' => $nbTaches >= 5],
-            ['icone' => '🔥', 'nom' => 'Productif',        'description' => '10 tâches complétées',   'couleur' => '#e67e22', 'obtenu' => $nbTaches >= 10],
-            ['icone' => '🤖', 'nom' => 'Machine',          'description' => '25 tâches complétées',   'couleur' => '#9b59b6', 'obtenu' => $nbTaches >= 25],
-            ['icone' => '🏅', 'nom' => 'Objectif atteint', 'description' => '1 objectif complété',    'couleur' => '#f1c40f', 'obtenu' => $nbObjectifs >= 1],
-            ['icone' => '🏆', 'nom' => 'Ambitieux',        'description' => '3 objectifs complétés',  'couleur' => '#e74c3c', 'obtenu' => $nbObjectifs >= 3],
-            ['icone' => '👑', 'nom' => 'Champion',         'description' => '5 objectifs complétés',  'couleur' => '#f39c12', 'obtenu' => $nbObjectifs >= 5],
+            ['icone' => '🎯', 'nom' => 'Premier pas',     'description' => '1 tâche complétée',     'couleur' => '#2ecc71', 'obtenu' => $nbTaches >= 1],
+            ['icone' => '⚡', 'nom' => 'En route',         'description' => '5 tâches complétées',   'couleur' => '#3498db', 'obtenu' => $nbTaches >= 5],
+            ['icone' => '🔥', 'nom' => 'Productif',        'description' => '10 tâches complétées',  'couleur' => '#e67e22', 'obtenu' => $nbTaches >= 10],
+            ['icone' => '🤖', 'nom' => 'Machine',          'description' => '25 tâches complétées',  'couleur' => '#9b59b6', 'obtenu' => $nbTaches >= 25],
+            ['icone' => '🏅', 'nom' => 'Objectif atteint', 'description' => '1 objectif complété',   'couleur' => '#f1c40f', 'obtenu' => $nbObjectifs >= 1],
+            ['icone' => '🏆', 'nom' => 'Ambitieux',        'description' => '3 objectifs complétés', 'couleur' => '#e74c3c', 'obtenu' => $nbObjectifs >= 3],
+            ['icone' => '👑', 'nom' => 'Champion',         'description' => '5 objectifs complétés', 'couleur' => '#f39c12', 'obtenu' => $nbObjectifs >= 5],
         ];
 
         $badgesObtenus = array_filter($tousBadges, fn($b) => $b['obtenu']);
 
         return [
-            'totalPoints' => $totalPoints,
-            'pointsTaches' => $pointsTaches,
+            'totalPoints'     => $totalPoints,
+            'pointsTaches'    => $pointsTaches,
             'pointsObjectifs' => $pointsObjectifs,
-            'nbTaches' => $nbTaches,
-            'nbObjectifs' => $nbObjectifs,
-            'niveau' => $niveau,
-            'progression' => $progression,
-            'badgesObtenus' => array_values($badgesObtenus),
+            'nbTaches'        => $nbTaches,
+            'nbObjectifs'     => $nbObjectifs,
+            'niveau'          => $niveau,
+            'progression'     => $progression,
+            'badgesObtenus'   => array_values($badgesObtenus),
         ];
     }
 }

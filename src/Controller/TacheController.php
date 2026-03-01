@@ -36,9 +36,9 @@ final class TacheController extends AbstractController
     #[Route('/search', name: 'app_tache_search', methods: ['POST'])]
     public function search(Request $request, TacheRepository $tacheRepository): JsonResponse
     {
-        $search   = $request->request->get('search', '');
-        $statut   = $request->request->get('statut', '');
-        $priorite = $request->request->get('priorite', '');
+        $search   = $request->request->getString('search');
+        $statut   = $request->request->getString('statut');
+        $priorite = $request->request->getString('priorite');
 
         $taches = $tacheRepository->searchTaches($search, $statut, $priorite);
 
@@ -175,8 +175,12 @@ final class TacheController extends AbstractController
     }
 
     // ===================== CALCUL GAMIFICATION =====================
-    private function calculerGamification(array $objectifs, array $taches): array
-    {
+/**
+ * @param \App\Entity\Objectif[] $objectifs
+ * @param \App\Entity\Tache[] $taches
+ * @return array<string, mixed>
+ */
+private function calculerGamification(array $objectifs, array $taches): array    {
         // ── Calcul des points ──
         $tachesTerminees   = array_filter($taches,    fn($t) => $t->getStatut() === 'terminee');
         $objectifsCompletes = array_filter($objectifs, fn($o) => $o->getStatut() === 'complete');
