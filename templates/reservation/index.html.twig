@@ -1,542 +1,77 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Reservations - Fluently{% endblock %}
+{% block title %}Réservations{% endblock %}
 
 {% block body %}
-    <div class="min-vh-100" style="background: linear-gradient(90deg, #b44bd8, #5f7ae6); padding-top: 100px; color: #ecf0f1;">
-        <div class="container py-5">
-            <h2 class="fw-bold text-center mb-4" style="color: #fdfeff;">
-                📋 Gerez les inscriptions aux sessions
-            </h2>
+    <div class="container mt-5 pt-5">
+        <h1 class="fw-bold text-primary mb-5">
+            <i class="fa fa-bookmark me-2"></i> Liste des Réservations
+        </h1>
 
-            <!-- Messages Flash -->
-            {% for message in app.flashes('success') %}
-                <div class="alert alert-success alert-dismissible fade show shadow-sm mb-4" role="alert">
-                    <i class="bi bi-check-circle-fill me-2"></i>
-                    <strong>{{ message }}</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            {% endfor %}
+        {% if app.user and app.user.role == 'professeur' %}
+            <div class="mb-3 text-end">
+                <a href="{{ path('app_reservation_new') }}" class="btn btn-primary">Nouvelle réservation</a>
+            </a>
+        {% endif %}
 
-            {% for message in app.flashes('error') %}
-                <div class="alert alert-danger alert-dismissible fade show shadow-sm mb-4" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    <strong>{{ message }}</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            {% endfor %}
+        <div class="table-responsive shadow-sm">
+            <table class="table table-hover table-bordered align-middle">
+                <thead class="table-dark">
+                    <tr class="text-center">
+                        <th>Date Réservation</th>
+                        <th>Statut</th>
+                        <th>Session</th>
+                        <th>Étudiant</th>
+                        {% if app.user and app.user.role == 'professeur' %}
+                            <th>Actions</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reservation in reservations %}
+                        <tr>
+                            <td class="text-center">{{ reservation.dateReservation ? reservation.dateReservation|date('d/m/Y') : '-' }}</td>
+                            <td class="text-center">
+                                <span class="badge px-3 py-2
+                                    {% if reservation.statut == 'confirmée' %}bg-success text-white
+                                    {% elseif reservation.statut == 'en attente' %}bg-warning text-dark
+                                    {% else %}bg-danger text-white{% endif %}">
+                                    {{ reservation.statut|capitalize }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if reservation.session %}
+                                    {{ reservation.session.dateHeure|date('d/m/Y H:i') }} ({{ reservation.session.group ? reservation.session.group.nom : '?' }})
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>{{ reservation.user ? reservation.user.prenom ~ ' ' ~ reservation.user.nom : '-' }}</td>
 
-            <!-- Filtres -->
-            <div class="card shadow-lg border-0 rounded-4 mb-3 bg-white text-dark">
-                <div class="card-body p-4">
-                    <div class="row g-3">
-                        <!-- Message badge -->
-                        <div class="col-lg-6">
-                            <div class="d-flex align-items-center">
-                                <div class="badge-count p-3 rounded-3 shadow-sm">
-                                    <i class="bi bi-person-check-fill me-2" style="color: #3498db;"></i>
-                                    <strong>{{ reservations.getTotalItemCount }}</strong> reservation{{ reservations.getTotalItemCount > 1 ? 's' : '' }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Boutons d'action -->
-                        <div class="col-lg-6">
-                            <div class="d-flex gap-3">
-                                <a href="{{ path('app_session_index') }}" class="btn btn-info btn-md shadow-sm flex-fill">
-                                    👁️ Voir les sessions
-                                </a>
-                                <button type="button" class="btn btn-primary btn-md shadow-sm flex-fill" data-bs-toggle="modal" data-bs-target="#createReservationModal">
-                                    ➕ Nouvelle reservation
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-                
-            <!-- Tableau -->
-            <div class="card shadow-lg border-0 rounded-4 overflow-hidden bg-white text-dark">
-                <div class="card-header bg-sky-blue text-dark py-3">
-                    <h5 class="mb-0 fw-bold">
-                        <i class="bi bi-list-ul me-2"></i> Reservations enregistrees
-                    </h5>
-                </div>
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-sm mb-0 align-middle">
-                            <thead class="sky-blue-header">
-                                <tr>
-                                    <th class="px-4 py-3" style="width: 8%;">ID</th>
-                                    <th class="px-4 py-3" style="width: 15%;">Date Reservation</th>
-                                    <th class="px-4 py-3" style="width: 15%;">Statut</th>
-                                    <th class="px-4 py-3" style="width: 25%;">Session</th>
-                                    <th class="px-4 py-3" style="width: 22%;">Apprenant</th>
-                                    <th class="text-center px-4 py-3" style="width: 15%;">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {% for reservation in reservations %}
-                                <tr class="align-middle">
-                                    <td class="px-4 py-3">
-                                        <span class="badge rounded-pill px-3 py-2" style="background: linear-gradient(135deg, #9370DB 0%, #B19CD9 100%); color: white;">
-                                            #{{ reservation.id }}
-                                        </span>
-                                    </td>
-                                    <td class="px-4 py-3 small">
-                                        <i class="bi bi-calendar me-1 text-primary"></i>
-                                        {{ reservation.dateReservation ? reservation.dateReservation|date('d/m/Y') : '-' }}
-                                    </td>
-                                    <td class="px-4 py-3">
-                                        {% if reservation.statut == 'confirmee' %}
-                                            <span class="badge rounded-pill px-3 py-2 bg-success">Confirmée</span>
-                                        {% elseif reservation.statut == 'en_attente' %}
-                                            <span class="badge rounded-pill px-3 py-2 bg-warning text-dark">En attente</span>
-                                        {% elseif reservation.statut == 'annulee' %}
-                                            <span class="badge rounded-pill px-3 py-2 bg-danger">Annulée</span>
-                                        {% elseif reservation.statut == 'terminee' %}
-                                            <span class="badge rounded-pill px-3 py-2 bg-info">Terminée</span>
-                                        {% else %}
-                                            <span class="badge rounded-pill px-3 py-2 bg-secondary">{{ reservation.statut }}</span>
-                                        {% endif %}
-                                    </td>
-                                    <td class="px-4 py-3 small">
-                                        {% if reservation.session %}
-                                            <strong>{{ reservation.session.dateHeure|date('d/m/Y H:i') }}</strong><br>
-                                            <small class="text-muted">{{ reservation.session.groupe ? reservation.session.groupe.nom : 'Sans groupe' }}</small>
-                                        {% else %}
-                                            --
-                                        {% endif %}
-                                    </td>
-                                    <td class="px-4 py-3 small">
-                                        {% if reservation.user %}
-                                            <i class="bi bi-person me-1 text-primary"></i>
-                                            {{ reservation.user.prenom is defined ? reservation.user.prenom : '' }} {{ reservation.user.nom is defined ? reservation.user.nom : reservation.user.email }}
-                                        {% else %}
-                                            --
-                                        {% endif %}
-                                    </td>
-                                    <td class="px-4 py-3 text-center">
-                                        <div class="btn-group btn-group-sm" role="group">
-                                            <a href="{{ path('app_reservation_show', {'id': reservation.id}) }}" 
-                                               class="btn btn-see" title="Voir détails">
-                                                👁️ Voir
-                                            </a>
-                                            <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}" 
-                                               class="btn btn-modify" title="Modifier reservation">
-                                                ✏️ Modifier
-                                            </a>
-                                            <button type="button" class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#deleteModal{{ reservation.id }}" title="Supprimer">
-                                                🗑️
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- Modal suppression -->
-                                <div class="modal fade" id="deleteModal{{ reservation.id }}" tabindex="-1">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header bg-danger text-white">
-                                                <h5 class="modal-title">Confirmation de suppression</h5>
-                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Supprimer la reservation de <strong>{{ reservation.user ? (reservation.user.prenom is defined ? reservation.user.prenom ~ ' ' ~ reservation.user.nom : reservation.user.email) : 'cet apprenant' }}</strong> ?
-                                                <br><br>
-                                                <small class="text-muted">Cette action est irreversible.</small>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                                <form method="post" action="{{ path('app_reservation_delete', {'id': reservation.id}) }}" style="display: inline;">
-                                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ reservation.id) }}">
-                                                    <button type="submit" class="btn btn-danger">
-                                                        <i class="bi bi-trash me-1"></i> Supprimer
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </div>
+                            {% if app.user and app.user.role == 'professeur' %}
+                                <td class="text-center">
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="{{ path('app_reservation_show', {'id': reservation.id}) }}" class="btn btn-info">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}" class="btn btn-warning">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        {{ include('reservation/_delete_form.html.twig') }}
                                     </div>
-                                </div>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="card-footer bg-light border-0 py-3">
-                    <div class="d-flex justify-content-center">
-                        {{ knp_pagination_render(reservations) }}
-                    </div>
-                </div>
-            </div>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="{% if app.user and app.user.role == 'professeur' %}5{% else %}4{% endif %}" class="text-center py-5 text-muted fs-5">
+                                <i class="fa fa-folder-open fa-2x mb-3 d-block"></i>
+                                Aucune réservation trouvée
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
-
-    <!-- MODAL CREATION -->
-    <div class="modal fade" id="createReservationModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 700px;">
-            <div class="modal-content">
-                {{ form_start(form_create, {'attr': {'id': 'reservationForm'}}) }}
-                
-                <div class="modal-header bg-sky-blue text-dark py-4">
-                    <h5 class="modal-title fw-bold">
-                        <i class="bi bi-plus-circle me-2"></i> Creer une nouvelle reservation
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-
-                <div class="modal-body p-5 bg-white">
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">{{ form_create.dateReservation.vars.label }}</label>
-                            {{ form_widget(form_create.dateReservation, {'attr': {'class': 'form-control'}}) }}
-                            {{ form_errors(form_create.dateReservation) }}
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">{{ form_create.statut.vars.label }}</label>
-                            {{ form_widget(form_create.statut, {'attr': {'class': 'form-select'}}) }}
-                            {{ form_errors(form_create.statut) }}
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label fw-bold">{{ form_create.session.vars.label }}</label>
-                            {{ form_widget(form_create.session, {'attr': {'class': 'form-select'}}) }}
-                            {{ form_errors(form_create.session) }}
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label fw-bold">{{ form_create.user.vars.label }}</label>
-                            {{ form_widget(form_create.user, {'attr': {'class': 'form-select'}}) }}
-                            {{ form_errors(form_create.user) }}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer border-top-0 bg-white py-4 px-5">
-                    <div class="d-flex gap-3 w-100">
-                        <button type="button" class="btn btn-secondary flex-fill" data-bs-dismiss="modal">
-                            ❌ Annuler
-                        </button>
-                        <button type="submit" class="btn btn-primary flex-fill">
-                            ✅ Creer
-                        </button>
-                    </div>
-                </div>
-
-                {{ form_end(form_create) }}
-            </div>
-        </div>
-    </div>
-{% endblock %}
-
-{% block stylesheets %}
-<style>
-    body {
-        background: linear-gradient(90deg, #b44bd8, #5f7ae6) !important;
-        color: #ecf0f1 !important;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    h2 {
-        color: #fdfeff !important;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        font-size: 2rem;
-    }
-
-    .card {
-        border: none !important;
-        border-radius: 16px !important;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
-        overflow: hidden;
-    }
-
-    /* En-tête de table en bleu ciel */
-    .sky-blue-header {
-        background: linear-gradient(135deg, #87CEEB 0%, #A0D8F3 50%, #87CEEB 100%) !important;
-        color: #2c3e50 !important;
-        border: none !important;
-    }
-
-    .sky-blue-header th {
-        color: #2c3e50 !important;
-        font-weight: 700 !important;
-        text-transform: uppercase;
-        font-size: 0.9rem;
-        letter-spacing: 0.5px;
-        border-bottom: 3px solid rgba(44, 62, 80, 0.15) !important;
-        padding: 16px 20px !important;
-        vertical-align: middle !important;
-    }
-
-    /* Header spécifique pour la modal et card */
-    .bg-sky-blue {
-        background: linear-gradient(135deg, #87CEEB 0%, #A0D8F3 100%) !important;
-        color: #2c3e50 !important;
-    }
-
-    /* Badge count */
-    .badge-count {
-        background: white;
-        border: 2px solid #87CEEB;
-        font-size: 1.1rem;
-        font-weight: 600;
-    }
-
-    /* Boutons d'action avec emojis et couleurs différentes */
-    .btn-see {
-        background: linear-gradient(135deg, #3498db 0%, #2ecc71 100%) !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 8px !important;
-        padding: 0.4rem 0.8rem !important;
-        font-size: 0.85rem !important;
-        font-weight: 600 !important;
-        transition: all 0.3s ease !important;
-        box-shadow: 0 3px 8px rgba(52, 152, 219, 0.25) !important;
-        margin: 0 2px !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 5px !important;
-    }
-
-    .btn-modify {
-        background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%) !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 8px !important;
-        padding: 0.4rem 0.8rem !important;
-        font-size: 0.85rem !important;
-        font-weight: 600 !important;
-        transition: all 0.3s ease !important;
-        box-shadow: 0 3px 8px rgba(155, 89, 182, 0.25) !important;
-        margin: 0 2px !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 5px !important;
-    }
-
-    .btn-delete {
-        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%) !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 8px !important;
-        padding: 0.4rem 0.8rem !important;
-        font-size: 0.85rem !important;
-        font-weight: 600 !important;
-        transition: all 0.3s ease !important;
-        box-shadow: 0 3px 8px rgba(231, 76, 60, 0.25) !important;
-        margin: 0 2px !important;
-    }
-
-    .btn-see:hover {
-        background: linear-gradient(135deg, #2980b9 0%, #27ae60 100%) !important;
-        transform: translateY(-3px) scale(1.05) !important;
-        box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4) !important;
-    }
-
-    .btn-modify:hover {
-        background: linear-gradient(135deg, #8e44ad 0%, #7d3c98 100%) !important;
-        transform: translateY(-3px) scale(1.05) !important;
-        box-shadow: 0 6px 15px rgba(155, 89, 182, 0.4) !important;
-    }
-
-    .btn-delete:hover {
-        background: linear-gradient(135deg, #c0392b 0%, #a93226 100%) !important;
-        transform: translateY(-3px) scale(1.05) !important;
-        box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4) !important;
-    }
-
-    .btn-group-sm {
-        gap: 4px !important;
-        flex-wrap: nowrap !important;
-    }
-
-    /* Style des boutons de formulaire - TAILLE RÉDUITE */
-    .btn-md {
-        padding: 0.6rem 1.2rem !important;
-        font-size: 0.95rem !important;
-        font-weight: 600 !important;
-        border-radius: 10px !important;
-        transition: all 0.3s ease !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 8px !important;
-    }
-
-    /* Style des boutons standards */
-    .btn-success {
-        background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
-        color: white !important;
-        border: none !important;
-    }
-
-    .btn-success:hover {
-        background: linear-gradient(135deg, #218838 0%, #1baa7e 100%) !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 5px 12px rgba(40, 167, 69, 0.4) !important;
-    }
-
-    .btn-danger {
-        background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%) !important;
-        color: white !important;
-        border: none !important;
-    }
-
-    .btn-danger:hover {
-        background: linear-gradient(135deg, #c82333 0%, #e8590c 100%) !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 5px 12px rgba(220, 53, 69, 0.4) !important;
-    }
-
-    .btn-info {
-        background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%) !important;
-        color: white !important;
-        border: none !important;
-    }
-
-    .btn-info:hover {
-        background: linear-gradient(135deg, #138496 0%, #1baa7e 100%) !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 5px 12px rgba(23, 162, 184, 0.4) !important;
-    }
-
-    .btn-primary {
-        background: linear-gradient(135deg, #007bff 0%, #6610f2 100%) !important;
-        color: white !important;
-        border: none !important;
-    }
-
-    .btn-primary:hover {
-        background: linear-gradient(135deg, #0056b3 0%, #520dc2 100%) !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 5px 12px rgba(0, 123, 255, 0.4) !important;
-    }
-
-    .btn-secondary {
-        background: linear-gradient(135deg, #6c757d 0%, #495057 100%) !important;
-        color: white !important;
-        border: none !important;
-    }
-
-    .btn-secondary:hover {
-        background: linear-gradient(135deg, #5a6268 0%, #343a40 100%) !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 5px 12px rgba(108, 117, 125, 0.4) !important;
-    }
-
-    /* Espacement entre les boutons */
-    .gap-3 {
-        gap: 1rem !important;
-    }
-
-    /* Tableau */
-    .table-sm th,
-    .table-sm td {
-        padding: 0.8rem 1rem !important;
-        font-size: 0.9rem;
-        vertical-align: middle !important;
-    }
-
-    .badge {
-        padding: 0.35rem 0.75rem !important;
-        font-weight: 500 !important;
-    }
-
-    /* Champs de formulaire */
-    input[type="date"], input[type="text"], select {
-        background: #f8f9fa !important;
-        color: #2c3e50 !important;
-        border: 1px solid #dee2e6 !important;
-        border-radius: 10px !important;
-        font-weight: 500;
-        padding: 0.75rem 1rem !important;
-    }
-
-    input[type="date"]:focus, input[type="text"]:focus, select:focus {
-        border-color: #3498db !important;
-        box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.2) !important;
-        background: white !important;
-    }
-
-    tbody tr:hover {
-        background-color: rgba(52, 152, 219, 0.05) !important;
-        transition: background-color 0.2s ease;
-    }
-
-    /* Modal */
-    .modal-content {
-        border-radius: 16px !important;
-        overflow: hidden;
-        border: none !important;
-        box-shadow: 0 15px 40px rgba(0,0,0,0.25) !important;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        h2 {
-            font-size: 1.75rem;
-        }
-        
-        .btn-md {
-            padding: 0.5rem 1rem !important;
-            font-size: 0.9rem !important;
-        }
-        
-        .gap-3 {
-            gap: 0.75rem !important;
-        }
-        
-        .sky-blue-header th {
-            padding: 12px 15px !important;
-            font-size: 0.85rem;
-        }
-        
-        .btn-see, .btn-modify, .btn-delete {
-            padding: 0.35rem 0.6rem !important;
-            font-size: 0.8rem !important;
-        }
-    }
-    
-    @media (max-width: 576px) {
-        h2 {
-            font-size: 1.5rem;
-        }
-        
-        .gap-3 {
-            gap: 0.5rem !important;
-        }
-        
-        .btn-md {
-            padding: 0.5rem 0.75rem !important;
-            font-size: 0.85rem !important;
-        }
-        
-        .btn-see, .btn-modify, .btn-delete {
-            padding: 0.3rem 0.5rem !important;
-            font-size: 0.75rem !important;
-            min-width: 60px;
-        }
-        
-        .btn-see span, .btn-modify span {
-            display: none;
-        }
-        
-        .btn-see::before {
-            content: "👁️";
-            font-size: 1rem;
-        }
-        
-        .btn-modify::before {
-            content: "✏️";
-            font-size: 1rem;
-        }
-        
-        .btn-delete::before {
-            content: "🗑️";
-            font-size: 1rem;
-        }
-    }
-</style>
 {% endblock %}

@@ -1,68 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouvelle réservation - Fluently{% endblock %}
+{% block title %}
+    {% if edit %}Modifier{% else %}Nouvelle{% endif %} Réservation
+{% endblock %}
 
 {% block body %}
-    <div class="container py-5" style="margin-top: 100px;">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                
-                <!-- Messages Flash -->
-                {% for message in app.flashes('error') %}
-                    <div class="alert alert-danger alert-dismissible fade show shadow-sm mb-4" role="alert">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                        <strong>{{ message }}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                {% endfor %}
+    <div class="container mt-5 pt-5">
+        <h1 class="text-center fw-bold text-primary mb-5">
+            <i class="fa fa-{% if edit %}edit{% else %}plus-circle{% endif %} me-2"></i>
+            {% if edit %}Modifier la réservation{% else %}Créer une nouvelle réservation{% endif %}
+        </h1>
 
-                <div class="card shadow-lg border-0 rounded-4">
-                    <div class="card-header bg-success text-white py-4">
-                        <h4 class="mb-0 fw-bold">
-                            <i class="bi bi-plus-circle me-2"></i> Créer une nouvelle réservation
-                        </h4>
-                    </div>
-                    <div class="card-body p-4">
-                        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    {{ form_row(form.dateReservation) }}
-                                </div>
-                                <div class="col-md-6">
-                                    {{ form_row(form.statut) }}
-                                </div>
-                                <div class="col-12">
-                                    {{ form_row(form.session) }}
-                                </div>
-                                <div class="col-12">
-                                    {{ form_row(form.user) }}
-                                </div>
-                            </div>
-                            
-                            <div class="mt-4 d-flex gap-2">
-                                <button type="submit" class="btn btn-success px-4">
-                                    <i class="bi bi-check-circle me-1"></i> Créer la réservation
-                                </button>
-                                <a href="{{ path('app_reservation_index') }}" class="btn btn-secondary px-4">
-                                    <i class="bi bi-arrow-left me-1"></i> Retour à la liste
-                                </a>
-                            </div>
-                        {{ form_end(form) }}
-                    </div>
-                </div>
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <div class="mt-4 text-center">
+                <button type="submit" class="btn btn-primary btn-lg px-5">
+                    <i class="fa fa-save me-2"></i> 
+                    {% if edit %}Enregistrer les modifications{% else %}Enregistrer{% endif %}
+                </button>
+                <a href="{{ path('reservation_professeur') }}" class="btn btn-secondary btn-lg px-5 ms-3">
+                    <i class="fa fa-arrow-left me-2"></i> Annuler
+                </a>
             </div>
-        </div>
+        {{ form_end(form) }}
     </div>
-
-    <style>
-        .form-control:focus, .form-select:focus {
-            border-color: #198754;
-            box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
-        }
-        label {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
-    </style>
 {% endblock %}

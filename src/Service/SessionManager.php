@@ -1,5 +1,5 @@
 <?php
-namespace App\service;
+namespace App\Service;
 use App\Entity\Session;
 class SessionManager
 {public function validate(Session $session): bool{

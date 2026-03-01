@@ -1,0 +1,1574 @@
+<?php
+
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Extension\CoreExtension;
+use Twig\Extension\SandboxExtension;
+use Twig\Markup;
+use Twig\Sandbox\SecurityError;
+use Twig\Sandbox\SecurityNotAllowedTagError;
+use Twig\Sandbox\SecurityNotAllowedFilterError;
+use Twig\Sandbox\SecurityNotAllowedFunctionError;
+use Twig\Source;
+use Twig\Template;
+use Twig\TemplateWrapper;
+
+/* calendar/index.html.twig */
+class __TwigTemplate_ddc2632b7c01024ea016f0271938fd81 extends Template
+{
+    private Source $source;
+    /**
+     * @var array<string, Template>
+     */
+    private array $macros = [];
+
+    public function __construct(Environment $env)
+    {
+        parent::__construct($env);
+
+        $this->source = $this->getSourceContext();
+
+        $this->blocks = [
+            'title' => [$this, 'block_title'],
+            'body' => [$this, 'block_body'],
+        ];
+    }
+
+    protected function doGetParent(array $context): bool|string|Template|TemplateWrapper
+    {
+        // line 1
+        return "base.html.twig";
+    }
+
+    protected function doDisplay(array $context, array $blocks = []): iterable
+    {
+        $macros = $this->macros;
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2 = $this->extensions["Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension"];
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2->enter($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "template", "calendar/index.html.twig"));
+
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "template", "calendar/index.html.twig"));
+
+        $this->parent = $this->load("base.html.twig", 1);
+        yield from $this->parent->unwrap()->yield($context, array_merge($this->blocks, $blocks));
+        
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
+
+        
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
+
+    }
+
+    // line 3
+    /**
+     * @return iterable<null|scalar|\Stringable>
+     */
+    public function block_title(array $context, array $blocks = []): iterable
+    {
+        $macros = $this->macros;
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2 = $this->extensions["Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension"];
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2->enter($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "title"));
+
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "title"));
+
+        yield "Calendrier Fluently";
+        
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
+
+        
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
+
+        yield from [];
+    }
+
+    // line 5
+    /**
+     * @return iterable<null|scalar|\Stringable>
+     */
+    public function block_body(array $context, array $blocks = []): iterable
+    {
+        $macros = $this->macros;
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2 = $this->extensions["Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension"];
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2->enter($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
+
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
+
+        // line 6
+        yield "
+<style>
+/* ══════════════════════════════════════
+   GLOBAL & ANIMATIONS
+══════════════════════════════════════ */
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(108,60,225,0.4); }
+    50%       { box-shadow: 0 0 0 12px rgba(108,60,225,0); }
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-6px); }
+}
+@keyframes glow {
+    0%, 100% { text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+    50%       { text-shadow: 0 0 25px rgba(255,255,255,0.6); }
+}
+
+/* ✅ MÊME background que le footer Fluently */
+body {
+    background: linear-gradient(135deg, #7b1fa2 0%, #4a148c 30%, #1565c0 70%, #0d47a1 100%) !important;
+    min-height: 100vh;
+}
+
+#ftco-navbar {
+    background: rgba(74,20,140,0.92) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ── TITRE ── */
+/* ── TITRE ── */
+.page-title {
+    animation: fadeInDown 0.6s ease;
+    background: linear-gradient(135deg, #fff 0%, #f8bbd0 50%, #ce93d8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
+}
+/* Zone titre avec fond légèrement plus sombre */
+.title-zone {
+    background: rgba(0,0,0,0.15);
+    padding: 30px 0 20px 0;
+    margin-bottom: 30px;
+    border-radius: 0 0 20px 20px;
+}
+
+/* ── BLOC LUNA ── */
+.luna-wrapper {
+    animation: fadeInDown 0.8s ease;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 16px;
+    padding: 20px 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    backdrop-filter: blur(10px);
+}
+.luna-wrapper .input-group {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    border-radius: 12px;
+    overflow: hidden;
+}
+.luna-wrapper .form-control {
+    background: rgba(255,255,255,0.12);
+    border: none;
+    color: #fff;
+    font-size: 0.95rem;
+    padding: 14px 18px;
+}
+.luna-wrapper .form-control::placeholder { color: rgba(255,255,255,0.5); }
+.luna-wrapper .form-control:focus {
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+    box-shadow: none;
+}
+.luna-wrapper .input-group-text {
+    background: rgba(249,109,0,0.6);
+    border: none;
+    padding: 0 18px;
+    font-size: 1.1rem;
+}
+#ia-btn {
+    background: linear-gradient(135deg, #F96D00, #7b1fa2);
+    border: none;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 14px 24px;
+    transition: all 0.3s ease;
+    color: #fff;
+}
+#ia-btn:hover {
+    background: linear-gradient(135deg, #ff8f00, #4a148c);
+    transform: translateX(3px);
+    box-shadow: 0 0 20px rgba(249,109,0,0.4);
+    color: #fff;
+}
+
+/* ── LÉGENDE ── */
+.legend-badge {
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+    border: 1px solid rgba(255,255,255,0.15);
+}
+.legend-badge:hover { transform: translateY(-2px); }
+
+/* ── CALENDRIER ── */
+#calendar-wrapper {
+    animation: fadeInDown 1s ease;
+    background: rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+}
+#calendar .fc-theme-standard td,
+#calendar .fc-theme-standard th,
+#calendar .fc-theme-standard .fc-scrollgrid { border-color: rgba(255,255,255,0.15); }
+#calendar .fc-col-header-cell-cushion,
+#calendar .fc-daygrid-day-number { color: rgba(255,255,255,0.9); font-weight: 600; text-decoration: none; }
+#calendar .fc-toolbar-title { color: #fff; font-weight: 800; font-size: 1.4rem; }
+#calendar .fc-button {
+    background: rgba(255,255,255,0.15) !important;
+    border: 1px solid rgba(255,255,255,0.25) !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    transition: all 0.2s !important;
+}
+#calendar .fc-button:hover {
+    background: rgba(255,255,255,0.28) !important;
+    box-shadow: 0 0 15px rgba(255,255,255,0.15) !important;
+    transform: translateY(-1px);
+}
+#calendar .fc-button-active {
+    background: rgba(249,109,0,0.7) !important;
+    box-shadow: 0 0 15px rgba(249,109,0,0.3) !important;
+}
+#calendar .fc-daygrid-day.fc-day-today {
+    background: rgba(249,109,0,0.2) !important;
+    border: 1px solid rgba(249,109,0,0.5) !important;
+}
+#calendar .fc-event {
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 3px 7px;
+    border-radius: 6px !important;
+    cursor: pointer;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+#calendar .fc-event:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+}
+#calendar .fc-daygrid-day:hover { background: rgba(255,255,255,0.07) !important; }
+#calendar .fc-col-header-cell { background: rgba(255,255,255,0.08); }
+#calendar .fc-scrollgrid { border-radius: 12px; overflow: hidden; }
+
+/* ══════════════════════════════════════
+   MODALE — JS PUR (sans Bootstrap)
+══════════════════════════════════════ */
+#sessionModal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1055;
+    overflow-x: hidden;
+    overflow-y: auto;
+    outline: 0;
+}
+
+#sessionModal .modal-dialog {
+    max-width: 750px;
+    margin: 50px auto;
+}
+
+#sessionModal .modal-content {
+    background: linear-gradient(160deg, #4a148c, #1565c0) !important;
+    border: 1px solid rgba(255,255,255,0.25) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6) !important;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+}
+
+#sessionModal .modal-header {
+    background: rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.15) !important;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#sessionModal .modal-body { padding: 24px; }
+
+#sessionModal .modal-footer {
+    border-top: 1px solid rgba(255,255,255,0.15) !important;
+    background: rgba(0,0,0,0.1);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+#sessionModal .modal-title-text {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #fff;
+}
+
+/* ✅ Bouton ✕ */
+.btn-close-modal {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    color: #fff;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    padding: 0;
+    flex-shrink: 0;
+}
+.btn-close-modal:hover {
+    background: rgba(255,71,87,0.4);
+    border-color: rgba(255,71,87,0.6);
+    transform: rotate(90deg);
+}
+
+.modal-info-item {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    border-radius: 10px !important;
+    margin-bottom: 8px;
+    padding: 12px 16px !important;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff !important;
+}
+.modal-info-item:hover { background: rgba(255,255,255,0.14); }
+.modal-info-item i { width: 20px; text-align: center; color: #f8bbd0; }
+.modal-info-item strong { color: rgba(255,255,255,0.75); margin-right: 6px; }
+
+/* QR Code */
+.qr-wrapper {
+    background: linear-gradient(135deg, #fff, #f0f0ff);
+    border-radius: 16px;
+    padding: 16px;
+    display: inline-block;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    animation: float 3s ease-in-out infinite;
+}
+.qr-label {
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+/* Boutons modale */
+.btn-reservation {
+    background: rgba(249,109,0,0.7);
+    border: 1px solid rgba(249,109,0,0.5);
+    border-radius: 12px;
+    color: #fff !important;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 14px 20px;
+    width: 100%;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+}
+.btn-reservation:hover {
+    background: rgba(249,109,0,0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(249,109,0,0.4);
+    color: #fff !important;
+}
+.btn-reunion {
+    background: linear-gradient(135deg, #00C853, #00897B);
+    border: none;
+    border-radius: 12px;
+    color: #fff !important;
+    font-weight: 700;
+    padding: 14px 20px;
+    width: 100%;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+}
+.btn-reunion:hover {
+    background: linear-gradient(135deg, #00e676, #00bcd4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,200,83,0.4);
+    color: #fff !important;
+}
+
+.places-badge {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    color: #fff;
+    font-weight: 600;
+}
+
+.btn-fermer-modal {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.btn-fermer-modal:hover {
+    background: rgba(255,255,255,0.22);
+    transform: translateY(-1px);
+}
+
+/* ── RÉSULTATS LUNA ── */
+.luna-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    backdrop-filter: blur(5px);
+}
+.luna-header {
+    background: rgba(249,109,0,0.5);
+    padding: 14px 20px;
+    font-weight: 700;
+    color: #fff;
+}
+.luna-item {
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+    padding: 16px 20px !important;
+    transition: background 0.2s;
+    color: #fff;
+}
+.luna-item:hover { background: rgba(255,255,255,0.08); }
+
+/* Backdrop modale */
+.session-backdrop {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.55);
+    z-index: 1050;
+    backdrop-filter: blur(3px);
+}
+</style>
+
+<div class=\"container\" style=\"padding-top: 100px; padding-bottom: 100px;\">
+    <div class=\"title-zone text-center\">
+        <h1 class=\"page-title mb-0\">
+            <i class=\"fa fa-calendar mr-2\"></i> Calendrier des Sessions
+        </h1>
+    </div>
+
+    ";
+        // line 399
+        yield "    <div class=\"luna-wrapper w-75 mx-auto mb-4\">
+        <div class=\"d-flex align-items-center mb-3\">
+            <span style=\"color:#fff; font-weight:800; font-size:1.1rem;\">
+                <i class=\"fa fa-magic mr-2\" style=\"color:#f8bbd0;\"></i>LUNA — Recommandation IA
+            </span>
+        </div>
+        <div class=\"input-group\">
+            <span class=\"input-group-text\">
+                <i class=\"fa fa-magic text-white\"></i>
+            </span>
+            <input type=\"text\" id=\"ia-question\" class=\"form-control\"
+                   placeholder=\"Ex : je suis en niveau A2, quelles sessions me conviennent ?\">
+            <button id=\"ia-btn\" class=\"btn text-white px-4\">
+                <i class=\"fa fa-paper-plane mr-2\"></i> Demander à LUNA
+            </button>
+        </div>
+        <div id=\"ia-result\" class=\"mt-3\"></div>
+    </div>
+
+    ";
+        // line 419
+        yield "    <div class=\"d-flex justify-content-center mb-4 flex-wrap\" style=\"gap:12px;\">
+        <span class=\"legend-badge\" style=\"background:rgba(108,60,225,0.5);color:#fff;\">● Planifiée</span>
+        <span class=\"legend-badge\" style=\"background:rgba(0,200,83,0.5);color:#fff;\">● En cours</span>
+        <span class=\"legend-badge\" style=\"background:rgba(107,107,138,0.5);color:#fff;\">● Terminée</span>
+        <span class=\"legend-badge\" style=\"background:rgba(255,71,87,0.5);color:#fff;\">● Annulée</span>
+    </div>
+
+    ";
+        // line 427
+        yield "    <div id=\"calendar-wrapper\">
+        <div id=\"calendar\" style=\"min-height:650px;\"></div>
+    </div>
+</div>
+
+";
+        // line 435
+        yield "<div id=\"sessionModal\" aria-hidden=\"true\">
+    <div class=\"modal-dialog modal-dialog-centered\">
+        <div class=\"modal-content\">
+
+            <div class=\"modal-header\">
+                <div class=\"d-flex align-items-center\" style=\"gap:10px;\">
+                    <span style=\"background:rgba(249,109,0,0.7);padding:8px 10px;border-radius:10px;\">
+                        <i class=\"fa fa-calendar-check-o\" style=\"color:#fff;\"></i>
+                    </span>
+                    <span class=\"modal-title-text\" id=\"modalTitleText\"></span>
+                </div>
+                <button type=\"button\" id=\"btnSessionClose\" class=\"btn-close-modal\">
+                    &times;
+                </button>
+            </div>
+
+            <div class=\"modal-body\" style=\"padding:24px;\">
+                <div class=\"row\">
+                    <div class=\"col-md-7\">
+                        <ul class=\"list-unstyled mb-0\" id=\"modalInfoList\"></ul>
+                        <div class=\"mt-3\" id=\"modalReunionBlock\" style=\"display:none;\">
+                            <a id=\"modalReunionLink\" href=\"#\" target=\"_blank\" class=\"btn-reunion\">
+                                <i class=\"fa fa-video-camera mr-2\"></i> Rejoindre la réunion
+                            </a>
+                        </div>
+                        <div class=\"mt-3\">
+                            <a id=\"modalReservationsBtn\" href=\"#\" class=\"btn-reservation\">
+                                <i class=\"fa fa-calendar-check-o mr-2\"></i> Voir mes réservations
+                            </a>
+                        </div>
+                    </div>
+                    <div class=\"col-md-5 text-center d-flex flex-column align-items-center justify-content-center\">
+                        <p class=\"qr-label mb-3\">
+                            <i class=\"fa fa-qrcode mr-1\"></i> Scanner pour réserver
+                        </p>
+                        <div class=\"qr-wrapper\">
+                            <img id=\"modalQrCode\" src=\"\" alt=\"QR Code\" style=\"width:190px;height:190px;display:block;\">
+                        </div>
+                        <p class=\"mt-3 small\" style=\"color:rgba(255,255,255,0.6);\">
+                            <i class=\"fa fa-mobile mr-1\"></i> Scannez pour réserver instantanément
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class=\"modal-footer\">
+                <span id=\"modalPlacesInfo\" class=\"mr-auto places-badge\"></span>
+                <button type=\"button\" id=\"btnSessionCloseBottom\" class=\"btn-fermer-modal\">
+                    <i class=\"fa fa-times mr-1\"></i> Fermer
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src=\"https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js\"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    var eventsUrl       = \"";
+        // line 496
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("calendar_events");
+        yield "\";
+    var reservationsUrl = \"";
+        // line 497
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("reservation_calendar");
+        yield "\";
+    var recommendUrl    = \"";
+        // line 498
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("calendar_recommend");
+        yield "\";
+
+    // ══ MODALE JS PUR ══
+    function openSessionModal() {
+        var backdrop = document.createElement('div');
+        backdrop.className = 'session-backdrop';
+        backdrop.id = 'sessionBackdrop';
+        document.body.appendChild(backdrop);
+        document.getElementById('sessionModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        backdrop.addEventListener('click', closeSessionModal);
+    }
+
+    function closeSessionModal() {
+        document.getElementById('sessionModal').style.display = 'none';
+        document.body.style.overflow = '';
+        var backdrop = document.getElementById('sessionBackdrop');
+        if (backdrop) backdrop.remove();
+    }
+
+    document.getElementById('btnSessionClose').addEventListener('click', closeSessionModal);
+    document.getElementById('btnSessionCloseBottom').addEventListener('click', closeSessionModal);
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeSessionModal();
+    });
+
+    // ══ FULLCALENDAR ══
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'fr',
+        height: 650,
+        headerToolbar: {
+            left:   'prev,next today',
+            center: 'title',
+            right:  'dayGridMonth,timeGridWeek,listWeek'
+        },
+        buttonText: {
+            today: \"Aujourd'hui\",
+            month: 'Mois',
+            week:  'Semaine',
+            list:  'Liste'
+        },
+        themeSystem: 'standard',
+        events: eventsUrl,
+
+        eventSourceFailure: function(error) {
+            console.error('Erreur FullCalendar:', error);
+        },
+
+        loading: function(isLoading) {
+            calendarEl.style.opacity    = isLoading ? '0.4' : '1';
+            calendarEl.style.transition = 'opacity 0.3s';
+        },
+
+        eventClick: function(info) {
+            info.jsEvent.preventDefault();
+
+            var ev    = info.event;
+            var props = ev.extendedProps;
+            var id    = ev.id;
+
+            document.getElementById('modalTitleText').textContent = ev.title;
+
+            var dateStr = ev.start
+                ? ev.start.toLocaleString('fr-FR', {
+                    weekday:'long', day:'2-digit', month:'long',
+                    year:'numeric', hour:'2-digit', minute:'2-digit'
+                  })
+                : '-';
+
+            var statutColors = {
+                'planifiée': 'linear-gradient(135deg,#6C3CE1,#9b59b6)',
+                'en cours':  'linear-gradient(135deg,#00C853,#00897B)',
+                'en_cours':  'linear-gradient(135deg,#00C853,#00897B)',
+                'terminée':  'linear-gradient(135deg,#6B6B8A,#4a4a6a)',
+                'annulée':   'linear-gradient(135deg,#FF4757,#c0392b)'
+            };
+            var statut         = (props.statut || '').toLowerCase();
+            var statutGradient = statutColors[statut] || ev.backgroundColor;
+
+            document.getElementById('modalInfoList').innerHTML =
+                makeItem('fa-calendar',          'Date',      dateStr)              +
+                makeItem('fa-users',             'Groupe',    props.groupe    || '-') +
+                makeItem('fa-signal',            'Niveau',    props.niveau    || '-') +
+                makeItem('fa-language',          'Langue',    props.langue    || '-') +
+                makeItem('fa-user',              'Formateur', props.formateur || '-') +
+                '<li class=\"modal-info-item\">' +
+                    '<i class=\"fa fa-tag\"></i>' +
+                    '<strong>Statut :</strong>' +
+                    '<span style=\"background:' + statutGradient + ';padding:4px 12px;border-radius:20px;color:#fff;margin-left:6px;font-size:0.82rem;font-weight:700;\">' +
+                        (props.statut || '-') +
+                    '</span>' +
+                '</li>';
+
+            document.getElementById('modalPlacesInfo').innerHTML =
+                '<i class=\"fa fa-users mr-1\"></i>' +
+                '<strong>' + (props.placesRestantes || 0) + '</strong> / ' +
+                (props.capacite || 0) + ' places disponibles';
+
+            var reunionBlock = document.getElementById('modalReunionBlock');
+            if (props.lienReunion) {
+                document.getElementById('modalReunionLink').href = props.lienReunion;
+                reunionBlock.style.display = 'block';
+            } else {
+                reunionBlock.style.display = 'none';
+            }
+
+            document.getElementById('modalReservationsBtn').href = reservationsUrl;
+            document.getElementById('modalQrCode').src = '/calendar/qrcode/' + id;
+
+            openSessionModal();
+        },
+
+        eventDidMount: function(info) {
+            info.el.style.cursor       = 'pointer';
+            info.el.style.borderRadius = '6px';
+            info.el.title              = info.event.title;
+        }
+    });
+
+    calendar.render();
+
+    function makeItem(icon, label, value) {
+        return '<li class=\"modal-info-item\">' +
+            '<i class=\"fa ' + icon + '\"></i>' +
+            '<strong>' + label + ' :</strong> ' + value +
+        '</li>';
+    }
+
+    // ══ LUNA ══
+    document.getElementById('ia-btn').addEventListener('click', function () {
+        var question = document.getElementById('ia-question').value.trim();
+        var result   = document.getElementById('ia-result');
+
+        if (!question) {
+            result.innerHTML = '<div style=\"background:rgba(255,193,7,0.15);border:1px solid rgba(255,193,7,0.3);color:#ffc107;border-radius:10px;padding:12px;\">Veuillez saisir votre niveau (ex: A2, B1...)</div>';
+            return;
+        }
+
+        result.innerHTML =
+            '<div class=\"text-center py-3\" style=\"color:#fff;\">' +
+                '<div class=\"spinner-border\" style=\"color:rgba(255,255,255,0.7);\" role=\"status\"></div>' +
+                '<p class=\"mt-2 small\">LUNA analyse votre demande...</p>' +
+            '</div>';
+
+        fetch(recommendUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'question=' + encodeURIComponent(question)
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            result.innerHTML = '';
+
+            if (data.error) {
+                result.innerHTML = '<div style=\"background:rgba(255,71,87,0.15);border:1px solid rgba(255,71,87,0.3);color:#ff6b6b;border-radius:10px;padding:12px;\"><i class=\"fa fa-exclamation-circle mr-2\"></i>' + data.error + '</div>';
+                return;
+            }
+
+            if (!data.recommendations || data.recommendations.length === 0) {
+                result.innerHTML = '<div style=\"background:rgba(255,193,7,0.15);border:1px solid rgba(255,193,7,0.3);color:#ffc107;border-radius:10px;padding:12px;\"><i class=\"fa fa-info-circle mr-2\"></i>Aucune session disponible pour le niveau <strong>' + data.niveau + '</strong>.</div>';
+                return;
+            }
+
+            var html =
+                '<div class=\"luna-card\">' +
+                    '<div class=\"luna-header\">' +
+                        '<i class=\"fa fa-magic mr-2\"></i>LUNA recommande pour le niveau ' +
+                        '<span style=\"background:rgba(255,255,255,0.25);padding:2px 10px;border-radius:20px;margin-left:4px;\">' + data.niveau + '</span>' +
+                    '</div>' +
+                    '<ul class=\"list-unstyled mb-0\">';
+
+            data.recommendations.forEach(function(r) {
+                html +=
+                    '<li class=\"luna-item\">' +
+                        '<div class=\"d-flex justify-content-between align-items-center\">' +
+                            '<div>' +
+                                '<i class=\"fa fa-calendar-check-o mr-2\" style=\"color:#f8bbd0;\"></i>' +
+                                '<strong style=\"color:#fff;\">' + r.groupe + '</strong>' +
+                                '<span style=\"color:rgba(255,255,255,0.5);margin:0 8px;\">—</span>' +
+                                '<span style=\"color:rgba(255,255,255,0.8);\">' + r.date + '</span>' +
+                            '</div>' +
+                            '<span style=\"background:linear-gradient(135deg,#00C853,#00897B);padding:5px 12px;border-radius:20px;color:#fff;font-size:0.78rem;font-weight:700;\">' + r.places + ' place(s)</span>' +
+                        '</div>' +
+                        '<div class=\"mt-2 d-flex\" style=\"gap:8px;\">' +
+                            '<a href=\"/reservation/new?session_id=' + r.id + '\" ' +
+                               'style=\"background:rgba(249,109,0,0.6);border:1px solid rgba(249,109,0,0.4);color:#fff;padding:7px 16px;border-radius:8px;font-size:0.82rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;\">' +
+                                '<i class=\"fa fa-bookmark\"></i> Réserver' +
+                            '</a>' +
+                            '<button onclick=\"scrollToCalendar()\" ' +
+                                    'style=\"background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:7px 16px;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;\">' +
+                                '<i class=\"fa fa-search\"></i> Voir calendrier' +
+                            '</button>' +
+                        '</div>' +
+                    '</li>';
+            });
+
+            html += '</ul></div>';
+            result.innerHTML = html;
+        })
+        .catch(function(err) {
+            console.error(err);
+            result.innerHTML = '<div style=\"background:rgba(255,71,87,0.15);border:1px solid rgba(255,71,87,0.3);color:#ff6b6b;border-radius:10px;padding:12px;\"><i class=\"fa fa-exclamation-triangle mr-2\"></i>Erreur de connexion à LUNA.</div>';
+        });
+    });
+
+    document.getElementById('ia-question').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') document.getElementById('ia-btn').click();
+    });
+
+    window.scrollToCalendar = function() {
+        window.scrollTo({ top: document.getElementById('calendar-wrapper').offsetTop - 80, behavior: 'smooth' });
+    };
+
+});
+</script>
+";
+        
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
+
+        
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
+
+        yield from [];
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function getTemplateName(): string
+    {
+        return "calendar/index.html.twig";
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function isTraitable(): bool
+    {
+        return false;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function getDebugInfo(): array
+    {
+        return array (  602 => 498,  598 => 497,  594 => 496,  531 => 435,  524 => 427,  515 => 419,  494 => 399,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+    }
+
+    public function getSourceContext(): Source
+    {
+        return new Source("{% extends 'base.html.twig' %}
+
+{% block title %}Calendrier Fluently{% endblock %}
+
+{% block body %}
+
+<style>
+/* ══════════════════════════════════════
+   GLOBAL & ANIMATIONS
+══════════════════════════════════════ */
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(108,60,225,0.4); }
+    50%       { box-shadow: 0 0 0 12px rgba(108,60,225,0); }
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-6px); }
+}
+@keyframes glow {
+    0%, 100% { text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+    50%       { text-shadow: 0 0 25px rgba(255,255,255,0.6); }
+}
+
+/* ✅ MÊME background que le footer Fluently */
+body {
+    background: linear-gradient(135deg, #7b1fa2 0%, #4a148c 30%, #1565c0 70%, #0d47a1 100%) !important;
+    min-height: 100vh;
+}
+
+#ftco-navbar {
+    background: rgba(74,20,140,0.92) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ── TITRE ── */
+/* ── TITRE ── */
+.page-title {
+    animation: fadeInDown 0.6s ease;
+    background: linear-gradient(135deg, #fff 0%, #f8bbd0 50%, #ce93d8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
+}
+/* Zone titre avec fond légèrement plus sombre */
+.title-zone {
+    background: rgba(0,0,0,0.15);
+    padding: 30px 0 20px 0;
+    margin-bottom: 30px;
+    border-radius: 0 0 20px 20px;
+}
+
+/* ── BLOC LUNA ── */
+.luna-wrapper {
+    animation: fadeInDown 0.8s ease;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 16px;
+    padding: 20px 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    backdrop-filter: blur(10px);
+}
+.luna-wrapper .input-group {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    border-radius: 12px;
+    overflow: hidden;
+}
+.luna-wrapper .form-control {
+    background: rgba(255,255,255,0.12);
+    border: none;
+    color: #fff;
+    font-size: 0.95rem;
+    padding: 14px 18px;
+}
+.luna-wrapper .form-control::placeholder { color: rgba(255,255,255,0.5); }
+.luna-wrapper .form-control:focus {
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+    box-shadow: none;
+}
+.luna-wrapper .input-group-text {
+    background: rgba(249,109,0,0.6);
+    border: none;
+    padding: 0 18px;
+    font-size: 1.1rem;
+}
+#ia-btn {
+    background: linear-gradient(135deg, #F96D00, #7b1fa2);
+    border: none;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 14px 24px;
+    transition: all 0.3s ease;
+    color: #fff;
+}
+#ia-btn:hover {
+    background: linear-gradient(135deg, #ff8f00, #4a148c);
+    transform: translateX(3px);
+    box-shadow: 0 0 20px rgba(249,109,0,0.4);
+    color: #fff;
+}
+
+/* ── LÉGENDE ── */
+.legend-badge {
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+    border: 1px solid rgba(255,255,255,0.15);
+}
+.legend-badge:hover { transform: translateY(-2px); }
+
+/* ── CALENDRIER ── */
+#calendar-wrapper {
+    animation: fadeInDown 1s ease;
+    background: rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+}
+#calendar .fc-theme-standard td,
+#calendar .fc-theme-standard th,
+#calendar .fc-theme-standard .fc-scrollgrid { border-color: rgba(255,255,255,0.15); }
+#calendar .fc-col-header-cell-cushion,
+#calendar .fc-daygrid-day-number { color: rgba(255,255,255,0.9); font-weight: 600; text-decoration: none; }
+#calendar .fc-toolbar-title { color: #fff; font-weight: 800; font-size: 1.4rem; }
+#calendar .fc-button {
+    background: rgba(255,255,255,0.15) !important;
+    border: 1px solid rgba(255,255,255,0.25) !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    transition: all 0.2s !important;
+}
+#calendar .fc-button:hover {
+    background: rgba(255,255,255,0.28) !important;
+    box-shadow: 0 0 15px rgba(255,255,255,0.15) !important;
+    transform: translateY(-1px);
+}
+#calendar .fc-button-active {
+    background: rgba(249,109,0,0.7) !important;
+    box-shadow: 0 0 15px rgba(249,109,0,0.3) !important;
+}
+#calendar .fc-daygrid-day.fc-day-today {
+    background: rgba(249,109,0,0.2) !important;
+    border: 1px solid rgba(249,109,0,0.5) !important;
+}
+#calendar .fc-event {
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 3px 7px;
+    border-radius: 6px !important;
+    cursor: pointer;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+#calendar .fc-event:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+}
+#calendar .fc-daygrid-day:hover { background: rgba(255,255,255,0.07) !important; }
+#calendar .fc-col-header-cell { background: rgba(255,255,255,0.08); }
+#calendar .fc-scrollgrid { border-radius: 12px; overflow: hidden; }
+
+/* ══════════════════════════════════════
+   MODALE — JS PUR (sans Bootstrap)
+══════════════════════════════════════ */
+#sessionModal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1055;
+    overflow-x: hidden;
+    overflow-y: auto;
+    outline: 0;
+}
+
+#sessionModal .modal-dialog {
+    max-width: 750px;
+    margin: 50px auto;
+}
+
+#sessionModal .modal-content {
+    background: linear-gradient(160deg, #4a148c, #1565c0) !important;
+    border: 1px solid rgba(255,255,255,0.25) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6) !important;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+}
+
+#sessionModal .modal-header {
+    background: rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.15) !important;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#sessionModal .modal-body { padding: 24px; }
+
+#sessionModal .modal-footer {
+    border-top: 1px solid rgba(255,255,255,0.15) !important;
+    background: rgba(0,0,0,0.1);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+#sessionModal .modal-title-text {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #fff;
+}
+
+/* ✅ Bouton ✕ */
+.btn-close-modal {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    color: #fff;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    padding: 0;
+    flex-shrink: 0;
+}
+.btn-close-modal:hover {
+    background: rgba(255,71,87,0.4);
+    border-color: rgba(255,71,87,0.6);
+    transform: rotate(90deg);
+}
+
+.modal-info-item {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    border-radius: 10px !important;
+    margin-bottom: 8px;
+    padding: 12px 16px !important;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff !important;
+}
+.modal-info-item:hover { background: rgba(255,255,255,0.14); }
+.modal-info-item i { width: 20px; text-align: center; color: #f8bbd0; }
+.modal-info-item strong { color: rgba(255,255,255,0.75); margin-right: 6px; }
+
+/* QR Code */
+.qr-wrapper {
+    background: linear-gradient(135deg, #fff, #f0f0ff);
+    border-radius: 16px;
+    padding: 16px;
+    display: inline-block;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    animation: float 3s ease-in-out infinite;
+}
+.qr-label {
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+/* Boutons modale */
+.btn-reservation {
+    background: rgba(249,109,0,0.7);
+    border: 1px solid rgba(249,109,0,0.5);
+    border-radius: 12px;
+    color: #fff !important;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 14px 20px;
+    width: 100%;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+}
+.btn-reservation:hover {
+    background: rgba(249,109,0,0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(249,109,0,0.4);
+    color: #fff !important;
+}
+.btn-reunion {
+    background: linear-gradient(135deg, #00C853, #00897B);
+    border: none;
+    border-radius: 12px;
+    color: #fff !important;
+    font-weight: 700;
+    padding: 14px 20px;
+    width: 100%;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+}
+.btn-reunion:hover {
+    background: linear-gradient(135deg, #00e676, #00bcd4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,200,83,0.4);
+    color: #fff !important;
+}
+
+.places-badge {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    color: #fff;
+    font-weight: 600;
+}
+
+.btn-fermer-modal {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.btn-fermer-modal:hover {
+    background: rgba(255,255,255,0.22);
+    transform: translateY(-1px);
+}
+
+/* ── RÉSULTATS LUNA ── */
+.luna-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    backdrop-filter: blur(5px);
+}
+.luna-header {
+    background: rgba(249,109,0,0.5);
+    padding: 14px 20px;
+    font-weight: 700;
+    color: #fff;
+}
+.luna-item {
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+    padding: 16px 20px !important;
+    transition: background 0.2s;
+    color: #fff;
+}
+.luna-item:hover { background: rgba(255,255,255,0.08); }
+
+/* Backdrop modale */
+.session-backdrop {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.55);
+    z-index: 1050;
+    backdrop-filter: blur(3px);
+}
+</style>
+
+<div class=\"container\" style=\"padding-top: 100px; padding-bottom: 100px;\">
+    <div class=\"title-zone text-center\">
+        <h1 class=\"page-title mb-0\">
+            <i class=\"fa fa-calendar mr-2\"></i> Calendrier des Sessions
+        </h1>
+    </div>
+
+    {# ── BLOC LUNA ── #}
+    <div class=\"luna-wrapper w-75 mx-auto mb-4\">
+        <div class=\"d-flex align-items-center mb-3\">
+            <span style=\"color:#fff; font-weight:800; font-size:1.1rem;\">
+                <i class=\"fa fa-magic mr-2\" style=\"color:#f8bbd0;\"></i>LUNA — Recommandation IA
+            </span>
+        </div>
+        <div class=\"input-group\">
+            <span class=\"input-group-text\">
+                <i class=\"fa fa-magic text-white\"></i>
+            </span>
+            <input type=\"text\" id=\"ia-question\" class=\"form-control\"
+                   placeholder=\"Ex : je suis en niveau A2, quelles sessions me conviennent ?\">
+            <button id=\"ia-btn\" class=\"btn text-white px-4\">
+                <i class=\"fa fa-paper-plane mr-2\"></i> Demander à LUNA
+            </button>
+        </div>
+        <div id=\"ia-result\" class=\"mt-3\"></div>
+    </div>
+
+    {# ── LÉGENDE ── #}
+    <div class=\"d-flex justify-content-center mb-4 flex-wrap\" style=\"gap:12px;\">
+        <span class=\"legend-badge\" style=\"background:rgba(108,60,225,0.5);color:#fff;\">● Planifiée</span>
+        <span class=\"legend-badge\" style=\"background:rgba(0,200,83,0.5);color:#fff;\">● En cours</span>
+        <span class=\"legend-badge\" style=\"background:rgba(107,107,138,0.5);color:#fff;\">● Terminée</span>
+        <span class=\"legend-badge\" style=\"background:rgba(255,71,87,0.5);color:#fff;\">● Annulée</span>
+    </div>
+
+    {# ── CALENDRIER ── #}
+    <div id=\"calendar-wrapper\">
+        <div id=\"calendar\" style=\"min-height:650px;\"></div>
+    </div>
+</div>
+
+{# ══════════════════════════════════════
+   MODALE — 100% JS PUR
+══════════════════════════════════════ #}
+<div id=\"sessionModal\" aria-hidden=\"true\">
+    <div class=\"modal-dialog modal-dialog-centered\">
+        <div class=\"modal-content\">
+
+            <div class=\"modal-header\">
+                <div class=\"d-flex align-items-center\" style=\"gap:10px;\">
+                    <span style=\"background:rgba(249,109,0,0.7);padding:8px 10px;border-radius:10px;\">
+                        <i class=\"fa fa-calendar-check-o\" style=\"color:#fff;\"></i>
+                    </span>
+                    <span class=\"modal-title-text\" id=\"modalTitleText\"></span>
+                </div>
+                <button type=\"button\" id=\"btnSessionClose\" class=\"btn-close-modal\">
+                    &times;
+                </button>
+            </div>
+
+            <div class=\"modal-body\" style=\"padding:24px;\">
+                <div class=\"row\">
+                    <div class=\"col-md-7\">
+                        <ul class=\"list-unstyled mb-0\" id=\"modalInfoList\"></ul>
+                        <div class=\"mt-3\" id=\"modalReunionBlock\" style=\"display:none;\">
+                            <a id=\"modalReunionLink\" href=\"#\" target=\"_blank\" class=\"btn-reunion\">
+                                <i class=\"fa fa-video-camera mr-2\"></i> Rejoindre la réunion
+                            </a>
+                        </div>
+                        <div class=\"mt-3\">
+                            <a id=\"modalReservationsBtn\" href=\"#\" class=\"btn-reservation\">
+                                <i class=\"fa fa-calendar-check-o mr-2\"></i> Voir mes réservations
+                            </a>
+                        </div>
+                    </div>
+                    <div class=\"col-md-5 text-center d-flex flex-column align-items-center justify-content-center\">
+                        <p class=\"qr-label mb-3\">
+                            <i class=\"fa fa-qrcode mr-1\"></i> Scanner pour réserver
+                        </p>
+                        <div class=\"qr-wrapper\">
+                            <img id=\"modalQrCode\" src=\"\" alt=\"QR Code\" style=\"width:190px;height:190px;display:block;\">
+                        </div>
+                        <p class=\"mt-3 small\" style=\"color:rgba(255,255,255,0.6);\">
+                            <i class=\"fa fa-mobile mr-1\"></i> Scannez pour réserver instantanément
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class=\"modal-footer\">
+                <span id=\"modalPlacesInfo\" class=\"mr-auto places-badge\"></span>
+                <button type=\"button\" id=\"btnSessionCloseBottom\" class=\"btn-fermer-modal\">
+                    <i class=\"fa fa-times mr-1\"></i> Fermer
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src=\"https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js\"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    var eventsUrl       = \"{{ path('calendar_events') }}\";
+    var reservationsUrl = \"{{ path('reservation_calendar') }}\";
+    var recommendUrl    = \"{{ path('calendar_recommend') }}\";
+
+    // ══ MODALE JS PUR ══
+    function openSessionModal() {
+        var backdrop = document.createElement('div');
+        backdrop.className = 'session-backdrop';
+        backdrop.id = 'sessionBackdrop';
+        document.body.appendChild(backdrop);
+        document.getElementById('sessionModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        backdrop.addEventListener('click', closeSessionModal);
+    }
+
+    function closeSessionModal() {
+        document.getElementById('sessionModal').style.display = 'none';
+        document.body.style.overflow = '';
+        var backdrop = document.getElementById('sessionBackdrop');
+        if (backdrop) backdrop.remove();
+    }
+
+    document.getElementById('btnSessionClose').addEventListener('click', closeSessionModal);
+    document.getElementById('btnSessionCloseBottom').addEventListener('click', closeSessionModal);
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeSessionModal();
+    });
+
+    // ══ FULLCALENDAR ══
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'fr',
+        height: 650,
+        headerToolbar: {
+            left:   'prev,next today',
+            center: 'title',
+            right:  'dayGridMonth,timeGridWeek,listWeek'
+        },
+        buttonText: {
+            today: \"Aujourd'hui\",
+            month: 'Mois',
+            week:  'Semaine',
+            list:  'Liste'
+        },
+        themeSystem: 'standard',
+        events: eventsUrl,
+
+        eventSourceFailure: function(error) {
+            console.error('Erreur FullCalendar:', error);
+        },
+
+        loading: function(isLoading) {
+            calendarEl.style.opacity    = isLoading ? '0.4' : '1';
+            calendarEl.style.transition = 'opacity 0.3s';
+        },
+
+        eventClick: function(info) {
+            info.jsEvent.preventDefault();
+
+            var ev    = info.event;
+            var props = ev.extendedProps;
+            var id    = ev.id;
+
+            document.getElementById('modalTitleText').textContent = ev.title;
+
+            var dateStr = ev.start
+                ? ev.start.toLocaleString('fr-FR', {
+                    weekday:'long', day:'2-digit', month:'long',
+                    year:'numeric', hour:'2-digit', minute:'2-digit'
+                  })
+                : '-';
+
+            var statutColors = {
+                'planifiée': 'linear-gradient(135deg,#6C3CE1,#9b59b6)',
+                'en cours':  'linear-gradient(135deg,#00C853,#00897B)',
+                'en_cours':  'linear-gradient(135deg,#00C853,#00897B)',
+                'terminée':  'linear-gradient(135deg,#6B6B8A,#4a4a6a)',
+                'annulée':   'linear-gradient(135deg,#FF4757,#c0392b)'
+            };
+            var statut         = (props.statut || '').toLowerCase();
+            var statutGradient = statutColors[statut] || ev.backgroundColor;
+
+            document.getElementById('modalInfoList').innerHTML =
+                makeItem('fa-calendar',          'Date',      dateStr)              +
+                makeItem('fa-users',             'Groupe',    props.groupe    || '-') +
+                makeItem('fa-signal',            'Niveau',    props.niveau    || '-') +
+                makeItem('fa-language',          'Langue',    props.langue    || '-') +
+                makeItem('fa-user',              'Formateur', props.formateur || '-') +
+                '<li class=\"modal-info-item\">' +
+                    '<i class=\"fa fa-tag\"></i>' +
+                    '<strong>Statut :</strong>' +
+                    '<span style=\"background:' + statutGradient + ';padding:4px 12px;border-radius:20px;color:#fff;margin-left:6px;font-size:0.82rem;font-weight:700;\">' +
+                        (props.statut || '-') +
+                    '</span>' +
+                '</li>';
+
+            document.getElementById('modalPlacesInfo').innerHTML =
+                '<i class=\"fa fa-users mr-1\"></i>' +
+                '<strong>' + (props.placesRestantes || 0) + '</strong> / ' +
+                (props.capacite || 0) + ' places disponibles';
+
+            var reunionBlock = document.getElementById('modalReunionBlock');
+            if (props.lienReunion) {
+                document.getElementById('modalReunionLink').href = props.lienReunion;
+                reunionBlock.style.display = 'block';
+            } else {
+                reunionBlock.style.display = 'none';
+            }
+
+            document.getElementById('modalReservationsBtn').href = reservationsUrl;
+            document.getElementById('modalQrCode').src = '/calendar/qrcode/' + id;
+
+            openSessionModal();
+        },
+
+        eventDidMount: function(info) {
+            info.el.style.cursor       = 'pointer';
+            info.el.style.borderRadius = '6px';
+            info.el.title              = info.event.title;
+        }
+    });
+
+    calendar.render();
+
+    function makeItem(icon, label, value) {
+        return '<li class=\"modal-info-item\">' +
+            '<i class=\"fa ' + icon + '\"></i>' +
+            '<strong>' + label + ' :</strong> ' + value +
+        '</li>';
+    }
+
+    // ══ LUNA ══
+    document.getElementById('ia-btn').addEventListener('click', function () {
+        var question = document.getElementById('ia-question').value.trim();
+        var result   = document.getElementById('ia-result');
+
+        if (!question) {
+            result.innerHTML = '<div style=\"background:rgba(255,193,7,0.15);border:1px solid rgba(255,193,7,0.3);color:#ffc107;border-radius:10px;padding:12px;\">Veuillez saisir votre niveau (ex: A2, B1...)</div>';
+            return;
+        }
+
+        result.innerHTML =
+            '<div class=\"text-center py-3\" style=\"color:#fff;\">' +
+                '<div class=\"spinner-border\" style=\"color:rgba(255,255,255,0.7);\" role=\"status\"></div>' +
+                '<p class=\"mt-2 small\">LUNA analyse votre demande...</p>' +
+            '</div>';
+
+        fetch(recommendUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'question=' + encodeURIComponent(question)
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            result.innerHTML = '';
+
+            if (data.error) {
+                result.innerHTML = '<div style=\"background:rgba(255,71,87,0.15);border:1px solid rgba(255,71,87,0.3);color:#ff6b6b;border-radius:10px;padding:12px;\"><i class=\"fa fa-exclamation-circle mr-2\"></i>' + data.error + '</div>';
+                return;
+            }
+
+            if (!data.recommendations || data.recommendations.length === 0) {
+                result.innerHTML = '<div style=\"background:rgba(255,193,7,0.15);border:1px solid rgba(255,193,7,0.3);color:#ffc107;border-radius:10px;padding:12px;\"><i class=\"fa fa-info-circle mr-2\"></i>Aucune session disponible pour le niveau <strong>' + data.niveau + '</strong>.</div>';
+                return;
+            }
+
+            var html =
+                '<div class=\"luna-card\">' +
+                    '<div class=\"luna-header\">' +
+                        '<i class=\"fa fa-magic mr-2\"></i>LUNA recommande pour le niveau ' +
+                        '<span style=\"background:rgba(255,255,255,0.25);padding:2px 10px;border-radius:20px;margin-left:4px;\">' + data.niveau + '</span>' +
+                    '</div>' +
+                    '<ul class=\"list-unstyled mb-0\">';
+
+            data.recommendations.forEach(function(r) {
+                html +=
+                    '<li class=\"luna-item\">' +
+                        '<div class=\"d-flex justify-content-between align-items-center\">' +
+                            '<div>' +
+                                '<i class=\"fa fa-calendar-check-o mr-2\" style=\"color:#f8bbd0;\"></i>' +
+                                '<strong style=\"color:#fff;\">' + r.groupe + '</strong>' +
+                                '<span style=\"color:rgba(255,255,255,0.5);margin:0 8px;\">—</span>' +
+                                '<span style=\"color:rgba(255,255,255,0.8);\">' + r.date + '</span>' +
+                            '</div>' +
+                            '<span style=\"background:linear-gradient(135deg,#00C853,#00897B);padding:5px 12px;border-radius:20px;color:#fff;font-size:0.78rem;font-weight:700;\">' + r.places + ' place(s)</span>' +
+                        '</div>' +
+                        '<div class=\"mt-2 d-flex\" style=\"gap:8px;\">' +
+                            '<a href=\"/reservation/new?session_id=' + r.id + '\" ' +
+                               'style=\"background:rgba(249,109,0,0.6);border:1px solid rgba(249,109,0,0.4);color:#fff;padding:7px 16px;border-radius:8px;font-size:0.82rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;\">' +
+                                '<i class=\"fa fa-bookmark\"></i> Réserver' +
+                            '</a>' +
+                            '<button onclick=\"scrollToCalendar()\" ' +
+                                    'style=\"background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:7px 16px;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;\">' +
+                                '<i class=\"fa fa-search\"></i> Voir calendrier' +
+                            '</button>' +
+                        '</div>' +
+                    '</li>';
+            });
+
+            html += '</ul></div>';
+            result.innerHTML = html;
+        })
+        .catch(function(err) {
+            console.error(err);
+            result.innerHTML = '<div style=\"background:rgba(255,71,87,0.15);border:1px solid rgba(255,71,87,0.3);color:#ff6b6b;border-radius:10px;padding:12px;\"><i class=\"fa fa-exclamation-triangle mr-2\"></i>Erreur de connexion à LUNA.</div>';
+        });
+    });
+
+    document.getElementById('ia-question').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') document.getElementById('ia-btn').click();
+    });
+
+    window.scrollToCalendar = function() {
+        window.scrollTo({ top: document.getElementById('calendar-wrapper').offsetTop - 80, behavior: 'smooth' });
+    };
+
+});
+</script>
+{% endblock %}", "calendar/index.html.twig", "C:\\Users\\Yosr\\OneDrive\\Desktop\\git pull\\Fluently\\templates\\calendar\\index.html.twig");
+    }
+}
