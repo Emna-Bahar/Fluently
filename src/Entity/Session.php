@@ -20,15 +20,15 @@ class Session
     // Doctrine injecte l'int via réflexion après persist+flush, jamais via PHP direct
     private ?int $id = null; // @phpstan-ignore-line property.unusedType
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     #[Assert\NotBlank(message: "La date et heure de la session sont obligatoires.")]
     #[Assert\GreaterThanOrEqual(
         value: "now",
-        message: "La session ne peut pas être planifiée dans le passé."
+        message: "La session ne peut pas \u00eatre planifi\u00e9e dans le pass\u00e9."
     )]
-    private ?\DateTimeInterface $dateHeure = null;
+    private ?\DateTimeImmutable $dateHeure = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
     #[Assert\NotBlank(message: "Le statut est obligatoire.")]
     #[Assert\Choice(
         choices: ["planifiée", "en cours", "terminée", "annulée"],
@@ -60,7 +60,7 @@ class Session
     /**
      * @var Collection<int, Reservation>
      */
-    #[ORM\OneToMany(mappedBy: 'session', targetEntity: Reservation::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: Reservation::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $reservations;
 
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
@@ -92,12 +92,12 @@ class Session
         return $this->id;
     }
 
-    public function getDateHeure(): ?\DateTimeInterface
+    public function getDateHeure(): ?\DateTimeImmutable
     {
         return $this->dateHeure;
     }
 
-    public function setDateHeure(\DateTimeInterface $dateHeure): static
+    public function setDateHeure(\DateTimeImmutable $dateHeure): static
     {
         $this->dateHeure = $dateHeure;
         return $this;

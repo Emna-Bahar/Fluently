@@ -37,7 +37,7 @@ class Groupe
     )]
     private string $description = '';
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     #[Assert\NotNull(message: 'La capacité est obligatoire.')]
     #[Assert\Positive(message: 'La capacité doit être un nombre positif.')]
     private ?int $capacite = null;

@@ -4,10 +4,18 @@ doctrine:
 
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
-        #server_version: '16'
+        server_version: '10.4.32-MariaDB'
+
+        # Character set and collation
+        charset: utf8mb4
 
         profiling_collect_backtrace: '%kernel.debug%'
         use_savepoints: true
+
+        # Fix timezone mismatch and SQL strict mode settings (Doctrine Doctor)
+        # PDO::MYSQL_ATTR_INIT_COMMAND = 1002
+        options:
+            1002: "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci; SET time_zone = 'Europe/Berlin'; SET SESSION sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';"
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true

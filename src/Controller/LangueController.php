@@ -116,7 +116,7 @@ final class LangueController extends AbstractController
                         $progress->setTestNiveauComplete(true);
                         $progress->setNiveauActuel($niveauTest);
                         $progress->setDernierNumeroCours(0);
-                        $progress->setDateDerniereActivite(new \DateTime());
+                        $progress->setDateDerniereActivite(new \DateTimeImmutable());
                         $em->flush();
                         $niveauUtilisateur = $niveauTest;
                         $niveauObtenu = $niveauTest->getDifficulte();
@@ -177,7 +177,7 @@ final class LangueController extends AbstractController
                 if ($niveauSuivant) {
                     $progress->setNiveauActuel($niveauSuivant);
                     $progress->setDernierNumeroCours(0);
-                    $progress->setDateDerniereActivite(new \DateTime());
+                    $progress->setDateDerniereActivite(new \DateTimeImmutable());
                     $em->flush();
                     $niveauUtilisateur = $niveauSuivant;
                     $niveauObtenu = $niveauSuivant->getDifficulte();

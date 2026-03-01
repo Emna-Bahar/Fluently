@@ -319,7 +319,7 @@ final class CoursController extends AbstractController
             if ($numeroCours >= $dernierNumero) {
                 $progress->setDernierCoursComplete($cours);
                 $progress->setDernierNumeroCours((int) $numeroCours);
-                $progress->setDateDerniereActivite(new \DateTime());
+                $progress->setDateDerniereActivite(new \DateTimeImmutable());
                 $totalCoursNiveau = $coursRepository->countByNiveau($niveauActuel);
                 if ($numeroCours >= $totalCoursNiveau) {
                     $niveauSuivant = $niveauRepository->findNiveauSuivant($langue, $niveauActuel->getOrdre() ?? 0);

@@ -43,7 +43,7 @@ class UserProgressRepository extends ServiceEntityRepository
             $progress->setLangue($langue);
             $progress->setTestNiveauComplete(false);
             $progress->setDernierNumeroCours(0);
-            $progress->setDateDerniereActivite(new \DateTime());
+            $progress->setDateDerniereActivite(new \DateTimeImmutable());
 
             $this->getEntityManager()->persist($progress);
             $this->getEntityManager()->flush();

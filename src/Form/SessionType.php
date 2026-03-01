@@ -26,6 +26,7 @@ class SessionType extends AbstractType
     'empty_data' => null,
     'html5'      => false,
     'format'     => 'dd/MM/yyyy HH:mm',  // ← AJOUTER CETTE LIGNE
+    'input'      => 'datetime_immutable',
     'model_timezone' => 'UTC',
     'view_timezone'  => 'UTC',
 ])

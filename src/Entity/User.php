@@ -7,7 +7,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Serializer\Annotation\JsonIgnore;
+use Symfony\Component\Serializer\Annotation\Ignore;
+use SensitiveParameter;
 
 #[ORM\Entity]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -31,6 +32,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     #[ORM\Column]
+    #[Ignore]
     private string $password = '';
 
     #[ORM\Column(length: 100)]
@@ -99,7 +101,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function getPassword(): string { return $this->password; }
-    public function setPassword(string $password): static { $this->password = $password; return $this; }
+    public function setPassword(#[SensitiveParameter] string $password): static { $this->password = $password; return $this; }
 
     public function eraseCredentials(): void {}
 

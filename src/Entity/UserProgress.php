@@ -33,8 +33,8 @@ class UserProgress
     #[ORM\Column]
     private bool $testNiveauComplete = false;  // CORRECTION: enlevé le ?
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?\DateTime $dateDerniereActivite = null;
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $dateDerniereActivite = null;
 
     public function getId(): ?int
     {
@@ -117,12 +117,12 @@ class UserProgress
         return $this;
     }
 
-    public function getDateDerniereActivite(): ?\DateTime
+    public function getDateDerniereActivite(): ?\DateTimeImmutable
     {
         return $this->dateDerniereActivite;
     }
 
-    protected function setDateDerniereActivite(?\DateTime $date): static
+    protected function setDateDerniereActivite(?\DateTimeImmutable $date): static
     {
         $this->dateDerniereActivite = $date;
 

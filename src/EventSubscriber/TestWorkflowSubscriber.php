@@ -258,7 +258,7 @@ class TestWorkflowSubscriber implements EventSubscriberInterface
             
             if ($progress) {
                 $progress->setTestNiveauComplete(true);
-                $progress->setDateDerniereActivite(new \DateTime());
+                $progress->setDateDerniereActivite(new \DateTimeImmutable());
             }
         }
     }
