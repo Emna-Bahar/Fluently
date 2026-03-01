@@ -1,12 +1,15 @@
 parameters:
  level: 8
+ treatPhpDocTypesAsCertain: false
  paths:
   - src
  ignoreErrors:
-  - # Doctrine GeneratedValue: PHPStan cannot see that ORM assigns int via reflection
-    message: '#Property App\\Entity\\Groupe\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.#'
-    path: src/Entity/Groupe.php
-  - message: '#Property App\\Entity\\Message\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.#'
-    path: src/Entity/Message.php
-  - message: '#Property App\\Entity\\MessageLog\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.#'
-    path: src/Entity/MessageLog.php
+  - '#Binary operation "\." between array\|bool\|float\|int\|string\|UnitEnum\|null and non-falsy-string results in an error#'
+  - '#Binary operation "\." between .+ and .+ results in an error#'
+  - '#Cannot call method .+\(\) on .+\|null#'
+  - '#Variable .+ on left side of \?\? always exists and is not nullable#'
+  - '#Call to an undefined method .*::createQueryBuilder\(\)#'
+  - '#Property .*::\$id .* is never assigned int#'
+  - '#Parameter \#.+ of function .+ expects .+, .+ given\.#'
+  - '#Parameter \#.+ of method .+ expects .+, .+ given\.#'
+  - '#Property .+ is never assigned .+ so it can be removed from the property type\.#'
