@@ -92,7 +92,7 @@ class Session
         return $this->id;
     }
 
-    public function getDateHeure(): \DateTimeInterface
+    public function getDateHeure(): ?\DateTimeInterface
     {
         return $this->dateHeure;
     }
@@ -103,12 +103,12 @@ class Session
         return $this;
     }
 
-    public function getStatut(): string
+    public function getStatut(): ?string
     {
         return $this->statut;
     }
 
-    public function setStatut(string $statut): static
+    public function setStatut(?string $statut): static
     {
         $this->statut = $statut;
         return $this;

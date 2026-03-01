@@ -205,11 +205,11 @@ final class GroupeController extends AbstractController
         $log = new MessageLog();
         $log->setAction('deleted');
         $log->setMessageId($message->getId());
-        $log->setGroupeId($groupeId);
+        $log->setGroupe($message->getIdGroupe());
         $u = $message->getIdUser();
-        $log->setUserId($u?->getId());
+        $log->setUser($u);
         $log->setUserName($u ? trim($u->getNom() . ' ' . $u->getPrenom()) : 'Inconnu');
-        $log->setOriginalContent($message->getContenu() ?? '');
+        $log->setOriginalContent($message->getContenu());
         $em->persist($log);
         // --------------------
 
@@ -256,11 +256,11 @@ final class GroupeController extends AbstractController
             $log = new MessageLog();
             $log->setAction('edited');
             $log->setMessageId($message->getId());
-            $log->setGroupeId($groupeId);
+            $log->setGroupe($groupe);
             $editUser = $message->getIdUser();
-            $log->setUserId($editUser?->getId());
+            $log->setUser($editUser);
             $log->setUserName($editUser ? trim($editUser->getNom() . ' ' . $editUser->getPrenom()) : 'Inconnu');
-            $log->setOriginalContent($message->getContenu() ?? '');
+            $log->setOriginalContent($message->getContenu());
             $log->setNewContent($contenu);
             $em->persist($log);
             // ----------------
@@ -527,11 +527,11 @@ final class GroupeController extends AbstractController
         $log = new MessageLog();
         $log->setAction('deleted');
         $log->setMessageId($message->getId());
-        $log->setGroupeId((int) $groupId);
+        $log->setGroupe($idGroupe);
         $adminDelUser = $message->getIdUser();
-        $log->setUserId($adminDelUser?->getId());
+        $log->setUser($adminDelUser);
         $log->setUserName($adminDelUser ? trim($adminDelUser->getNom() . ' ' . $adminDelUser->getPrenom()) : 'Inconnu');
-        $log->setOriginalContent($message->getContenu() ?? '');
+        $log->setOriginalContent($message->getContenu());
         $em->persist($log);
         // -------------------------
 

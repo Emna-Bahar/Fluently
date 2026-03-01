@@ -46,23 +46,23 @@ class Reservation
         return $this->id;
     }
 
-    public function getDateReservation(): \DateTimeInterface
+    public function getDateReservation(): ?\DateTimeInterface
     {
         return $this->dateReservation;
     }
 
-    public function setDateReservation(\DateTimeInterface $dateReservation): static
+    public function setDateReservation(?\DateTimeInterface $dateReservation): static
     {
         $this->dateReservation = $dateReservation;
         return $this;
     }
 
-    public function getStatut(): string
+    public function getStatut(): ?string
     {
         return $this->statut;
     }
 
-    public function setStatut(string $statut): static
+    public function setStatut(?string $statut): static
     {
         $this->statut = $statut;
         return $this;

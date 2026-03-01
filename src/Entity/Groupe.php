@@ -40,7 +40,7 @@ class Groupe
     #[ORM\Column]
     #[Assert\NotNull(message: 'La capacité est obligatoire.')]
     #[Assert\Positive(message: 'La capacité doit être un nombre positif.')]
-    private int $capacite = 0;
+    private ?int $capacite = null;
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank(message: 'Le statut est obligatoire.')]

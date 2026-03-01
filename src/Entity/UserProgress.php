@@ -33,8 +33,8 @@ class UserProgress
     #[ORM\Column]
     private bool $testNiveauComplete = false;  // CORRECTION: enlevé le ?
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private ?\DateTimeImmutable $dateDerniereActivite = null;
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTime $dateDerniereActivite = null;
 
     public function getId(): ?int
     {
