@@ -401,6 +401,6 @@ class __TwigTemplate_e4fb7b25511d80a4708e8be1305948ae extends Template
     <script src=\"{{ asset('assets/js/theme-customizer-init.min.js') }}\"></script>
 
 </body>
-</html>", "login/index.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\login\\index.html.twig");
+</html>", "login/index.html.twig", "C:\\Users\\emnab\\Documents\\PI\\Fluently\\templates\\login\\index.html.twig");
     }
 }

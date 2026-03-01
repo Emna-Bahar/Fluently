@@ -13,7 +13,7 @@ class FlashBagConfig
     private $enabled;
     private $mapping;
     private $_usedProperties = [];
-
+    
     /**
      * @default true
      * @param ParamConfigurator|bool $value
@@ -23,10 +23,10 @@ class FlashBagConfig
     {
         $this->_usedProperties['enabled'] = true;
         $this->enabled = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -36,10 +36,10 @@ class FlashBagConfig
     {
         $this->_usedProperties['mapping'] = true;
         $this->mapping = $value;
-
+    
         return $this;
     }
-
+    
     public function __construct(array $value = [])
     {
         if (array_key_exists('enabled', $value)) {
@@ -47,18 +47,18 @@ class FlashBagConfig
             $this->enabled = $value['enabled'];
             unset($value['enabled']);
         }
-
+    
         if (array_key_exists('mapping', $value)) {
             $this->_usedProperties['mapping'] = true;
             $this->mapping = $value['mapping'];
             unset($value['mapping']);
         }
-
+    
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
-
+    
     public function toArray(): array
     {
         $output = [];
@@ -68,7 +68,7 @@ class FlashBagConfig
         if (isset($this->_usedProperties['mapping'])) {
             $output['mapping'] = $this->mapping;
         }
-
+    
         return $output;
     }
 

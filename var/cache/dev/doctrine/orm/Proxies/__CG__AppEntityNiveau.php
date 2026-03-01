@@ -7,7 +7,7 @@ namespace Proxies\__CG__\App\Entity;
  */
 class Niveau extends \App\Entity\Niveau implements \Doctrine\ORM\Proxy\InternalProxy
 {
-    use \Symfony\Component\VarExporter\LazyGhostTrait {
+     use \Symfony\Component\VarExporter\LazyGhostTrait {
         initializeLazyObject as private;
         setLazyObjectAsInitialized as public __setInitialized;
         isLazyObjectInitialized as private;
@@ -44,7 +44,7 @@ class Niveau extends \App\Entity\Niveau implements \Doctrine\ORM\Proxy\InternalP
         'seuil_score_max' => [parent::class, 'seuil_score_max', null, 16],
         'seuil_score_min' => [parent::class, 'seuil_score_min', null, 16],
         'titre' => [parent::class, 'titre', null, 16],
-    ];
+    ];
 
     public function __isInitialized(): bool
     {

@@ -174,7 +174,10 @@ class __TwigTemplate_7f1dac7c8628ffa856e4029a9155da4e extends Template
         // line 83
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_reponse_index");
         yield "\">Reponse</a></li>
-                            
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
+        // line 84
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_admin_test_passages");
+        yield "\">Test Passage</a></li>
                         </ul>
                     </li>
                     <li class=\"nxl-item\">
@@ -566,7 +569,7 @@ class __TwigTemplate_7f1dac7c8628ffa856e4029a9155da4e extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  521 => 292,  508 => 291,  492 => 329,  486 => 326,  482 => 325,  476 => 322,  472 => 321,  468 => 320,  463 => 318,  453 => 310,  451 => 291,  431 => 274,  424 => 270,  415 => 263,  411 => 261,  405 => 259,  403 => 258,  399 => 256,  395 => 254,  391 => 252,  387 => 250,  381 => 248,  379 => 247,  371 => 245,  369 => 244,  363 => 241,  355 => 236,  331 => 215,  313 => 200,  295 => 185,  231 => 124,  214 => 110,  201 => 100,  197 => 99,  183 => 88,  175 => 83,  171 => 82,  167 => 81,  155 => 72,  151 => 71,  147 => 70,  143 => 69,  130 => 59,  113 => 45,  109 => 44,  87 => 25,  81 => 22,  77 => 21,  71 => 18,  65 => 15,  49 => 1,);
+        return array (  524 => 292,  511 => 291,  495 => 329,  489 => 326,  485 => 325,  479 => 322,  475 => 321,  471 => 320,  466 => 318,  456 => 310,  454 => 291,  434 => 274,  427 => 270,  418 => 263,  414 => 261,  408 => 259,  406 => 258,  402 => 256,  398 => 254,  394 => 252,  390 => 250,  384 => 248,  382 => 247,  374 => 245,  372 => 244,  366 => 241,  358 => 236,  334 => 215,  316 => 200,  298 => 185,  234 => 124,  217 => 110,  204 => 100,  200 => 99,  186 => 88,  179 => 84,  175 => 83,  171 => 82,  167 => 81,  155 => 72,  151 => 71,  147 => 70,  143 => 69,  130 => 59,  113 => 45,  109 => 44,  87 => 25,  81 => 22,  77 => 21,  71 => 18,  65 => 15,  49 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -654,7 +657,7 @@ class __TwigTemplate_7f1dac7c8628ffa856e4029a9155da4e extends Template
                             <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_test_index') }}\">Tests</a></li>
                             <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_question_index') }}\">Questions</a></li>
                             <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_reponse_index') }}\">Reponse</a></li>
-                            
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_admin_test_passages') }}\">Test Passage</a></li>
                         </ul>
                     </li>
                     <li class=\"nxl-item\">
@@ -903,6 +906,6 @@ class __TwigTemplate_7f1dac7c8628ffa856e4029a9155da4e extends Template
    
 </body>
 
-</html>", "dashboard/index.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\dashboard\\index.html.twig");
+</html>", "dashboard/index.html.twig", "C:\\Users\\emnab\\Documents\\PI\\Fluently\\templates\\dashboard\\index.html.twig");
     }
 }

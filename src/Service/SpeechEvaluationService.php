@@ -32,14 +32,17 @@ class SpeechEvaluationService
      */
     private function normalize(string $text): string
     {
-        // Minuscules
         $text = mb_strtolower($text, 'UTF-8');
         
-        // Supprimer ponctuation
         $text = preg_replace('/[^\p{L}\p{N}\s]/u', '', $text);
+        if ($text === null) {
+            $text = '';
+        }
         
-        // Supprimer espaces multiples
         $text = preg_replace('/\s+/', ' ', $text);
+        if ($text === null) {
+            $text = '';
+        }
         
         return trim($text);
     }

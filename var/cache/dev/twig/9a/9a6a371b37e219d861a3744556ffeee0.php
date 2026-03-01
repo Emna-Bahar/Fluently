@@ -782,6 +782,6 @@ class __TwigTemplate_bc598d9fd82b8c1cb5eb632d9e95904d extends Template
   </div>{# end .ag-cols #}
 </div>
 {% endblock %}
-", "groupe/admin_group_chat.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\groupe\\admin_group_chat.html.twig");
+", "groupe/admin_group_chat.html.twig", "C:\\Users\\emnab\\Documents\\PI\\Fluently\\templates\\groupe\\admin_group_chat.html.twig");
     }
 }

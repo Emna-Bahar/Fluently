@@ -1266,6 +1266,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 {% endif %}
 
-{% endblock %}", "test_student/analyse.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\test_student\\analyse.html.twig");
+{% endblock %}", "test_student/analyse.html.twig", "C:\\Users\\emnab\\Documents\\PI\\Fluently\\templates\\test_student\\analyse.html.twig");
     }
 }

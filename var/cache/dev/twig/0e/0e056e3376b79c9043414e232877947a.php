@@ -827,6 +827,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 {% endblock %}
-", "tache/edit.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\tache\\edit.html.twig");
+", "tache/edit.html.twig", "C:\\Users\\emnab\\Documents\\PI\\Fluently\\templates\\tache\\edit.html.twig");
     }
 }

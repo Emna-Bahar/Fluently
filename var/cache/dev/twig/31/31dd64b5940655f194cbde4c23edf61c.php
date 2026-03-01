@@ -1124,6 +1124,6 @@ $context["message"], "getIdUser", [], "method", false, false, false, 246), "nom"
       if (wrap) wrap.scrollTop = wrap.scrollHeight;
     });
   </script>
-{% endblock %}", "groupe/details.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\groupe\\details.html.twig");
+{% endblock %}", "groupe/details.html.twig", "C:\\Users\\emnab\\Documents\\PI\\Fluently\\templates\\groupe\\details.html.twig");
     }
 }

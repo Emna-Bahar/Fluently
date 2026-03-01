@@ -413,6 +413,6 @@ class __TwigTemplate_1d1855671ffcb552bb7f59be444e9528 extends Template
             </div>
         </div>
     </div>
-{% endblock %}", "session/show.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\session\\show.html.twig");
+{% endblock %}", "session/show.html.twig", "C:\\Users\\emnab\\Documents\\PI\\Fluently\\templates\\session\\show.html.twig");
     }
 }

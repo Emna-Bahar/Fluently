@@ -854,6 +854,6 @@ https://youtu.be/yyyyyyyyyyy"]]);
             }
         });
     </script>
-{% endblock %}", "cours/edit.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\cours\\edit.html.twig");
+{% endblock %}", "cours/edit.html.twig", "C:\\Users\\emnab\\Documents\\PI\\Fluently\\templates\\cours\\edit.html.twig");
     }
 }

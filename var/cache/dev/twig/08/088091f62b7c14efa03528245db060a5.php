@@ -1628,6 +1628,6 @@ class __TwigTemplate_172d1965b9407dd61e9471f6360f05c2 extends Template
         </div>
     </div>
 </div>
-{% endblock %}", "langue/apprentissage.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\langue\\apprentissage.html.twig");
+{% endblock %}", "langue/apprentissage.html.twig", "C:\\Users\\emnab\\Documents\\PI\\Fluently\\templates\\langue\\apprentissage.html.twig");
     }
 }

@@ -15,7 +15,7 @@ class PresetsConfig
     private $message;
     private $options;
     private $_usedProperties = [];
-
+    
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -25,10 +25,10 @@ class PresetsConfig
     {
         $this->_usedProperties['type'] = true;
         $this->type = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -38,10 +38,10 @@ class PresetsConfig
     {
         $this->_usedProperties['title'] = true;
         $this->title = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @default null
      * @param ParamConfigurator|mixed $value
@@ -51,10 +51,10 @@ class PresetsConfig
     {
         $this->_usedProperties['message'] = true;
         $this->message = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @return $this
      */
@@ -62,10 +62,10 @@ class PresetsConfig
     {
         $this->_usedProperties['options'] = true;
         $this->options[$name] = $value;
-
+    
         return $this;
     }
-
+    
     public function __construct(array $value = [])
     {
         if (array_key_exists('type', $value)) {
@@ -73,30 +73,30 @@ class PresetsConfig
             $this->type = $value['type'];
             unset($value['type']);
         }
-
+    
         if (array_key_exists('title', $value)) {
             $this->_usedProperties['title'] = true;
             $this->title = $value['title'];
             unset($value['title']);
         }
-
+    
         if (array_key_exists('message', $value)) {
             $this->_usedProperties['message'] = true;
             $this->message = $value['message'];
             unset($value['message']);
         }
-
+    
         if (array_key_exists('options', $value)) {
             $this->_usedProperties['options'] = true;
             $this->options = $value['options'];
             unset($value['options']);
         }
-
+    
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
-
+    
     public function toArray(): array
     {
         $output = [];
@@ -112,7 +112,7 @@ class PresetsConfig
         if (isset($this->_usedProperties['options'])) {
             $output['options'] = $this->options;
         }
-
+    
         return $output;
     }
 

@@ -521,6 +521,6 @@ $context["user"], "statut", [], "any", false, false, false, 94) == "disabled")) 
 </div>
 
 {% endblock %}
-", "dashboard/user_show.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\dashboard\\user_show.html.twig");
+", "dashboard/user_show.html.twig", "C:\\Users\\emnab\\Documents\\PI\\Fluently\\templates\\dashboard\\user_show.html.twig");
     }
 }

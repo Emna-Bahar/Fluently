@@ -16,6 +16,36 @@ class TestRepository extends ServiceEntityRepository
         parent::__construct($registry, Test::class);
     }
 
+    /**
+     * Recherche les tests avec filtres (search, type, langue)
+     * 
+     * @return Test[]
+     */
+    public function findByFilters(?string $search = null, ?string $type = null, ?string $langueId = null): array
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->leftJoin('t.langue', 'l')
+            ->leftJoin('t.questions', 'q')
+            ->orderBy('t.titre', 'ASC');
+
+        if ($search !== null && $search !== '') {
+            $qb->andWhere('LOWER(t.titre) LIKE :search OR LOWER(t.type) LIKE :search')
+               ->setParameter('search', '%' . strtolower($search) . '%');
+        }
+
+        if ($type !== null && $type !== '') {
+            $qb->andWhere('t.type = :type')
+               ->setParameter('type', $type);
+        }
+
+        if ($langueId !== null && $langueId !== '') {
+            $qb->andWhere('l.id = :langue')
+               ->setParameter('langue', $langueId);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
     //    /**
     //     * @return Test[] Returns an array of Test objects
     //     */

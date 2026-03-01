@@ -812,6 +812,6 @@ class __TwigTemplate_3aaad79e349c3b996507c6124353e5c3 extends Template
 {% endblock %}
 
 </body>
-</html>   ", "base.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\base.html.twig");
+</html>   ", "base.html.twig", "C:\\Users\\emnab\\Documents\\PI\\Fluently\\templates\\base.html.twig");
     }
 }
