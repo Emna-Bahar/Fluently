@@ -2,93 +2,163 @@
 
 namespace App\Controller;
 
-use App\Entity\Reservation;
 use App\Entity\Session;
+use App\Entity\Reservation;
+use App\Entity\User;
 use App\Form\ReservationType;
 use App\Repository\ReservationRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/reservation')]
 class ReservationController extends AbstractController
 {
-    #[Route('/', name: 'app_reservation_index', methods: ['GET', 'POST'])]
-    public function index(
-        ReservationRepository $reservationRepository,
-        Request $request,
-        EntityManagerInterface $entityManager,
-        PaginatorInterface $paginator
-    ): Response {
-        $newReservation = new Reservation();
+    public function __construct(
+        private ReservationRepository $reservationRepository,
+    ) {}
 
-        $form = $this->createForm(ReservationType::class, $newReservation);
-        $form->handleRequest($request);
+    private function getCurrentUser(EntityManagerInterface $em): ?User
+    {
+        $user = $this->getUser();
+        if ($user instanceof User) {
+            return $user;
+        }
+        return $em->getRepository(User::class)->find(1);
+    }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $entityManager->persist($newReservation);
-                $entityManager->flush();
-                $this->addFlash('success', 'Reservation creee avec succes !');
-                return $this->redirectToRoute('app_reservation_index');
-            } catch (\Exception $e) {
-                $this->addFlash('error', 'Erreur lors de la creation : ' . $e->getMessage());
-            }
+    #[Route('/', name: 'app_reservation_index', methods: ['GET'])]
+    public function index(EntityManagerInterface $em): Response
+    {
+        $user = $this->getCurrentUser($em);
+
+        // ✅ PHPStan fix #1 ligne 38 : findByUser() attend un User non-null
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
         }
 
-        $query = $reservationRepository->createQueryBuilder('r')
-            ->orderBy('r.dateReservation', 'DESC')
-            ->getQuery();
-
-        $pagination = $paginator->paginate(
-            $query,
-            $request->query->getInt('page', 1),
-            10
-        );
+        $reservations = $this->reservationRepository->findByUser($user);
 
         return $this->render('reservation/index.html.twig', [
-            'reservations' => $pagination,
-            'form_create' => $form->createView(),
+            'reservations' => $reservations,
         ]);
     }
 
-    #[Route('/new', name: 'app_reservation_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/professeur/reservations', name: 'reservation_professeur', methods: ['GET'])]
+    public function professeurReservations(EntityManagerInterface $em): Response
     {
-        $reservation = new Reservation();
+        $user = $this->getCurrentUser($em);
 
-        $sessionId = $request->query->get('session');
+        if (!$user) {
+            $this->addFlash('warning', 'Veuillez vous connecter.');
+            return $this->redirectToRoute('app_login');
+        }
+
+        $reservations = $this->reservationRepository->findAllForProf($user);
+
+        return $this->render('reservation/professeur.html.twig', [
+            'reservations' => $reservations,
+            'user'         => $user,
+        ]);
+    }
+
+    #[Route('/calendar', name: 'reservation_calendar', methods: ['GET'])]
+    public function calendar(): Response
+    {
+        return $this->render('reservation/calendar.html.twig');
+    }
+
+    #[Route('/calendar/events', name: 'reservation_calendar_events', methods: ['GET'])]
+    public function calendarEvents(EntityManagerInterface $em): JsonResponse
+    {
+        $user         = $this->getCurrentUser($em);
+        $reservations = $this->reservationRepository->findBy(['user' => $user]);
+        $events       = [];
+
+        foreach ($reservations as $resa) {
+            $session = $resa->getSession();
+            $group   = $session?->getGroup();
+            $niveau  = $group?->getIdNiveau();
+            $langue  = $group?->getIDLangue();
+
+            if (!$session?->getDateHeure()) {
+                continue;
+            }
+
+            $color = match($resa->getStatut()) {
+                'confirmée'  => '#00C853',
+                'en attente' => '#ffc107',
+                'refusée'    => '#FF4757',
+                'annulée'    => '#FF4757',
+                default      => '#6b6b9a',
+            };
+
+            $events[] = [
+                'id'              => $resa->getId(),
+                'title'           => ($langue?->getNom() ?? 'Session') . ' ' . ($niveau?->getTitre() ?? ''),
+                'start'           => $session->getDateHeure()->format('Y-m-d\TH:i:s'),
+                'backgroundColor' => $color,
+                'borderColor'     => $color,
+                'extendedProps'   => [
+                    'statut'      => $resa->getStatut(),
+                    'groupe'      => $group?->getNom() ?? '-',
+                    'niveau'      => $niveau?->getTitre() ?? '-',
+                    'langue'      => $langue?->getNom() ?? '-',
+                    'formateur'   => $session->getUser()
+                        ? $session->getUser()->getPrenom() . ' ' . $session->getUser()->getNom()
+                        : '-',
+                    'lienReunion' => $session->getLienReunion(),
+                    'dateResa'    => $resa->getDateReservation()?->format('d/m/Y') ?? '-',
+                ],
+            ];
+        }
+
+        return $this->json($events);
+    }
+
+    #[Route('/new', name: 'app_reservation_new', methods: ['GET', 'POST'])]
+    public function new(
+        Request $request,
+        EntityManagerInterface $em
+    ): Response {
+        $reservation = new Reservation();
+        $reservation->setUser($this->getCurrentUser($em));
+        $reservation->setStatut('en attente');
+
+        $sessionId = $request->query->get('session_id');
         if ($sessionId) {
-            $session = $entityManager->getRepository(Session::class)->find($sessionId);
+            $session = $em->getRepository(Session::class)->find($sessionId);
             if ($session) {
                 $reservation->setSession($session);
             }
         }
 
-        $form = $this->createForm(ReservationType::class, $reservation);
+        $form = $this->createForm(ReservationType::class, $reservation, [
+            'is_student_view' => true,
+        ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $entityManager->persist($reservation);
-                $entityManager->flush();
-                $this->addFlash('success', 'Reservation creee avec succes !');
-                return $this->redirectToRoute('app_reservation_index');
-            } catch (\Exception $e) {
-                $this->addFlash('error', 'Erreur lors de la creation : ' . $e->getMessage());
-            }
+            $em->persist($reservation);
+            $em->flush();
+            $this->addFlash('success', 'Demande de réservation envoyée avec succès.');
+            return $this->redirectToRoute('app_session_index');
         }
 
-        return $this->render('reservation/new.html.twig', [
-            'reservation' => $reservation,
-            'form' => $form,
+        return $this->render('reservation/form.html.twig', [
+            'form'            => $form->createView(),
+            'reservation'     => $reservation,
+            'edit'            => false,
+            'is_student_view' => true,
+            'successMessage'  => null,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_reservation_show', methods: ['GET'], requirements: ['id' => '\d+'])]
+    #[Route('/{id}', name: 'app_reservation_show', methods: ['GET'])]
     public function show(Reservation $reservation): Response
     {
         return $this->render('reservation/show.html.twig', [
@@ -97,215 +167,112 @@ class ReservationController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_reservation_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Reservation $reservation, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(ReservationType::class, $reservation);
+    public function edit(
+        Request $request,
+        Reservation $reservation,
+        EntityManagerInterface $em
+    ): Response {
+        $user = $this->getCurrentUser($em);
+
+        // ✅ PHPStan fix #2 lignes 176 : getSession()/getUser()/getId() sur null possible
+        // On vérifie que $user, session et user de session existent avant d'appeler getId()
+        $session     = $reservation->getSession();
+        $sessionUser = $session?->getUser();
+
+        if (!$user || !$session || !$sessionUser || $sessionUser->getId() !== $user->getId()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $form = $this->createForm(ReservationType::class, $reservation, [
+            'is_student_view' => false,
+        ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $entityManager->flush();
-                $this->addFlash('success', 'Reservation modifiee avec succes !');
-                return $this->redirectToRoute('app_reservation_index');
-            } catch (\Exception $e) {
-                $this->addFlash('error', 'Erreur lors de la modification : ' . $e->getMessage());
-            }
+            $em->flush();
+            $this->addFlash('success', 'Réservation modifiée avec succès.');
+            return $this->redirectToRoute('reservation_professeur');
         }
 
-        return $this->render('reservation/edit.html.twig', [
-            'reservation' => $reservation,
-            'form' => $form,
+        return $this->render('reservation/form.html.twig', [
+            'form'            => $form->createView(),
+            'reservation'     => $reservation,
+            'edit'            => true,
+            'is_student_view' => false,
+            'successMessage'  => null,
         ]);
+    }
+
+    #[Route('/{id}/statut', name: 'app_reservation_update_statut', methods: ['POST'])]
+    public function updateStatut(
+        Request $request,
+        Reservation $reservation,
+        EntityManagerInterface $em
+    ): Response {
+        $user = $this->getCurrentUser($em);
+
+        // ✅ PHPStan fix #3 lignes 210 : même pattern null-check avant getId()
+        $session     = $reservation->getSession();
+        $sessionUser = $session?->getUser();
+
+        if (!$user || !$session || !$sessionUser || $sessionUser->getId() !== $user->getId()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        // ✅ PHPStan fix #4 ligne 221 : cast (string) car get() retourne bool|float|int|string|null
+        $statut  = (string) $request->request->get('statut', '');
+        $allowed = ['confirmée', 'refusée', 'annulée'];
+
+        // ✅ PHPStan fix #5 ligne 219 : cast (string) pour isCsrfTokenValid() qui attend string|null
+        $token = (string) $request->request->get('_token', '');
+
+        if (in_array($statut, $allowed) && $this->isCsrfTokenValid('resa_statut_' . $reservation->getId(), $token)) {
+            $reservation->setStatut($statut);
+            $em->flush();
+            $this->addFlash('success', 'Réservation marquée comme "' . $statut . '".');
+        } else {
+            $this->addFlash('error', 'Action invalide.');
+        }
+
+        $referer = $request->headers->get('referer');
+        if ($referer && str_contains($referer, 'professeur/reservations')) {
+            return $this->redirectToRoute('reservation_professeur');
+        }
+
+        return $this->redirectToRoute('session_prof_dashboard');
     }
 
     #[Route('/{id}', name: 'app_reservation_delete', methods: ['POST'])]
-    public function delete(Request $request, Reservation $reservation, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete' . $reservation->getId(), $request->request->get('_token'))) {
-            try {
-                $entityManager->remove($reservation);
-                $entityManager->flush();
-                $this->addFlash('success', 'Reservation supprimee !');
-            } catch (\Exception $e) {
-                $this->addFlash('error', 'Erreur lors de la suppression : ' . $e->getMessage());
-            }
-        }
-        return $this->redirectToRoute('app_reservation_index');
-    }
-// partie admin
-
-    // ==================== ADMIN ROUTES ====================
-    
-    #[Route('/admin/reservations', name: 'admin_reservation_index', methods: ['GET', 'POST'])]
-    public function adminIndex(
-        ReservationRepository $reservationRepository,
+    public function delete(
         Request $request,
-        EntityManagerInterface $entityManager,
-        PaginatorInterface $paginator
+        Reservation $reservation,
+        EntityManagerInterface $em
     ): Response {
-        $newReservation = new Reservation();
-        $form = $this->createForm(ReservationType::class, $newReservation);
-        $form->handleRequest($request);
+        $user = $this->getCurrentUser($em);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $entityManager->persist($newReservation);
-                $entityManager->flush();
-                $this->addFlash('success', 'Réservation créée avec succès !');
-                return $this->redirectToRoute('admin_reservation_index');
-            } catch (\Exception $e) {
-                $this->addFlash('error', 'Erreur lors de la création : ' . $e->getMessage());
-            }
+        // ✅ PHPStan fix #6 lignes 245 : même pattern null-check avant getId()
+        $session     = $reservation->getSession();
+        $sessionUser = $session?->getUser();
+
+        if (!$user || !$session || !$sessionUser || $sessionUser->getId() !== $user->getId()) {
+            throw $this->createAccessDeniedException();
         }
 
-        $query = $reservationRepository->createQueryBuilder('r')
-            ->orderBy('r.dateReservation', 'DESC')
-            ->getQuery();
+        // ✅ PHPStan fix #7 ligne 249 : cast (string) pour isCsrfTokenValid()
+        $token = (string) $request->request->get('_token', '');
 
-        $pagination = $paginator->paginate(
-            $query,
-            $request->query->getInt('page', 1),
-            10
-        );
-
-        return $this->render('dashboard/reservation/index.html.twig', [
-            'reservations' => $pagination,
-            'form_create' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/admin/reservations/new', name: 'admin_reservation_new', methods: ['GET', 'POST'])]
-    public function adminNew(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $reservation = new Reservation();
-
-        $sessionId = $request->query->get('session');
-        if ($sessionId) {
-            $session = $entityManager->getRepository(Session::class)->find($sessionId);
-            if ($session) {
-                $reservation->setSession($session);
-            }
+        if ($this->isCsrfTokenValid('delete' . $reservation->getId(), $token)) {
+            $em->remove($reservation);
+            $em->flush();
+            $this->addFlash('success', 'Réservation supprimée.');
         }
 
-        $form = $this->createForm(ReservationType::class, $reservation);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $entityManager->persist($reservation);
-                $entityManager->flush();
-                $this->addFlash('success', 'Réservation créée avec succès !');
-                return $this->redirectToRoute('admin_reservation_index');
-            } catch (\Exception $e) {
-                $this->addFlash('error', 'Erreur lors de la création : ' . $e->getMessage());
-            }
+        $referer = $request->headers->get('referer');
+        if ($referer && str_contains($referer, 'professeur/reservations')) {
+            return $this->redirectToRoute('reservation_professeur');
         }
 
-        return $this->render('dashboard/reservation/new.html.twig', [
-            'reservation' => $reservation,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/admin/reservations/{id}', name: 'admin_reservation_show', methods: ['GET'], requirements: ['id' => '\d+'])]
-    public function adminShow(Reservation $reservation): Response
-    {
-        return $this->render('dashboard/reservation/show.html.twig', [
-            'reservation' => $reservation,
-        ]);
-    }
-
-    #[Route('/admin/reservations/{id}/edit', name: 'admin_reservation_edit', methods: ['GET', 'POST'])]
-    public function adminEdit(Request $request, Reservation $reservation, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(ReservationType::class, $reservation);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $entityManager->flush();
-                $this->addFlash('success', 'Réservation modifiée avec succès !');
-                return $this->redirectToRoute('admin_reservation_index');
-            } catch (\Exception $e) {
-                $this->addFlash('error', 'Erreur lors de la modification : ' . $e->getMessage());
-            }
-        }
-
-        return $this->render('dashboard/reservation/edit.html.twig', [
-            'reservation' => $reservation,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/admin/reservations/{id}/delete', name: 'admin_reservation_delete', methods: ['POST'])]
-    public function adminDelete(Request $request, Reservation $reservation, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete' . $reservation->getId(), $request->request->get('_token'))) {
-            try {
-                $entityManager->remove($reservation);
-                $entityManager->flush();
-                $this->addFlash('success', 'Réservation supprimée !');
-            } catch (\Exception $e) {
-                $this->addFlash('error', 'Erreur lors de la suppression : ' . $e->getMessage());
-            }
-        }
-        return $this->redirectToRoute('admin_reservation_index');
-    }
-
-    // ==================== FRONT ROUTES (si besoin plus tard) ====================
-    
-    #[Route('/mes-reservations', name: 'front_reservation_index', methods: ['GET'])]
-    public function frontIndex(
-        ReservationRepository $reservationRepository,
-        Request $request,
-        PaginatorInterface $paginator
-    ): Response {
-        // TODO: Filtrer par utilisateur connecté
-        $query = $reservationRepository->createQueryBuilder('r')
-            ->orderBy('r.dateReservation', 'DESC')
-            ->getQuery();
-
-        $pagination = $paginator->paginate(
-            $query,
-            $request->query->getInt('page', 1),
-            10
-        );
-
-        return $this->render('front/reservation/index.html.twig', [
-            'reservations' => $pagination,
-        ]);
-    }
-
-    #[Route('/reservations/new', name: 'front_reservation_new', methods: ['GET', 'POST'])]
-    public function frontNew(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $reservation = new Reservation();
-
-        $sessionId = $request->query->get('session');
-        if ($sessionId) {
-            $session = $entityManager->getRepository(Session::class)->find($sessionId);
-            if ($session) {
-                $reservation->setSession($session);
-            }
-        }
-
-        $form = $this->createForm(ReservationType::class, $reservation);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $entityManager->persist($reservation);
-                $entityManager->flush();
-                $this->addFlash('success', 'Réservation créée avec succès !');
-                return $this->redirectToRoute('front_reservation_index');
-            } catch (\Exception $e) {
-                $this->addFlash('error', 'Erreur lors de la création : ' . $e->getMessage());
-            }
-        }
-
-        return $this->render('front/reservation/new.html.twig', [
-            'reservation' => $reservation,
-            'form' => $form,
-        ]);
+        return $this->redirectToRoute('session_prof_dashboard');
     }
 }

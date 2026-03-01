@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if edit %}Modifier{% else %}Nouvelle{% endif %} Réservation
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5 pt-5">
+        {% if successMessage is defined and successMessage %}
+            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                {{ successMessage }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+
+        <h1 class="text-center fw-bold text-primary mb-5">
+            <i class="fa fa-{% if edit %}edit{% else %}plus-circle{% endif %} me-2"></i>
+            {% if edit %}Modifier la réservation{% else %}Créer une nouvelle réservation{% endif %}
+        </h1>
+
+        {{ form_start(form) }}
+
+        {# Affichage des erreurs globales #}
+        {% if form_errors(form) %}
+            <div class="alert alert-danger">
+                {{ form_errors(form) }}
+            </div>
+        {% endif %}
+
+        {# Date #}
+        {{ form_row(form.dateReservation) }}
+
+        {# Statut : différent selon le rôle #}
+        {% if is_student_view %}
+            <div class="mb-3">
+                <label class="form-label">Statut</label>
+                <input type="text" class="form-control" value="En attente (demande envoyée)" readonly>
+            </div>
+        {% else %}
+            {{ form_row(form.statut) }}
+        {% endif %}
+
+        {# Session et Utilisateur #}
+        {{ form_row(form.session) }}
+        {{ form_row(form.user) }}
+
+        <div class="mt-4 text-center">
+            <button type="submit" class="btn btn-primary btn-lg px-5">
+                <i class="fa fa-save me-2"></i> 
+                {% if edit %}Enregistrer les modifications{% else %}Envoyer la demande{% endif %}
+            </button>
+            <a href="{{ path('app_session_index') }}" class="btn btn-secondary btn-lg px-5 ms-3">
+                <i class="fa fa-arrow-left me-2"></i> Retour à la liste des sessions
+            </a>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
