@@ -93,17 +93,17 @@ class Groupe
         return $this;
     }
 
-    public function getCapacite(): ?int
-    {
-        return $this->capacite;
-    }
+public function getCapacite(): ?int
+{
+    return $this->capacite;
+}
 
-    public function setCapacite(int $capacite): static
-    {
-        $this->capacite = $capacite;
+public function setCapacite(mixed $capacite): static
+{
+    $this->capacite = $capacite !== null ? (int)(string)$capacite : null;
+    return $this;
+}
 
-        return $this;
-    }
 
     public function getStatut(): ?string
     {

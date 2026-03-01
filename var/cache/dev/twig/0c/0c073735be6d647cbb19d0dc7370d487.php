@@ -676,6 +676,6 @@ $context["loop"], "index", [], "any", false, false, false, 137) == 3)) {
 </style>
 
 {% endblock %}
-", "gamification/index.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\gamification\\index.html.twig");
+", "gamification/index.html.twig", "C:\\Users\\Yosr\\OneDrive\\Desktop\\git pull\\Fluently\\templates\\gamification\\index.html.twig");
     }
 }

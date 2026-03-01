@@ -1421,6 +1421,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </style>
 
 {% endblock %}
-", "objectif/index.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\objectif\\index.html.twig");
+", "objectif/index.html.twig", "C:\\Users\\Yosr\\OneDrive\\Desktop\\git pull\\Fluently\\templates\\objectif\\index.html.twig");
     }
 }

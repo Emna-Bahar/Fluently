@@ -238,6 +238,6 @@ class __TwigTemplate_b5620fe1f5aaba21e41acb6b6d7a3c76 extends Template
     </div>
 </div>
 {% endblock %}
-", "login/forgot_password_code.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\login\\forgot_password_code.html.twig");
+", "login/forgot_password_code.html.twig", "C:\\Users\\Yosr\\OneDrive\\Desktop\\git pull\\Fluently\\templates\\login\\forgot_password_code.html.twig");
     }
 }

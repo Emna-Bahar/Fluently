@@ -1425,6 +1425,6 @@ const ALL_NIVEAUX = [
 })();
 </script>
 {% endblock %}
-", "groupe/admin_groups.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\groupe\\admin_groups.html.twig");
+", "groupe/admin_groups.html.twig", "C:\\Users\\Yosr\\OneDrive\\Desktop\\git pull\\Fluently\\templates\\groupe\\admin_groups.html.twig");
     }
 }

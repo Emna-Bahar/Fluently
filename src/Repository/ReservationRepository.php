@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Reservation;
+use App\Entity\Session;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +18,62 @@ class ReservationRepository extends ServiceEntityRepository
         parent::__construct($registry, Reservation::class);
     }
 
-    //    /**
-    //     * @return Reservation[] Returns an array of Reservation objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('r.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findBySession(Session $session): array
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.session = :session')
+            ->setParameter('session', $session)
+            ->leftJoin('r.user', 'u')
+            ->addSelect('u')
+            ->orderBy('r.dateReservation', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 
-    //    public function findOneBySomeField($value): ?Reservation
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findByUser(User $user): array
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.user = :user')
+            ->setParameter('user', $user)
+            ->leftJoin('r.session', 's')
+            ->addSelect('s')
+            ->orderBy('r.dateReservation', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Réservations en attente pour un professeur (depuis le dashboard)
+     */
+    public function findPendingForProf(User $prof): array
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.session', 's')
+            ->join('s.user', 'u')
+            ->andWhere('u.id = :profId')
+            ->andWhere('r.statut = :statut')
+            ->setParameter('profId', $prof->getId())
+            ->setParameter('statut', 'en attente')
+            ->orderBy('r.dateReservation', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * TOUTES les réservations des étudiants pour les sessions d'un professeur
+     */
+    public function findAllForProf(User $prof): array
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.session', 's')
+            ->join('s.user', 'profUser')
+            ->leftJoin('r.user', 'etudiant')
+            ->leftJoin('s.group', 'g')
+            ->addSelect('s', 'etudiant', 'g')
+            ->where('profUser.id = :profId')
+            ->setParameter('profId', $prof->getId())
+            ->orderBy('r.dateReservation', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -170,6 +170,6 @@ class __TwigTemplate_230a8b6fe31e8575eb5682464767dd97 extends Template
     </ul>
 </div>
 {% endblock %}
-", "forgot_password/index.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\forgot_password\\index.html.twig");
+", "forgot_password/index.html.twig", "C:\\Users\\Yosr\\OneDrive\\Desktop\\git pull\\Fluently\\templates\\forgot_password\\index.html.twig");
     }
 }

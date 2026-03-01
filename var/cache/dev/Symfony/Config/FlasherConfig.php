@@ -26,7 +26,7 @@ class FlasherConfig implements \Symfony\Component\Config\Builder\ConfigBuilderIn
     private $flashBag;
     private $presets;
     private $_usedProperties = [];
-
+    
     /**
      * @default 'flasher'
      * @param ParamConfigurator|mixed $value
@@ -36,10 +36,10 @@ class FlasherConfig implements \Symfony\Component\Config\Builder\ConfigBuilderIn
     {
         $this->_usedProperties['default'] = true;
         $this->default = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -49,10 +49,10 @@ class FlasherConfig implements \Symfony\Component\Config\Builder\ConfigBuilderIn
     {
         $this->_usedProperties['rootScript'] = true;
         $this->rootScript = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -62,10 +62,10 @@ class FlasherConfig implements \Symfony\Component\Config\Builder\ConfigBuilderIn
     {
         $this->_usedProperties['scripts'] = true;
         $this->scripts = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -75,10 +75,10 @@ class FlasherConfig implements \Symfony\Component\Config\Builder\ConfigBuilderIn
     {
         $this->_usedProperties['styles'] = true;
         $this->styles = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -88,10 +88,10 @@ class FlasherConfig implements \Symfony\Component\Config\Builder\ConfigBuilderIn
     {
         $this->_usedProperties['options'] = true;
         $this->options = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @default true
      * @param ParamConfigurator|bool $value
@@ -101,10 +101,10 @@ class FlasherConfig implements \Symfony\Component\Config\Builder\ConfigBuilderIn
     {
         $this->_usedProperties['useCdn'] = true;
         $this->useCdn = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @default true
      * @param ParamConfigurator|bool $value
@@ -114,10 +114,10 @@ class FlasherConfig implements \Symfony\Component\Config\Builder\ConfigBuilderIn
     {
         $this->_usedProperties['autoTranslate'] = true;
         $this->autoTranslate = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @default true
      * @param ParamConfigurator|bool $value
@@ -127,10 +127,10 @@ class FlasherConfig implements \Symfony\Component\Config\Builder\ConfigBuilderIn
     {
         $this->_usedProperties['autoRender'] = true;
         $this->autoRender = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -140,10 +140,10 @@ class FlasherConfig implements \Symfony\Component\Config\Builder\ConfigBuilderIn
     {
         $this->_usedProperties['filterCriteria'] = true;
         $this->filterCriteria = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @param ParamConfigurator|list<ParamConfigurator|mixed> $value
      *
@@ -153,10 +153,10 @@ class FlasherConfig implements \Symfony\Component\Config\Builder\ConfigBuilderIn
     {
         $this->_usedProperties['themes'] = true;
         $this->themes = $value;
-
+    
         return $this;
     }
-
+    
     /**
      * @default {"enabled":true,"mapping":{"success":["success"],"error":["error","danger"],"warning":["warning","alarm"],"info":["info","notice","alert"]}}
     */
@@ -168,22 +168,22 @@ class FlasherConfig implements \Symfony\Component\Config\Builder\ConfigBuilderIn
         } elseif (0 < \func_num_args()) {
             throw new InvalidConfigurationException('The node created by "flashBag()" has already been initialized. You cannot pass values the second time you call flashBag().');
         }
-
+    
         return $this->flashBag;
     }
-
+    
     public function presets(array $value = []): \Symfony\Config\Flasher\PresetsConfig
     {
         $this->_usedProperties['presets'] = true;
-
+    
         return $this->presets[] = new \Symfony\Config\Flasher\PresetsConfig($value);
     }
-
+    
     public function getExtensionAlias(): string
     {
         return 'flasher';
     }
-
+    
     public function __construct(array $value = [])
     {
         if (array_key_exists('default', $value)) {
@@ -191,78 +191,78 @@ class FlasherConfig implements \Symfony\Component\Config\Builder\ConfigBuilderIn
             $this->default = $value['default'];
             unset($value['default']);
         }
-
+    
         if (array_key_exists('root_script', $value)) {
             $this->_usedProperties['rootScript'] = true;
             $this->rootScript = $value['root_script'];
             unset($value['root_script']);
         }
-
+    
         if (array_key_exists('scripts', $value)) {
             $this->_usedProperties['scripts'] = true;
             $this->scripts = $value['scripts'];
             unset($value['scripts']);
         }
-
+    
         if (array_key_exists('styles', $value)) {
             $this->_usedProperties['styles'] = true;
             $this->styles = $value['styles'];
             unset($value['styles']);
         }
-
+    
         if (array_key_exists('options', $value)) {
             $this->_usedProperties['options'] = true;
             $this->options = $value['options'];
             unset($value['options']);
         }
-
+    
         if (array_key_exists('use_cdn', $value)) {
             $this->_usedProperties['useCdn'] = true;
             $this->useCdn = $value['use_cdn'];
             unset($value['use_cdn']);
         }
-
+    
         if (array_key_exists('auto_translate', $value)) {
             $this->_usedProperties['autoTranslate'] = true;
             $this->autoTranslate = $value['auto_translate'];
             unset($value['auto_translate']);
         }
-
+    
         if (array_key_exists('auto_render', $value)) {
             $this->_usedProperties['autoRender'] = true;
             $this->autoRender = $value['auto_render'];
             unset($value['auto_render']);
         }
-
+    
         if (array_key_exists('filter_criteria', $value)) {
             $this->_usedProperties['filterCriteria'] = true;
             $this->filterCriteria = $value['filter_criteria'];
             unset($value['filter_criteria']);
         }
-
+    
         if (array_key_exists('themes', $value)) {
             $this->_usedProperties['themes'] = true;
             $this->themes = $value['themes'];
             unset($value['themes']);
         }
-
+    
         if (array_key_exists('flash_bag', $value)) {
             $this->_usedProperties['flashBag'] = true;
             $this->flashBag = new \Symfony\Config\Flasher\FlashBagConfig($value['flash_bag']);
             unset($value['flash_bag']);
         }
-
+    
         if (array_key_exists('presets', $value)) {
             $this->_usedProperties['presets'] = true;
             $this->presets = array_map(fn ($v) => new \Symfony\Config\Flasher\PresetsConfig($v), $value['presets']);
             unset($value['presets']);
         }
-
+    
         if ([] !== $value) {
             throw new InvalidConfigurationException(sprintf('The following keys are not supported by "%s": ', __CLASS__).implode(', ', array_keys($value)));
         }
     }
-
+    
     public function toArray(): array
     {
         $output = [];
@@ -302,7 +302,7 @@ class FlasherConfig implements \Symfony\Component\Config\Builder\ConfigBuilderIn
         if (isset($this->_usedProperties['presets'])) {
             $output['presets'] = array_map(fn ($v) => $v->toArray(), $this->presets);
         }
-
+    
         return $output;
     }
 
