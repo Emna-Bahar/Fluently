@@ -610,6 +610,6 @@ class __TwigTemplate_d4c7d47ba41ea79b447b0a2eee3c5b31 extends Template
             background-position: center;
         }
     </style>
-{% endblock %}", "groupe/index.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\groupe\\index.html.twig");
+{% endblock %}", "groupe/index.html.twig", "C:\\Users\\oumai\\Langue\\Fluently\\templates\\groupe\\index.html.twig");
     }
 }

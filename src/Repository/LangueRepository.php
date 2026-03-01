@@ -16,28 +16,49 @@ class LangueRepository extends ServiceEntityRepository
         parent::__construct($registry, Langue::class);
     }
 
-    //    /**
-    //     * @return Langue[] Returns an array of Langue objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('l')
-    //            ->andWhere('l.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('l.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * 
+     * @param string|null $search Terme de recherche optionnel
+     * @return Langue[] Tableau d'objets Langue
+     */
+    public function findActiveLangues(?string $search): array
+    {
+        $qb = $this->createQueryBuilder('l')
+            ->where('l.is_active = :active')
+            ->setParameter('active', true);
 
-    //    public function findOneBySomeField($value): ?Langue
-    //    {
-    //        return $this->createQueryBuilder('l')
-    //            ->andWhere('l.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        if ($search) {
+            $qb->andWhere('LOWER(l.nom) LIKE :search')
+               ->setParameter('search', '%' . strtolower($search) . '%');
+        }
+
+        /** @var Langue[] $result */
+        $result = $qb->getQuery()->getResult();
+        return $result;
+    }
+
+    /**
+     * 
+     * @param string|null $search Terme de recherche optionnel
+     * @param string|null $active Filtre par statut actif/inactif
+     * @return Langue[] Tableau d'objets Langue
+     */
+    public function findLanguesFiltrees(?string $search, ?string $active): array
+    {
+        $qb = $this->createQueryBuilder('l');
+
+        if ($search) {
+            $qb->andWhere('LOWER(l.nom) LIKE :search')
+               ->setParameter('search', '%' . strtolower($search) . '%');
+        }
+
+        if ($active !== '') {
+            $qb->andWhere('l.is_active = :active')
+               ->setParameter('active', (bool)$active);
+        }
+
+        /** @var Langue[] $result */
+        $result = $qb->getQuery()->getResult();
+        return $result;
+    }
 }

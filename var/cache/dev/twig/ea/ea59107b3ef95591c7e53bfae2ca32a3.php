@@ -97,11 +97,7 @@ class __TwigTemplate_704af6787b4f7dd1f00b0bface278731 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
         // line 6
-        yield "
-    <!-- Contenu principal -->
-    <div class=\"nxl-content\">
-
-        <!-- Header de la page -->
+        yield "    <div class=\"nxl-content\">
         <div class=\"page-header\">
             <div class=\"page-header-left d-flex align-items-center\">
                 <div class=\"page-header-title\">
@@ -111,22 +107,19 @@ class __TwigTemplate_704af6787b4f7dd1f00b0bface278731 extends Template
             </div>
             <div class=\"page-header-right ms-auto\">
                 <a href=\"";
-        // line 19
+        // line 15
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_admin_langue_new");
         yield "\" class=\"btn btn-primary btn-lg\">
                     <i class=\"feather-plus me-2\"></i> Nouvelle langue
                 </a>
             </div>
         </div>
-
-        <!-- Card principale -->
         <div class=\"main-content\">
 
             <div class=\"card border-0 shadow-sm\">
                 <div class=\"card-header bg-white border-bottom\">
                     <div class=\"d-flex align-items-center justify-content-between flex-wrap gap-3\">
                         <h6 class=\"m-0\">Liste des langues</h6>
-
                         <!-- Filtres -->
                         <form method=\"GET\" class=\"d-flex align-items-center gap-3 flex-wrap\">
                             <div class=\"input-group\" style=\"width: 280px;\">
@@ -134,8 +127,8 @@ class __TwigTemplate_704af6787b4f7dd1f00b0bface278731 extends Template
                                     <i class=\"feather-search\"></i>
                                 </span>
                                 <input type=\"text\" name=\"search\" value=\"";
-        // line 39
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 39, $this->source); })()), "request", [], "any", false, false, false, 39), "query", [], "any", false, false, false, 39), "get", ["search"], "method", false, false, false, 39), "html", null, true);
+        // line 32
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 32, $this->source); })()), "request", [], "any", false, false, false, 32), "query", [], "any", false, false, false, 32), "get", ["search"], "method", false, false, false, 32), "html", null, true);
         yield "\" 
                                        class=\"form-control\" placeholder=\"Rechercher une langue...\">
                             </div>
@@ -144,14 +137,14 @@ class __TwigTemplate_704af6787b4f7dd1f00b0bface278731 extends Template
                                 <select name=\"active\" class=\"form-select\">
                                     <option value=\"\">Tous les statuts</option>
                                     <option value=\"1\" ";
-        // line 46
-        if ((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 46, $this->source); })()), "request", [], "any", false, false, false, 46), "query", [], "any", false, false, false, 46), "get", ["active"], "method", false, false, false, 46) == "1")) {
+        // line 39
+        if ((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 39, $this->source); })()), "request", [], "any", false, false, false, 39), "query", [], "any", false, false, false, 39), "get", ["active"], "method", false, false, false, 39) == "1")) {
             yield "selected";
         }
         yield ">Actives</option>
                                     <option value=\"0\" ";
-        // line 47
-        if ((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 47, $this->source); })()), "request", [], "any", false, false, false, 47), "query", [], "any", false, false, false, 47), "get", ["active"], "method", false, false, false, 47) == "0")) {
+        // line 40
+        if ((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 40, $this->source); })()), "request", [], "any", false, false, false, 40), "query", [], "any", false, false, false, 40), "get", ["active"], "method", false, false, false, 40) == "0")) {
             yield "selected";
         }
         yield ">Inactives</option>
@@ -180,68 +173,66 @@ class __TwigTemplate_704af6787b4f7dd1f00b0bface278731 extends Template
                             </thead>
                             <tbody>
                             ";
-        // line 72
+        // line 65
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["langues"]) || array_key_exists("langues", $context) ? $context["langues"] : (function () { throw new RuntimeError('Variable "langues" does not exist.', 72, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["langues"]) || array_key_exists("langues", $context) ? $context["langues"] : (function () { throw new RuntimeError('Variable "langues" does not exist.', 65, $this->source); })()));
         $context['_iterated'] = false;
         foreach ($context['_seq'] as $context["_key"] => $context["langue"]) {
-            // line 73
+            // line 66
             yield "                                <tr>
                                     <td class=\"fw-medium\">";
-            // line 74
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "id", [], "any", false, false, false, 74), "html", null, true);
+            // line 67
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "id", [], "any", false, false, false, 67), "html", null, true);
             yield "</td>
                                     <td class=\"fw-bold\">";
-            // line 75
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "nom", [], "any", false, false, false, 75), "html", null, true);
+            // line 68
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "nom", [], "any", false, false, false, 68), "html", null, true);
             yield "</td>
                                     <td class=\"text-center\">
                                         ";
-            // line 77
-            if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "drapeau", [], "any", false, false, false, 77)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-                // line 78
-                yield "                                            ";
-                // line 79
+            // line 70
+            if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "drapeau", [], "any", false, false, false, 70)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                // line 71
                 yield "                                            <img src=\"";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(("uploads/langues/" . CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "drapeau", [], "any", false, false, false, 79))), "html", null, true);
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(("uploads/langues/" . CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "drapeau", [], "any", false, false, false, 71))), "html", null, true);
                 yield "\" 
                                                  alt=\"";
-                // line 80
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "nom", [], "any", false, false, false, 80), "html", null, true);
+                // line 72
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "nom", [], "any", false, false, false, 72), "html", null, true);
                 yield "\" 
                                                  class=\"rounded\" 
                                                  style=\"width: 60px; height: 40px; object-fit: cover; border: 1px solid #dee2e6;\">
                                         ";
             } else {
-                // line 84
+                // line 76
                 yield "                                            <span class=\"text-muted\">—</span>
+                                        ";
+            }
+            // line 78
+            yield "                                    </td>
+                                    <td>";
+            // line 79
+            yield ((CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "popularite", [], "any", false, false, false, 79)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "popularite", [], "any", false, false, false, 79), "html", null, true)) : ("—"));
+            yield "</td>
+                                    <td class=\"text-center\">
+                                        ";
+            // line 81
+            if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "isActive", [], "any", false, false, false, 81)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                // line 82
+                yield "                                            <span class=\"badge bg-success-subtle text-success px-3 py-2\">Oui</span>
+                                        ";
+            } else {
+                // line 84
+                yield "                                            <span class=\"badge bg-danger-subtle text-danger px-3 py-2\">Non</span>
                                         ";
             }
             // line 86
             yield "                                    </td>
-                                    <td>";
-            // line 87
-            yield ((CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "popularite", [], "any", false, false, false, 87)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "popularite", [], "any", false, false, false, 87), "html", null, true)) : ("—"));
-            yield "</td>
-                                    <td class=\"text-center\">
-                                        ";
-            // line 89
-            if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "isActive", [], "any", false, false, false, 89)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-                // line 90
-                yield "                                            <span class=\"badge bg-success-subtle text-success px-3 py-2\">Oui</span>
-                                        ";
-            } else {
-                // line 92
-                yield "                                            <span class=\"badge bg-danger-subtle text-danger px-3 py-2\">Non</span>
-                                        ";
-            }
-            // line 94
-            yield "                                    </td>
                                     <td class=\"text-center\">
                                         <div class=\"d-flex gap-2 justify-content-center\">
                                             <a href=\"";
-            // line 97
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_langue_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "id", [], "any", false, false, false, 97)]), "html", null, true);
+            // line 89
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_langue_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "id", [], "any", false, false, false, 89)]), "html", null, true);
             yield "\" 
                                                class=\"btn btn-sm btn-outline-info\" 
                                                data-bs-toggle=\"tooltip\" title=\"Voir\">
@@ -249,8 +240,8 @@ class __TwigTemplate_704af6787b4f7dd1f00b0bface278731 extends Template
                                             </a>
 
                                             <a href=\"";
-            // line 103
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_admin_langue_edit", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "id", [], "any", false, false, false, 103)]), "html", null, true);
+            // line 95
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_admin_langue_edit", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "id", [], "any", false, false, false, 95)]), "html", null, true);
             yield "\" 
                                                class=\"btn btn-sm btn-outline-warning\" 
                                                data-bs-toggle=\"tooltip\" title=\"Modifier\">
@@ -258,14 +249,14 @@ class __TwigTemplate_704af6787b4f7dd1f00b0bface278731 extends Template
                                             </a>
 
                                             <form method=\"post\" action=\"";
-            // line 109
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_admin_langue_delete", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "id", [], "any", false, false, false, 109)]), "html", null, true);
+            // line 101
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_admin_langue_delete", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "id", [], "any", false, false, false, 101)]), "html", null, true);
             yield "\" 
                                                   onsubmit=\"return confirm('Confirmer la suppression de cette langue ?');\" 
                                                   style=\"display: inline;\">
                                                 <input type=\"hidden\" name=\"_token\" value=\"";
-            // line 112
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken(("delete" . CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "id", [], "any", false, false, false, 112))), "html", null, true);
+            // line 104
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken(("delete" . CoreExtension::getAttribute($this->env, $this->source, $context["langue"], "id", [], "any", false, false, false, 104))), "html", null, true);
             yield "\">
                                                 <button type=\"submit\" class=\"btn btn-sm btn-outline-danger\"
                                                         data-bs-toggle=\"tooltip\" title=\"Supprimer\">
@@ -278,14 +269,14 @@ class __TwigTemplate_704af6787b4f7dd1f00b0bface278731 extends Template
                             ";
             $context['_iterated'] = true;
         }
-        // line 121
+        // line 113
         if (!$context['_iterated']) {
-            // line 122
+            // line 114
             yield "                                <tr>
                                     <td colspan=\"6\" class=\"text-center py-5 text-muted\">
                                         <h5 class=\"mb-3\">Aucune langue trouvée</h5>
                                         <a href=\"";
-            // line 125
+            // line 117
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_admin_langue_new");
             yield "\" class=\"btn btn-primary\">
                                             <i class=\"feather-plus me-2\"></i> Ajouter une langue
@@ -297,7 +288,7 @@ class __TwigTemplate_704af6787b4f7dd1f00b0bface278731 extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['langue'], $context['_parent'], $context['_iterated']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 131
+        // line 123
         yield "                            </tbody>
                         </table>
                     </div>
@@ -338,7 +329,7 @@ class __TwigTemplate_704af6787b4f7dd1f00b0bface278731 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  301 => 131,  289 => 125,  284 => 122,  282 => 121,  268 => 112,  262 => 109,  253 => 103,  244 => 97,  239 => 94,  235 => 92,  231 => 90,  229 => 89,  224 => 87,  221 => 86,  217 => 84,  210 => 80,  205 => 79,  203 => 78,  201 => 77,  196 => 75,  192 => 74,  189 => 73,  184 => 72,  154 => 47,  148 => 46,  138 => 39,  115 => 19,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  292 => 123,  280 => 117,  275 => 114,  273 => 113,  259 => 104,  253 => 101,  244 => 95,  235 => 89,  230 => 86,  226 => 84,  222 => 82,  220 => 81,  215 => 79,  212 => 78,  208 => 76,  201 => 72,  196 => 71,  194 => 70,  189 => 68,  185 => 67,  182 => 66,  177 => 65,  147 => 40,  141 => 39,  131 => 32,  111 => 15,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -348,11 +339,7 @@ class __TwigTemplate_704af6787b4f7dd1f00b0bface278731 extends Template
 {% block title %}Admin - Gestion des langues{% endblock %}
 
 {% block body %}
-
-    <!-- Contenu principal -->
     <div class=\"nxl-content\">
-
-        <!-- Header de la page -->
         <div class=\"page-header\">
             <div class=\"page-header-left d-flex align-items-center\">
                 <div class=\"page-header-title\">
@@ -366,15 +353,12 @@ class __TwigTemplate_704af6787b4f7dd1f00b0bface278731 extends Template
                 </a>
             </div>
         </div>
-
-        <!-- Card principale -->
         <div class=\"main-content\">
 
             <div class=\"card border-0 shadow-sm\">
                 <div class=\"card-header bg-white border-bottom\">
                     <div class=\"d-flex align-items-center justify-content-between flex-wrap gap-3\">
                         <h6 class=\"m-0\">Liste des langues</h6>
-
                         <!-- Filtres -->
                         <form method=\"GET\" class=\"d-flex align-items-center gap-3 flex-wrap\">
                             <div class=\"input-group\" style=\"width: 280px;\">
@@ -420,7 +404,6 @@ class __TwigTemplate_704af6787b4f7dd1f00b0bface278731 extends Template
                                     <td class=\"fw-bold\">{{ langue.nom }}</td>
                                     <td class=\"text-center\">
                                         {% if langue.drapeau %}
-                                            {# ✅ CORRIGÉ : images/langues/ → uploads/langues/ #}
                                             <img src=\"{{ asset('uploads/langues/' ~ langue.drapeau) }}\" 
                                                  alt=\"{{ langue.nom }}\" 
                                                  class=\"rounded\" 
@@ -482,6 +465,6 @@ class __TwigTemplate_704af6787b4f7dd1f00b0bface278731 extends Template
         </div>
     </div>
 
-{% endblock %}", "langue/index_admin.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\langue\\index_admin.html.twig");
+{% endblock %}", "langue/index_admin.html.twig", "C:\\Users\\oumai\\Langue\\Fluently\\templates\\langue\\index_admin.html.twig");
     }
 }

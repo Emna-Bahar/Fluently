@@ -98,8 +98,6 @@ class __TwigTemplate_e130778e2f84adf4ce09b2b528bc146a extends Template
 
         // line 6
         yield "    <div class=\"nxl-content\">
-
-        <!-- Header -->
         <div class=\"page-header mb-5\">
             <div class=\"page-header-left d-flex align-items-center\">
                 <div class=\"page-header-title\">
@@ -114,19 +112,17 @@ class __TwigTemplate_e130778e2f84adf4ce09b2b528bc146a extends Template
             </div>
             <div class=\"page-header-right ms-auto\">
                 <a href=\"";
-        // line 22
+        // line 20
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_admin_langue_index");
         yield "\" class=\"btn btn-outline-secondary px-4\">
                     <i class=\"feather-arrow-left me-2\"></i> Retour aux langues
                 </a>
             </div>
         </div>
-
-        <!-- Alerte si données vides -->
         ";
-        // line 29
-        if (Twig\Extension\CoreExtension::testEmpty((isset($context["globalLanguages"]) || array_key_exists("globalLanguages", $context) ? $context["globalLanguages"] : (function () { throw new RuntimeError('Variable "globalLanguages" does not exist.', 29, $this->source); })()))) {
-            // line 30
+        // line 25
+        if (Twig\Extension\CoreExtension::testEmpty((isset($context["globalLanguages"]) || array_key_exists("globalLanguages", $context) ? $context["globalLanguages"] : (function () { throw new RuntimeError('Variable "globalLanguages" does not exist.', 25, $this->source); })()))) {
+            // line 26
             yield "            <div class=\"alert alert-warning alert-dismissible fade show mb-5\" role=\"alert\">
                 <strong>Données momentanément indisponibles</strong><br>
                 Les statistiques mondiales ne peuvent pas être chargées pour le moment.<br>
@@ -135,10 +131,8 @@ class __TwigTemplate_e130778e2f84adf4ce09b2b528bc146a extends Template
             </div>
         ";
         }
-        // line 37
-        yield "
-        <!-- Tableau principal -->
-        <div class=\"card border-0 shadow-lg rounded-4 mb-5 overflow-hidden\">
+        // line 33
+        yield "        <div class=\"card border-0 shadow-lg rounded-4 mb-5 overflow-hidden\">
             <div class=\"card-header bg-gradient-primary text-white d-flex justify-content-between align-items-center py-4\">
                 <div>
                     <h5 class=\"m-0 fw-bold\">
@@ -162,36 +156,36 @@ class __TwigTemplate_e130778e2f84adf4ce09b2b528bc146a extends Template
                         </thead>
                         <tbody>
                         ";
-        // line 62
+        // line 56
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["globalLanguages"]) || array_key_exists("globalLanguages", $context) ? $context["globalLanguages"] : (function () { throw new RuntimeError('Variable "globalLanguages" does not exist.', 62, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["globalLanguages"]) || array_key_exists("globalLanguages", $context) ? $context["globalLanguages"] : (function () { throw new RuntimeError('Variable "globalLanguages" does not exist.', 56, $this->source); })()));
         $context['_iterated'] = false;
         foreach ($context['_seq'] as $context["_key"] => $context["lang"]) {
-            // line 63
+            // line 57
             yield "                            <tr>
                                 <td class=\"text-center fw-bold text-primary\">";
-            // line 64
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["lang"], "rank", [], "any", false, false, false, 64), "html", null, true);
+            // line 58
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["lang"], "rank", [], "any", false, false, false, 58), "html", null, true);
             yield "</td>
                                 <td class=\"fw-medium\">";
-            // line 65
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["lang"], "name", [], "any", false, false, false, 65), "html", null, true);
+            // line 59
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["lang"], "name", [], "any", false, false, false, 59), "html", null, true);
             yield "</td>
                                 <td class=\"text-end fw-bold\">
                                     ";
-            // line 67
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber((CoreExtension::getAttribute($this->env, $this->source, $context["lang"], "total_speakers", [], "any", false, false, false, 67) / 1000000), 0, ",", " "), "html", null, true);
+            // line 61
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber((CoreExtension::getAttribute($this->env, $this->source, $context["lang"], "total_speakers", [], "any", false, false, false, 61) / 1000000), 0, ",", " "), "html", null, true);
             yield " M
                                 </td>
                                 <td class=\"text-center\">
                                     ";
-            // line 70
-            $context["percent"] = ((CoreExtension::getAttribute($this->env, $this->source, $context["lang"], "total_speakers", [], "any", false, false, false, 70) / 8000000000) * 100);
-            // line 71
+            // line 64
+            $context["percent"] = ((CoreExtension::getAttribute($this->env, $this->source, $context["lang"], "total_speakers", [], "any", false, false, false, 64) / 8000000000) * 100);
+            // line 65
             yield "                                    <span class=\"badge bg-info-subtle text-info px-3 py-2 fs-6\">
                                         ~";
-            // line 72
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber((isset($context["percent"]) || array_key_exists("percent", $context) ? $context["percent"] : (function () { throw new RuntimeError('Variable "percent" does not exist.', 72, $this->source); })()), 1), "html", null, true);
+            // line 66
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatNumber((isset($context["percent"]) || array_key_exists("percent", $context) ? $context["percent"] : (function () { throw new RuntimeError('Variable "percent" does not exist.', 66, $this->source); })()), 1), "html", null, true);
             yield " %
                                     </span>
                                 </td>
@@ -199,9 +193,9 @@ class __TwigTemplate_e130778e2f84adf4ce09b2b528bc146a extends Template
                         ";
             $context['_iterated'] = true;
         }
-        // line 76
+        // line 70
         if (!$context['_iterated']) {
-            // line 77
+            // line 71
             yield "                            <tr>
                                 <td colspan=\"4\" class=\"text-center py-5 text-muted\">
                                     <i class=\"feather-alert-circle fs-1 d-block mb-3 opacity-50\"></i>
@@ -213,7 +207,7 @@ class __TwigTemplate_e130778e2f84adf4ce09b2b528bc146a extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['lang'], $context['_parent'], $context['_iterated']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 84
+        // line 78
         yield "                        </tbody>
                     </table>
                 </div>
@@ -223,12 +217,10 @@ class __TwigTemplate_e130778e2f84adf4ce09b2b528bc146a extends Template
                 Source : estimations récentes (Ethnologue / Wikipédia) — Population mondiale ≈ 8 milliards
             </div>
         </div>
-
-        <!-- Graphique (seulement si données présentes) -->
         ";
-        // line 95
-        if ((($tmp =  !Twig\Extension\CoreExtension::testEmpty((isset($context["globalLanguages"]) || array_key_exists("globalLanguages", $context) ? $context["globalLanguages"] : (function () { throw new RuntimeError('Variable "globalLanguages" does not exist.', 95, $this->source); })()))) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-            // line 96
+        // line 87
+        if ((($tmp =  !Twig\Extension\CoreExtension::testEmpty((isset($context["globalLanguages"]) || array_key_exists("globalLanguages", $context) ? $context["globalLanguages"] : (function () { throw new RuntimeError('Variable "globalLanguages" does not exist.', 87, $this->source); })()))) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+            // line 88
             yield "            <div class=\"card border-0 shadow-lg rounded-4 overflow-hidden\">
                 <div class=\"card-header bg-gradient-info text-white py-4\">
                     <h5 class=\"m-0 fw-bold\">
@@ -245,22 +237,19 @@ class __TwigTemplate_e130778e2f84adf4ce09b2b528bc146a extends Template
             </div>
         ";
         }
-        // line 111
-        yield "
-    </div>
-
-    <!-- Chart.js -->
+        // line 103
+        yield "    </div>
     ";
-        // line 115
-        if ((($tmp =  !Twig\Extension\CoreExtension::testEmpty((isset($context["globalLanguages"]) || array_key_exists("globalLanguages", $context) ? $context["globalLanguages"] : (function () { throw new RuntimeError('Variable "globalLanguages" does not exist.', 115, $this->source); })()))) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-            // line 116
+        // line 104
+        if ((($tmp =  !Twig\Extension\CoreExtension::testEmpty((isset($context["globalLanguages"]) || array_key_exists("globalLanguages", $context) ? $context["globalLanguages"] : (function () { throw new RuntimeError('Variable "globalLanguages" does not exist.', 104, $this->source); })()))) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+            // line 105
             yield "        <script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const ctx = document.getElementById('languagesChart').getContext('2d');
                 const data = ";
-            // line 120
-            yield json_encode(Twig\Extension\CoreExtension::slice($this->env->getCharset(), (isset($context["globalLanguages"]) || array_key_exists("globalLanguages", $context) ? $context["globalLanguages"] : (function () { throw new RuntimeError('Variable "globalLanguages" does not exist.', 120, $this->source); })()), 0, 10));
+            // line 109
+            yield json_encode(Twig\Extension\CoreExtension::slice($this->env->getCharset(), (isset($context["globalLanguages"]) || array_key_exists("globalLanguages", $context) ? $context["globalLanguages"] : (function () { throw new RuntimeError('Variable "globalLanguages" does not exist.', 109, $this->source); })()), 0, 10));
             yield ";
 
                 new Chart(ctx, {
@@ -299,7 +288,7 @@ class __TwigTemplate_e130778e2f84adf4ce09b2b528bc146a extends Template
         </script>
     ";
         }
-        // line 157
+        // line 146
         yield "
 ";
         
@@ -332,7 +321,7 @@ class __TwigTemplate_e130778e2f84adf4ce09b2b528bc146a extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  303 => 157,  263 => 120,  257 => 116,  255 => 115,  249 => 111,  232 => 96,  230 => 95,  217 => 84,  205 => 77,  203 => 76,  194 => 72,  191 => 71,  189 => 70,  183 => 67,  178 => 65,  174 => 64,  171 => 63,  166 => 62,  139 => 37,  130 => 30,  128 => 29,  118 => 22,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  292 => 146,  252 => 109,  246 => 105,  244 => 104,  241 => 103,  224 => 88,  222 => 87,  211 => 78,  199 => 71,  197 => 70,  188 => 66,  185 => 65,  183 => 64,  177 => 61,  172 => 59,  168 => 58,  165 => 57,  160 => 56,  135 => 33,  126 => 26,  124 => 25,  116 => 20,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -343,8 +332,6 @@ class __TwigTemplate_e130778e2f84adf4ce09b2b528bc146a extends Template
 
 {% block body %}
     <div class=\"nxl-content\">
-
-        <!-- Header -->
         <div class=\"page-header mb-5\">
             <div class=\"page-header-left d-flex align-items-center\">
                 <div class=\"page-header-title\">
@@ -363,8 +350,6 @@ class __TwigTemplate_e130778e2f84adf4ce09b2b528bc146a extends Template
                 </a>
             </div>
         </div>
-
-        <!-- Alerte si données vides -->
         {% if globalLanguages is empty %}
             <div class=\"alert alert-warning alert-dismissible fade show mb-5\" role=\"alert\">
                 <strong>Données momentanément indisponibles</strong><br>
@@ -373,8 +358,6 @@ class __TwigTemplate_e130778e2f84adf4ce09b2b528bc146a extends Template
                 <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>
             </div>
         {% endif %}
-
-        <!-- Tableau principal -->
         <div class=\"card border-0 shadow-lg rounded-4 mb-5 overflow-hidden\">
             <div class=\"card-header bg-gradient-primary text-white d-flex justify-content-between align-items-center py-4\">
                 <div>
@@ -429,8 +412,6 @@ class __TwigTemplate_e130778e2f84adf4ce09b2b528bc146a extends Template
                 Source : estimations récentes (Ethnologue / Wikipédia) — Population mondiale ≈ 8 milliards
             </div>
         </div>
-
-        <!-- Graphique (seulement si données présentes) -->
         {% if globalLanguages is not empty %}
             <div class=\"card border-0 shadow-lg rounded-4 overflow-hidden\">
                 <div class=\"card-header bg-gradient-info text-white py-4\">
@@ -447,10 +428,7 @@ class __TwigTemplate_e130778e2f84adf4ce09b2b528bc146a extends Template
                 </div>
             </div>
         {% endif %}
-
     </div>
-
-    <!-- Chart.js -->
     {% if globalLanguages is not empty %}
         <script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>
         <script>
@@ -494,6 +472,6 @@ class __TwigTemplate_e130778e2f84adf4ce09b2b528bc146a extends Template
         </script>
     {% endif %}
 
-{% endblock %}", "langue/stats_admin.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\langue\\stats_admin.html.twig");
+{% endblock %}", "langue/stats_admin.html.twig", "C:\\Users\\oumai\\Langue\\Fluently\\templates\\langue\\stats_admin.html.twig");
     }
 }

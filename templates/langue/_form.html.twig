@@ -1,18 +1,15 @@
 {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 
-{# Cacher le champ isActive pour le gérer manuellement #}
 <div style="display: none;">
     {{ form_widget(form.isActive) }}
 </div>
 
-{# Afficher tous les champs sauf isActive et drapeauFile #}
 <div class="row">
     <div class="col-md-6">{{ form_row(form.nom) }}</div>
     <div class="col-md-6">{{ form_row(form.popularite) }}</div>
     <div class="col-12">{{ form_row(form.description) }}</div>
 </div>
 
-<!-- Statut personnalisé -->
 <div class="mb-3">
     <label class="form-label fw-bold">Statut de la langue *</label>
     <div class="row g-3">
@@ -29,7 +26,6 @@
     </div>
 </div>
 
-<!-- Drapeau avec VichUploader -->
 <div class="mb-3">
     {{ form_label(form.drapeauFile) }}
     {{ form_widget(form.drapeauFile) }}

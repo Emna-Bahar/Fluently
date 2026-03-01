@@ -1,7 +1,5 @@
 <?php
 
-// src/Entity/UserProgress.php
-
 namespace App\Entity;
 
 use App\Repository\UserProgressRepository;
@@ -33,7 +31,7 @@ class UserProgress
     private ?int $dernierNumeroCours = 0;
 
     #[ORM\Column]
-    private ?bool $testNiveauComplete = false;
+    private bool $testNiveauComplete = false;  // CORRECTION: enlevé le ?
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTime $dateDerniereActivite = null;
@@ -107,12 +105,12 @@ class UserProgress
         return $this;
     }
 
-    public function isTestNiveauComplete(): ?bool
+    public function isTestNiveauComplete(): bool  
     {
         return $this->testNiveauComplete;
     }
 
-    public function setTestNiveauComplete(bool $complete): static
+    public function setTestNiveauComplete(bool $complete): static  
     {
         $this->testNiveauComplete = $complete;
 

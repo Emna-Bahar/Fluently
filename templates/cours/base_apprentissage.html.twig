@@ -10,7 +10,6 @@
 <div style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); min-height: 100vh; padding: 60px 20px; color: white; font-family: system-ui, sans-serif;">
     <div style="max-width: 1100px; margin: 0 auto;">
         <br><br><br><br>
-
         <!-- Chronomètre -->
         <div style="position: fixed; top: 100px; right: 30px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border-radius: 50px; padding: 15px 25px; border: 1px solid rgba(255,255,255,0.3); z-index: 1000;">
             <div style="display: flex; align-items: center; gap: 15px;">
@@ -18,7 +17,6 @@
                 <span style="font-size: 1.8rem; font-weight: 800; color: white;" id="chrono">00:00</span>
             </div>
         </div>
-
         <!-- En-tête avec bouton générer -->
         <div style="text-align: center; margin-bottom: 60px;">
             <h1 style="font-size: 3rem; font-weight: 900; color: white; margin: 0 0 12px; text-shadow: 0 4px 12px rgba(0,0,0,0.4);">
@@ -27,7 +25,6 @@
             <p style="font-size: 1.5rem; color: rgba(255,255,255,0.9); margin: 0 0 30px;">
                 {{ cour.idNiveau.titre }} • {{ cour.idNiveau.idLangue.nom }}
             </p>
-            
             <!-- BOUTON GÉNÉRER UN COURS PERSONNALISÉ -->
             <a href="{{ path('app_cours_personnalise_generer', {id: cour.id}) }}" 
                style="display: inline-block; background: linear-gradient(135deg, #f97316, #ea580c); color: white; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 1.2rem; box-shadow: 0 8px 20px rgba(249,115,22,0.4); transition: all 0.3s; margin-bottom: 30px;"
@@ -36,7 +33,6 @@
                 🎓 Générer un cours personnalisé
             </a>
         </div>
-
         <!-- Filtrage -->
         <div style="margin-bottom: 50px; text-align: center;">
             <div style="display: inline-flex; flex-wrap: wrap; gap: 14px; justify-content: center;">
@@ -48,11 +44,9 @@
                 <button class="filter-btn" data-filter="other" style="background: #64748b; color: white; padding: 14px 28px; border: none; border-radius: 14px; font-weight: 700; cursor: pointer; transition: all 0.25s; box-shadow: 0 4px 12px rgba(100,116,139,0.4);">Autres</button>
             </div>
         </div>
-
         <!-- Conteneur ressources -->
         <div id="ressources-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 32px;">
             
-            {# ============ RESSOURCES NORMALES ============ #}
             {% if files|length > 0 %}
                 {% for res in files %}
                     {% set isYoutube = res matches '/(youtube\\.com|youtu\\.be)/i' %}
@@ -86,7 +80,6 @@
                             </div>
 
                             {% if isYoutube %}
-                                {# Extraction robuste de l'ID YouTube #}
                                 {% set clean = res|trim %}
                                 {% set videoId = '' %}
 
@@ -149,8 +142,6 @@
                     </div>
                 {% endfor %}
             {% endif %}
-
-            {# ============ RESSOURCES PERSONNALISÉES (PDF) ============ #}
             {% if ressources_personnalisees is defined and ressources_personnalisees|length > 0 %}
                 {% for res in ressources_personnalisees %}
                     <div class="ressource-card" data-type="pdf" style="background: rgba(255,255,255,0.95); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); transition: all 0.3s; transform: translateY(0); display: none;">
@@ -177,7 +168,6 @@
                 {% endfor %}
             {% endif %}
 
-            {# ============ MESSAGE SI AUCUNE RESSOURCE ============ #}
             {% if files|length == 0 and (ressources_personnalisees is not defined or ressources_personnalisees|length == 0) %}
                 <div style="grid-column: 1 / -1; text-align: center; padding: 100px 40px; background: rgba(255,255,255,0.9); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); color: #475569; font-size: 1.5rem; font-weight: 600;">
                     Aucune ressource disponible pour cette leçon pour le moment.
@@ -192,7 +182,6 @@
             </h2>
             
             <div style="background: white; border-radius: 20px; padding: 30px;">
-                <!-- Barre de recherche -->
                 <div style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px;">
                     <div style="display: flex; gap: 15px;">
                         <input type="text" 
@@ -210,14 +199,12 @@
                     </div>
                 </div>
 
-                <!-- Résultats du dictionnaire -->
                 <div id="dictionary-result" style="background: #f8f9fa; border-radius: 15px; padding: 25px; min-height: 200px;">
                     <p style="color: #999; text-align: center; font-size: 1.1rem; margin: 40px 0;">
                         Entrez un mot pour voir sa définition
                     </p>
                 </div>
 
-                <!-- Suggestions de mots populaires -->
                 <div style="margin-top: 30px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
                     <span style="color: #666; font-weight: 600; margin-right: 10px;">Mots populaires :</span>
                     <button onclick="document.getElementById('dictionary-word').value='maison'; searchWord();" 
@@ -247,8 +234,6 @@
             </h2>
             
             <div style="background: white; border-radius: 20px; padding: 30px;">
-                
-                <!-- ÉTAPE 1 : Saisie du thème -->
                 <div id="etape-theme">
                     <h3 style="color: #333; margin-bottom: 20px;">📝 Quel thème veux-tu pratiquer ?</h3>
                     <div style="display: flex; gap: 15px;">
@@ -268,11 +253,7 @@
                         L'IA va créer un dialogue adapté à ton niveau ({{ cour.idNiveau.difficulte }})
                     </p>
                 </div>
-                
-                <!-- ÉTAPE 2 : Dialogue généré (caché au début) -->
                 <div id="etape-dialogue" style="display: none;">
-                    
-                    <!-- Barre de progression -->
                     <div style="margin-bottom: 30px;">
                         <div style="display: flex; justify-content: space-between; color: #333; margin-bottom: 10px;">
                             <span>Réplique <span id="replique-actuelle">1</span>/<span id="total-repliques">6</span></span>
@@ -282,8 +263,6 @@
                             <div id="barre-progression-dialogue" style="width: 0%; height: 100%; background: linear-gradient(90deg, #f97316, #ea580c); border-radius: 5px;"></div>
                         </div>
                     </div>
-                    
-                    <!-- Dialogue visuel -->
                     <div style="background: #f8f9fa; border-radius: 20px; padding: 30px; margin-bottom: 30px;">
                         <div id="dialogue-ia" style="background: #fee2e2; color: #b91c1c; padding: 20px; border-radius: 15px; margin-bottom: 20px; border-left: 5px solid #ef4444;">
                             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
@@ -292,7 +271,6 @@
                             </div>
                             <p id="texte-ia" style="font-size: 1.3rem; margin: 0; font-style: italic;"></p>
                         </div>
-                        
                         <div id="dialogue-etudiant" style="background: #dbeafe; color: #1e40af; padding: 20px; border-radius: 15px; border-left: 5px solid #3b82f6;">
                             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
                                 <span style="background: #3b82f6; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">TOI</span>
@@ -301,8 +279,6 @@
                             <p id="texte-etudiant" style="font-size: 1.3rem; margin: 0;"></p>
                         </div>
                     </div>
-                    
-                    <!-- Contrôles vocaux -->
                     <div style="text-align: center; margin-bottom: 15px;">
                         <button id="btn-commencer" onclick="commencerLecture()" 
                                 style="background: #10b981; color: white; border: none; padding: 20px 50px; border-radius: 50px; font-size: 1.3rem; font-weight: 700; cursor: pointer; box-shadow: 0 10px 25px rgba(16,185,129,0.4); transition: all 0.3s; margin-right: 15px;"
@@ -310,14 +286,11 @@
                                 onmouseout="this.style.transform='scale(1)';">
                             🎤 Commencer à lire
                         </button>
-                        
                         <button id="btn-suivant" onclick="passerRepliqueSuivante()" style="display: none; background: #3b82f6; color: white; border: none; padding: 20px 50px; border-radius: 50px; font-size: 1.3rem; font-weight: 700; cursor: pointer; box-shadow: 0 10px 25px rgba(59,130,246,0.4); transition: all 0.3s;"
                                 onmouseover="this.style.transform='scale(1.1)';"
                                 onmouseout="this.style.transform='scale(1)';">
                             ⏭️ Réplique suivante
                         </button>
-                        
-                        <!-- Bouton pour changer la voix -->
                         <button id="btn-changer-voix" onclick="changerVoix()" 
                                 style="background: #6b7280; color: white; border: none; padding: 10px 20px; border-radius: 50px; font-size: 0.9rem; cursor: pointer; margin-left: 15px;"
                                 onmouseover="this.style.background='#4b5563';"
@@ -325,32 +298,23 @@
                             🔊 Changer voix IA
                         </button>
                     </div>
-                    
-                    <!-- Bouton pour tester le microphone -->
                     <div style="text-align: center; margin-bottom: 15px;">
                         <button onclick="testerMicrophone()" 
                                 style="background: #8b5cf6; color: white; border: none; padding: 8px 16px; border-radius: 50px; font-size: 0.8rem; cursor: pointer;">
                             🎤 Tester mon microphone
                         </button>
                     </div>
-                    
-                    <!-- Zone de feedback -->
                     <div id="feedback-correction" style="margin-top: 30px; padding: 20px; border-radius: 15px; display: none;">
-                        <!-- Feedback dynamique -->
                     </div>
                 </div>
             </div>
         </div>
-
         <!-- ============ SECTION JEUX ÉDUCATIFS ============ -->
         <div style="margin-top: 80px; background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%); border-radius: 30px; padding: 40px;">
             <h2 style="color: white; text-align: center; font-size: 2.2rem; font-weight: 800; margin-bottom: 30px;">
                 🎮 Joue en apprenant
             </h2>
-            
             <div style="background: white; border-radius: 20px; padding: 30px;">
-                
-                <!-- Sélecteur de jeu -->
                 <div style="display: flex; gap: 15px; margin-bottom: 30px; justify-content: center; flex-wrap: wrap;">
                     <button onclick="choisirJeu('scrambled')" 
                             class="jeu-btn actif" 
@@ -358,14 +322,12 @@
                             style="background: #8b5cf6; color: white; border: none; padding: 15px 30px; border-radius: 50px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
                         🎯 Phrase Mélangée
                     </button>
-                    
                     <button onclick="choisirJeu('oddoneout')" 
                             class="jeu-btn"
                             data-jeu="oddoneout"
                             style="background: #f3f4f6; color: #333; border: none; padding: 15px 30px; border-radius: 50px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
                         🔍 Trouve l'Intrus
                     </button>
-                    
                     <button onclick="choisirJeu('crossword')" 
                             class="jeu-btn"
                             data-jeu="crossword"
@@ -373,16 +335,11 @@
                         🧩 Mots Croisés
                     </button>
                 </div>
-                
-                <!-- Zone d'affichage du jeu -->
                 <div id="zone-jeu" style="min-height: 300px;">
-                    <!-- Le jeu sera chargé ici dynamiquement -->
                     <div style="text-align: center; padding: 50px;">
                         <p style="color: #666;">Choisis un jeu pour commencer !</p>
                     </div>
                 </div>
-                
-                <!-- Barre de progression et points -->
                 <div style="margin-top: 30px; display: flex; justify-content: space-between; align-items: center;">
                     <div style="flex: 1; margin-right: 20px;">
                         <div style="display: flex; justify-content: space-between; color: #333; margin-bottom: 5px;">
@@ -393,7 +350,6 @@
                             <div id="barre-progression-jeu" style="width: 0%; height: 100%; background: linear-gradient(90deg, #8b5cf6, #6366f1); border-radius: 4px;"></div>
                         </div>
                     </div>
-                    
                     <div style="background: #fef3c7; padding: 10px 20px; border-radius: 50px;">
                         <span style="color: #92400e; font-weight: bold;">⭐ Points: <span id="points-jeu">0</span></span>
                     </div>
@@ -401,24 +357,18 @@
                 
             </div>
         </div>
-
-        <!-- Bouton Terminer -->
         <div style="margin-top: 80px; text-align: center;">
             <button onclick="terminerCours({{ cour.id }})" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 22px 80px; font-size: 1.5rem; font-weight: 900; border-radius: 20px; cursor: pointer; box-shadow: 0 12px 40px rgba(16,185,129,0.5); transition: all 0.35s;" onmouseover="this.style.transform='scale(1.08) translateY(-4px)';" onmouseout="this.style.transform='scale(1) translateY(0)';">
                 Terminer cette leçon →
             </button>
         </div>
-
     </div>
 
-    <!-- Script filtrage + terminer + dictionnaire + chrono -->
     <script>
-        // Filtrage
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-
                 const filter = btn.dataset.filter;
                 document.querySelectorAll('.ressource-card').forEach(card => {
                     if (filter === 'all' || card.dataset.type === filter) {
@@ -429,11 +379,7 @@
                 });
             });
         });
-
-        // Afficher tout au chargement
         document.querySelector('[data-filter="all"]').click();
-
-        // Chronomètre
         let startTime = Date.now();
         let timerInterval;
 
@@ -444,11 +390,7 @@
             document.getElementById('chrono').textContent = 
                 `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
-
-        // Démarrer le chrono
         timerInterval = setInterval(updateChrono, 1000);
-
-        // Envoyer le temps à la fin
         function envoyerTemps() {
             const elapsed = Math.floor((Date.now() - startTime) / 1000);
             fetch('/cours/{{ cour.id }}/temps', {
@@ -460,13 +402,10 @@
                 body: JSON.stringify({ temps: elapsed })
             });
         }
-
-        // Terminer cours modifié
         function terminerCours(coursId) {
             if (confirm("Voulez-vous marquer cette leçon comme terminée ?\nVous passerez automatiquement à la suivante.")) {
-                clearInterval(timerInterval); // Arrêter le chrono
-                envoyerTemps(); // Envoyer le temps
-                
+                clearInterval(timerInterval); 
+                envoyerTemps(); 
                 fetch('/cours/' + coursId + '/terminer', {
                     method: 'POST',
                     headers: {
@@ -484,8 +423,6 @@
                 .catch(err => alert("Erreur : " + err.message));
             }
         }
-
-        // Fonctions du dictionnaire
         function searchWord() {
             const word = document.getElementById('dictionary-word').value.trim();
             const resultDiv = document.getElementById('dictionary-result');
@@ -494,28 +431,22 @@
                 resultDiv.innerHTML = '<p style="color: #ff6b6b; text-align: center; margin: 40px 0;">❌ Veuillez entrer un mot</p>';
                 return;
             }
-            
-            // Afficher un loader
             resultDiv.innerHTML = '<p style="text-align: center; margin: 40px 0; color: #333;">🔍 Recherche en cours...</p>';
-            
             fetch('/api/dictionary/search/' + encodeURIComponent(word))
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
                         resultDiv.innerHTML = `<p style="color: #ff6b6b; text-align: center; margin: 40px 0;">❌ ${data.error}</p>`;
                         return;
-                    }
-                    
+                    } 
                     let html = `
                         <div style="border-bottom: 2px solid #667eea; padding-bottom: 15px; margin-bottom: 20px;">
                             <h3 style="margin: 0; color: #000000; font-size: 2rem; font-weight: 800;">${data.word}</h3>
                         </div>
                     `;
-                    
                     if (data.functional_label) {
                         html += `<p><strong style="color: #000000;">Catégorie :</strong> <span style="color: #333333;">${data.functional_label}</span></p>`;
                     }
-                    
                     if (data.definitions && data.definitions.length > 0) {
                         html += '<p><strong style="color: #000000;">Définitions :</strong></p><ol style="margin-top: 10px; padding-left: 20px;">';
                         data.definitions.forEach(def => {
@@ -523,7 +454,6 @@
                         });
                         html += '</ol>';
                     }
-                    
                     if (data.examples && data.examples.length > 0) {
                         html += '<p><strong style="color: #000000;">Exemples :</strong></p><ul style="margin-top: 10px; padding-left: 20px; font-style: italic;">';
                         data.examples.forEach(ex => {
@@ -538,8 +468,6 @@
                     resultDiv.innerHTML = `<p style="color: #ff6b6b; text-align: center; margin: 40px 0;">❌ Erreur: ${error.message}</p>`;
                 });
         }
-
-        // Ajouter la possibilité de chercher avec la touche Entrée
         document.addEventListener('DOMContentLoaded', function() {
             const input = document.getElementById('dictionary-word');
             if (input) {
@@ -551,16 +479,12 @@
             }
         });
     </script>
-    
     <script>
-// ============ DIALOGUE VOCAL AMÉLIORÉ ============
 let dialogue = [];
 let indexActuel = 0;
 let reconnaissanceVocale = null;
 let enTrainDeParler = false;
 let voixPreference = null;
-
-// Fonction pour tester le microphone
 function testerMicrophone() {
     navigator.mediaDevices.getUserMedia({ audio: true })
         .then(function(stream) {
@@ -586,23 +510,17 @@ function testerMicrophone() {
             `;
         });
 }
-
-// Initialiser la reconnaissance vocale
 if ('webkitSpeechRecognition' in window) {
     reconnaissanceVocale = new webkitSpeechRecognition();
     reconnaissanceVocale.continuous = false;
     reconnaissanceVocale.interimResults = true;
     reconnaissanceVocale.maxAlternatives = 5;
-    
     const langue = '{{ cour.idNiveau.idLangue.nom }}';
     reconnaissanceVocale.lang = langue === 'Anglais' ? 'en-US' : 'fr-FR';
-    
     let recognitionTimeout;
-    
     reconnaissanceVocale.onresult = function(event) {
         let interimTranscript = '';
         let finalTranscript = '';
-        
         for (let i = event.resultIndex; i < event.results.length; ++i) {
             if (event.results[i].isFinal) {
                 finalTranscript += event.results[i][0].transcript;
@@ -610,7 +528,6 @@ if ('webkitSpeechRecognition' in window) {
                 interimTranscript += event.results[i][0].transcript;
             }
         }
-        
         if (interimTranscript !== '') {
             document.getElementById('feedback-correction').innerHTML = `
                 <div style="background: #f3f4f6; padding: 20px; border-radius: 15px; text-align: center;">
@@ -619,7 +536,6 @@ if ('webkitSpeechRecognition' in window) {
                 </div>
             `;
         }
-        
         if (finalTranscript !== '') {
             clearTimeout(recognitionTimeout);
             recognitionTimeout = setTimeout(() => {
@@ -627,7 +543,6 @@ if ('webkitSpeechRecognition' in window) {
             }, 500);
         }
     };
-    
     reconnaissanceVocale.onerror = function(event) {
         let message = "Erreur de reconnaissance vocale: ";
         switch(event.error) {
@@ -640,7 +555,6 @@ if ('webkitSpeechRecognition' in window) {
             default:
                 message += event.error;
         }
-        
         document.getElementById('feedback-correction').innerHTML = `
             <div style="background: #fee2e2; padding: 20px; border-radius: 15px; text-align: center;">
                 <p style="color: #b91c1c;">❌ ${message}</p>
@@ -651,26 +565,20 @@ if ('webkitSpeechRecognition' in window) {
         `;
         arreterEcoute();
     };
-    
     reconnaissanceVocale.onend = function() {
         enTrainDeParler = false;
     };
 }
-
-// Générer le dialogue
 function genererDialogue() {
     const theme = document.getElementById('theme-input').value.trim();
-    
     if (!theme) {
         alert("Veuillez entrer un thème de conversation");
         return;
     }
-    
     document.getElementById('etape-theme').style.display = 'none';
     document.getElementById('etape-dialogue').style.display = 'block';
     document.getElementById('dialogue-ia').style.display = 'none';
     document.getElementById('dialogue-etudiant').style.display = 'none';
-    
     fetch('/dialogue/generer', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -692,8 +600,6 @@ function genererDialogue() {
         alert('Erreur lors de la génération du dialogue');
     });
 }
-
-// Afficher la réplique courante
 function afficherReplique() {
     if (indexActuel >= dialogue.length) {
         document.getElementById('dialogue-ia').style.display = 'none';
@@ -715,18 +621,14 @@ function afficherReplique() {
         `;
         return;
     }
-    
     const replique = dialogue[indexActuel];
-    
     document.getElementById('replique-actuelle').textContent = indexActuel + 1;
     document.getElementById('barre-progression-dialogue').style.width = 
         ((indexActuel + 1) / dialogue.length * 100) + '%';
-    
     if (replique.role === 'ia') {
         document.getElementById('dialogue-ia').style.display = 'block';
         document.getElementById('dialogue-etudiant').style.display = 'none';
         document.getElementById('btn-changer-voix').style.display = 'inline-block';
-        
         let texteIA = replique.texte;
         if (texteIA.includes(':')) {
             texteIA = texteIA.split(':')[1].trim();
@@ -737,24 +639,18 @@ function afficherReplique() {
         document.getElementById('texte-ia').textContent = texteIA;
         document.getElementById('btn-commencer').style.display = 'none';
         document.getElementById('btn-suivant').style.display = 'none';
-        
         lireTexteIA(texteIA);
-        
     } else {
         document.getElementById('dialogue-ia').style.display = 'none';
         document.getElementById('dialogue-etudiant').style.display = 'block';
         document.getElementById('btn-changer-voix').style.display = 'none';
-        
         let texteEtudiant = replique.texte;
-        
         if (texteEtudiant.includes(':')) {
             const parties = texteEtudiant.split(':');
             texteEtudiant = parties[1] ? parties[1].trim() : parties[0].trim();
         }
-        
         const prefixes = ['etudiant', 'étudiant', 'student', 'user', 'moi', 'toi'];
         const texteLower = texteEtudiant.toLowerCase();
-        
         for (const prefix of prefixes) {
             if (texteLower.startsWith(prefix)) {
                 texteEtudiant = texteEtudiant.substring(prefix.length).trim();
@@ -762,47 +658,36 @@ function afficherReplique() {
                 break;
             }
         }
-        
         texteEtudiant = texteEtudiant.replace(/^["'""]|["'""]$/g, '');
         texteEtudiant = texteEtudiant.replace(/[?!]+$/, (match) => match.charAt(0));
         texteEtudiant = texteEtudiant.replace(/^(um|euh|ah|oh|bon|ben)[\s.,!?]+/i, '');
         texteEtudiant = texteEtudiant.replace(/\s+/g, ' ').trim();
-        
         if (texteEtudiant.length > 0) {
             texteEtudiant = texteEtudiant.charAt(0).toUpperCase() + texteEtudiant.slice(1);
         }
-        
         if (texteEtudiant.length > 0 && !texteEtudiant.match(/[.!?]$/)) {
             texteEtudiant += '.';
         }
-        
         document.getElementById('texte-etudiant').textContent = texteEtudiant;
         document.getElementById('btn-commencer').style.display = 'inline-block';
         document.getElementById('btn-suivant').style.display = 'none';
-        
         document.getElementById('feedback-correction').style.display = 'none';
         document.getElementById('feedback-correction').innerHTML = '';
         document.getElementById('score-actuel').textContent = '0%';
     }
 }
-
-// Fonction pour changer de voix
 function changerVoix() {
     const voices = window.speechSynthesis.getVoices();
     const voixAnglaises = voices.filter(v => v.lang.startsWith('en'));
-    
     if (voixAnglaises.length === 0) {
         alert("Aucune voix anglaise disponible");
         return;
     }
-    
     let message = "Choisis une voix :\n\n";
     voixAnglaises.forEach((voice, index) => {
         message += `${index + 1}. ${voice.name} (${voice.lang})\n`;
     });
-    
     const choix = prompt(message + "\nEntre le numéro de la voix choisie:");
-    
     if (choix && !isNaN(choix) && choix > 0 && choix <= voixAnglaises.length) {
         voixPreference = voixAnglaises[choix - 1];
         alert(`✅ Voix "${voixPreference.name}" sélectionnée !`);
@@ -812,26 +697,19 @@ function changerVoix() {
         }
     }
 }
-
-// Fonction pour lire le texte de l'IA
 function lireTexteIA(texte) {
     window.speechSynthesis.cancel();
-    
     const utterance = new SpeechSynthesisUtterance(texte);
     const langue = '{{ cour.idNiveau.idLangue.nom }}';
-    
     if (langue === 'Anglais') {
         utterance.lang = 'en-US';
         utterance.rate = 0.85;
-        
         function setEnglishVoice() {
             const voices = window.speechSynthesis.getVoices();
-            
             if (voices.length === 0) {
                 setTimeout(setEnglishVoice, 100);
                 return;
             }
-            
             if (voixPreference && voixPreference.name) {
                 const savedVoice = voices.find(v => v.name === voixPreference.name);
                 if (savedVoice) {
@@ -839,7 +717,6 @@ function lireTexteIA(texte) {
                     return;
                 }
             }
-            
             const preferredVoices = [
                 voices.find(v => v.name === 'Samantha'),
                 voices.find(v => v.name === 'Alex'),
@@ -849,7 +726,6 @@ function lireTexteIA(texte) {
                 voices.find(v => v.lang === 'en-US'),
                 voices.find(v => v.lang.startsWith('en'))
             ];
-            
             for (const voice of preferredVoices) {
                 if (voice) {
                     utterance.voice = voice;
@@ -857,31 +733,25 @@ function lireTexteIA(texte) {
                 }
             }
         }
-        
         if (window.speechSynthesis.getVoices().length > 0) {
             setEnglishVoice();
         } else {
             window.speechSynthesis.onvoiceschanged = setEnglishVoice;
         }
     }
-    
     utterance.onend = function() {
         setTimeout(() => {
             indexActuel++;
             afficherReplique();
         }, 1000);
     };
-    
     window.speechSynthesis.speak(utterance);
 }
-
-// Commencer la lecture
 function commencerLecture() {
     if (!reconnaissanceVocale) {
         alert("La reconnaissance vocale n'est pas supportée");
         return;
     }
-    
     const texteAttendu = document.getElementById('texte-etudiant').textContent;
     document.getElementById('feedback-correction').style.display = 'block';
     document.getElementById('btn-commencer').style.display = 'none';
@@ -895,7 +765,6 @@ function commencerLecture() {
             </p>
         </div>
     `;
-    
     try {
         reconnaissanceVocale.abort();
     } catch(e) {}
@@ -909,8 +778,6 @@ function commencerLecture() {
         }
     }, 500);
 }
-
-// Passer à la réplique suivante
 function passerRepliqueSuivante() {
     arreterEcoute();
     window.speechSynthesis.cancel();
@@ -918,8 +785,6 @@ function passerRepliqueSuivante() {
     afficherReplique();
     document.getElementById('btn-suivant').style.display = 'none';
 }
-
-// Recommencer
 function recommencer() {
     window.speechSynthesis.cancel();
     document.getElementById('etape-theme').style.display = 'block';
@@ -928,12 +793,9 @@ function recommencer() {
     document.getElementById('score-actuel').textContent = '0%';
     arreterEcoute();
 }
-
-// Vérifier la prononciation
 function verifierPrononciation(parole) {
     const texteAttendu = document.getElementById('texte-etudiant').textContent;
     parole = parole.trim();
-    
     fetch('/dialogue/verifier', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -942,9 +804,7 @@ function verifierPrononciation(parole) {
     .then(response => response.json())
     .then(data => {
         document.getElementById('score-actuel').textContent = data.score + '%';
-        
         let feedbackHtml = '';
-        
         if (data.reussite) {
             feedbackHtml = `
                 <div style="background: #10b981; color: white; padding: 20px; border-radius: 15px;">
@@ -975,7 +835,6 @@ function verifierPrononciation(parole) {
                 </div>
             `;
         }
-        
         document.getElementById('feedback-correction').innerHTML = feedbackHtml;
         document.getElementById('btn-suivant').style.display = 'inline-block';
         arreterEcoute();
@@ -985,8 +844,6 @@ function verifierPrononciation(parole) {
         arreterEcoute();
     });
 }
-
-// Arrêter l'écoute
 function arreterEcoute() {
     if (reconnaissanceVocale && enTrainDeParler) {
         try {
@@ -995,13 +852,9 @@ function arreterEcoute() {
         enTrainDeParler = false;
     }
 }
-
-// ============ JEUX ÉDUCATIFS ============
 let jeuActuel = null;
 let typeJeuActuel = 'scrambled';
 let motsSelectionnes = [];
-
-// Initialiser les boutons de jeu
 document.querySelectorAll('.jeu-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         document.querySelectorAll('.jeu-btn').forEach(b => {
@@ -1012,24 +865,18 @@ document.querySelectorAll('.jeu-btn').forEach(btn => {
         this.style.color = 'white';
     });
 });
-
-// Fonction pour choisir un jeu
 function choisirJeu(type) {
     typeJeuActuel = type;
     chargerJeu();
 }
-
-// Charger un nouveau jeu
 function chargerJeu() {
     const niveau = '{{ cour.idNiveau.difficulte }}';
     const langue = '{{ cour.idNiveau.idLangue.nom }}';
-    
     document.getElementById('zone-jeu').innerHTML = `
         <div style="text-align: center; padding: 50px;">
             <p style="color: #666;">🎲 Chargement du jeu...</p>
         </div>
     `;
-    
     fetch('/jeu/generer', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -1057,7 +904,6 @@ function chargerJeu() {
         `;
     });
 }
-// Fonction pour debug - À SUPPRIMER PLUS TARD
 function debugJeu() {
     console.log('=== DEBUG JEU ===');
     console.log('Type jeu:', typeJeuActuel);
@@ -1065,8 +911,6 @@ function debugJeu() {
     console.log('Langue:', '{{ cour.idNiveau.idLangue.nom }}');
     console.log('================');
 }
-
-// Appelle-la dans chargerJeu() après la récupération des données
 fetch('/jeu/generer', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
@@ -1079,12 +923,10 @@ fetch('/jeu/generer', {
 })
 .then(response => response.json())
 .then(data => {
-    console.log('Données reçues du serveur:', data); // DEBUG
+    console.log('Données reçues du serveur:', data); 
     jeuActuel = data;
     afficherJeu(data);
 })
-
-// Afficher le jeu selon son type
 function afficherJeu(jeu) {
     switch(jeu.type) {
         case 'scrambled':
@@ -1100,7 +942,6 @@ function afficherJeu(jeu) {
             document.getElementById('zone-jeu').innerHTML = '<p>Type de jeu inconnu</p>';
     }
 }
-// Fonction pour obtenir le titre du jeu dans la bonne langue
 function getGameTitle(jeu) {
     if (jeu.langue === 'Anglais') {
         const titles = {
@@ -1118,10 +959,6 @@ function getGameTitle(jeu) {
         return titles[jeu.type] || 'Jeu';
     }
 }
-// ============ JEUX ÉDUCATIFS - VERSION AVEC COULEURS AMÉLIORÉES ============
-
-// JEU 1: Phrase Mélangée
-// JEU 1: Phrase Mélangée (version multilingue)
 function afficherScrambledGame(jeu) {
     motsSelectionnes = [];
     let html = `
@@ -1132,7 +969,6 @@ function afficherScrambledGame(jeu) {
                 <p style="color: #4a5568; margin-bottom: 20px; font-weight: 600;">${jeu.langue === 'Anglais' ? 'Click on the words in the correct order:' : 'Clique sur les mots dans le bon ordre :'}</p>
                 <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; min-height: 80px;" id="mots-melange">
     `;
-    
     jeu.scrambled.forEach((mot, index) => {
         html += `
             <span onclick="selectionnerMot('${mot}', this)" 
@@ -1144,7 +980,6 @@ function afficherScrambledGame(jeu) {
             </span>
         `;
     });
-    
     html += `
                 </div>
             </div>
@@ -1175,8 +1010,6 @@ function afficherScrambledGame(jeu) {
     
     document.getElementById('zone-jeu').innerHTML = html;
 }
-
-// JEU 2: Trouve l'Intrus (version multilingue)
 function afficherOddOneOutGame(jeu) {
     let html = `
         <div style="text-align: center;">
@@ -1189,7 +1022,6 @@ function afficherOddOneOutGame(jeu) {
     `;
     
     jeu.words.forEach((mot, index) => {
-        // Tous les mots ont le même style bleu
         html += `
             <div onclick="verifierIntrus('${mot}', '${jeu.intruder}', this)" 
                  style="background: #dbeafe; padding: 30px; border-radius: 15px; cursor: pointer; text-align: center; border: 3px solid #3b82f6; transition: all 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
@@ -1200,22 +1032,16 @@ function afficherOddOneOutGame(jeu) {
             </div>
         `;
     });
-    
     html += `</div>`;
     html += `<div id="game-message-container" style="margin-top: 20px;"></div>`;
     
     document.getElementById('zone-jeu').innerHTML = html;
 }
-
-// Fonction showGameMessage multilingue
 function showGameMessage(message, type) {
-    // Supprimer l'ancien message s'il existe
     const oldMessage = document.getElementById('game-message');
     if (oldMessage) {
         oldMessage.remove();
     }
-    
-    // Créer le nouveau message
     const messageDiv = document.createElement('div');
     messageDiv.id = 'game-message';
     messageDiv.style.marginTop = '20px';
@@ -1224,7 +1050,6 @@ function showGameMessage(message, type) {
     messageDiv.style.textAlign = 'center';
     messageDiv.style.fontWeight = 'bold';
     messageDiv.style.animation = 'fadeInOut 2s';
-    
     if (type === 'success') {
         messageDiv.style.background = '#10b981';
         messageDiv.style.color = 'white';
@@ -1233,22 +1058,15 @@ function showGameMessage(message, type) {
         messageDiv.style.color = '#b91c1c';
         messageDiv.style.border = '1px solid #dc2626';
     }
-    
     messageDiv.textContent = message;
-    
-    // Ajouter le message après la grille de jeu
     const zoneJeu = document.getElementById('zone-jeu');
     zoneJeu.appendChild(messageDiv);
-    
-    // Supprimer le message après 2 secondes
     setTimeout(() => {
         if (messageDiv && messageDiv.parentNode) {
             messageDiv.remove();
         }
     }, 2000);
 }
-
-// Fonction pour avoir un indice multilingue
 function avoirIndice() {
     if (jeuActuel && jeuActuel.hint) {
         document.getElementById('indice-zone').textContent = '💡 ' + jeuActuel.hint;
@@ -1266,8 +1084,6 @@ function avoirIndice() {
         }
     }
 }
-
-// Sélectionner un mot (version améliorée)
 function selectionnerMot(mot, element) {
     motsSelectionnes.push(mot);
     
@@ -1277,17 +1093,12 @@ function selectionnerMot(mot, element) {
             ${mot}
         </span>
     `;
-    
-    // Animation de disparition
     element.style.opacity = '0.3';
     element.style.transform = 'scale(0.95)';
     element.style.pointerEvents = 'none';
 }
-
-// Vérifier la réponse du jeu de phrase mélangée
 function verifierScrambled() {
     const phraseUtilisateur = motsSelectionnes.join(' ');
-    
     fetch('/jeu/verifier', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -1296,7 +1107,6 @@ function verifierScrambled() {
     .then(response => response.json())
     .then(data => {
         if (data.correct) {
-            // Animation de succès
             const zoneJeu = document.getElementById('zone-jeu');
             zoneJeu.innerHTML += `
                 <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #10b981; color: white; padding: 30px; border-radius: 20px; text-align: center; z-index: 9999; box-shadow: 0 10px 30px rgba(0,0,0,0.3); animation: fadeInOut 2s;">
@@ -1305,7 +1115,6 @@ function verifierScrambled() {
                     <p style="color: white;">${data.message}</p>
                 </div>
             `;
-            
             mettreAJourProgression();
             setTimeout(() => chargerJeu(), 2000);
         } else {
@@ -1317,31 +1126,19 @@ function verifierScrambled() {
         alert('Erreur lors de la vérification');
     });
 }
-
-
-// Vérifier l'intrus
 function verifierIntrus(mot, intrus, element) {
     if (mot === intrus) {
-        // Réponse correcte
         element.style.background = '#10b981';
         element.style.borderColor = '#059669';
         element.style.color = 'white';
-        
-        // Afficher le message de succès DANS la zone de jeu (pas en alert)
         showGameMessage('🎉 Bravo ! C\'est bien l\'intrus !', 'success');
-        
         mettreAJourProgression();
         setTimeout(() => chargerJeu(), 2000);
     } else {
-        // Réponse incorrecte
         element.style.background = '#fee2e2';
         element.style.borderColor = '#dc2626';
         element.style.transform = 'scale(0.98)';
-        
-        // Afficher le message d'erreur
         showGameMessage('❌ Ce n\'est pas l\'intrus. Essaie encore !', 'error');
-        
-        // Remettre le style après un délai
         setTimeout(() => {
             element.style.background = '#e0f2fe';
             element.style.borderColor = '#3b82f6';
@@ -1349,8 +1146,6 @@ function verifierIntrus(mot, intrus, element) {
         }, 500);
     }
 }
-
-// JEU 3: Mots Croisés (version améliorée avec grille claire)
 function afficherCrosswordGame(jeu) {
     let html = `
         <div style="text-align: center;">
@@ -1361,16 +1156,12 @@ function afficherCrosswordGame(jeu) {
                     <h4 style="color: #333; margin-bottom: 15px;">📋 ${jeu.langue === 'Anglais' ? 'Grid' : 'Grille'}</h4>
                     <div style="background: #ffffff; padding: 20px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
     `;
-    
-    // Créer une grille de 8x8 avec des cases numérotées
     for (let i = 0; i < 8; i++) {
         html += '<div style="display: flex; justify-content: center;">';
         for (let j = 0; j < 8; j++) {
-            // Numéroter les premières cases pour guider l'utilisateur
             const cellNumber = (i === 0 && j === 0) ? '1' : 
                               (i === 0 && j === 3) ? '2' : 
                               (i === 3 && j === 0) ? '3' : '';
-            
             html += `
                 <div style="position: relative; width: 50px; height: 50px; border: 2px solid #8b5cf6; display: flex; align-items: center; justify-content: center; background: white;">
                     <input type="text" maxlength="1" 
@@ -1382,7 +1173,6 @@ function afficherCrosswordGame(jeu) {
         }
         html += '</div>';
     }
-    
     html += `
                     </div>
                     <p style="color: #666; margin-top: 10px; font-size: 0.9rem;">
@@ -1394,7 +1184,6 @@ function afficherCrosswordGame(jeu) {
                     <h4 style="color: #333; margin-bottom: 15px;">📝 ${jeu.langue === 'Anglais' ? 'Clues' : 'Indices'}</h4>
                     <div style="background: #ffffff; padding: 20px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-height: 400px; overflow-y: auto;">
     `;
-    
     jeu.words.forEach((word, index) => {
         html += `
             <div style="margin-bottom: 20px; padding: 15px; background: ${index % 2 === 0 ? '#f3f4f6' : '#e9f0ff'}; border-radius: 10px; border-left: 4px solid #8b5cf6;">
@@ -1415,7 +1204,6 @@ function afficherCrosswordGame(jeu) {
             </div>
         `;
     });
-    
     html += `
                     </div>
                 </div>
@@ -1433,26 +1221,19 @@ function afficherCrosswordGame(jeu) {
             </div>
         </div>
     `;
-    
     document.getElementById('zone-jeu').innerHTML = html;
 }
-
-// Fonction utilitaire pour les mots croisés (améliorée)
 function verifierMotsCroises() {
-    // Récupérer toutes les entrées de la grille
     const inputs = document.querySelectorAll('#zone-jeu input');
     let motsTrouves = 0;
     let reponses = [];
-    
     inputs.forEach((input, index) => {
         if (input.value && input.value.trim() !== '') {
             motsTrouves++;
             reponses.push(`${index+1}: ${input.value.toUpperCase()}`);
         }
     });
-    
     if (motsTrouves > 0) {
-        // Message plus clair avec la progression
         showGameMessage(
             jeuActuel?.langue === 'Anglais' 
                 ? `🔍 You've filled ${motsTrouves} cells! Keep going!` 
@@ -1468,16 +1249,11 @@ function verifierMotsCroises() {
         );
     }
 }
-
-// Ajouter cette nouvelle fonction pour les messages d'information
 function showGameMessage(message, type) {
-    // Supprimer l'ancien message s'il existe
     const oldMessage = document.getElementById('game-message');
     if (oldMessage) {
         oldMessage.remove();
     }
-    
-    // Créer le nouveau message
     const messageDiv = document.createElement('div');
     messageDiv.id = 'game-message';
     messageDiv.style.marginTop = '20px';
@@ -1486,7 +1262,6 @@ function showGameMessage(message, type) {
     messageDiv.style.textAlign = 'center';
     messageDiv.style.fontWeight = 'bold';
     messageDiv.style.animation = 'fadeInOut 2s';
-    
     if (type === 'success') {
         messageDiv.style.background = '#10b981';
         messageDiv.style.color = 'white';
@@ -1498,28 +1273,18 @@ function showGameMessage(message, type) {
         messageDiv.style.background = '#3b82f6';
         messageDiv.style.color = 'white';
     }
-    
     messageDiv.textContent = message;
-    
-    // Ajouter le message après la grille de jeu
     const zoneJeu = document.getElementById('zone-jeu');
     zoneJeu.appendChild(messageDiv);
-    
-    // Supprimer le message après 2 secondes
     setTimeout(() => {
         if (messageDiv && messageDiv.parentNode) {
             messageDiv.remove();
         }
     }, 2000);
 }
-
-// Fonctions utilitaires
 function recommencerJeu() {
     chargerJeu();
 }
-
-
-
 function mettreAJourProgression() {
     let points = parseInt(document.getElementById('points-jeu').textContent) || 0;
     points += 10;
@@ -1531,8 +1296,6 @@ function mettreAJourProgression() {
     progression.style.width = newWidth + '%';
     document.getElementById('progression-jeu').textContent = Math.round(newWidth/33.33) + '/3';
 }
-
-// Animation CSS
 const style = document.createElement('style');
 style.textContent = `
     @keyframes fadeInOut {
