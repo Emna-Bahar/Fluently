@@ -30,10 +30,9 @@ final class TacheAdminController extends AbstractController
     #[Route('/search', name: 'app_tache_admin_search', methods: ['POST'])]
     public function search(Request $request, TacheRepository $tacheRepository): JsonResponse
     {
-        $search = $request->request->get('search', '');
-        $statut = $request->request->get('statut', '');
-        $priorite = $request->request->get('priorite', '');
-
+       $search   = $request->request->getString('search');
+       $statut   = $request->request->getString('statut');
+       $priorite = $request->request->getString('priorite');
         $taches = $tacheRepository->searchTaches($search, $statut, $priorite);
 
         $data = [];
@@ -117,7 +116,8 @@ final class TacheAdminController extends AbstractController
     #[Route('/{id<\d+>}', name: 'app_tache_admin_delete', methods: ['POST'])]
     public function delete(Request $request, Tache $tache, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$tache->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$tache->getId(), (string) $request->request->get('_token'))) {
+
             $entityManager->remove($tache);
             $entityManager->flush();
             

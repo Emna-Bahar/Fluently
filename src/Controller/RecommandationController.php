@@ -103,7 +103,9 @@ final class RecommandationController extends AbstractController
 
             $content = preg_replace('/```json\s*/i', '', $content);
             $content = preg_replace('/```\s*/i', '', $content);
-            $content = trim($content);
+            $content = trim(is_string($content) ? $content : '');
+
+
 
             preg_match('/\{.*\}/s', $content, $matches);
             $jsonStr = $matches[0] ?? $content;
@@ -168,8 +170,10 @@ final class RecommandationController extends AbstractController
                 // À adapter selon ton système
                 $objectif->setIdUser($entityManager->getRepository(\App\Entity\User::class)->findOneBy([]));
             } else {
-                $objectif->setIdUser($user);
-            }
+    if ($user instanceof \App\Entity\User) {
+        $objectif->setIdUser($user);
+    }
+}
 
             $entityManager->persist($objectif);
             $entityManager->flush();
@@ -181,8 +185,8 @@ final class RecommandationController extends AbstractController
                     'id' => $objectif->getId(),
                     'titre' => $objectif->getTitre(),
                     'description' => $objectif->getDescription(),
-                    'dateDeb' => $objectif->getDateDeb()->format('d/m/Y'),
-                    'dateFin' => $objectif->getDateFin()->format('d/m/Y'),
+                    'dateDeb' => $objectif->getDateDeb()?->format('d/m/Y') ?? '',
+                    'dateFin' => $objectif->getDateFin()?->format('d/m/Y') ?? '',
                 ]
             ]);
 
@@ -234,8 +238,12 @@ FORMAT JSON OBLIGATOIRE :
 PROMPT;
     }
 
-    private function construirePrompt(array $objectifs, array $taches): string
-    {
+// construirePrompt()
+/**
+ * @param Objectif[] $objectifs
+ * @param \App\Entity\Tache[] $taches
+ */
+private function construirePrompt(array $objectifs, array $taches): string    {
         $total      = count($objectifs);
         $termines   = 0;
         $enCours    = 0;
@@ -310,7 +318,12 @@ PROMPT;
         return $prompt;
     }
 
-    private function modeDemo(array $objectifs): array
+// modeDemo()
+/**
+ * @param Objectif[] $objectifs
+ * @return array<string, mixed>
+ */
+private function modeDemo(array $objectifs): array
     {
         $termines = count(array_filter($objectifs, fn($o) => $o->getStatut() === 'complete'));
         $total    = count($objectifs);
@@ -386,8 +399,12 @@ PROMPT;
         ];
     }
 
-    private function calculerStats(array $objectifs): array
-    {
+// calculerStats()
+/**
+ * @param Objectif[] $objectifs
+ * @return array<string, int|float>
+ */
+private function calculerStats(array $objectifs): array     {
         $total      = count($objectifs);
         $termines   = 0;
         $enCours    = 0;

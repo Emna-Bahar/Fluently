@@ -17,7 +17,6 @@
                 </p>
             </div>
         </div>
-        
     </div>
 </section>
 
@@ -34,8 +33,9 @@
                         <p class="mb-0 mt-2"><small>Fixez-vous des objectifs clairs pour progresser efficacement</small></p>
                     </div>
                     <div class="card-body p-5">
+
                         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-                        
+
                         {# Titre #}
                         <div class="form-group mb-4">
                             <label for="{{ form.titre.vars.id }}" class="font-weight-bold">
@@ -96,7 +96,7 @@
                             </div>
                         </div>
 
-                        {# Statut et Utilisateur #}
+                        {# Statut + Utilisateur connecté (lecture seule) #}
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-4">
@@ -110,14 +110,28 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                {# ── Champ Id_user caché — valeur forcée côté controller ── #}
+                                {{ form_widget(form.Id_user, {'attr': {'style': 'display:none;'}}) }}
+
+                                {# ── Affichage lecture seule de l'utilisateur connecté ── #}
                                 <div class="form-group mb-4">
-                                    <label for="{{ form.Id_user.vars.id }}" class="font-weight-bold">
-                                        <i class="fa fa-user text-info"></i> Assigner à *
+                                    <label class="font-weight-bold">
+                                        <i class="fa fa-user text-info"></i> Assigné à
                                     </label>
-                                    {{ form_widget(form.Id_user, {
-                                        'attr': {'class': 'form-control custom-select'}
-                                    }) }}
-                                    {{ form_errors(form.Id_user) }}
+                                    <div class="form-control d-flex align-items-center" 
+                                         style="background:#f8f9fa; cursor:default;">
+                                        <span class="mr-2" style="font-size:1.2rem;">👤</span>
+                                        <span>
+                                            {% if app.user %}
+                                                <strong>{{ app.user.prenom }} {{ app.user.nom }}</strong>
+                                                <small class="text-muted d-block">{{ app.user.email }}</small>
+                                            {% else %}
+                                                Utilisateur connecté
+                                            {% endif %}
+                                        </span>
+                                        <span class="ml-auto badge badge-success">Vous</span>
+                                    </div>
+                                    <small class="form-text text-muted">L'objectif sera automatiquement assigné à votre compte.</small>
                                 </div>
                             </div>
                         </div>
@@ -171,8 +185,6 @@
         border-color: #667eea;
         box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
     }
-    .card {
-        overflow: hidden;
-    }
+    .card { overflow: hidden; }
 </style>
 {% endblock %}
