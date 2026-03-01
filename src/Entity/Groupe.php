@@ -118,17 +118,10 @@ class Groupe
         return $this;
     }
 
-<<<<<<< HEAD
-    public function getCapacite(): int
+    public function getCapacite(): ?int
     {
         return $this->capacite;
     }
-=======
-public function getCapacite(): ?int
-{
-    return $this->capacite;
-}
->>>>>>> origin/gestion/reservation-session
 
 public function setCapacite(mixed $capacite): static
 {
@@ -251,11 +244,7 @@ public function setCapacite(mixed $capacite): static
     {
         if (!$this->sessions->contains($session)) {
             $this->sessions->add($session);
-<<<<<<< HEAD
-            $session->setGroupe($this);
-=======
             $session->setGroup($this);
->>>>>>> origin/gestion/reservation-session
         }
 
         return $this;
@@ -265,13 +254,8 @@ public function setCapacite(mixed $capacite): static
     {
         if ($this->sessions->removeElement($session)) {
             // set the owning side to null (unless already changed)
-<<<<<<< HEAD
-            if ($session->getGroupe() === $this) {
-                $session->setGroupe(null);
-=======
             if ($session->getGroup() === $this) {
                 $session->setGroup(null);
->>>>>>> origin/gestion/reservation-session
             }
         }
 

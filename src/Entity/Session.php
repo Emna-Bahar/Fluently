@@ -20,16 +20,6 @@ class Session
     // Doctrine injecte l'int via réflexion après persist+flush, jamais via PHP direct
     private ?int $id = null; // @phpstan-ignore-line property.unusedType
 
-<<<<<<< HEAD
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\NotBlank(message: "La date et heure sont obligatoires")]
-    private \DateTimeInterface $dateHeure;
-
-    #[ORM\Column(length: 50)]
-    #[Assert\NotBlank(message: "Le statut est obligatoire")]
-    #[Assert\Choice(choices: ['planifiée', 'en_cours', 'terminée', 'annulée'], message: "Statut invalide")]
-    private string $statut = '';
-=======
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     #[Assert\NotBlank(message: "La date et heure de la session sont obligatoires.")]
     #[Assert\GreaterThanOrEqual(
@@ -45,7 +35,6 @@ class Session
         message: "Statut invalide. Valeurs acceptées : planifiée, en cours, terminée, annulée."
     )]
     private ?string $statut = null;
->>>>>>> origin/gestion/reservation-session
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank(message: "Le lien de la réunion est obligatoire.")]

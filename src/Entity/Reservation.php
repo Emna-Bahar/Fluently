@@ -16,17 +16,6 @@ class Reservation
     private ?int $id = null; // @phpstan-ignore-line property.unusedType
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-<<<<<<< HEAD
-    #[Assert\NotBlank(message: "La date de réservation est obligatoire")]
-    private \DateTimeInterface $dateReservation;
-
-    #[ORM\Column(length: 50)]
-    #[Assert\NotBlank(message: "Le statut est obligatoire")]
-    #[Assert\Choice(choices: ['en_attente', 'confirmee', 'annulee', 'terminee'], message: "Statut invalide")]
-    private string $statut = 'en_attente';
-
-    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'reservations')]
-=======
     #[Assert\NotBlank(message: "La date de réservation est obligatoire.")]
     #[Assert\GreaterThanOrEqual(
         value: "today",
@@ -43,7 +32,6 @@ class Reservation
     private ?string $statut = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
->>>>>>> origin/gestion/reservation-session
     #[ORM\JoinColumn(name: "id_session_id", referencedColumnName: "id", nullable: false)]
     #[Assert\NotNull(message: "La session est obligatoire.")]
     private ?Session $session = null;
