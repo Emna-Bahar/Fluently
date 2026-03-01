@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: GroupeRepository::class)]
 class Groupe
@@ -17,18 +18,42 @@ class Groupe
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: 'Le nom du groupe est obligatoire.')]
+    #[Assert\Length(
+        min: 3,
+        max: 50,
+        minMessage: 'Le nom du groupe doit contenir au moins {{ limit }} caractères.',
+        maxMessage: 'Le nom du groupe ne peut pas dépasser {{ limit }} caractères.'
+    )]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'La description est obligatoire.')]
+    #[Assert\Length(
+        min: 10,
+        max: 255,
+        minMessage: 'La description doit contenir au moins {{ limit }} caractères.',
+        maxMessage: 'La description ne peut pas dépasser {{ limit }} caractères.'
+    )]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\NotNull(message: 'La capacité est obligatoire.')]
+    #[Assert\Positive(message: 'La capacité doit être un nombre positif.')]
     private ?int $capacite = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: 'Le statut est obligatoire.')]
+    #[Assert\Length(
+        min: 3,
+        max: 50,
+        minMessage: 'Le statut doit contenir au moins {{ limit }} caractères.',
+        maxMessage: 'Le statut ne peut pas dépasser {{ limit }} caractères.'
+    )]
     private ?string $statut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotNull(message: 'La date de création est obligatoire.')]
     private ?\DateTime $date_creation = null;
 
     #[ORM\ManyToOne(inversedBy: 'groupes')]
