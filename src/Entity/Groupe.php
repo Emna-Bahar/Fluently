@@ -244,7 +244,7 @@ class Groupe
     {
         if (!$this->sessions->contains($session)) {
             $this->sessions->add($session);
-            $session->setIdGroup($this);
+            $session->setGroupe($this);
         }
 
         return $this;
@@ -254,8 +254,8 @@ class Groupe
     {
         if ($this->sessions->removeElement($session)) {
             // set the owning side to null (unless already changed)
-            if ($session->getIdGroup() === $this) {
-                $session->setIdGroup(null);
+            if ($session->getGroupe() === $this) {
+                $session->setGroupe(null);
             }
         }
 

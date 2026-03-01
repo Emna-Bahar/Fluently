@@ -16,28 +16,20 @@ class GroupeRepository extends ServiceEntityRepository
         parent::__construct($registry, Groupe::class);
     }
 
-    //    /**
-    //     * @return Groupe[] Returns an array of Groupe objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('g')
-    //            ->andWhere('g.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('g.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Groupe
-    //    {
-    //        return $this->createQueryBuilder('g')
-    //            ->andWhere('g.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * Returns all groupes with their langue and niveau eagerly loaded
+     * to avoid N+1 queries.
+     *
+     * @return Groupe[]
+     */
+    public function findAllWithDetails(): array
+    {
+        return $this->createQueryBuilder('g')
+            ->addSelect('l', 'n')
+            ->leftJoin('g.ID_langue', 'l')
+            ->leftJoin('g.Id_niveau', 'n')
+            ->orderBy('g.nom', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }
