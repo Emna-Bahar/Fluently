@@ -79,118 +79,147 @@ class __TwigTemplate_1aa756072a45dfe6559de6fa35edaf3a extends Template
 </head>
 <body>
 
-    <nav class=\"nxl-navigation\">
+     <nav class=\"nxl-navigation\">
         <div class=\"navbar-wrapper\">
             <div class=\"m-header\">
-                <a href=\"";
-        // line 20
-        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("dashboard");
-        yield "\" class=\"b-brand\">
-                    <img src=\"";
-        // line 21
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/images/fluently.png"), "html", null, true);
-        yield "\" alt=\"Fluently\" class=\"logo logo-lg\" />
-                    <img src=\"";
+                <a href=\"index.html\" class=\"b-brand\">
+    <!-- ========   change your logo hear   ============ -->
+    <img src=\"";
         // line 22
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/images/fluently.png"), "html", null, true);
+        yield "\" alt=\"Fluently\" class=\"logo logo-lg\" />
+    <img src=\"";
+        // line 23
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/images/fluently.png"), "html", null, true);
         yield "\" alt=\"Fluently\" class=\"logo logo-sm\" />
-                </a>
+</a>
             </div>
             <div class=\"navbar-content\">
                 <ul class=\"nxl-navbar\">
-                    <li class=\"nxl-item nxl-caption\"><label>Navigation</label></li>
+                    <li class=\"nxl-item nxl-caption\">
+                        <label>Navigation</label>
+                    </li>
                     <li class=\"nxl-item nxl-hasmenu\">
                         <a href=\"javascript:void(0);\" class=\"nxl-link\">
                             <span class=\"nxl-micon\"><i class=\"feather-airplay\"></i></span>
-                            <span class=\"nxl-mtext\">Dashboards_User</span>
-                            <span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
+                            <span class=\"nxl-mtext\">Dashboards_User</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
                             <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
-        // line 35
+        // line 37
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("dashboard");
-        yield "\">Accueil</a></li>
+        yield "\">Users</a></li>
+                            
                         </ul>
                     </li>
                     <li class=\"nxl-item nxl-hasmenu\">
                         <a href=\"javascript:void(0);\" class=\"nxl-link\">
                             <span class=\"nxl-micon\"><i class=\"feather-cast\"></i></span>
-                            <span class=\"nxl-mtext\">Langues</span>
-                            <span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
+                            <span class=\"nxl-mtext\">Langues</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"reports-sales.html\">Sales Report</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"reports-leads.html\">Leads Report</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"reports-project.html\">Project Report</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"reports-timesheets.html\">Timesheets Report</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
+        // line 47
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_admin_langue_index");
+        yield "\">Langue</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
+        // line 48
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_cours_index");
+        yield "\">Cours</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
+        // line 49
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_niveau_index");
+        yield "\">Niveau</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
+        // line 50
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_admin_langue_stats");
+        yield "\">Statistiques</a></li>
                         </ul>
                     </li>
-                    <li class=\"nxl-item nxl-hasmenu\">
-                        <a href=\"javascript:void(0);\" class=\"nxl-link\">
-                            <span class=\"nxl-micon\"><i class=\"feather-send\"></i></span>
-                            <span class=\"nxl-mtext\">Test</span>
-                            <span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
+                    <li class=\"nxl-item\">
+                       <a href=\"javascript:void(0);\" class=\"nxl-link\">
+                            <span class=\"nxl-micon\"><i class=\"feather-cast\"></i></span>
+                            <span class=\"nxl-mtext\">Test</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-chat.html\">Chat</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-email.html\">Email</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-tasks.html\">Tasks</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-notes.html\">Notes</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-storage.html\">Storage</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-calendar.html\">Calendar</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
+        // line 59
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_test_index");
+        yield "\">Tests</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
+        // line 60
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_question_index");
+        yield "\">Questions</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
+        // line 61
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_reponse_index");
+        yield "\">Reponse</a></li>
+                            
                         </ul>
                     </li>
-                    <li class=\"nxl-item nxl-hasmenu\">
-                        <a href=\"javascript:void(0);\" class=\"nxl-link\">
+                    <li class=\"nxl-item\">
+                        <a href=\"";
+        // line 66
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("admin_group_index");
+        yield "\" class=\"nxl-link\">
                             <span class=\"nxl-micon\"><i class=\"feather-at-sign\"></i></span>
                             <span class=\"nxl-mtext\">Groupes</span>
-                            <span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
-                        <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"proposal.html\">Proposal</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"proposal-view.html\">Proposal View</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"proposal-edit.html\">Proposal Edit</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"proposal-create.html\">Proposal Create</a></li>
-                        </ul>
                     </li>
-                    <li class=\"nxl-item nxl-hasmenu active\">
+                    <li class=\"nxl-item nxl-hasmenu\">
                         <a href=\"javascript:void(0);\" class=\"nxl-link\">
                             <span class=\"nxl-micon\"><i class=\"feather-dollar-sign\"></i></span>
-                            <span class=\"nxl-mtext\">Sessions</span>
-                            <span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
+                            <span class=\"nxl-mtext\">Sessions</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item active\"><a class=\"nxl-link\" href=\"";
-        // line 86
-        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("session_prof_dashboard");
-        yield "\">Tableau de bord</a></li>
                             <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
-        // line 87
-        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("prof_session_list");
-        yield "\">Mes sessions</a></li>
+        // line 77
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("session_prof_dashboard");
+        yield "\">Session</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
+        // line 78
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("reservation_professeur");
+        yield "\">reservation</a></li>
                         </ul>
                     </li>
                     <li class=\"nxl-item nxl-hasmenu\">
                         <a href=\"javascript:void(0);\" class=\"nxl-link\">
                             <span class=\"nxl-micon\"><i class=\"feather-users\"></i></span>
-                            <span class=\"nxl-mtext\">Objectifs</span>
-                            <span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
+                            <span class=\"nxl-mtext\">Objectifs</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"customers.html\">Customers</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"customers-view.html\">Customers View</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"customers-create.html\">Customers Create</a></li>
-                        </ul>
+        <li class=\"nxl-item\">
+            <a class=\"nxl-link\" href=\"";
+        // line 88
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_objectif_admin_index");
+        yield "\">
+                Liste des objectifs
+            </a>
+        </li>
+       
+    </ul>
+    <li class=\"nxl-item nxl-hasmenu\">
+    <a href=\"javascript:void(0);\" class=\"nxl-link\">
+        <span class=\"nxl-micon\"><i class=\"feather-check-square\"></i></span>
+        <span class=\"nxl-mtext\">Tâches</span>
+        <span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
+    </a>
+    <ul class=\"nxl-submenu\">
+        <li class=\"nxl-item\">
+            <a class=\"nxl-link\" href=\"";
+        // line 102
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_tache_admin_index");
+        yield "\">
+                Liste des tâches
+            </a>
+        </li>
+       
+    </ul>
+</li>
                     </li>
+                    
                 </ul>
-                <div class=\"card text-center\">
-                    <div class=\"card-body\">
-                        <i class=\"feather-sunrise fs-4 text-dark\"></i>
-                        <h6 class=\"mt-4 text-dark fw-bolder\">Downloading Center</h6>
-                        <p class=\"fs-11 my-3 text-dark\">Duralux is a production ready CRM to get started up and running easily.</p>
-                        <a href=\"https://www.themewagon.com/themes/Duralux-admin\" target=\"_blank\" class=\"btn btn-primary text-dark w-100\">Download Now</a>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </nav>
@@ -208,14 +237,14 @@ class __TwigTemplate_1aa756072a45dfe6559de6fa35edaf3a extends Template
             <div class=\"container-fluid py-4\">
 
                 ";
-        // line 127
+        // line 129
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 127, $this->source); })()), "flashes", ["success"], "method", false, false, false, 127));
+        $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 129, $this->source); })()), "flashes", ["success"], "method", false, false, false, 129));
         foreach ($context['_seq'] as $context["_key"] => $context["message"]) {
-            // line 128
+            // line 130
             yield "                    <div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\">
                         ";
-            // line 129
+            // line 131
             yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["message"], "html", null, true);
             yield "
                         <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>
@@ -225,15 +254,15 @@ class __TwigTemplate_1aa756072a45dfe6559de6fa35edaf3a extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['message'], $context['_parent']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 133
+        // line 135
         yield "                ";
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 133, $this->source); })()), "flashes", ["error"], "method", false, false, false, 133));
+        $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 135, $this->source); })()), "flashes", ["error"], "method", false, false, false, 135));
         foreach ($context['_seq'] as $context["_key"] => $context["message"]) {
-            // line 134
+            // line 136
             yield "                    <div class=\"alert alert-danger alert-dismissible fade show\" role=\"alert\">
                         ";
-            // line 135
+            // line 137
             yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["message"], "html", null, true);
             yield "
                         <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>
@@ -243,15 +272,15 @@ class __TwigTemplate_1aa756072a45dfe6559de6fa35edaf3a extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['message'], $context['_parent']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 139
+        // line 141
         yield "                ";
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 139, $this->source); })()), "flashes", ["warning"], "method", false, false, false, 139));
+        $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 141, $this->source); })()), "flashes", ["warning"], "method", false, false, false, 141));
         foreach ($context['_seq'] as $context["_key"] => $context["message"]) {
-            // line 140
+            // line 142
             yield "                    <div class=\"alert alert-warning alert-dismissible fade show\" role=\"alert\">
                         ";
-            // line 141
+            // line 143
             yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["message"], "html", null, true);
             yield "
                         <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\" aria-label=\"Close\"></button>
@@ -261,15 +290,15 @@ class __TwigTemplate_1aa756072a45dfe6559de6fa35edaf3a extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['message'], $context['_parent']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 145
+        // line 147
         yield "
                 <div class=\"d-flex justify-content-between align-items-center mb-4\">
                     <h1 class=\"h2 mb-0\">Détails de la session #";
-        // line 147
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 147, $this->source); })()), "id", [], "any", false, false, false, 147), "html", null, true);
+        // line 149
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 149, $this->source); })()), "id", [], "any", false, false, false, 149), "html", null, true);
         yield "</h1>
                     <a href=\"";
-        // line 148
+        // line 150
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("prof_session_list");
         yield "\" class=\"btn btn-secondary\">
                         <i class=\"fa fa-arrow-left me-2\"></i> Retour à la liste
@@ -284,62 +313,62 @@ class __TwigTemplate_1aa756072a45dfe6559de6fa35edaf3a extends Template
                         <dl class=\"row\">
                             <dt class=\"col-sm-3 fw-bold\">Date & Heure</dt>
                             <dd class=\"col-sm-9\">";
-        // line 160
-        yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 160, $this->source); })()), "dateHeure", [], "any", false, false, false, 160)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 160, $this->source); })()), "dateHeure", [], "any", false, false, false, 160), "d/m/Y H:i"), "html", null, true)) : ("—"));
+        // line 162
+        yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 162, $this->source); })()), "dateHeure", [], "any", false, false, false, 162)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 162, $this->source); })()), "dateHeure", [], "any", false, false, false, 162), "d/m/Y H:i"), "html", null, true)) : ("—"));
         yield "</dd>
 
                             <dt class=\"col-sm-3 fw-bold\">Statut</dt>
                             <dd class=\"col-sm-9\">
                                 <span class=\"badge bg-";
-        // line 164
-        yield (((CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 164, $this->source); })()), "statut", [], "any", false, false, false, 164) == "terminée")) ? ("success") : ((((CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 164, $this->source); })()), "statut", [], "any", false, false, false, 164) == "planifiée")) ? ("warning") : ("secondary"))));
+        // line 166
+        yield (((CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 166, $this->source); })()), "statut", [], "any", false, false, false, 166) == "terminée")) ? ("success") : ((((CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 166, $this->source); })()), "statut", [], "any", false, false, false, 166) == "planifiée")) ? ("warning") : ("secondary"))));
         yield "\">
                                     ";
-        // line 165
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::capitalize($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 165, $this->source); })()), "statut", [], "any", false, false, false, 165)), "html", null, true);
+        // line 167
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::capitalize($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 167, $this->source); })()), "statut", [], "any", false, false, false, 167)), "html", null, true);
         yield "
                                 </span>
                             </dd>
 
                             <dt class=\"col-sm-3 fw-bold\">Groupe</dt>
                             <dd class=\"col-sm-9\">";
-        // line 170
-        yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 170, $this->source); })()), "group", [], "any", false, false, false, 170)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 170, $this->source); })()), "group", [], "any", false, false, false, 170), "nom", [], "any", false, false, false, 170), "html", null, true)) : ("—"));
+        // line 172
+        yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 172, $this->source); })()), "group", [], "any", false, false, false, 172)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 172, $this->source); })()), "group", [], "any", false, false, false, 172), "nom", [], "any", false, false, false, 172), "html", null, true)) : ("—"));
         yield "</dd>
 
                             <dt class=\"col-sm-3 fw-bold\">Lien réunion</dt>
                             <dd class=\"col-sm-9\">
                                 ";
-        // line 174
-        if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 174, $this->source); })()), "lienReunion", [], "any", false, false, false, 174)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-            // line 175
+        // line 176
+        if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 176, $this->source); })()), "lienReunion", [], "any", false, false, false, 176)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+            // line 177
             yield "                                    <a href=\"";
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 175, $this->source); })()), "lienReunion", [], "any", false, false, false, 175), "html", null, true);
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 177, $this->source); })()), "lienReunion", [], "any", false, false, false, 177), "html", null, true);
             yield "\" target=\"_blank\" class=\"btn btn-success btn-sm\">
                                         <i class=\"fa fa-video me-1\"></i> Rejoindre
                                     </a>
                                 ";
         } else {
-            // line 179
+            // line 181
             yield "                                    <span class=\"text-muted\">Aucun lien</span>
                                 ";
         }
-        // line 181
+        // line 183
         yield "                            </dd>
 
                             <dt class=\"col-sm-3 fw-bold\">Note</dt>
                             <dd class=\"col-sm-9\">
                                 ";
-        // line 185
-        $context["rating"] = ((CoreExtension::getAttribute($this->env, $this->source, ($context["session"] ?? null), "rating", [], "any", true, true, false, 185)) ? (Twig\Extension\CoreExtension::default(CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 185, $this->source); })()), "rating", [], "any", false, false, false, 185), 0)) : (0));
-        // line 186
+        // line 187
+        $context["rating"] = ((CoreExtension::getAttribute($this->env, $this->source, ($context["session"] ?? null), "rating", [], "any", true, true, false, 187)) ? (Twig\Extension\CoreExtension::default(CoreExtension::getAttribute($this->env, $this->source, (isset($context["session"]) || array_key_exists("session", $context) ? $context["session"] : (function () { throw new RuntimeError('Variable "session" does not exist.', 187, $this->source); })()), "rating", [], "any", false, false, false, 187), 0)) : (0));
+        // line 188
         yield "                                ";
         $context['_parent'] = $context;
         $context['_seq'] = CoreExtension::ensureTraversable(range(1, 5));
         foreach ($context['_seq'] as $context["_key"] => $context["i"]) {
-            // line 187
+            // line 189
             yield "                                    <i class=\"fa fa-star ";
-            if (($context["i"] <= (isset($context["rating"]) || array_key_exists("rating", $context) ? $context["rating"] : (function () { throw new RuntimeError('Variable "rating" does not exist.', 187, $this->source); })()))) {
+            if (($context["i"] <= (isset($context["rating"]) || array_key_exists("rating", $context) ? $context["rating"] : (function () { throw new RuntimeError('Variable "rating" does not exist.', 189, $this->source); })()))) {
                 yield "text-warning";
             } else {
                 yield "text-muted";
@@ -350,12 +379,12 @@ class __TwigTemplate_1aa756072a45dfe6559de6fa35edaf3a extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['i'], $context['_parent']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 189
+        // line 191
         yield "                                ";
-        if (((isset($context["rating"]) || array_key_exists("rating", $context) ? $context["rating"] : (function () { throw new RuntimeError('Variable "rating" does not exist.', 189, $this->source); })()) == 0)) {
+        if (((isset($context["rating"]) || array_key_exists("rating", $context) ? $context["rating"] : (function () { throw new RuntimeError('Variable "rating" does not exist.', 191, $this->source); })()) == 0)) {
             yield "<small class=\"text-muted\"> (non notée)</small>";
         }
-        // line 190
+        // line 192
         yield "                            </dd>
                         </dl>
                     </div>
@@ -379,31 +408,31 @@ class __TwigTemplate_1aa756072a45dfe6559de6fa35edaf3a extends Template
     </main>
 
     <script src=\"";
-        // line 212
+        // line 214
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/vendors/js/vendors.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 213
+        // line 215
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/vendors/js/daterangepicker.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 214
+        // line 216
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/vendors/js/apexcharts.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 215
+        // line 217
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/vendors/js/circle-progress.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 216
+        // line 218
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/common-init.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 217
+        // line 219
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/dashboard-init.min.js"), "html", null, true);
         yield "\"></script>
     <script src=\"";
-        // line 218
+        // line 220
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets/js/theme-customizer-init.min.js"), "html", null, true);
         yield "\"></script>
 </body>
@@ -438,7 +467,7 @@ class __TwigTemplate_1aa756072a45dfe6559de6fa35edaf3a extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  407 => 218,  403 => 217,  399 => 216,  395 => 215,  391 => 214,  387 => 213,  383 => 212,  359 => 190,  354 => 189,  341 => 187,  336 => 186,  334 => 185,  328 => 181,  324 => 179,  316 => 175,  314 => 174,  307 => 170,  299 => 165,  295 => 164,  288 => 160,  273 => 148,  269 => 147,  265 => 145,  255 => 141,  252 => 140,  247 => 139,  237 => 135,  234 => 134,  229 => 133,  219 => 129,  216 => 128,  212 => 127,  169 => 87,  165 => 86,  111 => 35,  95 => 22,  91 => 21,  87 => 20,  76 => 12,  72 => 11,  68 => 10,  64 => 9,  60 => 8,  56 => 7,  48 => 1,);
+        return array (  436 => 220,  432 => 219,  428 => 218,  424 => 217,  420 => 216,  416 => 215,  412 => 214,  388 => 192,  383 => 191,  370 => 189,  365 => 188,  363 => 187,  357 => 183,  353 => 181,  345 => 177,  343 => 176,  336 => 172,  328 => 167,  324 => 166,  317 => 162,  302 => 150,  298 => 149,  294 => 147,  284 => 143,  281 => 142,  276 => 141,  266 => 137,  263 => 136,  258 => 135,  248 => 131,  245 => 130,  241 => 129,  211 => 102,  194 => 88,  181 => 78,  177 => 77,  163 => 66,  155 => 61,  151 => 60,  147 => 59,  135 => 50,  131 => 49,  127 => 48,  123 => 47,  110 => 37,  93 => 23,  89 => 22,  76 => 12,  72 => 11,  68 => 10,  64 => 9,  60 => 8,  56 => 7,  48 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -459,100 +488,102 @@ class __TwigTemplate_1aa756072a45dfe6559de6fa35edaf3a extends Template
 </head>
 <body>
 
-    <nav class=\"nxl-navigation\">
+     <nav class=\"nxl-navigation\">
         <div class=\"navbar-wrapper\">
             <div class=\"m-header\">
-                <a href=\"{{ path('dashboard') }}\" class=\"b-brand\">
-                    <img src=\"{{ asset('assets/images/fluently.png') }}\" alt=\"Fluently\" class=\"logo logo-lg\" />
-                    <img src=\"{{ asset('assets/images/fluently.png') }}\" alt=\"Fluently\" class=\"logo logo-sm\" />
-                </a>
+                <a href=\"index.html\" class=\"b-brand\">
+    <!-- ========   change your logo hear   ============ -->
+    <img src=\"{{ asset('assets/images/fluently.png') }}\" alt=\"Fluently\" class=\"logo logo-lg\" />
+    <img src=\"{{ asset('assets/images/fluently.png') }}\" alt=\"Fluently\" class=\"logo logo-sm\" />
+</a>
             </div>
             <div class=\"navbar-content\">
                 <ul class=\"nxl-navbar\">
-                    <li class=\"nxl-item nxl-caption\"><label>Navigation</label></li>
+                    <li class=\"nxl-item nxl-caption\">
+                        <label>Navigation</label>
+                    </li>
                     <li class=\"nxl-item nxl-hasmenu\">
                         <a href=\"javascript:void(0);\" class=\"nxl-link\">
                             <span class=\"nxl-micon\"><i class=\"feather-airplay\"></i></span>
-                            <span class=\"nxl-mtext\">Dashboards_User</span>
-                            <span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
+                            <span class=\"nxl-mtext\">Dashboards_User</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('dashboard') }}\">Accueil</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('dashboard') }}\">Users</a></li>
+                            
                         </ul>
                     </li>
                     <li class=\"nxl-item nxl-hasmenu\">
                         <a href=\"javascript:void(0);\" class=\"nxl-link\">
                             <span class=\"nxl-micon\"><i class=\"feather-cast\"></i></span>
-                            <span class=\"nxl-mtext\">Langues</span>
-                            <span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
+                            <span class=\"nxl-mtext\">Langues</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"reports-sales.html\">Sales Report</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"reports-leads.html\">Leads Report</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"reports-project.html\">Project Report</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"reports-timesheets.html\">Timesheets Report</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_admin_langue_index') }}\">Langue</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_cours_index') }}\">Cours</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_niveau_index') }}\">Niveau</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_admin_langue_stats') }}\">Statistiques</a></li>
                         </ul>
                     </li>
-                    <li class=\"nxl-item nxl-hasmenu\">
-                        <a href=\"javascript:void(0);\" class=\"nxl-link\">
-                            <span class=\"nxl-micon\"><i class=\"feather-send\"></i></span>
-                            <span class=\"nxl-mtext\">Test</span>
-                            <span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
+                    <li class=\"nxl-item\">
+                       <a href=\"javascript:void(0);\" class=\"nxl-link\">
+                            <span class=\"nxl-micon\"><i class=\"feather-cast\"></i></span>
+                            <span class=\"nxl-mtext\">Test</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-chat.html\">Chat</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-email.html\">Email</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-tasks.html\">Tasks</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-notes.html\">Notes</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-storage.html\">Storage</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"apps-calendar.html\">Calendar</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_test_index') }}\">Tests</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_question_index') }}\">Questions</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('app_reponse_index') }}\">Reponse</a></li>
+                            
                         </ul>
                     </li>
-                    <li class=\"nxl-item nxl-hasmenu\">
-                        <a href=\"javascript:void(0);\" class=\"nxl-link\">
+                    <li class=\"nxl-item\">
+                        <a href=\"{{ path('admin_group_index') }}\" class=\"nxl-link\">
                             <span class=\"nxl-micon\"><i class=\"feather-at-sign\"></i></span>
                             <span class=\"nxl-mtext\">Groupes</span>
-                            <span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
-                        <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"proposal.html\">Proposal</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"proposal-view.html\">Proposal View</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"proposal-edit.html\">Proposal Edit</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"proposal-create.html\">Proposal Create</a></li>
-                        </ul>
                     </li>
-                    <li class=\"nxl-item nxl-hasmenu active\">
+                    <li class=\"nxl-item nxl-hasmenu\">
                         <a href=\"javascript:void(0);\" class=\"nxl-link\">
                             <span class=\"nxl-micon\"><i class=\"feather-dollar-sign\"></i></span>
-                            <span class=\"nxl-mtext\">Sessions</span>
-                            <span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
+                            <span class=\"nxl-mtext\">Sessions</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item active\"><a class=\"nxl-link\" href=\"{{ path('session_prof_dashboard') }}\">Tableau de bord</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('prof_session_list') }}\">Mes sessions</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('session_prof_dashboard') }}\">Session</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('reservation_professeur') }}\">reservation</a></li>
                         </ul>
                     </li>
                     <li class=\"nxl-item nxl-hasmenu\">
                         <a href=\"javascript:void(0);\" class=\"nxl-link\">
                             <span class=\"nxl-micon\"><i class=\"feather-users\"></i></span>
-                            <span class=\"nxl-mtext\">Objectifs</span>
-                            <span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
+                            <span class=\"nxl-mtext\">Objectifs</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"customers.html\">Customers</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"customers-view.html\">Customers View</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"customers-create.html\">Customers Create</a></li>
-                        </ul>
+        <li class=\"nxl-item\">
+            <a class=\"nxl-link\" href=\"{{ path('app_objectif_admin_index') }}\">
+                Liste des objectifs
+            </a>
+        </li>
+       
+    </ul>
+    <li class=\"nxl-item nxl-hasmenu\">
+    <a href=\"javascript:void(0);\" class=\"nxl-link\">
+        <span class=\"nxl-micon\"><i class=\"feather-check-square\"></i></span>
+        <span class=\"nxl-mtext\">Tâches</span>
+        <span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
+    </a>
+    <ul class=\"nxl-submenu\">
+        <li class=\"nxl-item\">
+            <a class=\"nxl-link\" href=\"{{ path('app_tache_admin_index') }}\">
+                Liste des tâches
+            </a>
+        </li>
+       
+    </ul>
+</li>
                     </li>
+                    
                 </ul>
-                <div class=\"card text-center\">
-                    <div class=\"card-body\">
-                        <i class=\"feather-sunrise fs-4 text-dark\"></i>
-                        <h6 class=\"mt-4 text-dark fw-bolder\">Downloading Center</h6>
-                        <p class=\"fs-11 my-3 text-dark\">Duralux is a production ready CRM to get started up and running easily.</p>
-                        <a href=\"https://www.themewagon.com/themes/Duralux-admin\" target=\"_blank\" class=\"btn btn-primary text-dark w-100\">Download Now</a>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </nav>

@@ -97,13 +97,14 @@ class __TwigTemplate_89393e47730666e9638a6cb9e371ea7d extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
         // line 6
-        yield "    <div class=\"container mt-4\">
+        yield "<br><br><br><br><br>
+    <div class=\"container mt-4\">
         <h1 class=\"fw-bold text-primary mb-4 text-center\">
             <i class=\"fa fa-calendar-check-o me-2\"></i> Liste des Sessions
         </h1>
         <div class=\"text-center mb-4\">
     <a href=\"";
-        // line 11
+        // line 12
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("calendar_index");
         yield "\" class=\"btn btn-lg btn-primary\">
         <i class=\"fa fa-calendar-alt me-2\"></i> Ouvrir le Calendrier
@@ -144,7 +145,7 @@ class __TwigTemplate_89393e47730666e9638a6cb9e371ea7d extends Template
     }
 </style>
         ";
-        // line 50
+        // line 51
         yield "        <div class=\"card shadow-sm mb-4\">
             <div class=\"card-body\">
                 <form method=\"get\" class=\"row g-3\" id=\"filter-form\">
@@ -153,20 +154,20 @@ class __TwigTemplate_89393e47730666e9638a6cb9e371ea7d extends Template
                         <select name=\"statut\" class=\"form-select\">
                             <option value=\"\">Tous</option>
                             <option value=\"planifiée\" ";
-        // line 57
-        yield (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 57, $this->source); })()), "request", [], "any", false, false, false, 57), "query", [], "any", false, false, false, 57), "get", ["statut"], "method", false, false, false, 57) == "planifiée")) ? ("selected") : (""));
+        // line 58
+        yield (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 58, $this->source); })()), "request", [], "any", false, false, false, 58), "query", [], "any", false, false, false, 58), "get", ["statut"], "method", false, false, false, 58) == "planifiée")) ? ("selected") : (""));
         yield ">Planifiée</option>
                             <option value=\"en cours\" ";
-        // line 58
-        yield (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 58, $this->source); })()), "request", [], "any", false, false, false, 58), "query", [], "any", false, false, false, 58), "get", ["statut"], "method", false, false, false, 58) == "en cours")) ? ("selected") : (""));
+        // line 59
+        yield (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 59, $this->source); })()), "request", [], "any", false, false, false, 59), "query", [], "any", false, false, false, 59), "get", ["statut"], "method", false, false, false, 59) == "en cours")) ? ("selected") : (""));
         yield ">En cours</option>
                             <option value=\"terminée\" ";
-        // line 59
-        yield (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 59, $this->source); })()), "request", [], "any", false, false, false, 59), "query", [], "any", false, false, false, 59), "get", ["statut"], "method", false, false, false, 59) == "terminée")) ? ("selected") : (""));
+        // line 60
+        yield (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 60, $this->source); })()), "request", [], "any", false, false, false, 60), "query", [], "any", false, false, false, 60), "get", ["statut"], "method", false, false, false, 60) == "terminée")) ? ("selected") : (""));
         yield ">Terminée</option>
                             <option value=\"annulée\" ";
-        // line 60
-        yield (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 60, $this->source); })()), "request", [], "any", false, false, false, 60), "query", [], "any", false, false, false, 60), "get", ["statut"], "method", false, false, false, 60) == "annulée")) ? ("selected") : (""));
+        // line 61
+        yield (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 61, $this->source); })()), "request", [], "any", false, false, false, 61), "query", [], "any", false, false, false, 61), "get", ["statut"], "method", false, false, false, 61) == "annulée")) ? ("selected") : (""));
         yield ">Annulée</option>
                         </select>
                     </div>
@@ -176,19 +177,19 @@ class __TwigTemplate_89393e47730666e9638a6cb9e371ea7d extends Template
                         <select name=\"groupe\" class=\"form-select\">
                             <option value=\"\">Tous</option>
                             ";
-        // line 68
+        // line 69
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["groupes"]) || array_key_exists("groupes", $context) ? $context["groupes"] : (function () { throw new RuntimeError('Variable "groupes" does not exist.', 68, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["groupes"]) || array_key_exists("groupes", $context) ? $context["groupes"] : (function () { throw new RuntimeError('Variable "groupes" does not exist.', 69, $this->source); })()));
         foreach ($context['_seq'] as $context["_key"] => $context["groupe"]) {
-            // line 69
+            // line 70
             yield "                                <option value=\"";
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["groupe"], "id", [], "any", false, false, false, 69), "html", null, true);
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["groupe"], "id", [], "any", false, false, false, 70), "html", null, true);
             yield "\" ";
-            yield (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 69, $this->source); })()), "request", [], "any", false, false, false, 69), "query", [], "any", false, false, false, 69), "get", ["groupe"], "method", false, false, false, 69) == CoreExtension::getAttribute($this->env, $this->source, $context["groupe"], "id", [], "any", false, false, false, 69))) ? ("selected") : (""));
+            yield (((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 70, $this->source); })()), "request", [], "any", false, false, false, 70), "query", [], "any", false, false, false, 70), "get", ["groupe"], "method", false, false, false, 70) == CoreExtension::getAttribute($this->env, $this->source, $context["groupe"], "id", [], "any", false, false, false, 70))) ? ("selected") : (""));
             yield ">
                                     ";
-            // line 70
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["groupe"], "nom", [], "any", false, false, false, 70), "html", null, true);
+            // line 71
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["groupe"], "nom", [], "any", false, false, false, 71), "html", null, true);
             yield "
                                 </option>
                             ";
@@ -196,7 +197,7 @@ class __TwigTemplate_89393e47730666e9638a6cb9e371ea7d extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['groupe'], $context['_parent']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 73
+        // line 74
         yield "                        </select>
                     </div>
 
@@ -208,7 +209,7 @@ class __TwigTemplate_89393e47730666e9638a6cb9e371ea7d extends Template
         </div>
 
         ";
-        // line 84
+        // line 85
         yield "        <div class=\"table-responsive shadow-sm\">
             <table class=\"table table-hover table-bordered table-sm\">
                 <thead class=\"table-dark text-center\">
@@ -222,64 +223,64 @@ class __TwigTemplate_89393e47730666e9638a6cb9e371ea7d extends Template
                 </thead>
                 <tbody>
                     ";
-        // line 96
+        // line 97
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["pagination"]) || array_key_exists("pagination", $context) ? $context["pagination"] : (function () { throw new RuntimeError('Variable "pagination" does not exist.', 96, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["pagination"]) || array_key_exists("pagination", $context) ? $context["pagination"] : (function () { throw new RuntimeError('Variable "pagination" does not exist.', 97, $this->source); })()));
         $context['_iterated'] = false;
         foreach ($context['_seq'] as $context["_key"] => $context["session"]) {
-            // line 97
+            // line 98
             yield "                        <tr>
                             <td class=\"text-center\">";
-            // line 98
-            yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["session"], "dateHeure", [], "any", false, false, false, 98)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["session"], "dateHeure", [], "any", false, false, false, 98), "d/m/Y H:i"), "html", null, true)) : ("—"));
+            // line 99
+            yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["session"], "dateHeure", [], "any", false, false, false, 99)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["session"], "dateHeure", [], "any", false, false, false, 99), "d/m/Y H:i"), "html", null, true)) : ("—"));
             yield "</td>
                             <td class=\"text-center\">
                                 <span class=\"badge rounded-pill px-3 py-2
                                     ";
-            // line 101
-            if ((CoreExtension::getAttribute($this->env, $this->source, $context["session"], "statut", [], "any", false, false, false, 101) == "planifiée")) {
+            // line 102
+            if ((CoreExtension::getAttribute($this->env, $this->source, $context["session"], "statut", [], "any", false, false, false, 102) == "planifiée")) {
                 yield "bg-warning text-dark
                                     ";
-            } elseif ((CoreExtension::getAttribute($this->env, $this->source,             // line 102
-$context["session"], "statut", [], "any", false, false, false, 102) == "en cours")) {
+            } elseif ((CoreExtension::getAttribute($this->env, $this->source,             // line 103
+$context["session"], "statut", [], "any", false, false, false, 103) == "en cours")) {
                 yield "bg-success text-white
                                     ";
-            } elseif ((CoreExtension::getAttribute($this->env, $this->source,             // line 103
-$context["session"], "statut", [], "any", false, false, false, 103) == "terminée")) {
+            } elseif ((CoreExtension::getAttribute($this->env, $this->source,             // line 104
+$context["session"], "statut", [], "any", false, false, false, 104) == "terminée")) {
                 yield "bg-secondary text-white
                                     ";
             } else {
-                // line 104
+                // line 105
                 yield "bg-danger text-white";
             }
             yield "\">
                                     ";
-            // line 105
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::capitalize($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["session"], "statut", [], "any", false, false, false, 105)), "html", null, true);
+            // line 106
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::capitalize($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["session"], "statut", [], "any", false, false, false, 106)), "html", null, true);
             yield "
                                 </span>
                             </td>
                             <td>";
-            // line 108
-            yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["session"], "group", [], "any", false, false, false, 108)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["session"], "group", [], "any", false, false, false, 108), "nom", [], "any", false, false, false, 108), "html", null, true)) : ("—"));
+            // line 109
+            yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["session"], "group", [], "any", false, false, false, 109)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["session"], "group", [], "any", false, false, false, 109), "nom", [], "any", false, false, false, 109), "html", null, true)) : ("—"));
             yield "</td>
                             <td class=\"text-center\">
                                 ";
-            // line 110
-            if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["session"], "lienReunion", [], "any", false, false, false, 110)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-                // line 111
+            // line 111
+            if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["session"], "lienReunion", [], "any", false, false, false, 111)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                // line 112
                 yield "                                    <a href=\"";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["session"], "lienReunion", [], "any", false, false, false, 111), "html", null, true);
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["session"], "lienReunion", [], "any", false, false, false, 112), "html", null, true);
                 yield "\" target=\"_blank\" class=\"btn btn-sm btn-success\">
                                         <i class=\"fa fa-video me-1\"></i> Rejoindre
                                     </a>
                                 ";
             } else {
-                // line 115
+                // line 116
                 yield "                                    —
                                 ";
             }
-            // line 117
+            // line 118
             yield "                            </td>
                             <td class=\"text-center\">
                                 <div class=\"btn-group btn-group-sm\">
@@ -288,89 +289,89 @@ $context["session"], "statut", [], "any", false, false, false, 103) == "terminé
                         data-toggle=\"modal\"
                         data-target=\"#ratingModal\"
                         data-session-id=\"";
-            // line 124
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["session"], "id", [], "any", false, false, false, 124), "html", null, true);
+            // line 125
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["session"], "id", [], "any", false, false, false, 125), "html", null, true);
             yield "\"
                         data-current-rating=\"";
-            // line 125
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(((CoreExtension::getAttribute($this->env, $this->source, $context["session"], "rating", [], "any", true, true, false, 125)) ? (Twig\Extension\CoreExtension::default(CoreExtension::getAttribute($this->env, $this->source, $context["session"], "rating", [], "any", false, false, false, 125), 0)) : (0)), "html", null, true);
+            // line 126
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(((CoreExtension::getAttribute($this->env, $this->source, $context["session"], "rating", [], "any", true, true, false, 126)) ? (Twig\Extension\CoreExtension::default(CoreExtension::getAttribute($this->env, $this->source, $context["session"], "rating", [], "any", false, false, false, 126), 0)) : (0)), "html", null, true);
             yield "\"
                         data-rate-url=\"";
-            // line 126
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_session_rate", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["session"], "id", [], "any", false, false, false, 126)]), "html", null, true);
+            // line 127
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_session_rate", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["session"], "id", [], "any", false, false, false, 127)]), "html", null, true);
             yield "\">
                     <i class=\"fa fa-star\"></i> <span class=\"note-label\">Note</span>
                 </button>
 
                                     ";
-            // line 130
-            $context["maReservation"] = null;
             // line 131
+            $context["maReservation"] = null;
+            // line 132
             yield "                                    ";
             $context['_parent'] = $context;
-            $context['_seq'] = CoreExtension::ensureTraversable((isset($context["myReservations"]) || array_key_exists("myReservations", $context) ? $context["myReservations"] : (function () { throw new RuntimeError('Variable "myReservations" does not exist.', 131, $this->source); })()));
+            $context['_seq'] = CoreExtension::ensureTraversable((isset($context["myReservations"]) || array_key_exists("myReservations", $context) ? $context["myReservations"] : (function () { throw new RuntimeError('Variable "myReservations" does not exist.', 132, $this->source); })()));
             foreach ($context['_seq'] as $context["_key"] => $context["reservation"]) {
-                // line 132
+                // line 133
                 yield "                                        ";
-                if ((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "session", [], "any", false, false, false, 132), "id", [], "any", false, false, false, 132) == CoreExtension::getAttribute($this->env, $this->source, $context["session"], "id", [], "any", false, false, false, 132))) {
-                    // line 133
+                if ((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "session", [], "any", false, false, false, 133), "id", [], "any", false, false, false, 133) == CoreExtension::getAttribute($this->env, $this->source, $context["session"], "id", [], "any", false, false, false, 133))) {
+                    // line 134
                     yield "                                            ";
                     $context["maReservation"] = $context["reservation"];
-                    // line 134
+                    // line 135
                     yield "                                        ";
                 }
-                // line 135
+                // line 136
                 yield "                                    ";
             }
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_key'], $context['reservation'], $context['_parent']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 136
+            // line 137
             yield "
                                     ";
-            // line 137
-            if ((($tmp = (isset($context["maReservation"]) || array_key_exists("maReservation", $context) ? $context["maReservation"] : (function () { throw new RuntimeError('Variable "maReservation" does not exist.', 137, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-                // line 138
+            // line 138
+            if ((($tmp = (isset($context["maReservation"]) || array_key_exists("maReservation", $context) ? $context["maReservation"] : (function () { throw new RuntimeError('Variable "maReservation" does not exist.', 138, $this->source); })())) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                // line 139
                 yield "                                        <span class=\"badge ms-2 px-3 py-2
                                             ";
-                // line 139
-                if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["maReservation"]) || array_key_exists("maReservation", $context) ? $context["maReservation"] : (function () { throw new RuntimeError('Variable "maReservation" does not exist.', 139, $this->source); })()), "statut", [], "any", false, false, false, 139) == "confirmée")) {
+                // line 140
+                if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["maReservation"]) || array_key_exists("maReservation", $context) ? $context["maReservation"] : (function () { throw new RuntimeError('Variable "maReservation" does not exist.', 140, $this->source); })()), "statut", [], "any", false, false, false, 140) == "confirmée")) {
                     yield "bg-success text-white
                                             ";
-                } elseif ((CoreExtension::getAttribute($this->env, $this->source,                 // line 140
-(isset($context["maReservation"]) || array_key_exists("maReservation", $context) ? $context["maReservation"] : (function () { throw new RuntimeError('Variable "maReservation" does not exist.', 140, $this->source); })()), "statut", [], "any", false, false, false, 140) == "en attente")) {
+                } elseif ((CoreExtension::getAttribute($this->env, $this->source,                 // line 141
+(isset($context["maReservation"]) || array_key_exists("maReservation", $context) ? $context["maReservation"] : (function () { throw new RuntimeError('Variable "maReservation" does not exist.', 141, $this->source); })()), "statut", [], "any", false, false, false, 141) == "en attente")) {
                     yield "bg-warning text-dark
                                             ";
                 } else {
-                    // line 141
+                    // line 142
                     yield "bg-danger text-white";
                 }
                 yield "\">
                                             ";
-                // line 142
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::capitalize($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, (isset($context["maReservation"]) || array_key_exists("maReservation", $context) ? $context["maReservation"] : (function () { throw new RuntimeError('Variable "maReservation" does not exist.', 142, $this->source); })()), "statut", [], "any", false, false, false, 142)), "html", null, true);
+                // line 143
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::capitalize($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, (isset($context["maReservation"]) || array_key_exists("maReservation", $context) ? $context["maReservation"] : (function () { throw new RuntimeError('Variable "maReservation" does not exist.', 143, $this->source); })()), "statut", [], "any", false, false, false, 143)), "html", null, true);
                 yield "
                                         </span>
                                     ";
             } else {
-                // line 145
+                // line 146
                 yield "                                        <a href=\"";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_reservation_new", ["session_id" => CoreExtension::getAttribute($this->env, $this->source, $context["session"], "id", [], "any", false, false, false, 145)]), "html", null, true);
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_reservation_new", ["session_id" => CoreExtension::getAttribute($this->env, $this->source, $context["session"], "id", [], "any", false, false, false, 146)]), "html", null, true);
                 yield "\" class=\"btn btn-success ms-2\">
                                             <i class=\"fa fa-bookmark\"></i> Réserver
                                         </a>
                                     ";
             }
-            // line 149
+            // line 150
             yield "                                </div>
                             </td>
                         </tr>
                     ";
             $context['_iterated'] = true;
         }
-        // line 152
+        // line 153
         if (!$context['_iterated']) {
-            // line 153
+            // line 154
             yield "                        <tr>
                             <td colspan=\"5\" class=\"text-center py-4 text-muted\">
                                 <i class=\"fa fa-folder-open fa-2x mb-3 d-block\"></i>
@@ -382,22 +383,22 @@ $context["session"], "statut", [], "any", false, false, false, 103) == "terminé
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['session'], $context['_parent'], $context['_iterated']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 160
+        // line 161
         yield "                </tbody>
             </table>
         </div>
 
         ";
-        // line 165
+        // line 166
         yield "        <div class=\"d-flex justify-content-center mt-4\">
             ";
-        // line 166
-        yield $this->env->getRuntime('Knp\Bundle\PaginatorBundle\Twig\Extension\PaginationRuntime')->render($this->env, (isset($context["pagination"]) || array_key_exists("pagination", $context) ? $context["pagination"] : (function () { throw new RuntimeError('Variable "pagination" does not exist.', 166, $this->source); })()));
+        // line 167
+        yield $this->env->getRuntime('Knp\Bundle\PaginatorBundle\Twig\Extension\PaginationRuntime')->render($this->env, (isset($context["pagination"]) || array_key_exists("pagination", $context) ? $context["pagination"] : (function () { throw new RuntimeError('Variable "pagination" does not exist.', 167, $this->source); })()));
         yield "
         </div>
 
         ";
-        // line 170
+        // line 171
         yield "        <div class=\"modal fade\" id=\"ratingModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"ratingModalLabel\" aria-hidden=\"true\">
             <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">
                 <div class=\"modal-content\">
@@ -412,14 +413,14 @@ $context["session"], "statut", [], "any", false, false, false, 103) == "terminé
 
                         <div class=\"star-rating mb-4 d-inline-block\">
                             ";
-        // line 183
+        // line 184
         $context['_parent'] = $context;
         $context['_seq'] = CoreExtension::ensureTraversable(range(1, 5));
         foreach ($context['_seq'] as $context["_key"] => $context["i"]) {
-            // line 184
+            // line 185
             yield "                                <i class=\"fa fa-star fa-3x text-muted rating-star mx-2 cursor-pointer\" 
                                    data-value=\"";
-            // line 185
+            // line 186
             yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["i"], "html", null, true);
             yield "\"></i>
                             ";
@@ -427,7 +428,7 @@ $context["session"], "statut", [], "any", false, false, false, 103) == "terminé
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['i'], $context['_parent']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 187
+        // line 188
         yield "                        </div>
 
                         <input type=\"hidden\" id=\"selected-rating\" value=\"0\">
@@ -459,7 +460,7 @@ $context["session"], "statut", [], "any", false, false, false, 103) == "terminé
         });
     }
 ";
-        // line 218
+        // line 219
         yield "
     
 
@@ -641,12 +642,7 @@ document.addEventListener(\"DOMContentLoaded\", () => {
     });
 
 });
-eventClick: function(info) {
-    if (info.event.url) {
-        window.location.href = info.event.url;  // Redirige vers show
-        info.jsEvent.preventDefault();
-    }
-}
+
 </script>
 ";
         
@@ -679,7 +675,7 @@ eventClick: function(info) {
      */
     public function getDebugInfo(): array
     {
-        return array (  463 => 218,  431 => 187,  423 => 185,  420 => 184,  416 => 183,  401 => 170,  395 => 166,  392 => 165,  386 => 160,  374 => 153,  372 => 152,  365 => 149,  357 => 145,  351 => 142,  346 => 141,  341 => 140,  337 => 139,  334 => 138,  332 => 137,  329 => 136,  323 => 135,  320 => 134,  317 => 133,  314 => 132,  309 => 131,  307 => 130,  300 => 126,  296 => 125,  292 => 124,  283 => 117,  279 => 115,  271 => 111,  269 => 110,  264 => 108,  258 => 105,  253 => 104,  248 => 103,  244 => 102,  240 => 101,  234 => 98,  231 => 97,  226 => 96,  212 => 84,  200 => 73,  191 => 70,  184 => 69,  180 => 68,  169 => 60,  165 => 59,  161 => 58,  157 => 57,  148 => 50,  107 => 11,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  464 => 219,  432 => 188,  424 => 186,  421 => 185,  417 => 184,  402 => 171,  396 => 167,  393 => 166,  387 => 161,  375 => 154,  373 => 153,  366 => 150,  358 => 146,  352 => 143,  347 => 142,  342 => 141,  338 => 140,  335 => 139,  333 => 138,  330 => 137,  324 => 136,  321 => 135,  318 => 134,  315 => 133,  310 => 132,  308 => 131,  301 => 127,  297 => 126,  293 => 125,  284 => 118,  280 => 116,  272 => 112,  270 => 111,  265 => 109,  259 => 106,  254 => 105,  249 => 104,  245 => 103,  241 => 102,  235 => 99,  232 => 98,  227 => 97,  213 => 85,  201 => 74,  192 => 71,  185 => 70,  181 => 69,  170 => 61,  166 => 60,  162 => 59,  158 => 58,  149 => 51,  108 => 12,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -689,6 +685,7 @@ eventClick: function(info) {
 {% block title %}Sessions{% endblock %}
 
 {% block body %}
+<br><br><br><br><br>
     <div class=\"container mt-4\">
         <h1 class=\"fw-bold text-primary mb-4 text-center\">
             <i class=\"fa fa-calendar-check-o me-2\"></i> Liste des Sessions
@@ -1082,12 +1079,7 @@ document.addEventListener(\"DOMContentLoaded\", () => {
     });
 
 });
-eventClick: function(info) {
-    if (info.event.url) {
-        window.location.href = info.event.url;  // Redirige vers show
-        info.jsEvent.preventDefault();
-    }
-}
+
 </script>
 {% endblock %}", "session/index.html.twig", "C:\\Users\\Yosr\\OneDrive\\Desktop\\git pull\\Fluently\\templates\\session\\index.html.twig");
     }

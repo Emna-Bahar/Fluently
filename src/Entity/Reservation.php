@@ -13,15 +13,16 @@ class Reservation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $id = null; // @phpstan-ignore-line property.unusedType
 
-   #[ORM\Column(type: Types::DATE_MUTABLE)]
-#[Assert\NotBlank(message: "La date de réservation est obligatoire.")]
-#[Assert\GreaterThanOrEqual(
-    value: "today",
-    message: "La date de réservation doit être aujourd'hui ou dans le futur."
-)]
-private ?\DateTimeInterface $dateReservation = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message: "La date de réservation est obligatoire.")]
+    #[Assert\GreaterThanOrEqual(
+        value: "today",
+        message: "La date de réservation doit être aujourd'hui ou dans le futur."
+    )]
+    private ?\DateTimeInterface $dateReservation = null;
+
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank(message: "Le statut est obligatoire.")]
     #[Assert\Choice(
@@ -31,13 +32,14 @@ private ?\DateTimeInterface $dateReservation = null;
     private ?string $statut = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
-#[ORM\JoinColumn(name: "id_session_id", referencedColumnName: "id", nullable: false)]
-#[Assert\NotNull(message: "La session est obligatoire.")]
-private ?Session $session = null;
+    #[ORM\JoinColumn(name: "id_session_id", referencedColumnName: "id", nullable: false)]
+    #[Assert\NotNull(message: "La session est obligatoire.")]
+    private ?Session $session = null;
+
     #[ORM\ManyToOne]
-#[ORM\JoinColumn(name: "id_user_id", referencedColumnName: "id", nullable: false)]
-#[Assert\NotNull(message: "L'utilisateur est obligatoire.")]
-private ?User $user = null;
+    #[ORM\JoinColumn(name: "id_user_id", referencedColumnName: "id", nullable: false)]
+    #[Assert\NotNull(message: "L'utilisateur est obligatoire.")]
+    private ?User $user = null;
 
     public function getId(): ?int
     {

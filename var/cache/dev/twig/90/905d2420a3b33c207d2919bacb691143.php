@@ -194,11 +194,11 @@ class __TwigTemplate_cffdee84bdf683184352e69768fd8d9a extends Template
                         <ul class=\"nxl-submenu\">
                             <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
         // line 99
-        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("admin_session_index");
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("session_prof_dashboard");
         yield "\">Session</a></li>
                             <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"";
         // line 100
-        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("admin_reservation_index");
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("reservation_professeur");
         yield "\">reservation</a></li>
                         </ul>
                     </li>
@@ -669,8 +669,8 @@ class __TwigTemplate_cffdee84bdf683184352e69768fd8d9a extends Template
                             <span class=\"nxl-mtext\">Sessions</span><span class=\"nxl-arrow\"><i class=\"feather-chevron-right\"></i></span>
                         </a>
                         <ul class=\"nxl-submenu\">
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('admin_session_index') }}\">Session</a></li>
-                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('admin_reservation_index') }}\">reservation</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('session_prof_dashboard') }}\">Session</a></li>
+                            <li class=\"nxl-item\"><a class=\"nxl-link\" href=\"{{ path('reservation_professeur') }}\">reservation</a></li>
                         </ul>
                     </li>
                     <li class=\"nxl-item nxl-hasmenu\">

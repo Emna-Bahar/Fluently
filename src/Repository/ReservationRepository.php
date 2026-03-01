@@ -18,6 +18,12 @@ class ReservationRepository extends ServiceEntityRepository
         parent::__construct($registry, Reservation::class);
     }
 
+    /**
+     * ✅ PHPStan fix ligne 21 (missingType.iterableValue) :
+     * array sans type de valeur → ajouter @return Reservation[]
+     *
+     * @return Reservation[]
+     */
     public function findBySession(Session $session): array
     {
         return $this->createQueryBuilder('r')
@@ -30,6 +36,12 @@ class ReservationRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * ✅ PHPStan fix ligne 33 (missingType.iterableValue) :
+     * array sans type de valeur → ajouter @return Reservation[]
+     *
+     * @return Reservation[]
+     */
     public function findByUser(User $user): array
     {
         return $this->createQueryBuilder('r')
@@ -43,7 +55,9 @@ class ReservationRepository extends ServiceEntityRepository
     }
 
     /**
-     * Réservations en attente pour un professeur (depuis le dashboard)
+     * Réservations en attente pour un professeur (dashboard)
+     *
+     * @return Reservation[]
      */
     public function findPendingForProf(User $prof): array
     {
@@ -60,7 +74,9 @@ class ReservationRepository extends ServiceEntityRepository
     }
 
     /**
-     * TOUTES les réservations des étudiants pour les sessions d'un professeur
+     * Toutes les réservations des étudiants pour les sessions d'un professeur
+     *
+     * @return Reservation[]
      */
     public function findAllForProf(User $prof): array
     {
@@ -73,6 +89,25 @@ class ReservationRepository extends ServiceEntityRepository
             ->where('profUser.id = :profId')
             ->setParameter('profId', $prof->getId())
             ->orderBy('r.dateReservation', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Réservations récentes (hors "en attente") pour le dashboard prof
+     *
+     * @return Reservation[]
+     */
+    public function findRecentForProf(User $prof, int $limit = 12): array
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.session', 's')
+            ->where('s.user = :prof')
+            ->andWhere('r.statut != :en_attente')
+            ->setParameter('prof', $prof)
+            ->setParameter('en_attente', 'en attente')
+            ->orderBy('r.dateReservation', 'DESC')
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }

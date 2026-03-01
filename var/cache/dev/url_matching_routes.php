@@ -15,7 +15,7 @@ return [
         '/_profiler/xdebug' => [[['_route' => '_profiler_xdebug', '_controller' => 'web_profiler.controller.profiler::xdebugAction'], null, null, null, false, false, null]],
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
         '/api/dictionary/languages' => [[['_route' => 'app_api_dictionary_languages', '_controller' => 'App\\Controller\\Api\\DictionaryController::languages'], null, ['GET' => 0], null, false, false, null]],
-        '/calendar' => [[['_route' => 'calendar_index', '_controller' => 'App\\Controller\\CalendarController::index'], null, ['GET' => 0], null, false, false, null]],
+        '/calendar/calendar_index' => [[['_route' => 'calendar_index', '_controller' => 'App\\Controller\\CalendarController::index'], null, ['GET' => 0], null, false, false, null]],
         '/calendar/events' => [[['_route' => 'calendar_events', '_controller' => 'App\\Controller\\CalendarController::events'], null, ['GET' => 0], null, false, false, null]],
         '/calendar/recommend' => [[['_route' => 'calendar_recommend', '_controller' => 'App\\Controller\\CalendarController::recommend'], null, ['POST' => 0], null, false, false, null]],
         '/calendar/debug-events' => [[['_route' => 'calendar_debug', '_controller' => 'App\\Controller\\CalendarController::debugEvents'], null, ['GET' => 0], null, false, false, null]],

@@ -97,24 +97,25 @@ class __TwigTemplate_e0dbc73af1a9731a25be32b983b4185a extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
         // line 6
-        yield "    <div class=\"container mt-5 pt-5\">
+        yield "<br><br><br><br><br>
+    <div class=\"container mt-5 pt-5\">
         <h1 class=\"fw-bold text-primary mb-5\">
             <i class=\"fa fa-bookmark me-2\"></i> Liste des Réservations
         </h1>
 
         ";
-        // line 11
-        if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 11, $this->source); })()), "user", [], "any", false, false, false, 11) && (CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 11, $this->source); })()), "user", [], "any", false, false, false, 11), "role", [], "any", false, false, false, 11) == "professeur"))) {
-            // line 12
+        // line 12
+        if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 12, $this->source); })()), "user", [], "any", false, false, false, 12) && (CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 12, $this->source); })()), "user", [], "any", false, false, false, 12), "roles", [], "any", false, false, false, 12) == "ROLE_ADMIN"))) {
+            // line 13
             yield "            <div class=\"mb-3 text-end\">
                 <a href=\"";
-            // line 13
+            // line 14
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_reservation_new");
             yield "\" class=\"btn btn-primary\">Nouvelle réservation</a>
             </a>
         ";
         }
-        // line 16
+        // line 17
         yield "
         <div class=\"table-responsive shadow-sm\">
             <table class=\"table table-hover table-bordered align-middle\">
@@ -125,20 +126,20 @@ class __TwigTemplate_e0dbc73af1a9731a25be32b983b4185a extends Template
                         <th>Session</th>
                         <th>Étudiant</th>
                         ";
-        // line 25
-        if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 25, $this->source); })()), "user", [], "any", false, false, false, 25) && (CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 25, $this->source); })()), "user", [], "any", false, false, false, 25), "role", [], "any", false, false, false, 25) == "professeur"))) {
-            // line 26
+        // line 26
+        if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 26, $this->source); })()), "user", [], "any", false, false, false, 26) && (CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 26, $this->source); })()), "user", [], "any", false, false, false, 26), "roles", [], "any", false, false, false, 26) == "ROLE_ADMIN"))) {
+            // line 27
             yield "                            <th>Actions</th>
                         ";
         }
-        // line 28
+        // line 29
         yield "                    </tr>
                 </thead>
                 <tbody>
                     ";
-        // line 31
+        // line 32
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["reservations"]) || array_key_exists("reservations", $context) ? $context["reservations"] : (function () { throw new RuntimeError('Variable "reservations" does not exist.', 31, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["reservations"]) || array_key_exists("reservations", $context) ? $context["reservations"] : (function () { throw new RuntimeError('Variable "reservations" does not exist.', 32, $this->source); })()));
         $context['_iterated'] = false;
         $context['loop'] = [
           'parent' => $context['_parent'],
@@ -154,84 +155,84 @@ class __TwigTemplate_e0dbc73af1a9731a25be32b983b4185a extends Template
             $context['loop']['last'] = 1 === $length;
         }
         foreach ($context['_seq'] as $context["_key"] => $context["reservation"]) {
-            // line 32
+            // line 33
             yield "                        <tr>
                             <td class=\"text-center\">";
-            // line 33
-            yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "dateReservation", [], "any", false, false, false, 33)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "dateReservation", [], "any", false, false, false, 33), "d/m/Y"), "html", null, true)) : ("-"));
+            // line 34
+            yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "dateReservation", [], "any", false, false, false, 34)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "dateReservation", [], "any", false, false, false, 34), "d/m/Y"), "html", null, true)) : ("-"));
             yield "</td>
                             <td class=\"text-center\">
                                 <span class=\"badge px-3 py-2
                                     ";
-            // line 36
-            if ((CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "statut", [], "any", false, false, false, 36) == "confirmée")) {
+            // line 37
+            if ((CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "statut", [], "any", false, false, false, 37) == "confirmée")) {
                 yield "bg-success text-white
                                     ";
-            } elseif ((CoreExtension::getAttribute($this->env, $this->source,             // line 37
-$context["reservation"], "statut", [], "any", false, false, false, 37) == "en attente")) {
+            } elseif ((CoreExtension::getAttribute($this->env, $this->source,             // line 38
+$context["reservation"], "statut", [], "any", false, false, false, 38) == "en attente")) {
                 yield "bg-warning text-dark
                                     ";
             } else {
-                // line 38
+                // line 39
                 yield "bg-danger text-white";
             }
             yield "\">
                                     ";
-            // line 39
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::capitalize($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "statut", [], "any", false, false, false, 39)), "html", null, true);
+            // line 40
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::capitalize($this->env->getCharset(), CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "statut", [], "any", false, false, false, 40)), "html", null, true);
             yield "
                                 </span>
                             </td>
                             <td>
                                 ";
-            // line 43
-            if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "session", [], "any", false, false, false, 43)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-                // line 44
+            // line 44
+            if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "session", [], "any", false, false, false, 44)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+                // line 45
                 yield "                                    ";
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "session", [], "any", false, false, false, 44), "dateHeure", [], "any", false, false, false, 44), "d/m/Y H:i"), "html", null, true);
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "session", [], "any", false, false, false, 45), "dateHeure", [], "any", false, false, false, 45), "d/m/Y H:i"), "html", null, true);
                 yield " (";
-                yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "session", [], "any", false, false, false, 44), "group", [], "any", false, false, false, 44)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "session", [], "any", false, false, false, 44), "group", [], "any", false, false, false, 44), "nom", [], "any", false, false, false, 44), "html", null, true)) : ("?"));
+                yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "session", [], "any", false, false, false, 45), "group", [], "any", false, false, false, 45)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "session", [], "any", false, false, false, 45), "group", [], "any", false, false, false, 45), "nom", [], "any", false, false, false, 45), "html", null, true)) : ("?"));
                 yield ")
                                 ";
             } else {
-                // line 46
+                // line 47
                 yield "                                    -
                                 ";
             }
-            // line 48
+            // line 49
             yield "                            </td>
                             <td>";
-            // line 49
-            yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "user", [], "any", false, false, false, 49)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "user", [], "any", false, false, false, 49), "prenom", [], "any", false, false, false, 49) . " ") . CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "user", [], "any", false, false, false, 49), "nom", [], "any", false, false, false, 49)), "html", null, true)) : ("-"));
+            // line 50
+            yield (((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "user", [], "any", false, false, false, 50)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) ? ($this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "user", [], "any", false, false, false, 50), "prenom", [], "any", false, false, false, 50) . " ") . CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "user", [], "any", false, false, false, 50), "nom", [], "any", false, false, false, 50)), "html", null, true)) : ("-"));
             yield "</td>
 
                             ";
-            // line 51
-            if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 51, $this->source); })()), "user", [], "any", false, false, false, 51) && (CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 51, $this->source); })()), "user", [], "any", false, false, false, 51), "role", [], "any", false, false, false, 51) == "professeur"))) {
-                // line 52
+            // line 52
+            if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 52, $this->source); })()), "user", [], "any", false, false, false, 52) && (CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 52, $this->source); })()), "user", [], "any", false, false, false, 52), "roles", [], "any", false, false, false, 52) == "ROLE_ADMIN"))) {
+                // line 53
                 yield "                                <td class=\"text-center\">
                                     <div class=\"btn-group btn-group-sm\">
                                         <a href=\"";
-                // line 54
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_reservation_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "id", [], "any", false, false, false, 54)]), "html", null, true);
+                // line 55
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_reservation_show", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "id", [], "any", false, false, false, 55)]), "html", null, true);
                 yield "\" class=\"btn btn-info\">
                                             <i class=\"fa fa-eye\"></i>
                                         </a>
                                         <a href=\"";
-                // line 57
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_reservation_edit", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "id", [], "any", false, false, false, 57)]), "html", null, true);
+                // line 58
+                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_reservation_edit", ["id" => CoreExtension::getAttribute($this->env, $this->source, $context["reservation"], "id", [], "any", false, false, false, 58)]), "html", null, true);
                 yield "\" class=\"btn btn-warning\">
                                             <i class=\"fa fa-edit\"></i>
                                         </a>
                                         ";
-                // line 60
+                // line 61
                 yield Twig\Extension\CoreExtension::include($this->env, $context, "reservation/_delete_form.html.twig");
                 yield "
                                     </div>
                                 </td>
                             ";
             }
-            // line 64
+            // line 65
             yield "                        </tr>
                     ";
             $context['_iterated'] = true;
@@ -244,13 +245,13 @@ $context["reservation"], "statut", [], "any", false, false, false, 37) == "en at
                 $context['loop']['last'] = 0 === $context['loop']['revindex0'];
             }
         }
-        // line 65
+        // line 66
         if (!$context['_iterated']) {
-            // line 66
+            // line 67
             yield "                        <tr>
                             <td colspan=\"";
-            // line 67
-            if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 67, $this->source); })()), "user", [], "any", false, false, false, 67) && (CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 67, $this->source); })()), "user", [], "any", false, false, false, 67), "role", [], "any", false, false, false, 67) == "professeur"))) {
+            // line 68
+            if ((CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 68, $this->source); })()), "user", [], "any", false, false, false, 68) && (CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 68, $this->source); })()), "user", [], "any", false, false, false, 68), "roles", [], "any", false, false, false, 68) == "admin"))) {
                 yield "5";
             } else {
                 yield "4";
@@ -265,7 +266,7 @@ $context["reservation"], "statut", [], "any", false, false, false, 37) == "en at
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['reservation'], $context['_parent'], $context['_iterated'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 73
+        // line 74
         yield "                </tbody>
             </table>
         </div>
@@ -301,7 +302,7 @@ $context["reservation"], "statut", [], "any", false, false, false, 37) == "en at
      */
     public function getDebugInfo(): array
     {
-        return array (  269 => 73,  253 => 67,  250 => 66,  248 => 65,  235 => 64,  228 => 60,  222 => 57,  216 => 54,  212 => 52,  210 => 51,  205 => 49,  202 => 48,  198 => 46,  190 => 44,  188 => 43,  181 => 39,  176 => 38,  171 => 37,  167 => 36,  161 => 33,  158 => 32,  140 => 31,  135 => 28,  131 => 26,  129 => 25,  118 => 16,  112 => 13,  109 => 12,  107 => 11,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  270 => 74,  254 => 68,  251 => 67,  249 => 66,  236 => 65,  229 => 61,  223 => 58,  217 => 55,  213 => 53,  211 => 52,  206 => 50,  203 => 49,  199 => 47,  191 => 45,  189 => 44,  182 => 40,  177 => 39,  172 => 38,  168 => 37,  162 => 34,  159 => 33,  141 => 32,  136 => 29,  132 => 27,  130 => 26,  119 => 17,  113 => 14,  110 => 13,  108 => 12,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -311,12 +312,13 @@ $context["reservation"], "statut", [], "any", false, false, false, 37) == "en at
 {% block title %}Réservations{% endblock %}
 
 {% block body %}
+<br><br><br><br><br>
     <div class=\"container mt-5 pt-5\">
         <h1 class=\"fw-bold text-primary mb-5\">
             <i class=\"fa fa-bookmark me-2\"></i> Liste des Réservations
         </h1>
 
-        {% if app.user and app.user.role == 'professeur' %}
+        {% if app.user and app.user.roles == 'ROLE_ADMIN' %}
             <div class=\"mb-3 text-end\">
                 <a href=\"{{ path('app_reservation_new') }}\" class=\"btn btn-primary\">Nouvelle réservation</a>
             </a>
@@ -330,7 +332,7 @@ $context["reservation"], "statut", [], "any", false, false, false, 37) == "en at
                         <th>Statut</th>
                         <th>Session</th>
                         <th>Étudiant</th>
-                        {% if app.user and app.user.role == 'professeur' %}
+                        {% if app.user and app.user.roles == 'ROLE_ADMIN' %}
                             <th>Actions</th>
                         {% endif %}
                     </tr>
@@ -356,7 +358,7 @@ $context["reservation"], "statut", [], "any", false, false, false, 37) == "en at
                             </td>
                             <td>{{ reservation.user ? reservation.user.prenom ~ ' ' ~ reservation.user.nom : '-' }}</td>
 
-                            {% if app.user and app.user.role == 'professeur' %}
+                            {% if app.user and app.user.roles == 'ROLE_ADMIN' %}
                                 <td class=\"text-center\">
                                     <div class=\"btn-group btn-group-sm\">
                                         <a href=\"{{ path('app_reservation_show', {'id': reservation.id}) }}\" class=\"btn btn-info\">
@@ -372,7 +374,7 @@ $context["reservation"], "statut", [], "any", false, false, false, 37) == "en at
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan=\"{% if app.user and app.user.role == 'professeur' %}5{% else %}4{% endif %}\" class=\"text-center py-5 text-muted fs-5\">
+                            <td colspan=\"{% if app.user and app.user.roles == 'admin' %}5{% else %}4{% endif %}\" class=\"text-center py-5 text-muted fs-5\">
                                 <i class=\"fa fa-folder-open fa-2x mb-3 d-block\"></i>
                                 Aucune réservation trouvée
                             </td>

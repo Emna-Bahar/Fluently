@@ -17,105 +17,99 @@
     <nav class="nxl-navigation">
         <div class="navbar-wrapper">
             <div class="m-header">
-                <a href="{{ path('dashboard') }}" class="b-brand">
-                    <img src="{{ asset('assets/images/fluently.png') }}" alt="Fluently" class="logo logo-lg" />
-                    <img src="{{ asset('assets/images/fluently.png') }}" alt="Fluently" class="logo logo-sm" />
-                </a>
+                <a href="index.html" class="b-brand">
+    <!-- ========   change your logo hear   ============ -->
+    <img src="{{ asset('assets/images/fluently.png') }}" alt="Fluently" class="logo logo-lg" />
+    <img src="{{ asset('assets/images/fluently.png') }}" alt="Fluently" class="logo logo-sm" />
+</a>
             </div>
             <div class="navbar-content">
                 <ul class="nxl-navbar">
-                    <li class="nxl-item nxl-caption"><label>Navigation</label></li>
+                    <li class="nxl-item nxl-caption">
+                        <label>Navigation</label>
+                    </li>
                     <li class="nxl-item nxl-hasmenu">
                         <a href="javascript:void(0);" class="nxl-link">
                             <span class="nxl-micon"><i class="feather-airplay"></i></span>
-                            <span class="nxl-mtext">Dashboards_User</span>
-                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                            <span class="nxl-mtext">Dashboards_User</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
                         </a>
                         <ul class="nxl-submenu">
-                            <li class="nxl-item"><a class="nxl-link" href="{{ path('dashboard') }}">Accueil</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="{{ path('dashboard') }}">Users</a></li>
+                            
                         </ul>
                     </li>
                     <li class="nxl-item nxl-hasmenu">
                         <a href="javascript:void(0);" class="nxl-link">
                             <span class="nxl-micon"><i class="feather-cast"></i></span>
-                            <span class="nxl-mtext">Langues</span>
-                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                            <span class="nxl-mtext">Langues</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
                         </a>
                         <ul class="nxl-submenu">
-                            <li class="nxl-item"><a class="nxl-link" href="reports-sales.html">Sales Report</a></li>
-                            <li class="nxl-item"><a class="nxl-link" href="reports-leads.html">Leads Report</a></li>
-                            <li class="nxl-item"><a class="nxl-link" href="reports-project.html">Project Report</a></li>
-                            <li class="nxl-item"><a class="nxl-link" href="reports-timesheets.html">Timesheets Report</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="{{ path('app_admin_langue_index') }}">Langue</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="{{ path('app_cours_index') }}">Cours</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="{{ path('app_niveau_index') }}">Niveau</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="{{ path('app_admin_langue_stats') }}">Statistiques</a></li>
                         </ul>
                     </li>
-                    <li class="nxl-item nxl-hasmenu">
-                        <a href="javascript:void(0);" class="nxl-link">
-                            <span class="nxl-micon"><i class="feather-send"></i></span>
-                            <span class="nxl-mtext">Test</span>
-                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                    <li class="nxl-item">
+                       <a href="javascript:void(0);" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-cast"></i></span>
+                            <span class="nxl-mtext">Test</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
                         </a>
                         <ul class="nxl-submenu">
-                            <li class="nxl-item"><a class="nxl-link" href="apps-chat.html">Chat</a></li>
-                            <li class="nxl-item"><a class="nxl-link" href="apps-email.html">Email</a></li>
-                            <li class="nxl-item"><a class="nxl-link" href="apps-tasks.html">Tasks</a></li>
-                            <li class="nxl-item"><a class="nxl-link" href="apps-notes.html">Notes</a></li>
-                            <li class="nxl-item"><a class="nxl-link" href="apps-storage.html">Storage</a></li>
-                            <li class="nxl-item"><a class="nxl-link" href="apps-calendar.html">Calendar</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="{{ path('app_test_index') }}">Tests</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="{{ path('app_question_index') }}">Questions</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="{{ path('app_reponse_index') }}">Reponse</a></li>
+                            
                         </ul>
                     </li>
-                    <li class="nxl-item nxl-hasmenu">
-                        <a href="javascript:void(0);" class="nxl-link">
+                    <li class="nxl-item">
+                        <a href="{{ path('admin_group_index') }}" class="nxl-link">
                             <span class="nxl-micon"><i class="feather-at-sign"></i></span>
                             <span class="nxl-mtext">Groupes</span>
-                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                        </a>
+                    </li>
+                    <li class="nxl-item nxl-hasmenu">
+                        <a href="javascript:void(0);" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-dollar-sign"></i></span>
+                            <span class="nxl-mtext">Sessions</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
                         </a>
                         <ul class="nxl-submenu">
-                            <li class="nxl-item"><a class="nxl-link" href="proposal.html">Proposal</a></li>
-                            <li class="nxl-item"><a class="nxl-link" href="proposal-view.html">Proposal View</a></li>
-                            <li class="nxl-item"><a class="nxl-link" href="proposal-edit.html">Proposal Edit</a></li>
-                            <li class="nxl-item"><a class="nxl-link" href="proposal-create.html">Proposal Create</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="{{ path('session_prof_dashboard') }}">Session</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="{{ path('reservation_professeur') }}">reservation</a></li>
                         </ul>
                     </li>
-                    <li class="nxl-item nxl-hasmenu active">
-    <a href="javascript:void(0);" class="nxl-link">
-        <span class="nxl-micon"><i class="feather-dollar-sign"></i></span>
-        <span class="nxl-mtext">Sessions</span>
-        <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
-    </a>
-    <ul class="nxl-submenu">
-        <li class="nxl-item active">
-            <a class="nxl-link" href="{{ path('session_prof_dashboard') }}">Tableau de bord</a>
-        </li>
-        <li class="nxl-item">
-            <a class="nxl-link" href="{{ path('prof_session_list') }}">Mes sessions</a>
-        </li>
-        {# ✅ LIEN CORRIGÉ vers la page réservations professeur #}
-        <li class="nxl-item">
-            <a class="nxl-link" href="{{ path('reservation_professeur') }}">Mes réservations</a>
-        </li>
-    </ul>
-</li>
                     <li class="nxl-item nxl-hasmenu">
                         <a href="javascript:void(0);" class="nxl-link">
                             <span class="nxl-micon"><i class="feather-users"></i></span>
-                            <span class="nxl-mtext">Objectifs</span>
-                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                            <span class="nxl-mtext">Objectifs</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
                         </a>
                         <ul class="nxl-submenu">
-                            <li class="nxl-item"><a class="nxl-link" href="customers.html">Customers</a></li>
-                            <li class="nxl-item"><a class="nxl-link" href="customers-view.html">Customers View</a></li>
-                            <li class="nxl-item"><a class="nxl-link" href="customers-create.html">Customers Create</a></li>
-                        </ul>
+        <li class="nxl-item">
+            <a class="nxl-link" href="{{ path('app_objectif_admin_index') }}">
+                Liste des objectifs
+            </a>
+        </li>
+       
+    </ul>
+    <li class="nxl-item nxl-hasmenu">
+    <a href="javascript:void(0);" class="nxl-link">
+        <span class="nxl-micon"><i class="feather-check-square"></i></span>
+        <span class="nxl-mtext">Tâches</span>
+        <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+    </a>
+    <ul class="nxl-submenu">
+        <li class="nxl-item">
+            <a class="nxl-link" href="{{ path('app_tache_admin_index') }}">
+                Liste des tâches
+            </a>
+        </li>
+       
+    </ul>
+</li>
                     </li>
+                    
                 </ul>
-                <div class="card text-center">
-                    <div class="card-body">
-                        <i class="feather-sunrise fs-4 text-dark"></i>
-                        <h6 class="mt-4 text-dark fw-bolder">Downloading Center</h6>
-                        <p class="fs-11 my-3 text-dark">Duralux is a production ready CRM to get started up and running easily.</p>
-                        <a href="https://www.themewagon.com/themes/Duralux-admin" target="_blank" class="btn btn-primary text-dark w-100">Download Now</a>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </nav>

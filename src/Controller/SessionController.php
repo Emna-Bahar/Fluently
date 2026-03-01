@@ -37,38 +37,22 @@ class SessionController extends AbstractController
         EntityManagerInterface $em,
         PaginatorInterface $paginator
     ): Response {
+
         $filters = [
             'statut' => $request->query->get('statut'),
             'groupe' => $request->query->get('groupe'),
             'search' => $request->query->get('search'),
         ];
 
-        $qb = $sessionRepository->createQueryBuilder('s')
-            ->leftJoin('s.group', 'g')
-            ->addSelect('g');
+        // ✅ PHPStan fix #1 ligne 49 : strtoupper() attend string, get() retourne bool|float|int|string|null
+        $sortBy = (string) $request->query->get('sortBy', 'dateHeure');
+        $order  = strtoupper((string) $request->query->get('order', 'DESC')) === 'ASC' ? 'ASC' : 'DESC';
 
-        if ($statut = $filters['statut']) {
-            $qb->andWhere('s.statut = :statut')->setParameter('statut', $statut);
-        }
-
-        if ($groupeId = $filters['groupe']) {
-            $qb->andWhere('g.id = :groupe')->setParameter('groupe', $groupeId);
-        }
-
-        if ($search = trim($filters['search'] ?? '')) {
-            $search = '%' . $search . '%';
-            $qb->andWhere('s.lienReunion LIKE :search OR s.statut LIKE :search OR g.nom LIKE :search')
-               ->setParameter('search', $search);
-        }
-
-        $sortBy = $request->query->get('sortBy', 'dateHeure');
-        $sortBy = in_array($sortBy, ['dateHeure', 'statut']) ? $sortBy : 'dateHeure';
-        $order  = strtoupper($request->query->get('order', 'DESC')) === 'ASC' ? 'ASC' : 'DESC';
-
-        $qb->orderBy('s.' . $sortBy, $order);
+        // ✅ PHPStan fix #2 ligne 52 : getFilteredQuery() attend string pour $sortBy
+        $query = $sessionRepository->getFilteredQuery($filters, $sortBy, $order);
 
         $pagination = $paginator->paginate(
-            $qb,
+            $query,
             $request->query->getInt('page', 1),
             6
         );
@@ -83,14 +67,12 @@ class SessionController extends AbstractController
         ]);
     }
 
-    // ✅ CETTE ROUTE DOIT ÊTRE AVANT session_professeur
     #[Route('/professeur/reservations', name: 'session_prof_reservations_redirect', methods: ['GET'])]
     public function redirectToReservations(): Response
     {
         return $this->redirectToRoute('reservation_professeur');
     }
 
-    // ✅ CETTE ROUTE DOIT ÊTRE AVANT session_professeur
     #[Route('/professeur/dashboard', name: 'session_prof_dashboard', methods: ['GET'])]
     public function professeurDashboard(
         SessionRepository $sessionRepository,
@@ -98,8 +80,7 @@ class SessionController extends AbstractController
         EntityManagerInterface $em,
         PaginatorInterface $paginator,
         Request $request
-    ): Response
-    {
+    ): Response {
         $user = $this->getCurrentUser($em);
 
         if (!$user) {
@@ -107,59 +88,37 @@ class SessionController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        $qbSessions = $sessionRepository->createQueryBuilder('s')
-            ->where('s.user = :user')
-            ->setParameter('user', $user)
-            ->orderBy('s.dateHeure', 'DESC');
-
         $sessionsPagination = $paginator->paginate(
-            $qbSessions,
+            $sessionRepository->getQueryByProf($user),
             $request->query->getInt('page_sessions', 1),
             8
         );
 
         $pendingReservations = $reservationRepository->findPendingForProf($user);
-
-        $recentReservations = $reservationRepository->createQueryBuilder('r')
-            ->join('r.session', 's')
-            ->where('s.user = :user')
-            ->andWhere('r.statut != :en_attente')
-            ->setParameter('user', $user)
-            ->setParameter('en_attente', 'en attente')
-            ->orderBy('r.dateReservation', 'DESC')
-            ->setMaxResults(12)
-            ->getQuery()
-            ->getResult();
+        $recentReservations  = $reservationRepository->findRecentForProf($user);
 
         return $this->render('dashboard/prof_dashboard.html.twig', [
-            'sessionsPagination'   => $sessionsPagination,
-            'pendingReservations'  => $pendingReservations,
-            'recentReservations'   => $recentReservations,
-            'user'                 => $user,
+            'sessionsPagination'  => $sessionsPagination,
+            'pendingReservations' => $pendingReservations,
+            'recentReservations'  => $recentReservations,
+            'user'                => $user,
         ]);
     }
 
-    // ✅ CETTE ROUTE DOIT ÊTRE AVANT session_professeur
     #[Route('/professeur/sessions', name: 'prof_session_list', methods: ['GET'])]
     public function profSessionList(
         Request $request,
         SessionRepository $sessionRepository,
         EntityManagerInterface $em,
         PaginatorInterface $paginator
-    ): Response
-    {
+    ): Response {
         $user = $this->getCurrentUser($em);
         if (!$user) {
             return $this->redirectToRoute('app_login');
         }
 
-        $qb = $sessionRepository->createQueryBuilder('s')
-            ->where('s.user = :user')
-            ->setParameter('user', $user)
-            ->orderBy('s.dateHeure', 'DESC');
-
         $pagination = $paginator->paginate(
-            $qb,
+            $sessionRepository->getQueryByProfOrdered($user),
             $request->query->getInt('page', 1),
             15
         );
@@ -170,14 +129,12 @@ class SessionController extends AbstractController
         ]);
     }
 
-    // ✅ CETTE ROUTE DOIT ÊTRE AVANT session_professeur
     #[Route('/professeur/sessions/new', name: 'prof_session_new', methods: ['GET', 'POST'])]
     public function profSessionNew(
         Request $request,
         EntityManagerInterface $em,
         GroupeRepository $groupeRepository
-    ): Response
-    {
+    ): Response {
         $user = $this->getCurrentUser($em);
         if (!$user) {
             return $this->redirectToRoute('app_login');
@@ -202,15 +159,13 @@ class SessionController extends AbstractController
         ]);
     }
 
-    // ✅ CETTE ROUTE DOIT ÊTRE AVANT session_professeur
     #[Route('/professeur/sessions/{id}/edit', name: 'prof_session_edit', methods: ['GET', 'POST'])]
     public function profSessionEdit(
         int $id,
         Request $request,
         SessionRepository $sessionRepository,
         EntityManagerInterface $em
-    ): Response
-    {
+    ): Response {
         $user = $this->getCurrentUser($em);
         if (!$user) {
             $this->addFlash('warning', 'Veuillez vous connecter.');
@@ -218,7 +173,6 @@ class SessionController extends AbstractController
         }
 
         $session = $sessionRepository->find($id);
-
         if (!$session) {
             $this->addFlash('error', 'La session #' . $id . ' n\'existe pas ou a été supprimée.');
             return $this->redirectToRoute('prof_session_list');
@@ -248,14 +202,12 @@ class SessionController extends AbstractController
         ]);
     }
 
-    // ✅ CETTE ROUTE DOIT ÊTRE AVANT session_professeur
     #[Route('/professeur/sessions/{id}', name: 'prof_session_show', methods: ['GET'])]
     public function profSessionShow(
         int $id,
         SessionRepository $sessionRepository,
         EntityManagerInterface $em
-    ): Response
-    {
+    ): Response {
         $user = $this->getCurrentUser($em);
         if (!$user) {
             $this->addFlash('warning', 'Veuillez vous connecter.');
@@ -263,7 +215,6 @@ class SessionController extends AbstractController
         }
 
         $session = $sessionRepository->find($id);
-
         if (!$session) {
             $this->addFlash('error', 'La session #' . $id . ' n\'existe pas ou a été supprimée.');
             return $this->redirectToRoute('prof_session_list');
@@ -279,15 +230,13 @@ class SessionController extends AbstractController
         ]);
     }
 
-    // ✅ CETTE ROUTE DOIT ÊTRE AVANT session_professeur
     #[Route('/professeur/sessions/{id}', name: 'prof_session_delete', methods: ['POST'])]
     public function profSessionDelete(
         int $id,
         Request $request,
         SessionRepository $sessionRepository,
         EntityManagerInterface $em
-    ): Response
-    {
+    ): Response {
         $user = $this->getCurrentUser($em);
         if (!$user) {
             $this->addFlash('warning', 'Veuillez vous connecter.');
@@ -295,7 +244,6 @@ class SessionController extends AbstractController
         }
 
         $session = $sessionRepository->find($id);
-
         if (!$session) {
             $this->addFlash('error', 'La session #' . $id . ' n\'existe pas ou a déjà été supprimée.');
             return $this->redirectToRoute('prof_session_list');
@@ -305,7 +253,10 @@ class SessionController extends AbstractController
             throw $this->createAccessDeniedException('Vous n\'êtes pas autorisé à supprimer cette session.');
         }
 
-        if ($this->isCsrfTokenValid('delete' . $session->getId(), $request->request->get('_token'))) {
+        // ✅ PHPStan fix #3 ligne 261 : isCsrfTokenValid() attend string|null, cast (string)
+        $token = (string) $request->request->get('_token', '');
+
+        if ($this->isCsrfTokenValid('delete' . $session->getId(), $token)) {
             $em->remove($session);
             $em->flush();
             $this->addFlash('success', 'Session supprimée avec succès !');
@@ -316,7 +267,6 @@ class SessionController extends AbstractController
         return $this->redirectToRoute('prof_session_list');
     }
 
-    // ✅ session_professeur EN DERNIER — route la plus générique
     #[Route('/professeur', name: 'session_professeur', methods: ['GET'])]
     public function espaceProfesseur(
         Request $request,
@@ -331,22 +281,17 @@ class SessionController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        $qb = $sessionRepository->createQueryBuilder('s')
-            ->where('s.user = :user')
-            ->setParameter('user', $user);
+        $filters = [
+            'statut' => $request->query->get('statut'),
+        ];
 
-        if ($statut = $request->query->get('statut')) {
-            $qb->andWhere('s.statut = :statut')->setParameter('statut', $statut);
-        }
-
-        $sortBy = $request->query->get('sortBy', 'dateHeure');
-        $sortBy = in_array($sortBy, ['dateHeure', 'statut']) ? $sortBy : 'dateHeure';
-        $order  = strtoupper($request->query->get('order', 'DESC')) === 'ASC' ? 'ASC' : 'DESC';
-
-        $qb->orderBy('s.' . $sortBy, $order);
+        // ✅ PHPStan fix #4 ligne 291 : strtoupper() attend string
+        // ✅ PHPStan fix #5 ligne 295 : getFilteredQueryForProf() attend string pour $sortBy
+        $sortBy = (string) $request->query->get('sortBy', 'dateHeure');
+        $order  = strtoupper((string) $request->query->get('order', 'DESC')) === 'ASC' ? 'ASC' : 'DESC';
 
         $pagination = $paginator->paginate(
-            $qb,
+            $sessionRepository->getFilteredQueryForProf($user, $filters, $sortBy, $order),
             $request->query->getInt('page', 1),
             10
         );
@@ -362,8 +307,7 @@ class SessionController extends AbstractController
         Request $request,
         EntityManagerInterface $em,
         GroupeRepository $groupeRepository
-    ): Response
-    {
+    ): Response {
         $session = new Session();
 
         $user = $this->getCurrentUser($em);
@@ -393,8 +337,7 @@ class SessionController extends AbstractController
         Session $session,
         Request $request,
         EntityManagerInterface $em
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $user = $this->getCurrentUser($em);
 
         if (!$user || $session->getUser()?->getId() !== $user->getId() || $session->getStatut() !== 'terminée') {
@@ -413,9 +356,7 @@ class SessionController extends AbstractController
         return $this->json([
             'success' => true,
             'rating'  => $rating,
-            'message' => 'Note enregistrée'
+            'message' => 'Note enregistrée',
         ]);
     }
-    
-    
 }

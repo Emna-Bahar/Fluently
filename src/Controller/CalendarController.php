@@ -28,14 +28,9 @@ class CalendarController extends AbstractController
         private ReservationRepository  $reservationRepo,
     ) {}
 
-    private function getCurrentUser(): ?User
-    {
-        $user = $this->getUser();
-        if ($user instanceof User) return $user;
-        return $this->em->getRepository(User::class)->find(1);
-    }
+    // ✅ PHPStan fix #1 : méthode getCurrentUser() supprimée car inutilisée (method.unused)
 
-    #[Route('', name: 'calendar_index', methods: ['GET'])]
+    #[Route('/calendar_index', name: 'calendar_index', methods: ['GET'])]
     public function index(): Response
     {
         return $this->render('calendar/index.html.twig');
@@ -54,7 +49,7 @@ class CalendarController extends AbstractController
 
             $group  = $session->getGroup();
             $niveau = $group?->getIdNiveau();
-            $langue = $group?->getIDLangue(); // ✅ majuscules correctes
+            $langue = $group?->getIDLangue();
 
             $placesPrises    = $this->reservationRepo->count(['session' => $session, 'statut' => 'confirmée']);
             $capacite        = (int) ($group?->getCapacite() ?? 0);
@@ -128,74 +123,74 @@ class CalendarController extends AbstractController
         ]);
     }
 
-#[Route('/recommend', name: 'calendar_recommend', methods: ['POST'])]
-public function recommend(Request $request): JsonResponse
-{
-    $question = trim($request->request->get('question', ''));
+    #[Route('/recommend', name: 'calendar_recommend', methods: ['POST'])]
+    public function recommend(Request $request): JsonResponse
+    {
+        // ✅ PHPStan fix #2 : cast (string) pour satisfaire trim() qui attend un string
+        //    $request->request->get() retourne bool|float|int|string|null
+        $question = trim((string) $request->request->get('question', ''));
 
-    if (empty($question)) {
-        return $this->json(['error' => 'Posez une question (ex: je suis en niveau A2)']);
-    }
-
-    preg_match('/\b(A1|A2|B1|B2|C1|C2)\b/i', $question, $matches);
-    $niveauTitre = !empty($matches[1]) ? strtoupper($matches[1]) : null;
-
-    if (!$niveauTitre) {
-        return $this->json(['error' => 'Niveau non détecté. Précisez (ex: A1, A2, B1, B2, C1, C2).']);
-    }
-
-    $niveau = $this->em->getRepository(Niveau::class)->findOneBy(['titre' => $niveauTitre]);
-
-    if (!$niveau) {
-        return $this->json(['error' => "Niveau $niveauTitre introuvable en base de données."]);
-    }
-
-    // ✅ Détection du champ niveau dans Groupe
-    $classMetadata = $this->em->getClassMetadata(\App\Entity\Groupe::class);
-    $niveauField   = null;
-
-    foreach (['Id_niveau', 'idNiveau', 'niveau', 'niveauId', 'id_niveau'] as $candidate) {
-        if ($classMetadata->hasAssociation($candidate) || $classMetadata->hasField($candidate)) {
-            $niveauField = $candidate;
-            break;
+        if (empty($question)) {
+            return $this->json(['error' => 'Posez une question (ex: je suis en niveau A2)']);
         }
-    }
 
-    $qb = $this->sessionRepo->createQueryBuilder('s')
-        ->join('s.group', 'g')
-        // ✅ CORRECTION : on retire le filtre dateHeure > now
-        // On garde tous les statuts sauf 'annulée'
-        ->andWhere('s.statut != :annulee')
-        ->setParameter('annulee', 'annulée')
-        ->orderBy('s.dateHeure', 'ASC');
+        preg_match('/\b(A1|A2|B1|B2|C1|C2)\b/i', $question, $matches);
+        $niveauTitre = !empty($matches[1]) ? strtoupper($matches[1]) : null;
 
-    if ($niveauField !== null) {
-        $qb->andWhere('g.' . $niveauField . ' = :niveau')
-           ->setParameter('niveau', $niveau);
-    }
-
-    $sessions        = $qb->getQuery()->getResult();
-    $recommendations = [];
-
-    foreach ($sessions as $s) {
-        $confirmed = $this->reservationRepo->count(['session' => $s, 'statut' => 'confirmée']);
-        $capacite  = (int) ($s->getGroup()?->getCapacite() ?? 0);
-        $places    = max(0, $capacite - $confirmed);
-
-        if ($places > 0) {
-            $recommendations[] = [
-                'id'     => $s->getId(),
-                'date'   => $s->getDateHeure()?->format('d/m/Y à H:i') ?? '-',
-                'groupe' => $s->getGroup()?->getNom() ?? '-',
-                'places' => $places,
-                'niveau' => $niveauTitre,
-                'statut' => $s->getStatut(),
-            ];
+        if (!$niveauTitre) {
+            return $this->json(['error' => 'Niveau non détecté. Précisez (ex: A1, A2, B1, B2, C1, C2).']);
         }
+
+        $niveau = $this->em->getRepository(Niveau::class)->findOneBy(['titre' => $niveauTitre]);
+
+        if (!$niveau) {
+            return $this->json(['error' => "Niveau $niveauTitre introuvable en base de données."]);
+        }
+
+        $classMetadata = $this->em->getClassMetadata(\App\Entity\Groupe::class);
+        $niveauField   = null;
+
+        foreach (['Id_niveau', 'idNiveau', 'niveau', 'niveauId', 'id_niveau'] as $candidate) {
+            if ($classMetadata->hasAssociation($candidate) || $classMetadata->hasField($candidate)) {
+                $niveauField = $candidate;
+                break;
+            }
+        }
+
+        $qb = $this->sessionRepo->createQueryBuilder('s')
+            ->join('s.group', 'g')
+            ->andWhere('s.statut != :annulee')
+            ->setParameter('annulee', 'annulée')
+            ->orderBy('s.dateHeure', 'ASC');
+
+        if ($niveauField !== null) {
+            $qb->andWhere('g.' . $niveauField . ' = :niveau')
+               ->setParameter('niveau', $niveau);
+        }
+
+        $sessions        = $qb->getQuery()->getResult();
+        $recommendations = [];
+
+        foreach ($sessions as $s) {
+            $confirmed = $this->reservationRepo->count(['session' => $s, 'statut' => 'confirmée']);
+            $capacite  = (int) ($s->getGroup()?->getCapacite() ?? 0);
+            $places    = max(0, $capacite - $confirmed);
+
+            if ($places > 0) {
+                $recommendations[] = [
+                    'id'     => $s->getId(),
+                    'date'   => $s->getDateHeure()?->format('d/m/Y à H:i') ?? '-',
+                    'groupe' => $s->getGroup()?->getNom() ?? '-',
+                    'places' => $places,
+                    'niveau' => $niveauTitre,
+                    'statut' => $s->getStatut(),
+                ];
+            }
+        }
+
+        return $this->json(['niveau' => $niveauTitre, 'recommendations' => $recommendations]);
     }
 
-    return $this->json(['niveau' => $niveauTitre, 'recommendations' => $recommendations]);
-}
     #[Route('/debug-events', name: 'calendar_debug', methods: ['GET'])]
     public function debugEvents(): JsonResponse
     {

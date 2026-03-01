@@ -242,10 +242,7 @@ class __TwigTemplate_461bed753e3f014a512074a962c5c8c6 extends Template
                 // line 89
                 yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "email", [], "any", false, false, false, 89), "html", null, true);
                 yield "</td>
-                                    <td>";
-                // line 90
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(Twig\Extension\CoreExtension::replace(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, $context["user"], "roles", [], "any", false, false, false, 90), 0, [], "array", false, false, false, 90), ["ROLE_" => ""]), "html", null, true);
-                yield "</td>
+                                   
                                     <td>
                                         ";
                 // line 92
@@ -371,7 +368,7 @@ $context["user"], "statut", [], "any", false, false, false, 94) == "disabled")) 
      */
     public function getDebugInfo(): array
     {
-        return array (  334 => 136,  331 => 135,  319 => 129,  314 => 126,  312 => 125,  299 => 117,  296 => 116,  292 => 114,  282 => 108,  280 => 107,  272 => 102,  267 => 99,  263 => 97,  259 => 95,  257 => 94,  254 => 93,  252 => 92,  247 => 90,  243 => 89,  237 => 88,  233 => 87,  230 => 86,  224 => 85,  222 => 84,  192 => 59,  186 => 58,  174 => 51,  168 => 50,  162 => 49,  156 => 48,  146 => 41,  125 => 23,  119 => 20,  113 => 17,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  331 => 136,  328 => 135,  316 => 129,  311 => 126,  309 => 125,  296 => 117,  293 => 116,  289 => 114,  279 => 108,  277 => 107,  269 => 102,  264 => 99,  260 => 97,  256 => 95,  254 => 94,  251 => 93,  249 => 92,  243 => 89,  237 => 88,  233 => 87,  230 => 86,  224 => 85,  222 => 84,  192 => 59,  186 => 58,  174 => 51,  168 => 50,  162 => 49,  156 => 48,  146 => 41,  125 => 23,  119 => 20,  113 => 17,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -465,7 +462,7 @@ $context["user"], "statut", [], "any", false, false, false, 94) == "disabled")) 
                                     <td class=\"fw-medium\">{{ user.id }}</td>
                                     <td class=\"fw-bold\">{{ user.nom }} {{ user.prenom }}</td>
                                     <td>{{ user.email }}</td>
-                                    <td>{{ user.roles[0]|replace({'ROLE_':''}) }}</td>
+                                   
                                     <td>
                                         {% if user.statut == 'online' %}
                                             <span class=\"badge bg-success-subtle text-success px-3 py-2\">En ligne</span>

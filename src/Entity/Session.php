@@ -16,15 +16,17 @@ class Session
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    // ✅ PHPStan fix ligne 19 (property.unusedType) : même cas que Reservation::$id
+    // Doctrine injecte l'int via réflexion après persist+flush, jamais via PHP direct
+    private ?int $id = null; // @phpstan-ignore-line property.unusedType
 
-#[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-#[Assert\NotBlank(message: "La date et heure de la session sont obligatoires.")]
-#[Assert\GreaterThanOrEqual(
-    value: "now",
-    message: "La session ne peut pas être planifiée dans le passé."
-)]
-private ?\DateTimeInterface $dateHeure = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Assert\NotBlank(message: "La date et heure de la session sont obligatoires.")]
+    #[Assert\GreaterThanOrEqual(
+        value: "now",
+        message: "La session ne peut pas être planifiée dans le passé."
+    )]
+    private ?\DateTimeInterface $dateHeure = null;
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank(message: "Le statut est obligatoire.")]
@@ -61,28 +63,28 @@ private ?\DateTimeInterface $dateHeure = null;
     #[ORM\OneToMany(mappedBy: 'session', targetEntity: Reservation::class, orphanRemoval: true)]
     private Collection $reservations;
 
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    #[Assert\Range(min: 0, max: 5, notInRangeMessage: "Le rating doit être entre {{ min }} et {{ max }}.")]
+    private ?int $rating = null;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
     }
 
-    // ────────────────────────────────────────────────
-    // Validation personnalisée (optionnelle mais utile)
-    // ────────────────────────────────────────────────
     #[Assert\Callback]
     public function validate(ExecutionContextInterface $context): void
     {
-        // Exemple : lienReunion obligatoire seulement si statut = "en cours"
         if ($this->statut === 'en cours' && empty($this->lienReunion)) {
             $context->buildViolation("Le lien de réunion est obligatoire quand la session est 'en cours'.")
                 ->atPath('lienReunion')
                 ->addViolation();
         }
         if ($this->statut !== 'terminée' && $this->rating !== null) {
-    $context->buildViolation("Le rating ne peut être défini que pour les sessions terminées.")
-        ->atPath('rating')
-        ->addViolation();
-}
+            $context->buildViolation("Le rating ne peut être défini que pour les sessions terminées.")
+                ->atPath('rating')
+                ->addViolation();
+        }
     }
 
     public function getId(): ?int
@@ -122,20 +124,18 @@ private ?\DateTimeInterface $dateHeure = null;
         $this->lienReunion = $lienReunion;
         return $this;
     }
-#[ORM\Column(type: Types::INTEGER, nullable: true)]
-#[Assert\Range(min: 0, max: 5, notInRangeMessage: "Le rating doit être entre {{ min }} et {{ max }}.")]
-private ?int $rating = null;
 
-public function getRating(): ?int
-{
-    return $this->rating;
-}
+    public function getRating(): ?int
+    {
+        return $this->rating;
+    }
 
-public function setRating(?int $rating): static
-{
-    $this->rating = $rating;
-    return $this;
-}
+    public function setRating(?int $rating): static
+    {
+        $this->rating = $rating;
+        return $this;
+    }
+
     public function getGroup(): ?Groupe
     {
         return $this->group;

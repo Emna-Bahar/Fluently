@@ -22,22 +22,20 @@ class ReservationType extends AbstractType
         $builder
             ->add('dateReservation', DateType::class, [
                 'widget' => 'single_text',
-                'label' => 'Date de Réservation',
+                'label'  => 'Date de Réservation',
             ]);
 
         if ($isStudentView) {
-            // Étudiant : statut caché + forcé à "en attente"
             $builder->add('statut', HiddenType::class, [
                 'data' => 'en attente',
             ]);
         } else {
-            // Professeur : liste complète modifiable
             $builder->add('statut', ChoiceType::class, [
                 'choices' => [
                     'En attente' => 'en attente',
-                    'Confirmée' => 'confirmée',
-                    'Annulée' => 'annulée',
-                    'Refusée' => 'refusée',
+                    'Confirmée'  => 'confirmée',
+                    'Annulée'    => 'annulée',
+                    'Refusée'    => 'refusée',
                 ],
                 'label' => 'Statut',
             ]);
@@ -45,29 +43,33 @@ class ReservationType extends AbstractType
 
         $builder
             ->add('session', EntityType::class, [
-                'class' => Session::class,
-                'choice_label' => function (Session $session) {
-                    return $session->getDateHeure()->format('d/m/Y H:i') . ' - ' . $session->getStatut();
+                'class'        => Session::class,
+                // ✅ PHPStan fix ligne 50 (method.nonObject) :
+                // getDateHeure() retourne DateTimeInterface|null
+                // On utilise l'opérateur ?-> + ?? pour éviter format() sur null
+                'choice_label' => function (Session $session): string {
+                    $date = $session->getDateHeure()?->format('d/m/Y H:i') ?? 'Date inconnue';
+                    return $date . ' - ' . ($session->getStatut() ?? '');
                 },
-                'label' => 'Session',
+                'label'       => 'Session',
                 'placeholder' => 'Choisir une session',
-                'disabled' => $isStudentView, // optionnel : bloquer le changement de session pour étudiant
+                'disabled'    => $isStudentView,
             ])
             ->add('user', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => function (User $user) {
+                'class'        => User::class,
+                'choice_label' => function (User $user): string {
                     return $user->getPrenom() . ' ' . $user->getNom();
                 },
-                'label' => 'Étudiant',
+                'label'       => 'Étudiant',
                 'placeholder' => 'Choisir un étudiant',
-                'disabled' => $isStudentView, // bloquer le changement d'étudiant pour l'étudiant
+                'disabled'    => $isStudentView,
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Reservation::class,
+            'data_class'      => Reservation::class,
             'is_student_view' => false,
         ]);
     }

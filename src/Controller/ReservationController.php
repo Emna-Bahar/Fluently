@@ -17,7 +17,6 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/reservation')]
 class ReservationController extends AbstractController
 {
-    // ✅ CORRECTION 1 : injection via constructeur — résout '$reservationRepository' undefined
     public function __construct(
         private ReservationRepository $reservationRepository,
     ) {}
@@ -34,7 +33,13 @@ class ReservationController extends AbstractController
     #[Route('/', name: 'app_reservation_index', methods: ['GET'])]
     public function index(EntityManagerInterface $em): Response
     {
-        $user         = $this->getCurrentUser($em);
+        $user = $this->getCurrentUser($em);
+
+        // ✅ PHPStan fix #1 ligne 38 : findByUser() attend un User non-null
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
         $reservations = $this->reservationRepository->findByUser($user);
 
         return $this->render('reservation/index.html.twig', [
@@ -60,14 +65,12 @@ class ReservationController extends AbstractController
         ]);
     }
 
-    // ✅ CORRECTION 2 : /calendar et /calendar/events AVANT /{id} pour éviter conflits de routing
     #[Route('/calendar', name: 'reservation_calendar', methods: ['GET'])]
     public function calendar(): Response
     {
         return $this->render('reservation/calendar.html.twig');
     }
 
-    // ✅ CORRECTION 3 : JsonResponse importé correctement via use en haut
     #[Route('/calendar/events', name: 'reservation_calendar_events', methods: ['GET'])]
     public function calendarEvents(EntityManagerInterface $em): JsonResponse
     {
@@ -120,8 +123,7 @@ class ReservationController extends AbstractController
     public function new(
         Request $request,
         EntityManagerInterface $em
-    ): Response
-    {
+    ): Response {
         $reservation = new Reservation();
         $reservation->setUser($this->getCurrentUser($em));
         $reservation->setStatut('en attente');
@@ -169,11 +171,15 @@ class ReservationController extends AbstractController
         Request $request,
         Reservation $reservation,
         EntityManagerInterface $em
-    ): Response
-    {
+    ): Response {
         $user = $this->getCurrentUser($em);
 
-        if ($reservation->getSession()->getUser()->getId() !== $user->getId()) {
+        // ✅ PHPStan fix #2 lignes 176 : getSession()/getUser()/getId() sur null possible
+        // On vérifie que $user, session et user de session existent avant d'appeler getId()
+        $session     = $reservation->getSession();
+        $sessionUser = $session?->getUser();
+
+        if (!$user || !$session || !$sessionUser || $sessionUser->getId() !== $user->getId()) {
             throw $this->createAccessDeniedException();
         }
 
@@ -203,21 +209,25 @@ class ReservationController extends AbstractController
         Request $request,
         Reservation $reservation,
         EntityManagerInterface $em
-    ): Response
-    {
+    ): Response {
         $user = $this->getCurrentUser($em);
 
-        if ($reservation->getSession()->getUser()->getId() !== $user->getId()) {
+        // ✅ PHPStan fix #3 lignes 210 : même pattern null-check avant getId()
+        $session     = $reservation->getSession();
+        $sessionUser = $session?->getUser();
+
+        if (!$user || !$session || !$sessionUser || $sessionUser->getId() !== $user->getId()) {
             throw $this->createAccessDeniedException();
         }
 
-        $statut  = $request->request->get('statut');
+        // ✅ PHPStan fix #4 ligne 221 : cast (string) car get() retourne bool|float|int|string|null
+        $statut  = (string) $request->request->get('statut', '');
         $allowed = ['confirmée', 'refusée', 'annulée'];
 
-        if (
-            in_array($statut, $allowed) &&
-            $this->isCsrfTokenValid('resa_statut_' . $reservation->getId(), $request->request->get('_token'))
-        ) {
+        // ✅ PHPStan fix #5 ligne 219 : cast (string) pour isCsrfTokenValid() qui attend string|null
+        $token = (string) $request->request->get('_token', '');
+
+        if (in_array($statut, $allowed) && $this->isCsrfTokenValid('resa_statut_' . $reservation->getId(), $token)) {
             $reservation->setStatut($statut);
             $em->flush();
             $this->addFlash('success', 'Réservation marquée comme "' . $statut . '".');
@@ -238,15 +248,21 @@ class ReservationController extends AbstractController
         Request $request,
         Reservation $reservation,
         EntityManagerInterface $em
-    ): Response
-    {
+    ): Response {
         $user = $this->getCurrentUser($em);
 
-        if ($reservation->getSession()->getUser()->getId() !== $user->getId()) {
+        // ✅ PHPStan fix #6 lignes 245 : même pattern null-check avant getId()
+        $session     = $reservation->getSession();
+        $sessionUser = $session?->getUser();
+
+        if (!$user || !$session || !$sessionUser || $sessionUser->getId() !== $user->getId()) {
             throw $this->createAccessDeniedException();
         }
 
-        if ($this->isCsrfTokenValid('delete' . $reservation->getId(), $request->request->get('_token'))) {
+        // ✅ PHPStan fix #7 ligne 249 : cast (string) pour isCsrfTokenValid()
+        $token = (string) $request->request->get('_token', '');
+
+        if ($this->isCsrfTokenValid('delete' . $reservation->getId(), $token)) {
             $em->remove($reservation);
             $em->flush();
             $this->addFlash('success', 'Réservation supprimée.');
