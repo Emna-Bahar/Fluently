@@ -494,6 +494,6 @@ class __TwigTemplate_e130778e2f84adf4ce09b2b528bc146a extends Template
         </script>
     {% endif %}
 
-{% endblock %}", "langue/stats_admin.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\langue\\stats_admin.html.twig");
+{% endblock %}", "langue/stats_admin.html.twig", "C:\\Users\\sarra\\Desktop\\PIW\\Fluently\\templates\\langue\\stats_admin.html.twig");
     }
 }

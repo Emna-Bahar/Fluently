@@ -9,10 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: TacheRepository::class)]
 class Tache
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+ #[ORM\Id]
+#[ORM\GeneratedValue]
+#[ORM\Column]
+/** @phpstan-ignore property.unusedType */
+private ?int $id = null;
 
     #[ORM\Column(length: 50)]
     private ?string $titre = null;

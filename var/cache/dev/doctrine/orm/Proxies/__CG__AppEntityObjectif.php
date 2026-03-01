@@ -7,7 +7,7 @@ namespace Proxies\__CG__\App\Entity;
  */
 class Objectif extends \App\Entity\Objectif implements \Doctrine\ORM\Proxy\InternalProxy
 {
-    use \Symfony\Component\VarExporter\LazyGhostTrait {
+     use \Symfony\Component\VarExporter\LazyGhostTrait {
         initializeLazyObject as private;
         setLazyObjectAsInitialized as public __setInitialized;
         isLazyObjectInitialized as private;
@@ -38,7 +38,7 @@ class Objectif extends \App\Entity\Objectif implements \Doctrine\ORM\Proxy\Inter
         'statut' => [parent::class, 'statut', null, 16],
         'taches' => [parent::class, 'taches', null, 16],
         'titre' => [parent::class, 'titre', null, 16],
-    ];
+    ];
 
     public function __isInitialized(): bool
     {

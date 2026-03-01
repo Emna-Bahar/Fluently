@@ -952,6 +952,6 @@ document.addEventListener('DOMContentLoaded', function () {
 </style>
 
 {% endblock %}
-", "recommandation/index.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\recommandation\\index.html.twig");
+", "recommandation/index.html.twig", "C:\\Users\\sarra\\Desktop\\PIW\\Fluently\\templates\\recommandation\\index.html.twig");
     }
 }

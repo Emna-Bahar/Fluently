@@ -118,12 +118,11 @@ class __TwigTemplate_b785188bcd6f69078f52c7209e8d1c74 extends Template
                 </p>
             </div>
         </div>
-        
     </div>
 </section>
 
 ";
-        // line 25
+        // line 24
         yield "<section class=\"ftco-section\">
     <div class=\"container\">
         <div class=\"row justify-content-center\">
@@ -136,11 +135,12 @@ class __TwigTemplate_b785188bcd6f69078f52c7209e8d1c74 extends Template
                         <p class=\"mb-0 mt-2\"><small>Fixez-vous des objectifs clairs pour progresser efficacement</small></p>
                     </div>
                     <div class=\"card-body p-5\">
+
                         ";
         // line 37
         yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 37, $this->source); })()), 'form_start', ["attr" => ["novalidate" => "novalidate"]]);
         yield "
-                        
+
                         ";
         // line 40
         yield "                        <div class=\"form-group mb-4\">
@@ -251,28 +251,52 @@ class __TwigTemplate_b785188bcd6f69078f52c7209e8d1c74 extends Template
                                 </div>
                             </div>
                             <div class=\"col-md-6\">
-                                <div class=\"form-group mb-4\">
-                                    <label for=\"";
+                                ";
         // line 114
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 114, $this->source); })()), "Id_user", [], "any", false, false, false, 114), "vars", [], "any", false, false, false, 114), "id", [], "any", false, false, false, 114), "html", null, true);
-        yield "\" class=\"font-weight-bold\">
-                                        <i class=\"fa fa-user text-info\"></i> Assigner à *
-                                    </label>
-                                    ";
+        yield "                                ";
+        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 114, $this->source); })()), "Id_user", [], "any", false, false, false, 114), 'widget', ["attr" => ["style" => "display:none;"]]);
+        yield "
+
+                                ";
         // line 117
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 117, $this->source); })()), "Id_user", [], "any", false, false, false, 117), 'widget', ["attr" => ["class" => "form-control custom-select"]]);
-        // line 119
-        yield "
-                                    ";
-        // line 120
-        yield $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(CoreExtension::getAttribute($this->env, $this->source, (isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 120, $this->source); })()), "Id_user", [], "any", false, false, false, 120), 'errors');
-        yield "
+        yield "                                <div class=\"form-group mb-4\">
+                                    <label class=\"font-weight-bold\">
+                                        <i class=\"fa fa-user text-info\"></i> Assigné à
+                                    </label>
+                                    <div class=\"form-control d-flex align-items-center\" 
+                                         style=\"background:#f8f9fa; cursor:default;\">
+                                        <span class=\"mr-2\" style=\"font-size:1.2rem;\">👤</span>
+                                        <span>
+                                            ";
+        // line 125
+        if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 125, $this->source); })()), "user", [], "any", false, false, false, 125)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+            // line 126
+            yield "                                                <strong>";
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 126, $this->source); })()), "user", [], "any", false, false, false, 126), "prenom", [], "any", false, false, false, 126), "html", null, true);
+            yield " ";
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 126, $this->source); })()), "user", [], "any", false, false, false, 126), "nom", [], "any", false, false, false, 126), "html", null, true);
+            yield "</strong>
+                                                <small class=\"text-muted d-block\">";
+            // line 127
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 127, $this->source); })()), "user", [], "any", false, false, false, 127), "email", [], "any", false, false, false, 127), "html", null, true);
+            yield "</small>
+                                            ";
+        } else {
+            // line 129
+            yield "                                                Utilisateur connecté
+                                            ";
+        }
+        // line 131
+        yield "                                        </span>
+                                        <span class=\"ml-auto badge badge-success\">Vous</span>
+                                    </div>
+                                    <small class=\"form-text text-muted\">L'objectif sera automatiquement assigné à votre compte.</small>
                                 </div>
                             </div>
                         </div>
 
                         ";
-        // line 126
+        // line 140
         yield "                        <div class=\"alert border-0 shadow-sm\" style=\"background: linear-gradient(135deg, #f093fb20 0%, #f5576c20 100%); border-radius: 10px;\">
                             <h6 class=\"font-weight-bold\">
                                 <i class=\"fa fa-lightbulb-o text-warning\"></i> Objectifs SMART
@@ -290,10 +314,10 @@ class __TwigTemplate_b785188bcd6f69078f52c7209e8d1c74 extends Template
                         <hr class=\"my-4\">
 
                         ";
-        // line 143
+        // line 157
         yield "                        <div class=\"d-flex justify-content-between align-items-center\">
                             <a href=\"";
-        // line 144
+        // line 158
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_objectif_index");
         yield "\" class=\"btn btn-outline-secondary btn-lg\">
                                 <i class=\"fa fa-times\"></i> Annuler
@@ -304,14 +328,14 @@ class __TwigTemplate_b785188bcd6f69078f52c7209e8d1c74 extends Template
                         </div>
 
                         ";
-        // line 152
-        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 152, $this->source); })()), 'form_end');
+        // line 166
+        yield         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["form"]) || array_key_exists("form", $context) ? $context["form"] : (function () { throw new RuntimeError('Variable "form" does not exist.', 166, $this->source); })()), 'form_end');
         yield "
                     </div>
                 </div>
 
                 ";
-        // line 157
+        // line 171
         yield "                <div class=\"card border-0 shadow-sm mt-4\" style=\"border-radius: 15px; background: linear-gradient(135deg, #667eea10 0%, #764ba210 100%);\">
                     <div class=\"card-body text-center p-4\">
                         <i class=\"fa fa-trophy fa-3x text-warning mb-3\"></i>
@@ -329,9 +353,7 @@ class __TwigTemplate_b785188bcd6f69078f52c7209e8d1c74 extends Template
         border-color: #667eea;
         box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
     }
-    .card {
-        overflow: hidden;
-    }
+    .card { overflow: hidden; }
 </style>
 ";
         
@@ -364,7 +386,7 @@ class __TwigTemplate_b785188bcd6f69078f52c7209e8d1c74 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  315 => 157,  308 => 152,  297 => 144,  294 => 143,  276 => 126,  268 => 120,  265 => 119,  263 => 117,  257 => 114,  249 => 109,  246 => 108,  244 => 106,  238 => 103,  233 => 100,  224 => 93,  221 => 92,  219 => 90,  213 => 87,  204 => 81,  201 => 80,  199 => 78,  193 => 75,  188 => 72,  181 => 67,  178 => 66,  176 => 60,  170 => 57,  167 => 56,  160 => 51,  157 => 50,  155 => 44,  149 => 41,  146 => 40,  141 => 37,  127 => 25,  115 => 15,  111 => 14,  100 => 7,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  339 => 171,  332 => 166,  321 => 158,  318 => 157,  300 => 140,  290 => 131,  286 => 129,  281 => 127,  274 => 126,  272 => 125,  262 => 117,  256 => 114,  249 => 109,  246 => 108,  244 => 106,  238 => 103,  233 => 100,  224 => 93,  221 => 92,  219 => 90,  213 => 87,  204 => 81,  201 => 80,  199 => 78,  193 => 75,  188 => 72,  181 => 67,  178 => 66,  176 => 60,  170 => 57,  167 => 56,  160 => 51,  157 => 50,  155 => 44,  149 => 41,  146 => 40,  141 => 37,  126 => 24,  115 => 15,  111 => 14,  100 => 7,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -388,7 +410,6 @@ class __TwigTemplate_b785188bcd6f69078f52c7209e8d1c74 extends Template
                 </p>
             </div>
         </div>
-        
     </div>
 </section>
 
@@ -405,8 +426,9 @@ class __TwigTemplate_b785188bcd6f69078f52c7209e8d1c74 extends Template
                         <p class=\"mb-0 mt-2\"><small>Fixez-vous des objectifs clairs pour progresser efficacement</small></p>
                     </div>
                     <div class=\"card-body p-5\">
+
                         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-                        
+
                         {# Titre #}
                         <div class=\"form-group mb-4\">
                             <label for=\"{{ form.titre.vars.id }}\" class=\"font-weight-bold\">
@@ -467,7 +489,7 @@ class __TwigTemplate_b785188bcd6f69078f52c7209e8d1c74 extends Template
                             </div>
                         </div>
 
-                        {# Statut et Utilisateur #}
+                        {# Statut + Utilisateur connecté (lecture seule) #}
                         <div class=\"row\">
                             <div class=\"col-md-6\">
                                 <div class=\"form-group mb-4\">
@@ -481,14 +503,28 @@ class __TwigTemplate_b785188bcd6f69078f52c7209e8d1c74 extends Template
                                 </div>
                             </div>
                             <div class=\"col-md-6\">
+                                {# ── Champ Id_user caché — valeur forcée côté controller ── #}
+                                {{ form_widget(form.Id_user, {'attr': {'style': 'display:none;'}}) }}
+
+                                {# ── Affichage lecture seule de l'utilisateur connecté ── #}
                                 <div class=\"form-group mb-4\">
-                                    <label for=\"{{ form.Id_user.vars.id }}\" class=\"font-weight-bold\">
-                                        <i class=\"fa fa-user text-info\"></i> Assigner à *
+                                    <label class=\"font-weight-bold\">
+                                        <i class=\"fa fa-user text-info\"></i> Assigné à
                                     </label>
-                                    {{ form_widget(form.Id_user, {
-                                        'attr': {'class': 'form-control custom-select'}
-                                    }) }}
-                                    {{ form_errors(form.Id_user) }}
+                                    <div class=\"form-control d-flex align-items-center\" 
+                                         style=\"background:#f8f9fa; cursor:default;\">
+                                        <span class=\"mr-2\" style=\"font-size:1.2rem;\">👤</span>
+                                        <span>
+                                            {% if app.user %}
+                                                <strong>{{ app.user.prenom }} {{ app.user.nom }}</strong>
+                                                <small class=\"text-muted d-block\">{{ app.user.email }}</small>
+                                            {% else %}
+                                                Utilisateur connecté
+                                            {% endif %}
+                                        </span>
+                                        <span class=\"ml-auto badge badge-success\">Vous</span>
+                                    </div>
+                                    <small class=\"form-text text-muted\">L'objectif sera automatiquement assigné à votre compte.</small>
                                 </div>
                             </div>
                         </div>
@@ -542,11 +578,9 @@ class __TwigTemplate_b785188bcd6f69078f52c7209e8d1c74 extends Template
         border-color: #667eea;
         box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
     }
-    .card {
-        overflow: hidden;
-    }
+    .card { overflow: hidden; }
 </style>
 {% endblock %}
-", "objectif/new.html.twig", "C:\\Users\\MSI\\Desktop\\Fuser\\Fluently\\Fluently\\Fluently\\Fluently\\templates\\objectif\\new.html.twig");
+", "objectif/new.html.twig", "C:\\Users\\sarra\\Desktop\\PIW\\Fluently\\templates\\objectif\\new.html.twig");
     }
 }

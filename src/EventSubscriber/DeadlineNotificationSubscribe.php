@@ -7,15 +7,13 @@ use Flasher\Prime\FlasherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class DeadlineNotificationSubscriber implements EventSubscriberInterface
 {
-    public function __construct(
-        private ObjectifRepository    $objectifRepository,
-        private FlasherInterface      $flasher,
-        private UrlGeneratorInterface $router
-    ) {}
+   public function __construct(
+    private ObjectifRepository $objectifRepository,
+    private FlasherInterface   $flasher
+) {}
 
     public static function getSubscribedEvents(): array
     {
