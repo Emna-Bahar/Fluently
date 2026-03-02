@@ -24,11 +24,11 @@ class Objectif
     #[ORM\Column(length: 255)]
     private string $description = '';
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private \DateTime $date_deb;
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTime $date_deb = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private \DateTime $date_fin;
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTime $date_fin = null;
 
     #[ORM\Column(length: 100)]
     private string $statut = '';
@@ -77,24 +77,24 @@ class Objectif
         return $this;
     }
 
-    public function getDateDeb(): \DateTime
+    public function getDateDeb(): ?\DateTime
     {
         return $this->date_deb;
     }
 
-    public function setDateDeb(\DateTime $date_deb): static
+    public function setDateDeb(?\DateTime $date_deb): static
     {
         $this->date_deb = $date_deb;
 
         return $this;
     }
 
-    public function getDateFin(): \DateTime
+    public function getDateFin(): ?\DateTime
     {
         return $this->date_fin;
     }
 
-    public function setDateFin(\DateTime $date_fin): static
+    public function setDateFin(?\DateTime $date_fin): static
     {
         $this->date_fin = $date_fin;
 

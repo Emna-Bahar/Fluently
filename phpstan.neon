@@ -10,7 +10,6 @@ parameters:
   - '#Variable .+ on left side of \?\? always exists and is not nullable#'
   - '#Property .*::\$id .* is never assigned int#'
   - '#Call to protected method .+\(\) of class#'
-  - '#Using nullsafe method call on non-nullable type .+\. Use -> instead\.#'
   - '#Expression on left side of \?\? is not nullable\.#'
   - '#Strict comparison using (===|!==) between .+ and null will always evaluate to (false|true)\.#'
   - '#Negated boolean expression is always false\.#'
