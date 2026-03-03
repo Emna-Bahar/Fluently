@@ -1,0 +1,104 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block body %}
+<div class="nxl-content">
+    <div class="page-header">
+        <div class="page-header-left d-flex align-items-center">
+            <div class="page-header-title">
+                <h5 class="m-b-10">Sessions</h5>
+            </div>
+            
+        </div>
+        <div class="page-header-right ms-auto">
+            <a href="{{ path('admin_session_new') }}" class="btn btn-primary">
+                <i class="feather-plus me-2"></i>
+                <span>Nouvelle Session</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card stretch-card">
+                    <div class="card-header">
+                        <h5 class="card-title">Liste des Sessions</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="sessionTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Date et Heure</th>
+                                        <th>Statut</th>
+                                        <th>Lien Reunion</th>
+                                        <th>Groupe</th>
+                                        <th>Tuteur</th>
+                                        <th>Reservations</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for session in sessions %}
+                                    <tr>
+                                        <td>{{ session.id }}</td>
+                                        <td>{{ session.dateHeure|date('d/m/Y H:i') }}</td>
+                                        <td>
+                                            {% if session.statut == 'planifiée' %}
+                                                <span class="badge bg-soft-info text-info">Planifiee</span>
+                                            {% elseif session.statut == 'en_cours' %}
+                                                <span class="badge bg-soft-warning text-warning">En cours</span>
+                                            {% elseif session.statut == 'terminée' %}
+                                                <span class="badge bg-soft-success text-success">Terminee</span>
+                                            {% elseif session.statut == 'annulée' %}
+                                                <span class="badge bg-soft-danger text-danger">Annulee</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{{ session.lienReunion }}" target="_blank" class="text-primary">
+                                                <i class="feather-link me-1"></i>Rejoindre
+                                            </a>
+                                        </td>
+<td>{{ session.groupe ? session.groupe.nom : 'N/A' }}</td>
+<td>{{ session.user ? session.user.email : 'N/A' }}</td>
+                                        <td>
+```plaintext
+<span class="badge bg-soft-primary text-primary">--</span>```                                        </td>
+                                        <td>
+                                            <div class="hstack gap-2">
+                                                <a href="{{ path('admin_session_show', {'id': session.id}) }}" class="avatar-text avatar-md">
+<a href="{{ path('admin_session_edit', {'id': session.id}) }}" class="avatar-text avatar-md">
+<form method="post" action="{{ path('admin_session_delete', {'id': session.id}) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ session.id) }}">
+                                                    <button type="submit" class="avatar-text avatar-md bg-soft-danger" data-bs-toggle="tooltip" title="Supprimer" style="border:none;cursor:pointer;">
+                                                        <i class="feather-trash-2 text-danger"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="8" class="text-center text-muted py-4">Aucune session trouvee.</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

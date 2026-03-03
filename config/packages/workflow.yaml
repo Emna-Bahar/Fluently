@@ -3,7 +3,7 @@ framework:
         test_passage:
             type: state_machine  # Important : state_machine (1 état à la fois)
             audit_trail:
-                enabled: true    # Pour tracer l'historique
+                enabled: false    # Disabled to reduce per-request Doctrine listener overhead
             marking_store:
                 type: 'method'
                 property: 'statut'  # Le champ dans TestPassage

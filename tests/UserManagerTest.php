@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class UserManagerTest extends TestCase
 {
-    // ✅ TEST 1 : Utilisateur valide — tout est correct
+    
     public function testValidUser(): void
     {
         $user = new User();
@@ -22,7 +22,6 @@ class UserManagerTest extends TestCase
         $this->assertTrue($manager->validate($user));
     }
 
-    // ❌ TEST 2 : Nom vide — doit lever une exception
     public function testUserWithoutNom(): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -39,7 +38,6 @@ class UserManagerTest extends TestCase
         $manager->validate($user);
     }
 
-    // ❌ TEST 3 : Prénom vide — doit lever une exception
     public function testUserWithoutPrenom(): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -56,7 +54,6 @@ class UserManagerTest extends TestCase
         $manager->validate($user);
     }
 
-    // ❌ TEST 4 : Email invalide — doit lever une exception
     public function testUserWithInvalidEmail(): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -73,7 +70,6 @@ class UserManagerTest extends TestCase
         $manager->validate($user);
     }
 
-    // ❌ TEST 5 : Mot de passe trop court — doit lever une exception
     public function testUserWithShortPassword(): void
     {
         $this->expectException(\InvalidArgumentException::class);

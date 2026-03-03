@@ -9,7 +9,8 @@ doctrine:
         # Character set and collation
         charset: utf8mb4
 
-        profiling_collect_backtrace: '%kernel.debug%'
+        profiling_collect_backtrace: false
+        profiling_collect_schema_errors: false
         use_savepoints: true
 
         # Fix timezone mismatch and SQL strict mode settings (Doctrine Doctor)
@@ -17,10 +18,10 @@ doctrine:
         options:
             1002: "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci; SET time_zone = 'Europe/Berlin'; SET SESSION sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';"
     orm:
-        auto_generate_proxy_classes: true
+        auto_generate_proxy_classes: eval
         enable_lazy_ghost_objects: true
         report_fields_where_declared: true
-        validate_xml_mapping: true
+        validate_xml_mapping: false
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
@@ -30,6 +31,22 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+
+when@dev:
+    doctrine:
+        orm:
+            metadata_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+
+    framework:
+        cache:
+            pools:
+                doctrine.system_cache_pool:
+                    adapter: cache.system
 
 when@test:
     doctrine:
