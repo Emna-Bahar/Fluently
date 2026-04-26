@@ -15,7 +15,7 @@ class TestPassage
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'testPassages')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Test $test = null;
 
     #[ORM\ManyToOne(inversedBy: 'testPassages')]
@@ -35,11 +35,11 @@ class TestPassage
     private ?int $score = null;
 
     #[ORM\Column]
-    private ?int $scoreMax = null;
+    private int $scoreMax = 0;
 
     #[ORM\Column(length: 20)]
     //private ?string $statut = 'en_cours'; // en_cours, termine, abandonne
-    private ?string $statut = 'non_commence';
+    private string $statut = 'non_commence';
 
     #[ORM\Column(nullable: true)]
     private ?int $tempsPasse = null; // en secondes
@@ -115,7 +115,7 @@ class TestPassage
         return $this;
     }
 
-    public function getScoreMax(): ?int
+    public function getScoreMax(): int
     {
         return $this->scoreMax;
     }
@@ -126,7 +126,7 @@ class TestPassage
         return $this;
     }
 
-    public function getStatut(): ?string
+    public function getStatut(): string
     {
         return $this->statut;
     }

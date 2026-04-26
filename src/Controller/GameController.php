@@ -17,20 +17,15 @@ class GameController extends AbstractController
         $data = json_decode($request->getContent(), true);
         $type = $data['type'] ?? 'scrambled';
         $niveau = $data['niveau'] ?? 'A1';
-        $langue = $data['langue'] ?? 'Anglais';
-        $theme = $data['theme'] ?? null;
-        
+        $langue = $data['langue'] ?? 'anglais';
+        $theme = $data['theme'] ?? null; 
         $jeu = match($type) {
             'scrambled' => $gameService->generateScrambledSentence($niveau, $langue, $theme),
             'oddoneout' => $gameService->generateOddOneOut($niveau, $langue),
-            'crossword' => $gameService->generateSimpleCrossword($niveau, $langue),
             default => $gameService->generateScrambledSentence($niveau, $langue, $theme)
         };
-        
-        // Stocker la réponse correcte en session pour vérification
         $session = $request->getSession();
-        $session->set('jeu_actuel', $jeu);
-        
+        $session->set('jeu_actuel', $jeu);  
         return $this->json($jeu);
     }
     
@@ -48,8 +43,7 @@ class GameController extends AbstractController
             'scrambled' => $gameService->checkScrambledAnswer($reponse, $jeuActuel['original']),
             default => ['correct' => false, 'message' => 'Type de jeu non supporté']
         };
-        
-        // Ajouter des points si correct
+
         if ($resultat['correct']) {
             $this->addPoints($request, 10);
         }

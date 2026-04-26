@@ -22,11 +22,18 @@ class MessageLog
     #[ORM\Column(nullable: true)]
     private ?int $messageId = null;
 
-    #[ORM\Column]
-    private int $groupeId = 0;
+    /** Relation to Message (nullable if message was deleted) */
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(name: 'message_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
+    private ?Message $message = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $userId = null;
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Groupe $groupe = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?User $user = null;
 
     /** Snapshot of the user display name at the time of the action */
     #[ORM\Column(length: 255)]
@@ -40,12 +47,23 @@ class MessageLog
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $newContent = null;
 
-    #[ORM\Column(type: 'datetime')]
-    private \DateTime $createdAt;
+    #[ORM\Column(type: 'datetime_immutable')]
+    private \DateTimeImmutable $createdAt;
+
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'created_by_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    private User $createdBy;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'updated_by_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
+    private ?User $updatedBy = null;
 
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int { return $this->id; }
@@ -56,11 +74,14 @@ class MessageLog
     public function getMessageId(): ?int { return $this->messageId; }
     public function setMessageId(?int $messageId): static { $this->messageId = $messageId; return $this; }
 
-    public function getGroupeId(): int { return $this->groupeId; }
-    public function setGroupeId(int $groupeId): static { $this->groupeId = $groupeId; return $this; }
+    public function getMessage(): ?Message { return $this->message; }
+    public function setMessage(?Message $message): static { $this->message = $message; return $this; }
 
-    public function getUserId(): ?int { return $this->userId; }
-    public function setUserId(?int $userId): static { $this->userId = $userId; return $this; }
+    public function getGroupe(): ?Groupe { return $this->groupe; }
+    public function setGroupe(?Groupe $groupe): static { $this->groupe = $groupe; return $this; }
+
+    public function getUser(): ?User { return $this->user; }
+    public function setUser(?User $user): static { $this->user = $user; return $this; }
 
     public function getUserName(): string { return $this->userName; }
     public function setUserName(string $userName): static { $this->userName = $userName; return $this; }
@@ -71,5 +92,14 @@ class MessageLog
     public function getNewContent(): ?string { return $this->newContent; }
     public function setNewContent(?string $newContent): static { $this->newContent = $newContent; return $this; }
 
-    public function getCreatedAt(): \DateTime { return $this->createdAt; }
+    public function getCreatedAt(): \DateTimeImmutable { return $this->createdAt; }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable { return $this->updatedAt; }
+    protected function setUpdatedAt(?\DateTimeImmutable $updatedAt): static { $this->updatedAt = $updatedAt; return $this; }
+
+    public function getCreatedBy(): User { return $this->createdBy; }
+    protected function setCreatedBy(User $createdBy): static { $this->createdBy = $createdBy; return $this; }
+
+    public function getUpdatedBy(): ?User { return $this->updatedBy; }
+    protected function setUpdatedBy(?User $updatedBy): static { $this->updatedBy = $updatedBy; return $this; }
 }

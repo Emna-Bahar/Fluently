@@ -14,27 +14,29 @@ class Objectif
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+/** @phpstan-ignore-next-line */
     private ?int $id = null;
 
+
     #[ORM\Column(length: 50)]
-    private ?string $titre = null;
+    private string $titre = '';
 
     #[ORM\Column(length: 255)]
-    private ?string $description = null;
+    private string $description = '';
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTime $date_deb = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTime $date_fin = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $statut = null;
+    private string $statut = '';
 
     /**
      * @var Collection<int, Tache>
      */
-    #[ORM\OneToMany(targetEntity: Tache::class, mappedBy: 'Id_objectif', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Tache::class, mappedBy: 'Id_objectif', orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $taches;
 
     #[ORM\ManyToOne(inversedBy: 'objectifs')]
@@ -51,7 +53,7 @@ class Objectif
         return $this->id;
     }
 
-    public function getTitre(): ?string
+    public function getTitre(): string
     {
         return $this->titre;
     }
@@ -63,7 +65,7 @@ class Objectif
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -80,7 +82,7 @@ class Objectif
         return $this->date_deb;
     }
 
-    public function setDateDeb(\DateTime $date_deb): static
+    public function setDateDeb(?\DateTime $date_deb): static
     {
         $this->date_deb = $date_deb;
 
@@ -92,14 +94,14 @@ class Objectif
         return $this->date_fin;
     }
 
-    public function setDateFin(\DateTime $date_fin): static
+    public function setDateFin(?\DateTime $date_fin): static
     {
         $this->date_fin = $date_fin;
 
         return $this;
     }
 
-    public function getStatut(): ?string
+    public function getStatut(): string
     {
         return $this->statut;
     }

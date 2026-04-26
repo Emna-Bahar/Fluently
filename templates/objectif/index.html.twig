@@ -5,9 +5,7 @@
 {% block body %}
 
 {# ══════════════════════════════════════════
-   MODALE ALERTES ÉCHÉANCES — PHPFlasher bundle
-   app.flashes() est alimenté par FlasherInterface
-   depuis DeadlineNotificationSubscriber
+   MODALE ALERTES ÉCHÉANCES
    ══════════════════════════════════════════ #}
 {% set alertes = [] %}
 
@@ -20,7 +18,6 @@
     {% endfor %}
 {% endfor %}
 
-{# Fallback Twig si pas de subscriber actif #}
 {% if alertes|length == 0 %}
     {% set now = "now"|date("Y-m-d") %}
     {% for objectif in objectifs %}
@@ -186,13 +183,29 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 </section>
 
+{# Flash messages #}
+{% for label, messages in app.flashes(['success', 'danger']) %}
+    {% for message in messages %}
+        <div class="alert alert-{{ label }} alert-dismissible fade show m-3" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+        </div>
+    {% endfor %}
+{% endfor %}
+
 {# Main Content #}
 <section class="ftco-section bg-light">
     <div class="container">
         <div class="row mb-5">
             <div class="col-md-6">
                 <h2 class="heading-section">Gérez vos objectifs</h2>
-                <p class="text-muted">Suivez votre progression et atteignez vos objectifs d'apprentissage</p>
+                {# ── Afficher le nom de l'utilisateur connecté ── #}
+                {% if app.user %}
+                    <p class="text-muted">
+                        Bonjour <strong>{{ app.user.prenom }} {{ app.user.nom }}</strong>, 
+                        suivez votre progression et atteignez vos objectifs d'apprentissage.
+                    </p>
+                {% endif %}
             </div>
             <div class="col-md-6 text-right">
                 <a href="{{ path('app_recommandation_index') }}" 
@@ -344,6 +357,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
             <div class="row">
                 {% for objectif in objectifs %}
+                    {# ── Vérifier si l'objectif appartient à l'user connecté ── #}
+                    {% set isOwner = app.user and objectif.idUser.id == app.user.id %}
+
                     <div class="col-md-6 col-lg-4 ftco-animate fadeInUp ftco-animated">
                         <div class="card h-100 border-0 shadow-sm hover-card" style="border-radius: 15px; overflow: hidden;">
                             <div class="card-header text-white 
@@ -398,6 +414,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <span class="badge badge-warning badge-pill p-2">⏸ En pause</span>
                                     {% endif %}
                                 </div>
+
                                 {# Compteur de tâches #}
                                 <div class="mb-3">
                                     <a href="{{ path('app_objectif_show', {'id': objectif.id}) }}#taches" 
@@ -414,24 +431,38 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </a>
                                 </div>
 
+                                {# ══════════════════════════════════════
+                                   BOUTONS — Modifier/Supprimer uniquement
+                                   si l'objectif appartient à l'user connecté
+                                   ══════════════════════════════════════ #}
                                 <div class="btn-group d-flex" role="group">
                                     <a href="{{ path('app_objectif_show', {'id': objectif.id}) }}" 
                                        class="btn btn-info btn-sm flex-fill">
                                         <i class="fa fa-eye"></i> Voir
                                     </a>
-                                    <a href="{{ path('app_objectif_edit', {'id': objectif.id}) }}" 
-                                       class="btn btn-warning btn-sm flex-fill">
-                                        <i class="fa fa-edit"></i> Modifier
-                                    </a>
-                                    <button type="button" class="btn btn-danger btn-sm flex-fill" 
-                                            data-toggle="modal" data-target="#deleteModal{{ objectif.id }}">
-                                        <i class="fa fa-trash"></i> Supprimer
-                                    </button>
+                                    {% if isOwner %}
+                                        <a href="{{ path('app_objectif_edit', {'id': objectif.id}) }}" 
+                                           class="btn btn-warning btn-sm flex-fill">
+                                            <i class="fa fa-edit"></i> Modifier
+                                        </a>
+                                        <button type="button" class="btn btn-danger btn-sm flex-fill" 
+                                                data-toggle="modal" data-target="#deleteModal{{ objectif.id }}">
+                                            <i class="fa fa-trash"></i> Supprimer
+                                        </button>
+                                    {% else %}
+                                        {# Bouton désactivé si pas propriétaire (cas théorique, la liste est déjà filtrée) #}
+                                        <button type="button" class="btn btn-secondary btn-sm flex-fill" disabled
+                                                title="Vous n'êtes pas le propriétaire de cet objectif">
+                                            <i class="fa fa-lock"></i> Non autorisé
+                                        </button>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    {# Modal suppression — affiché uniquement si propriétaire #}
+                    {% if isOwner %}
                     <div class="modal fade" id="deleteModal{{ objectif.id }}" tabindex="-1" role="dialog">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content" style="border-radius: 15px; border: none;">
@@ -464,6 +495,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             </div>
                         </div>
                     </div>
+                    {% endif %}
+
                 {% endfor %}
             </div>
 

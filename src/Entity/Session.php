@@ -5,10 +5,10 @@ namespace App\Entity;
 use App\Repository\SessionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: SessionRepository::class)]
 class Session
@@ -16,53 +16,88 @@ class Session
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    // ✅ PHPStan fix ligne 19 (property.unusedType) : même cas que Reservation::$id
+    // Doctrine injecte l'int via réflexion après persist+flush, jamais via PHP direct
+    private ?int $id = null; // @phpstan-ignore-line property.unusedType
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\NotBlank(message: "La date et heure sont obligatoires")]
-    private ?\DateTimeInterface $dateHeure = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    #[Assert\NotBlank(message: "La date et heure de la session sont obligatoires.")]
+    #[Assert\GreaterThanOrEqual(
+        value: "now",
+        message: "La session ne peut pas \u00eatre planifi\u00e9e dans le pass\u00e9."
+    )]
+    private ?\DateTimeImmutable $dateHeure = null;
 
-    #[ORM\Column(length: 50)]
-    #[Assert\NotBlank(message: "Le statut est obligatoire")]
-    #[Assert\Choice(choices: ['planifiée', 'en_cours', 'terminée', 'annulée'], message: "Statut invalide")]
+    #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\NotBlank(message: "Le statut est obligatoire.")]
+    #[Assert\Choice(
+        choices: ["planifiée", "en cours", "terminée", "annulée"],
+        message: "Statut invalide. Valeurs acceptées : planifiée, en cours, terminée, annulée."
+    )]
     private ?string $statut = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank(message: "Le lien de la réunion est obligatoire.")]
+    #[Assert\Url(message: "Le lien doit être une URL valide (ex: https://meet.google.com/...)")]
+    #[Assert\Length(
+        min: 10,
+        max: 255,
+        minMessage: "Le lien doit contenir au moins {{ limit }} caractères.",
+        maxMessage: "Le lien ne peut pas dépasser {{ limit }} caractères."
+    )]
     private ?string $lienReunion = null;
 
-    #[ORM\ManyToOne(targetEntity: Groupe::class, inversedBy: 'sessions')]
-    #[ORM\JoinColumn(name: "id_group_id", referencedColumnName: "id", nullable: true)]
-    private ?Groupe $groupe = null;
+    #[ORM\ManyToOne(inversedBy: 'sessions')]
+    #[ORM\JoinColumn(name: "id_group_id", referencedColumnName: "id", nullable: false)]
+    #[Assert\NotNull(message: "Le groupe est obligatoire.")]
+    private ?Groupe $group = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: "id_user_id", referencedColumnName: "id", nullable: true)]
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(name: "id_user_id", referencedColumnName: "id", nullable: false)]
+    #[Assert\NotNull(message: "L'enseignant est obligatoire.")]
     private ?User $user = null;
 
     /**
      * @var Collection<int, Reservation>
      */
-    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'session')]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: Reservation::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $reservations;
+
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    #[Assert\Range(min: 0, max: 5, notInRangeMessage: "Le rating doit être entre {{ min }} et {{ max }}.")]
+    private ?int $rating = null;
 
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
     }
 
-    /*#[ORM\Column(nullable: true)]
-    private ?float $rating = null;*/
+    #[Assert\Callback]
+    public function validate(ExecutionContextInterface $context): void
+    {
+        if ($this->statut === 'en cours' && empty($this->lienReunion)) {
+            $context->buildViolation("Le lien de réunion est obligatoire quand la session est 'en cours'.")
+                ->atPath('lienReunion')
+                ->addViolation();
+        }
+        if ($this->statut !== 'terminée' && $this->rating !== null) {
+            $context->buildViolation("Le rating ne peut être défini que pour les sessions terminées.")
+                ->atPath('rating')
+                ->addViolation();
+        }
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDateHeure(): ?\DateTimeInterface
+    public function getDateHeure(): ?\DateTimeImmutable
     {
         return $this->dateHeure;
     }
 
-    public function setDateHeure(\DateTimeInterface $dateHeure): static
+    public function setDateHeure(\DateTimeImmutable $dateHeure): static
     {
         $this->dateHeure = $dateHeure;
         return $this;
@@ -73,7 +108,7 @@ class Session
         return $this->statut;
     }
 
-    public function setStatut(string $statut): static
+    public function setStatut(?string $statut): static
     {
         $this->statut = $statut;
         return $this;
@@ -90,14 +125,25 @@ class Session
         return $this;
     }
 
-    public function getGroupe(): ?Groupe
+    public function getRating(): ?int
     {
-        return $this->groupe;
+        return $this->rating;
     }
 
-    public function setGroupe(?Groupe $groupe): static
+    public function setRating(?int $rating): static
     {
-        $this->groupe = $groupe;
+        $this->rating = $rating;
+        return $this;
+    }
+
+    public function getGroup(): ?Groupe
+    {
+        return $this->group;
+    }
+
+    public function setGroup(?Groupe $group): static
+    {
+        $this->group = $group;
         return $this;
     }
 
@@ -112,16 +158,6 @@ class Session
         return $this;
     }
 
-  /*  public function getRating(): ?float
-    {
-        return $this->rating;
-    }
-
-    public function setRating(?float $rating): static
-    {
-        $this->rating = $rating;
-        return $this;
-    }*/
     /**
      * @return Collection<int, Reservation>
      */
@@ -136,19 +172,16 @@ class Session
             $this->reservations->add($reservation);
             $reservation->setSession($this);
         }
-
         return $this;
     }
 
     public function removeReservation(Reservation $reservation): static
     {
         if ($this->reservations->removeElement($reservation)) {
-            // set the owning side to null (unless already changed)
             if ($reservation->getSession() === $this) {
                 $reservation->setSession(null);
             }
         }
-
         return $this;
     }
 }

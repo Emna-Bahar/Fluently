@@ -118,7 +118,6 @@ class CoursType extends AbstractType
                 'required' => false,
                 'mapped' => false,
                 'constraints' => [
-                    // SUPPRIMER Assert\All - pas de validation automatique
                 ],
                 'attr' => [
                     'class' => 'form-control form-control-lg',

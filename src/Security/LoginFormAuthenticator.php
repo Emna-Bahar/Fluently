@@ -27,8 +27,9 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        $email = $request->request->get('_username');
-        $password = $request->request->get('_password');
+        // Fix lines 34/35: cast to string to avoid string|null|mixed
+        $email    = (string) $request->request->get('_username', '');
+        $password = (string) $request->request->get('_password', '');
 
         return new Passport(
             new UserBadge($email),
@@ -48,7 +49,6 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         /** @var User $user */
         $user = $token->getUser();
 
-        // ✅ Set ONLINE status
         $user->setStatut('en ligne');
         $this->em->flush();
 
@@ -63,7 +63,6 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         return new RedirectResponse('/dashboard');
     }
 
-    // ✅ This handles logout status
     public function onLogout(LogoutEvent $event): void
     {
         $user = $event->getToken()?->getUser();

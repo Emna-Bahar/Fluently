@@ -6,25 +6,32 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class GameService
 {
-    private $httpClient;
-    private $mistralService;
+    private DialogueService $mistralService;      
     
-    public function __construct(HttpClientInterface $httpClient, DialogueService $mistralService)
+    public function __construct(DialogueService $mistralService)
     {
-        $this->httpClient = $httpClient;
         $this->mistralService = $mistralService;
     }
-    
+
     /**
-     * JEU 1: Phrase Mélangée (Scrambled Sentence)
-     * Utilise l'IA pour générer des phrases dans la bonne langue
+     * 
+     * @param string $niveau Niveau de difficulté
+     * @param string $langue Langue de la phrase
+     * @param string|null $theme Thème optionnel
+     * @return array{
+     *     type: 'scrambled',
+     *     original: string,
+     *     scrambled: string[],
+     *     wordCount: int,
+     *     langue: string,
+     *     niveau: string,
+     *     hint: string
+     * }
      */
-    public function generateScrambledSentence(string $niveau, string $langue, string $theme = null): array
+    public function generateScrambledSentence(string $niveau, string $langue, ?string $theme = null): array
     {
-        // Adapter le thème selon la langue
         $themeName = $theme ?? ($langue === 'anglais' ? 'general' : 'général');
         
-        // Instructions spécifiques selon la langue
         if ($langue === 'anglais') {
             $prompt = "Generate ONE simple sentence in English at {$niveau} level about '{$themeName}'. The sentence must have between 4 and 7 words. Answer ONLY with the sentence, no additional text.";
         } else {
@@ -33,50 +40,62 @@ class GameService
         
         $correctSentence = $this->mistralService->callMistral($prompt);
         
-        // Nettoyer la phrase
-        $correctSentence = trim($correctSentence);
-        $correctSentence = preg_replace('/[^\w\s\']/u', '', $correctSentence);
+        $correctSentence = trim($correctSentence ?? '');
+        $correctSentence = preg_replace('/[^\w\s\']/u', '', $correctSentence) ?? '';
         
-        // Diviser en mots
         $words = explode(' ', $correctSentence);
+        $words = array_filter($words, fn($w) => !empty($w));
         
-        // Mélanger les mots
         $scrambledWords = $words;
         shuffle($scrambledWords);
         
         return [
             'type' => 'scrambled',
             'original' => $correctSentence,
-            'scrambled' => $scrambledWords,
+            'scrambled' => $scrambledWords,  
             'wordCount' => count($words),
             'langue' => $langue,
             'niveau' => $niveau,
             'hint' => $this->generateHint($correctSentence, $langue)
         ];
     }
-    
+ 
     /**
-     * Génère un indice dans la bonne langue
+     * 
+     * @param string $sentence La phrase originale
+     * @param string $langue Langue de l'indice
+     * @return string Indice
      */
     private function generateHint(string $sentence, string $langue): string
     {
         $words = explode(' ', $sentence);
-        $firstWord = $words[0];
-        $lastWord = $words[count($words) - 1];
+        $firstWord = $words[0] ?? '';
+        $lastWord = $words[count($words) - 1] ?? '';
         
         if ($langue === 'anglais') {
             return "The sentence starts with '{$firstWord}' and ends with '{$lastWord}'";
         }
         return "La phrase commence par '{$firstWord}' et se termine par '{$lastWord}'";
     }
-    
+
     /**
-     * JEU 2: Trouve l'Intrus (Odd One Out) - Adapté à la langue et au niveau
+     * 
+     * @param string $niveau Niveau de difficulté
+     * @param string $langue Langue du jeu
+     * @return array{
+     *     type: 'oddoneout',
+     *     category: string,
+     *     words: string[],
+     *     intruder: string,
+     *     explanation: string,
+     *     langue: string,
+     *     niveau: string
+     * }
      */
     public function generateOddOneOut(string $niveau, string $langue): array
     {
         error_log("generateOddOneOut - Niveau: $niveau, Langue: $langue");
-        // Catégories multilingues par niveau
+
         $categories = [
             'A1' => [
                 'fr' => [
@@ -122,31 +141,28 @@ class GameService
             ]
         ];
         
-        // Sélectionner la bonne langue et le bon niveau
         $langueCode = $langue === 'anglais' ? 'en' : 'fr';
         $levelCategories = $categories[$niveau][$langueCode] ?? $categories['A1'][$langueCode];
         
-        // Sélectionner une catégorie aléatoire
-        $category = array_rand($levelCategories);
+        $category = (string) array_rand($levelCategories);
         $words = $levelCategories[$category];
         
-        // Sauvegarder l'intrus (dernier mot)
         $intruder = $words[count($words) - 1];
         
-        // Mélanger les mots
         shuffle($words);
         
-        // Explication dans la bonne langue
         if ($langue === 'anglais') {
             $explanation = "Find the word that doesn't belong to the category '{$category}'";
         } else {
             $explanation = "Trouve le mot qui n'appartient pas à la catégorie '{$category}'";
         }
+        
         error_log("Catégorie choisie: $category, Intrus: $intruder");
+        
         return [
             'type' => 'oddoneout',
             'category' => $category,
-            'words' => $words,
+            'words' => $words,  
             'intruder' => $intruder,
             'explanation' => $explanation,
             'langue' => $langue,
@@ -155,11 +171,18 @@ class GameService
     }
     
     /**
-     * JEU 3: Mots Croisés - Adapté à la langue et au niveau
+     * 
+     * @param string $niveau Niveau de difficulté
+     * @param string $langue Langue du jeu
+     * @return array{
+     *     type: 'crossword',
+     *     words: array<array{mot: string, indice: string, lettres: int}>,
+     *     langue: string,
+     *     niveau: string
+     * }
      */
     public function generateSimpleCrossword(string $niveau, string $langue): array
     {
-        // Base de données multilingue par niveau
         $words = [
             'A1' => [
                 'fr' => [
@@ -199,13 +222,15 @@ class GameService
             ]
         ];
         
-        // Sélectionner la bonne langue et le bon niveau
         $langueCode = $langue === 'anglais' ? 'en' : 'fr';
         $levelWords = $words[$niveau][$langueCode] ?? $words['A1'][$langueCode];
         
-        // Sélectionner 3-4 mots aléatoires
         $selectedKeys = array_rand($levelWords, min(3, count($levelWords)));
         $selectedWords = [];
+        
+        if (!is_array($selectedKeys)) {
+            $selectedKeys = [$selectedKeys];
+        }
         
         foreach ($selectedKeys as $key) {
             $selectedWords[] = $levelWords[$key];
@@ -218,18 +243,25 @@ class GameService
             'niveau' => $niveau
         ];
     }
-    
+   
     /**
-     * Vérifie la réponse du joueur pour la phrase mélangée
+     * 
+     * @param string $userAnswer Réponse de l'utilisateur
+     * @param string $correctAnswer Réponse correcte
+     * @return array{
+     *     correct: bool,
+     *     message: string,
+     *     score: int,
+     *     correctAnswer?: string
+     * }
      */
     public function checkScrambledAnswer(string $userAnswer, string $correctAnswer): array
     {
-        $userAnswer = trim(strtolower($userAnswer));
-        $correctAnswer = trim(strtolower($correctAnswer));
+        $userAnswer = trim(strtolower($userAnswer ?? ''));
+        $correctAnswer = trim(strtolower($correctAnswer ?? ''));
         
-        // Nettoyer la ponctuation
-        $userAnswer = preg_replace('/[^\w\s\']/u', '', $userAnswer);
-        $correctAnswer = preg_replace('/[^\w\s\']/u', '', $correctAnswer);
+        $userAnswer = preg_replace('/[^\w\s\']/u', '', $userAnswer) ?? '';
+        $correctAnswer = preg_replace('/[^\w\s\']/u', '', $correctAnswer) ?? '';
         
         if ($userAnswer === $correctAnswer) {
             return [
@@ -239,7 +271,6 @@ class GameService
             ];
         }
         
-        // Calculer la similarité
         $userWords = explode(' ', $userAnswer);
         $correctWords = explode(' ', $correctAnswer);
         
@@ -254,12 +285,12 @@ class GameService
             }
         }
         
-        $score = ($correctCount / count($correctWords)) * 100;
+        $score = count($correctWords) > 0 ? ($correctCount / count($correctWords)) * 100 : 0;
         
         return [
             'correct' => false,
             'message' => "Position des erreurs : " . implode(', ', $wrongPositions),
-            'score' => round($score),
+            'score' => (int) round($score),
             'correctAnswer' => $correctAnswer
         ];
     }

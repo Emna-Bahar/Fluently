@@ -15,10 +15,10 @@ class PasswordResetCode
     private ?int $id = null;
 
     #[ORM\Column(type:"string", length:6)]
-    private ?string $code = null;
+    private string $code = '';
 
     #[ORM\Column(type:"datetime")]
-    private ?\DateTimeInterface $expiresAt = null;
+    private \DateTimeInterface $expiresAt;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false, onDelete:"CASCADE")]
@@ -29,7 +29,7 @@ class PasswordResetCode
         return $this->id;
     }
 
-    public function getCode(): ?string
+    public function getCode(): string
     {
         return $this->code;
     }
@@ -40,12 +40,12 @@ class PasswordResetCode
         return $this;
     }
 
-    public function getExpiresAt(): ?\DateTimeInterface
+    public function getExpiresAt(): \DateTimeInterface
     {
         return $this->expiresAt;
     }
 
-    public function setExpiresAt(\DateTimeInterface $expiresAt): self
+    protected function setExpiresAt(\DateTimeInterface $expiresAt): self
     {
         $this->expiresAt = $expiresAt;
         return $this;

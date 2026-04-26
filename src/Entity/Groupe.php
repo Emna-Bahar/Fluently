@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: GroupeRepository::class)]
 class Groupe
@@ -17,19 +18,43 @@ class Groupe
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $nom = null;
+    #[Assert\NotBlank(message: 'Le nom du groupe est obligatoire.')]
+    #[Assert\Length(
+        min: 3,
+        max: 50,
+        minMessage: 'Le nom du groupe doit contenir au moins {{ limit }} caractères.',
+        maxMessage: 'Le nom du groupe ne peut pas dépasser {{ limit }} caractères.'
+    )]
+    private string $nom = '';
 
     #[ORM\Column(length: 255)]
-    private ?string $description = null;
+    #[Assert\NotBlank(message: 'La description est obligatoire.')]
+    #[Assert\Length(
+        min: 10,
+        max: 255,
+        minMessage: 'La description doit contenir au moins {{ limit }} caractères.',
+        maxMessage: 'La description ne peut pas dépasser {{ limit }} caractères.'
+    )]
+    private string $description = '';
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
+    #[Assert\NotNull(message: 'La capacité est obligatoire.')]
+    #[Assert\Positive(message: 'La capacité doit être un nombre positif.')]
     private ?int $capacite = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $statut = null;
+    #[Assert\NotBlank(message: 'Le statut est obligatoire.')]
+    #[Assert\Length(
+        min: 3,
+        max: 50,
+        minMessage: 'Le statut doit contenir au moins {{ limit }} caractères.',
+        maxMessage: 'Le statut ne peut pas dépasser {{ limit }} caractères.'
+    )]
+    private string $statut = '';
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTime $date_creation = null;
+    #[Assert\NotNull(message: 'La date de création est obligatoire.')]
+    private \DateTime $date_creation;
 
     #[ORM\ManyToOne(inversedBy: 'groupes')]
     #[ORM\JoinColumn(nullable: false)]
@@ -69,7 +94,7 @@ class Groupe
         return $this->id;
     }
 
-    public function getNom(): ?string
+    public function getNom(): string
     {
         return $this->nom;
     }
@@ -81,7 +106,7 @@ class Groupe
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -98,14 +123,14 @@ class Groupe
         return $this->capacite;
     }
 
-    public function setCapacite(int $capacite): static
-    {
-        $this->capacite = $capacite;
+public function setCapacite(mixed $capacite): static
+{
+    $this->capacite = $capacite !== null ? (int)(string)$capacite : null;
+    return $this;
+}
 
-        return $this;
-    }
 
-    public function getStatut(): ?string
+    public function getStatut(): string
     {
         return $this->statut;
     }
@@ -117,7 +142,7 @@ class Groupe
         return $this;
     }
 
-    public function getDateCreation(): ?\DateTime
+    public function getDateCreation(): \DateTime
     {
         return $this->date_creation;
     }
@@ -219,7 +244,7 @@ class Groupe
     {
         if (!$this->sessions->contains($session)) {
             $this->sessions->add($session);
-            $session->setIdGroup($this);
+            $session->setGroup($this);
         }
 
         return $this;
@@ -229,8 +254,8 @@ class Groupe
     {
         if ($this->sessions->removeElement($session)) {
             // set the owning side to null (unless already changed)
-            if ($session->getIdGroup() === $this) {
-                $session->setIdGroup(null);
+            if ($session->getGroup() === $this) {
+                $session->setGroup(null);
             }
         }
 

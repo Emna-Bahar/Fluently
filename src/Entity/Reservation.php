@@ -13,32 +13,33 @@ class Reservation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $id = null; // @phpstan-ignore-line property.unusedType
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\NotBlank(message: "La date de réservation est obligatoire")]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\NotBlank(message: "La date de réservation est obligatoire.")]
+    #[Assert\GreaterThanOrEqual(
+        value: "today",
+        message: "La date de réservation doit être aujourd'hui ou dans le futur."
+    )]
     private ?\DateTimeInterface $dateReservation = null;
 
-    #[ORM\Column(length: 50)]
-    #[Assert\NotBlank(message: "Le statut est obligatoire")]
-    #[Assert\Choice(choices: ['en_attente', 'confirmee', 'annulee', 'terminee'], message: "Statut invalide")]
-    private ?string $statut = 'en_attente';
+    #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\NotBlank(message: "Le statut est obligatoire.")]
+    #[Assert\Choice(
+        choices: ["en attente", "confirmée", "annulée", "refusée"],
+        message: "Statut invalide. Valeurs acceptées : en attente, confirmée, annulée, refusée."
+    )]
+    private ?string $statut = null;
 
-    #[ORM\ManyToOne(targetEntity: Session::class)]
-    #[ORM\JoinColumn(name: "id_session_id", referencedColumnName: "id", nullable: false)]
-    #[Assert\NotNull(message: "La session est obligatoire")]
+    #[ORM\ManyToOne(inversedBy: 'reservations')]
+    #[ORM\JoinColumn(name: "id_session_id", referencedColumnName: "id", nullable: false, onDelete: 'CASCADE')]
+    #[Assert\NotNull(message: "La session est obligatoire.")]
     private ?Session $session = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(name: "id_user_id", referencedColumnName: "id", nullable: false)]
-    #[Assert\NotNull(message: "L'utilisateur est obligatoire")]
+    #[Assert\NotNull(message: "L'utilisateur est obligatoire.")]
     private ?User $user = null;
-
-    public function __construct()
-    {
-        $this->dateReservation = new \DateTime();
-        $this->statut = 'en_attente';
-    }
 
     public function getId(): ?int
     {
@@ -50,7 +51,7 @@ class Reservation
         return $this->dateReservation;
     }
 
-    public function setDateReservation(\DateTimeInterface $dateReservation): static
+    public function setDateReservation(?\DateTimeInterface $dateReservation): static
     {
         $this->dateReservation = $dateReservation;
         return $this;
@@ -61,7 +62,7 @@ class Reservation
         return $this->statut;
     }
 
-    public function setStatut(string $statut): static
+    public function setStatut(?string $statut): static
     {
         $this->statut = $statut;
         return $this;

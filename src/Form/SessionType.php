@@ -2,16 +2,16 @@
 
 namespace App\Form;
 
-use App\Entity\Groupe;
 use App\Entity\Session;
+use App\Entity\Groupe;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class SessionType extends AbstractType
 {
@@ -19,57 +19,48 @@ class SessionType extends AbstractType
     {
         $builder
             ->add('dateHeure', DateTimeType::class, [
-                'widget' => 'single_text',
-                'label' => 'Date et heure',
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                'required' => true,
-            ])
+    'widget'     => 'single_text',
+    'label'      => 'Date et Heure',
+    'attr'       => ['class' => 'form-control'],
+    'required'   => false,
+    'empty_data' => null,
+    'html5'      => false,
+    'format'     => 'dd/MM/yyyy HH:mm',  // ← AJOUTER CETTE LIGNE
+    'input'      => 'datetime_immutable',
+    'model_timezone' => 'UTC',
+    'view_timezone'  => 'UTC',
+])
             ->add('statut', ChoiceType::class, [
-                'label' => 'Statut',
                 'choices' => [
                     'Planifiée' => 'planifiée',
-                    'En cours' => 'en_cours',
+                    'En cours' => 'en cours',
                     'Terminée' => 'terminée',
                     'Annulée' => 'annulée',
                 ],
-                'attr' => [
-                    'class' => 'form-select'
-                ],
+                'label' => 'Statut',
+                'attr' => ['class' => 'form-select'],
+            ])
+            ->add('lienReunion', TextType::class, [
+                'label' => 'Lien de la Réunion',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'https://meet.google.com/...'],
+            ])
+            ->add('group', EntityType::class, [
+                'class' => Groupe::class,
+                'choice_label' => 'nom',
+                'label' => 'Groupe',
+                'placeholder' => 'Sélectionnez un groupe',
+                'attr' => ['class' => 'form-select'],
+            ])
+            ->add('user', EntityType::class, [  // ← AJOUTÉ ICI
+                'class' => User::class,
+                'choice_label' => function (User $user) {
+                    return $user->getPrenom() . ' ' . $user->getNom();
+                },
+                'label' => 'Enseignant',
+                'placeholder' => 'Sélectionnez un enseignant',
+                'attr' => ['class' => 'form-select'],
                 'required' => true,
             ])
-            ->add('lienReunion', UrlType::class, [
-                'label' => 'Lien de réunion (optionnel)',
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'https://zoom.us/j/...'
-                ],
-                'required' => false,
-            ])
-            ->add('groupe', EntityType::class, [
-    'label' => 'Groupe',
-    'class' => Groupe::class,
-    'choice_label' => function(Groupe $groupe) {
-        return sprintf(
-            '%s (ID: %d)',
-            $groupe->getNom() ?? 'Groupe',
-            $groupe->getId()
-        );
-    },
-])
-->add('user', EntityType::class, [
-    'label' => 'Tuteur',
-    'class' => User::class,
-    'choice_label' => function(User $user) {
-        return sprintf(
-            '%s %s (%s)',
-            $user->getNom() ?? '',
-            $user->getPrenom() ?? '',
-            $user->getEmail() ?? ''
-        );
-    },
-])
         ;
     }
 

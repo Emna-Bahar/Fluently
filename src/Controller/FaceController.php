@@ -16,9 +16,18 @@ class FaceController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
         $userId = $data['user_id'];
-        $descriptor = json_encode($data['descriptor']);
+
+        // Fix line 28: json_encode can return false, use ?: null to ensure string|null
+        $encoded = json_encode($data['descriptor']);
+        $descriptor = $encoded !== false ? $encoded : null;
 
         $user = $em->getRepository(User::class)->find($userId);
+
+        // Fix: check user is not null before calling setFaceDescriptor()
+        if (!$user instanceof User) {
+            return new JsonResponse(['success' => false, 'error' => 'User not found'], 404);
+        }
+
         $user->setFaceDescriptor($descriptor);
         $em->flush();
 
@@ -42,7 +51,7 @@ class FaceController extends AbstractController
 
         $user = $em->getRepository(User::class)->find($userId);
 
-        if (!$user || !$user->getFaceDescriptor()) {
+        if (!$user instanceof User || !$user->getFaceDescriptor()) {
             return new JsonResponse(['match' => false]);
         }
 
@@ -62,10 +71,15 @@ class FaceController extends AbstractController
     #[Route('/face-verify-page', name: 'app_face_verify_page')]
     public function verifyPage(): Response
     {
-        /** @var \App\Entity\User $user */
         $user = $this->getUser();
 
-        if (!$user) {
+        // Fix lines 76/96: remove @var PHPDoc + use direct null check to avoid instanceof always true
+        if ($user === null) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        // $user is UserInterface here, cast to User to access getFaceDescriptor
+        if (!$user instanceof User) {
             return $this->redirectToRoute('app_login');
         }
 
@@ -81,10 +95,14 @@ class FaceController extends AbstractController
     #[Route('/face-success', name: 'app_face_success')]
     public function faceSuccess(EntityManagerInterface $em): Response
     {
-        /** @var \App\Entity\User $user */
         $user = $this->getUser();
 
-        if (!$user) {
+        // Fix: remove @var PHPDoc + use direct null check
+        if ($user === null) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        if (!$user instanceof User) {
             return $this->redirectToRoute('app_login');
         }
 

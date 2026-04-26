@@ -5,8 +5,6 @@
 {% block body %}
 
     <div class="nxl-content">
-
-        <!-- En-tête de page -->
         <div class="page-header">
             <div class="page-header-left d-flex align-items-center">
                 <div class="page-header-title">
@@ -25,8 +23,6 @@
                 </a>
             </div>
         </div>
-
-        <!-- Messages flash -->
         {% for label, messages in app.flashes %}
             {% for message in messages %}
                 <div class="alert alert-{{ label }} alert-dismissible fade show mb-4 rounded-3" role="alert">
@@ -40,7 +36,6 @@
         <div class="card border-0 shadow-sm mb-5">
             <div class="card-body p-4">
                 <form method="get" class="row g-4 align-items-end">
-                    <!-- Filtre par langue -->
                     <div class="col-lg-4 col-md-6">
                         <label for="langue" class="form-label fw-bold">Langue</label>
                         <select name="langue" id="langue" class="form-select form-select-lg">
@@ -56,8 +51,6 @@
                             {% endfor %}
                         </select>
                     </div>
-
-                    <!-- Filtre par difficulté -->
                     <div class="col-lg-4 col-md-6">
                         <label for="difficulte" class="form-label fw-bold">Difficulté</label>
                         <select name="difficulte" id="difficulte" class="form-select form-select-lg">
@@ -75,8 +68,6 @@
                             {% endfor %}
                         </select>
                     </div>
-
-                    <!-- Boutons filtres -->
                     <div class="col-lg-4 col-12 d-flex flex-wrap gap-3 justify-content-lg-end">
                         <button type="submit" class="btn btn-primary px-5">
                             <i class="feather-filter me-2"></i> Filtrer
@@ -88,7 +79,6 @@
                 </form>
             </div>
         </div>
-
         <!-- Tableau des cours -->
         <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
             <div class="card-header bg-light border-bottom">

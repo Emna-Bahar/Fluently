@@ -39,8 +39,9 @@ class DashboardController extends AbstractController
         }
 
         if ($role) {
+            // Fix line 43: cast to string before strtoupper
             $qb->andWhere('u.roles LIKE :role')
-               ->setParameter('role', "%ROLE_" . strtoupper($role) . "%");
+               ->setParameter('role', "%ROLE_" . strtoupper((string) $role) . "%");
         }
 
         if ($status) {
@@ -109,13 +110,14 @@ class DashboardController extends AbstractController
         }
 
         if ($request->isMethod('POST')) {
-            $nom = $request->request->get('nom');
-            $prenom = $request->request->get('prenom');
-            $email = $request->request->get('email');
-            $role = $request->request->get('role');
-            $statut = $request->request->get('statut');
-            $password = $request->request->get('password');
-            $confirmPassword = $request->request->get('confirm_password');
+            // Fix lines 125,137,142,145,146,147,148,150: cast all request values to string
+            $nom    = (string) $request->request->get('nom', '');
+            $prenom = (string) $request->request->get('prenom', '');
+            $email  = (string) $request->request->get('email', '');
+            $role   = (string) $request->request->get('role', '');
+            $statut = (string) $request->request->get('statut', '');
+            $password        = (string) $request->request->get('password', '');
+            $confirmPassword = (string) $request->request->get('confirm_password', '');
 
             if (!$nom || !$prenom || !$email || !$role) {
                 $this->addFlash('error', 'Tous les champs obligatoires doivent être remplis.');
@@ -159,7 +161,6 @@ class DashboardController extends AbstractController
         return $this->render('dashboard/edit_user.html.twig', ['user' => $user]);
     }
 
-    // Optional: user profile route so template links work
     #[Route('/dashboard/user/profile', name: 'dashboard_user_profile')]
     public function userProfile(): Response
     {
@@ -173,98 +174,96 @@ class DashboardController extends AbstractController
         ]);
     }
 
+    #[Route('/dashboard/export-users', name: 'dashboard_export_users')]
+    public function exportUsers(EntityManagerInterface $em): StreamedResponse
+    {
+        $users = $em->getRepository(User::class)->findAll();
 
-#[Route('/dashboard/export-users', name: 'dashboard_export_users')]
-public function exportUsers(EntityManagerInterface $em): StreamedResponse
-{
-    $users = $em->getRepository(User::class)->findAll();
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
 
-    $spreadsheet = new Spreadsheet();
-    $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1', 'ID');
+        $sheet->setCellValue('B1', 'Nom');
+        $sheet->setCellValue('C1', 'Prénom');
+        $sheet->setCellValue('D1', 'Email');
+        $sheet->setCellValue('E1', 'Rôle');
+        $sheet->setCellValue('F1', 'Statut');
 
-    // Header row
-    $sheet->setCellValue('A1', 'ID');
-    $sheet->setCellValue('B1', 'Nom');
-    $sheet->setCellValue('C1', 'Prénom');
-    $sheet->setCellValue('D1', 'Email');
-    $sheet->setCellValue('E1', 'Rôle');
-    $sheet->setCellValue('F1', 'Statut');
+        $sheet->getStyle('A1:F1')->getFont()->setBold(true);
 
-    // Style header
-    $sheet->getStyle('A1:F1')->getFont()->setBold(true);
+        $row = 2;
+        foreach ($users as $user) {
+            $sheet->setCellValue('A' . $row, $user->getId());
+            $sheet->setCellValue('B' . $row, $user->getNom());
+            $sheet->setCellValue('C' . $row, $user->getPrenom());
+            $sheet->setCellValue('D' . $row, $user->getEmail());
+            $sheet->setCellValue('E' . $row, str_replace('ROLE_', '', $user->getRoles()[0]));
+            $sheet->setCellValue('F' . $row, $user->getStatut());
+            $row++;
+        }
 
-    // Data rows
-    $row = 2;
-    foreach ($users as $user) {
-        $sheet->setCellValue('A' . $row, $user->getId());
-        $sheet->setCellValue('B' . $row, $user->getNom());
-        $sheet->setCellValue('C' . $row, $user->getPrenom());
-        $sheet->setCellValue('D' . $row, $user->getEmail());
-        $sheet->setCellValue('E' . $row, str_replace('ROLE_', '', $user->getRoles()[0]));
-        $sheet->setCellValue('F' . $row, $user->getStatut());
-        $row++;
+        foreach (range('A', 'F') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        $writer = new Xlsx($spreadsheet);
+
+        $response = new StreamedResponse(function () use ($writer) {
+            $writer->save('php://output');
+        });
+
+        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        $response->headers->set('Content-Disposition', 'attachment; filename="users.xlsx"');
+        $response->headers->set('Cache-Control', 'max-age=0');
+
+        return $response;
     }
 
-    // Auto size columns
-    foreach (range('A', 'F') as $col) {
-        $sheet->getColumnDimension($col)->setAutoSize(true);
+    #[Route('/dashboard/users-viewer', name: 'dashboard_users_viewer')]
+    public function usersViewer(EntityManagerInterface $em): Response
+    {
+        $users = $em->getRepository(User::class)->findAll();
+        return $this->render('dashboard/users_viewer.html.twig', [
+            'users' => $users
+        ]);
     }
 
-    $writer = new Xlsx($spreadsheet);
+    #[Route('/dashboard/export-google-sheets', name: 'dashboard_export_google_sheets')]
+    public function exportGoogleSheets(EntityManagerInterface $em): Response
+    {
+        $users = $em->getRepository(User::class)->findAll();
 
-    $response = new StreamedResponse(function () use ($writer) {
-        $writer->save('php://output');
-    });
+        $client = new \Google\Client();
+        // Fix line 238: use strval() safely after asserting it's a string
+        $projectDir = $this->getParameter('kernel.project_dir');
+        $client->setAuthConfig(is_string($projectDir) ? $projectDir . '/config/google_service_account.json' : '');
+        $client->addScope(\Google\Service\Sheets::SPREADSHEETS);
 
-    $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    $response->headers->set('Content-Disposition', 'attachment; filename="users.xlsx"');
-    $response->headers->set('Cache-Control', 'max-age=0');
+        $sheetsService = new \Google\Service\Sheets($client);
+        $spreadsheetId = '1Lz8LH_uVdx4RMx6v2H6QILzNg7yOSpRctvKFquvXnlc';
 
-    return $response;
-}
-#[Route('/dashboard/users-viewer', name: 'dashboard_users_viewer')]
-public function usersViewer(EntityManagerInterface $em): Response
-{
-    $users = $em->getRepository(User::class)->findAll();
-    return $this->render('dashboard/users_viewer.html.twig', [
-        'users' => $users
-    ]);
-}
-#[Route('/dashboard/export-google-sheets', name: 'dashboard_export_google_sheets')]
-public function exportGoogleSheets(EntityManagerInterface $em): Response
-{
-    $users = $em->getRepository(User::class)->findAll();
+        $sheetsService->spreadsheets_values->clear(
+            $spreadsheetId, 'A:Z', new \Google\Service\Sheets\ClearValuesRequest()
+        );
 
-    // Create a brand new client — do NOT use injected Google\Client
-    $client = new \Google\Client();
-    $client->setAuthConfig($this->getParameter('kernel.project_dir') . '/config/google_service_account.json');
-    $client->addScope(\Google\Service\Sheets::SPREADSHEETS);
+        $values = [['ID', 'Nom', 'Prénom', 'Email', 'Rôle', 'Statut']];
+        foreach ($users as $user) {
+            $values[] = [
+                $user->getId(),
+                $user->getNom(),
+                $user->getPrenom(),
+                $user->getEmail(),
+                str_replace('ROLE_', '', $user->getRoles()[0]),
+                $user->getStatut(),
+            ];
+        }
 
-    $sheetsService = new \Google\Service\Sheets($client);
-    $spreadsheetId = '1Lz8LH_uVdx4RMx6v2H6QILzNg7yOSpRctvKFquvXnlc';
+        $body = new \Google\Service\Sheets\ValueRange(['values' => $values]);
+        $sheetsService->spreadsheets_values->update(
+            $spreadsheetId, 'A1', $body,
+            ['valueInputOption' => 'RAW']
+        );
 
-    $sheetsService->spreadsheets_values->clear(
-        $spreadsheetId, 'A:Z', new \Google\Service\Sheets\ClearValuesRequest()
-    );
-
-    $values = [['ID', 'Nom', 'Prénom', 'Email', 'Rôle', 'Statut']];
-    foreach ($users as $user) {
-        $values[] = [
-            $user->getId(),
-            $user->getNom(),
-            $user->getPrenom(),
-            $user->getEmail(),
-            str_replace('ROLE_', '', $user->getRoles()[0]),
-            $user->getStatut(),
-        ];
+        return $this->redirect('https://docs.google.com/spreadsheets/d/' . $spreadsheetId . '/edit');
     }
-
-    $body = new \Google\Service\Sheets\ValueRange(['values' => $values]);
-    $sheetsService->spreadsheets_values->update(
-        $spreadsheetId, 'A1', $body,
-        ['valueInputOption' => 'RAW']
-    );
-
-    return $this->redirect('https://docs.google.com/spreadsheets/d/' . $spreadsheetId . '/edit');
-}
 }

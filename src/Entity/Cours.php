@@ -13,20 +13,23 @@ class Cours
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    /**
+     * @var int|null L'ID est généré automatiquement par Doctrine
+     */
+    private ?int $id = null; // @phpstan-ignore-line
 
     #[ORM\Column]
     #[Assert\NotBlank(message: "Le numéro du cours est obligatoire.")]
     #[Assert\Positive(message: "Le numéro doit être un nombre positif.")]
     #[Assert\Type(type: "integer", message: "Le numéro doit être un nombre entier.")]
-    private ?int $numero = null;
+    private int $numero = 0;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $ressource = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotNull(message: "La date de création est obligatoire.")]
-    private ?\DateTime $date_creation = null;
+    private \DateTime $date_creation;
 
     #[ORM\OneToOne(targetEntity: self::class, inversedBy: 'cours', cascade: ['persist', 'remove'])]
     private ?self $cours_precedent_id = null;
@@ -39,24 +42,12 @@ class Cours
     #[Assert\NotNull(message: "Le niveau est obligatoire.")]
     private ?Niveau $Id_niveau = null;
 
-    /**
-     * COMMENTEZ OU SUPPRIMEZ cette contrainte pour le moment
-     * Nous gérerons la validation dans le contrôleur
-     */
-    /*
-    #[Assert\IsTrue(message: "Le cours doit contenir au moins une ressource (fichier ou lien YouTube).")]
-    public function hasAtLeastOneResource(): bool
-    {
-        return !empty($this->ressource);
-    }
-    */
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNumero(): ?int
+    public function getNumero(): int
     {
         return $this->numero;
     }
@@ -80,7 +71,7 @@ class Cours
         return $this;
     }
 
-    public function getDateCreation(): ?\DateTime
+    public function getDateCreation(): \DateTime
     {
         return $this->date_creation;
     }
