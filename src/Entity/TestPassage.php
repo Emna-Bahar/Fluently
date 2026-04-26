@@ -76,7 +76,7 @@ class TestPassage
         return $this->dateDebut;
     }
 
-    protected function setDateDebut(\DateTimeInterface $dateDebut): static
+    public function setDateDebut(\DateTimeInterface $dateDebut): static
     {
         $this->dateDebut = $dateDebut;
         return $this;
@@ -87,7 +87,7 @@ class TestPassage
         return $this->dateFin;
     }
 
-    protected function setDateFin(?\DateTimeInterface $dateFin): static
+    public function setDateFin(?\DateTimeInterface $dateFin): static
     {
         $this->dateFin = $dateFin;
         return $this;

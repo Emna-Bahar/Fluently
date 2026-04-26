@@ -122,7 +122,7 @@ class UserProgress
         return $this->dateDerniereActivite;
     }
 
-    protected function setDateDerniereActivite(?\DateTimeImmutable $date): static
+    public function setDateDerniereActivite(?\DateTimeImmutable $date): static
     {
         $this->dateDerniereActivite = $date;
 

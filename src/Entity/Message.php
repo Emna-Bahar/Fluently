@@ -26,10 +26,10 @@ class Message
     #[ORM\Column]
     private bool $is_epingle = false;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTime $date_creation;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTime $date_modif;
 
     #[ORM\Column(length: 50)]
