@@ -162,20 +162,10 @@ public function show(Cours $cour, Request $request, EntityManagerInterface $em, 
     }
     
     $progress = $progressRepository->findUserProgress($user, $langue);
-    $estDebloque = false;
     
-    if ($progress) {
-        $niveauActuel = $progress->getNiveauActuel();
-        $niveauCours = $niveau;
-        if ($niveauActuel && $niveauActuel->getId() === $niveauCours->getId()) {
-            $estDebloque = $cour->getNumero() <= $progress->getDernierNumeroCours() + 1;
-        }
-    }
-    
-    if (!$estDebloque) {
-        $this->addFlash('warning', 'Ce cours n\'est pas encore débloqué.');
-        return $this->redirectToRoute('app_langue_apprentissage', ['id' => $langue->getId()]);
-    }
+    // ===== SUPPRIME CETTE VÉRIFICATION DE DÉBLOCAGE =====
+    // Plus de condition isUnlocked - tous les cours sont accessibles
+    // ===================================================
     
     $dbResources = $cour->getRessource() ? explode("\n", trim($cour->getRessource())) : [];
     $dbResources = array_filter($dbResources, fn($v) => trim($v) !== '');
@@ -205,7 +195,6 @@ public function show(Cours $cour, Request $request, EntityManagerInterface $em, 
         'files' => $ressourcesNormales,
         'ressources_personnalisees' => $ressourcesPersonnalisees,
         'progress' => $progress,
-        // PAS BESOIN DE public_path car on utilise la route
     ]);
 }
 
@@ -316,48 +305,92 @@ if (!empty($newFiles)) {
     }
 
     #[Route('/{id}/terminer', name: 'app_cours_terminer', methods: ['POST'])]
-    public function terminer(Cours $cours, Request $request, EntityManagerInterface $em, CoursRepository $coursRepository, NiveauRepository $niveauRepository, UserProgressRepository $progressRepository): Response
-    {
-        $user = $this->getTypedUser();
-        if (!$user) {
-            return $this->json(['success' => false, 'message' => 'Vous devez être connecté']);
-        }
-        $niveau = $cours->getIdNiveau();
-        if (!$niveau) {
-            return $this->json(['success' => false, 'message' => 'Niveau non trouvé']);
-        }
-        $langue = $niveau->getIdLangue();
-        if (!$langue) {
-            return $this->json(['success' => false, 'message' => 'Langue non trouvée']);
-        }
-        $progress = $progressRepository->findUserProgress($user, $langue);
-        if (!$progress) {
-            return $this->json(['success' => false, 'message' => 'Progression non trouvée']);
-        }
-        $niveauCours = $niveau;
-        $niveauActuel = $progress->getNiveauActuel();
-        if ($niveauActuel && $niveauActuel->getId() === $niveauCours->getId()) {
-            $numeroCours = $cours->getNumero();
-            $dernierNumero = $progress->getDernierNumeroCours() ?? 0;
-            if ($numeroCours >= $dernierNumero) {
-                $progress->setDernierCoursComplete($cours);
-                $progress->setDernierNumeroCours((int) $numeroCours);
-                $progress->setDateDerniereActivite(new \DateTimeImmutable());
-                $totalCoursNiveau = $coursRepository->countByNiveau($niveauActuel);
-                if ($numeroCours >= $totalCoursNiveau) {
-                    $niveauSuivant = $niveauRepository->findNiveauSuivant($langue, $niveauActuel->getOrdre() ?? 0);
-                    if ($niveauSuivant) {
-                        $progress->setNiveauActuel($niveauSuivant);
-                        $progress->setDernierNumeroCours(0);
-                        $this->addFlash('success', '🎉 Félicitations ! Vous passez au niveau ' . $niveauSuivant->getDifficulte());
-                    }
+public function terminer(
+    Cours $cours,
+    Request $request,
+    EntityManagerInterface $em,
+    CoursRepository $coursRepository,
+    NiveauRepository $niveauRepository,
+    UserProgressRepository $progressRepository
+): Response {
+    $user = $this->getTypedUser();
+    if (!$user) {
+        return $this->json(['success' => false, 'message' => 'Vous devez être connecté']);
+    }
+
+    $niveau = $cours->getIdNiveau();
+    if (!$niveau) {
+        return $this->json(['success' => false, 'message' => 'Niveau non trouvé']);
+    }
+
+    $langue = $niveau->getIdLangue();
+    if (!$langue) {
+        return $this->json(['success' => false, 'message' => 'Langue non trouvée']);
+    }
+
+    // ── Chercher la progression spécifique à CE niveau ──────────
+    $progress = $progressRepository->findUserProgressByNiveau($user, $langue, $niveau);
+
+    // Si pas de progression pour ce niveau, en créer une nouvelle
+    if (!$progress) {
+        $progress = new UserProgress();
+        $progress->setUser($user);
+        $progress->setLangue($langue);
+        $progress->setNiveauActuel($niveau);
+        $progress->setDernierNumeroCours(0);
+        $progress->setTestNiveauComplete(false);
+        $progress->setDateDerniereActivite(new \DateTimeImmutable());
+        $em->persist($progress);
+    }
+
+    $numeroCours = $cours->getNumero();
+    $dernierNumero = $progress->getDernierNumeroCours() ?? 0;
+
+    // Mettre à jour seulement si ce cours est plus avancé
+    if ($numeroCours >= $dernierNumero) {
+        $progress->setDernierCoursComplete($cours);
+        $progress->setDernierNumeroCours((int) $numeroCours);
+        $progress->setDateDerniereActivite(new \DateTimeImmutable());
+
+        // Vérifier si tous les cours de CE niveau sont terminés
+        $totalCoursNiveau = $coursRepository->countByNiveau($niveau);
+        if ($numeroCours >= $totalCoursNiveau) {
+            // Passer au niveau suivant
+            $niveauSuivant = $niveauRepository->findNiveauSuivant(
+                $langue,
+                $niveau->getOrdre() ?? 0
+            );
+            if ($niveauSuivant) {
+                // Créer une progression pour le niveau suivant si elle n'existe pas
+                $progressSuivant = $progressRepository->findUserProgressByNiveau(
+                    $user, $langue, $niveauSuivant
+                );
+                if (!$progressSuivant) {
+                    $progressSuivant = new UserProgress();
+                    $progressSuivant->setUser($user);
+                    $progressSuivant->setLangue($langue);
+                    $progressSuivant->setNiveauActuel($niveauSuivant);
+                    $progressSuivant->setDernierNumeroCours(0);
+                    $progressSuivant->setTestNiveauComplete(false);
+                    $progressSuivant->setDateDerniereActivite(new \DateTimeImmutable());
+                    $em->persist($progressSuivant);
                 }
-                $em->flush();
-                return $this->json(['success' => true]);
+                $this->addFlash(
+                    'success',
+                    '🎉 Félicitations ! Vous passez au niveau ' . $niveauSuivant->getDifficulte()
+                );
             }
         }
-        return $this->json(['success' => false, 'message' => 'Impossible de terminer ce cours']);
+
+        $em->flush();
+        return $this->json(['success' => true]);
     }
+
+    return $this->json([
+        'success' => false,
+        'message' => 'Ce cours a déjà été complété'
+    ]);
+}
 
     private function getCoursUploadDir(Cours $cours): string
     {

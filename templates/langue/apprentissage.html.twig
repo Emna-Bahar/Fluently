@@ -98,263 +98,214 @@
                 {% endif %}
             </div>
 
-            <!-- ============ STATISTIQUES DE PROGRESSION ============ -->
-            <div style="margin: 30px auto 50px; max-width: 900px;">
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-                    <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 20px; padding: 25px; text-align: center; border: 1px solid rgba(255,255,255,0.2); transition: all 0.3s;" 
-                         onmouseover="this.style.transform='translateY(-5px)'; this.style.background='rgba(255,255,255,0.25)';"
-                         onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255,255,255,0.15)';">
-                        <div style="font-size: 3rem; margin-bottom: 10px;">📊</div>
-                        <div style="font-size: 2.5rem; font-weight: 800; color: white;">{{ coursCompletes }}</div>
-                        <div style="color: rgba(255,255,255,0.8); font-size: 1.1rem;">Cours complétés</div>
-                    </div>
-                    <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 20px; padding: 25px; text-align: center; border: 1px solid rgba(255,255,255,0.2); transition: all 0.3s;"
-                         onmouseover="this.style.transform='translateY(-5px)'; this.style.background='rgba(255,255,255,0.25)';"
-                         onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255,255,255,0.15)';">
-                        <div style="font-size: 3rem; margin-bottom: 10px;">⏱️</div>
-                        <div style="font-size: 2.5rem; font-weight: 800; color: white;">{{ tempsTotal }} min</div>
-                        <div style="color: rgba(255,255,255,0.8); font-size: 1.1rem;">Temps d'étude</div>
-                    </div>
-                    <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 20px; padding: 25px; text-align: center; border: 1px solid rgba(255,255,255,0.2); transition: all 0.3s;"
-                         onmouseover="this.style.transform='translateY(-5px)'; this.style.background='rgba(255,255,255,0.25)';"
-                         onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255,255,255,0.15)';">
-                        <div style="font-size: 3rem; margin-bottom: 10px;">📈</div>
-                        <div style="font-size: 2.5rem; font-weight: 800; color: white;">{{ progression|round }}%</div>
-                        <div style="color: rgba(255,255,255,0.8); font-size: 1.1rem;">Progression</div>
-                    </div>
-                </div>
-            </div>
-            <!-- ============ BARRE DE PROGRESSION ============ -->
-            {% if niveauUtilisateur %}
-            <div style="margin: 40px auto; max-width: 700px;">
-                <div style="display: flex; justify-content: space-between; color: white; margin-bottom: 15px;">
-                    <span style="font-size: 1.2rem; font-weight: 600;">Progression vers le niveau suivant</span>
-                    <span style="font-size: 1.5rem; font-weight: 800; background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 50px;">{{ progression|round }}%</span>
-                </div>
-                
-                <div style="width: 100%; height: 25px; background: rgba(255,255,255,0.2); border-radius: 15px; overflow: hidden; box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);">
-                    <div style="width: {{ progression }}%; height: 100%; background: linear-gradient(90deg, #10b981, #059669); border-radius: 15px; transition: width 0.5s; box-shadow: 0 0 15px rgba(16,185,129,0.5);"></div>
-                </div>
-                
-                <div style="display: flex; justify-content: space-between; margin-top: 15px; color: rgba(255,255,255,0.8);">
-                    <span>Niveau actuel: <strong>{{ niveauObtenu }}</strong></span>
-                    <span>
-                        {% if totalCoursNiveau > 0 %}
-                            Plus que <strong>{{ totalCoursNiveau - coursCompletes }}</strong> cours pour passer au niveau suivant !
-                        {% endif %}
-                    </span>
-                </div>
-            </div>
-            {% endif %}
-            {% set niveaux = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] %}
+            {% set niveauxListe = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] %}
             {% set couleurs = ['#22c55e', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#7c3aed'] %}
-            {% set ordreNiveaux = [1, 2, 3, 4, 5, 6] %}
-            {% set niveauActuelOrdre = niveauUtilisateur ? niveauUtilisateur.ordre : 1 %}
-            {% set dernierCoursTermine = progress ? progress.dernierNumeroCours : 0 %}
-        
+            
+            {# Créer un dictionnaire des cours par niveau #}
+            {% set coursParNiveau = {} %}
+            {% for cours in allCours %}
+                {% set niveauDiff = cours.IdNiveau.difficulte %}
+                {% if not coursParNiveau[niveauDiff] is defined %}
+                    {% set coursParNiveau = coursParNiveau|merge({(niveauDiff): []}) %}
+                {% endif %}
+                {% set coursParNiveau = coursParNiveau|merge({(niveauDiff): coursParNiveau[niveauDiff]|merge([cours])}) %}
+            {% endfor %}
+            
             {% for niveauIndex in 0..5 %}
-                {% set niveauNom = niveaux[niveauIndex] %}
-                {% set niveauOrdre = ordreNiveaux[niveauIndex] %}
+                {% set niveauNom = niveauxListe[niveauIndex] %}
                 {% set niveauCouleur = couleurs[niveauIndex] %}
+                {% set coursNiveau = coursParNiveau[niveauNom]|default([]) %}
                 
-                {% set niveauEntity = null %}
-                {% for cours in allCours %}
-                    {% if niveauEntity is null and cours.IdNiveau.difficulte == niveauNom and cours.IdNiveau.IdLangue.id == langue.id %}
-                        {% set niveauEntity = cours.IdNiveau %}
-                    {% endif %}
-                {% endfor %}
-                {% if niveauEntity %}
-                    <div style="position: relative; margin: {% if niveauIndex == 0 %}0{% else %}100{% endif %}px 0 40px; text-align: center; z-index: 3;">
-                        <div style="font-size: 2.8rem; font-weight: 900; color: white; margin-bottom: 30px; text-shadow: 0 6px 16px rgba(0,0,0,0.5);">
-                            Niveau {{ niveauNom }}
-                        </div>
+                <div style="position: relative; margin: {% if niveauIndex == 0 %}0{% else %}80{% endif %}px 0 40px; text-align: center; z-index: 3;">
+                    <div style="font-size: 2.5rem; font-weight: 900; color: white; margin-bottom: 30px; text-shadow: 0 6px 16px rgba(0,0,0,0.5); background: {{ niveauCouleur }}30; display: inline-block; padding: 10px 40px; border-radius: 50px; backdrop-filter: blur(5px);">
+                        Niveau {{ niveauNom }}
                     </div>
-                    {% set coursDuNiveau = [] %}
-                    {% for cours in allCours %}
-                        {% if cours.IdNiveau.id == niveauEntity.id %}
-                            {% set coursDuNiveau = coursDuNiveau|merge([cours]) %}
-                        {% endif %}
-                    {% endfor %}
-                    
-                    {% set coursDuNiveau = coursDuNiveau|sort((a, b) => a.numero <=> b.numero) %}
+                </div>
                 
-                    {% for cours in coursDuNiveau|slice(0, 3) %}
-                        {% set coursNumero = loop.index %}
-                        {% set coursReelNumero = cours.numero %}
-                        {% set isUnlocked = false %}
-                        {% if niveauOrdre < niveauActuelOrdre %}
-                            {% set isUnlocked = true %}
-                        {% endif %}
-                        {% if niveauOrdre == niveauActuelOrdre %}
-                            {% if coursNumero == 1 %}
-                                {% set isUnlocked = true %}
-                            {% else %}
-                                {% set coursPrecedentTermine = false %}
-                                {% if dernierCoursTermine >= coursReelNumero - 1 %}
-                                    {% set coursPrecedentTermine = true %}
-                                {% endif %}
-                                {% set isUnlocked = coursPrecedentTermine %}
-                            {% endif %}
-                        {% endif %}
-                        {% if niveauOrdre > niveauActuelOrdre %}
-                            {% set isUnlocked = false %}
-                        {% endif %}
+                <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 40px;">
+                    {% for numero in 1..3 %}
+                        {% set coursExiste = false %}
+                        {% set coursItem = null %}
                         {% set isCompleted = false %}
-                        {% if niveauOrdre == niveauActuelOrdre and dernierCoursTermine >= coursReelNumero %}
-                            {% set isCompleted = true %}
-                        {% endif %}
-                        {% if niveauOrdre < niveauActuelOrdre %}
-                            {% set isCompleted = true %}
-                        {% endif %}
                         
-                        <div style="position: relative; margin: 60px 0; text-align: center; z-index: 3; transform: translateX({{ (coursNumero % 2 == 0) ? '120px' : '-120px' }});">
-                            {% if isUnlocked %}
-                                <a href="{{ path('app_cours_show', {id: cours.id}) }}" style="text-decoration: none;">
+                        {% for cours in coursNiveau %}
+                            {% if cours.numero == numero %}
+                                {% set coursExiste = true %}
+                                {% set coursItem = cours %}
+                                {# Vérifier si le cours est terminé #}
+                                {# APRÈS — distingue par niveau #}
+{% set niveauIdCourant = 0 %}
+{% for c in coursNiveau %}
+    {% if c.numero == numero %}
+        {% set niveauIdCourant = c.IdNiveau.id %}
+    {% endif %}
+{% endfor %}
+{% if niveauIdCourant > 0 and progressParNiveau[niveauIdCourant] is defined %}
+    {% if progressParNiveau[niveauIdCourant].dernierNumeroCours >= numero %}
+        {% set isCompleted = true %}
+    {% endif %}
+{% endif %}
                             {% endif %}
-                            
-                            <div style="
-                                width: 160px;
-                                height: 160px;
-                                margin: 0 auto;
-                                background: {% if isCompleted %}#10b981{% elseif isUnlocked %}{{ niveauCouleur }}{% else %}#6b7280{% endif %};
-                                border-radius: 50%;
-                                display: flex;
-                                flex-direction: column;
-                                align-items: center;
-                                justify-content: center;
-                                box-shadow: 0 16px 60px rgba(0,0,0,0.45);
-                                transition: all 0.45s ease;
-                                position: relative;
-                                border: 8px solid {{ isUnlocked ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.25)' }};
-                                opacity: {{ isUnlocked ? '1' : '0.6' }};
-                                cursor: {{ isUnlocked ? 'pointer' : 'default' }};
-                            " 
-                            {% if isUnlocked %}
-                                onmouseover="this.style.transform='scale(1.15) rotate({{ (coursNumero % 2 == 0) ? '10' : '-10' }}deg)'; this.style.boxShadow='0 40px 90px rgba(0,0,0,0.6)';" 
-                                onmouseout="this.style.transform='scale(1) rotate(0deg)'; this.style.boxShadow='0 16px 60px rgba(0,0,0,0.45)';"
-                            {% endif %}>
-                                
-                                <span style="font-size: 4.5rem; font-weight: 900; color: white; text-shadow: 5px 5px 14px rgba(0,0,0,0.6);">
-                                    {{ coursReelNumero }}
-                                </span>
-                                
-                                {% if isCompleted %}
-                                    <div style="position: absolute; top: -10px; right: -10px; background: #10b981; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 10px 24px rgba(16,185,129,0.6); border: 4px solid white;">
-                                        ✓
+                        {% endfor %}
+                        
+                        <div style="text-align: center;">
+                            {% if coursExiste %}
+                                {# TOUS LES CERCLES SONT ACCÉSSIBLES - plus de condition de déblocage #}
+                                <a href="{{ path('app_cours_show', {id: coursItem.id}) }}" style="text-decoration: none;">
+                                    <div style="
+                                        width: 140px;
+                                        height: 140px;
+                                        margin: 0 auto;
+                                        background: {% if isCompleted %}#10b981{% else %}{{ niveauCouleur }}{% endif %};
+                                        border-radius: 50%;
+                                        display: flex;
+                                        flex-direction: column;
+                                        align-items: center;
+                                        justify-content: center;
+                                        box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+                                        transition: all 0.3s ease;
+                                        position: relative;
+                                        border: 4px solid rgba(255,255,255,0.5);
+                                        cursor: pointer;
+                                    " 
+                                    onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 25px 50px rgba(0,0,0,0.4)';" 
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 16px 40px rgba(0,0,0,0.3)';">
+                                        
+                                        <span style="font-size: 3.8rem; font-weight: 900; color: white; text-shadow: 2px 2px 8px rgba(0,0,0,0.3);">
+                                            {{ numero }}
+                                        </span>
+                                        
+                                        {% if isCompleted %}
+                                            <div style="position: absolute; top: -8px; right: -8px; background: #10b981; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 5px 15px rgba(16,185,129,0.5); border: 3px solid white;">
+                                                ✓
+                                            </div>
+                                        {% endif %}
                                     </div>
-                                {% elseif not isUnlocked %}
-                                    <div style="position: absolute; top: -10px; right: -10px; background: #ef4444; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 10px 24px rgba(239,68,68,0.6); border: 4px solid white;">
-                                        🔒
-                                    </div>
-                                {% endif %}
-                            </div>
-                            
-                            <p style="margin-top: 20px; font-size: 1.4rem; font-weight: 700; color: white; text-shadow: 0 3px 10px rgba(0,0,0,0.5);">
-                                Unité {{ coursReelNumero }}
-                                {% if isCompleted %}
-                                    <span style="display: block; font-size: 1rem; color: #a5f3fc; margin-top: 5px;">✓ Terminé</span>
-                                {% endif %}
-                            </p>
-                            
-                            {% if isUnlocked %}
+                                    <p style="margin-top: 15px; font-size: 1.2rem; font-weight: 600; color: white; text-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+                                        Unité {{ numero }}
+                                        {% if isCompleted %}
+                                            <span style="display: block; font-size: 0.8rem; color: #a5f3fc;">✓ Terminé</span>
+                                        {% endif %}
+                                    </p>
                                 </a>
                             {% else %}
-                                <p style="margin-top: 10px; font-size: 1rem; color: rgba(255,255,255,0.7); font-style: italic;">
-                                    {% if niveauOrdre > niveauActuelOrdre %}
-                                        Niveau {{ niveauActuelOrdre }} requis
-                                    {% else %}
-                                        Termine l'unité {{ coursReelNumero - 1 }} d'abord
-                                    {% endif %}
+                                {# Cercle grisé (cours non disponible dans la base) #}
+                                <div style="
+                                    width: 140px;
+                                    height: 140px;
+                                    margin: 0 auto;
+                                    background: #6b7280;
+                                    border-radius: 50%;
+                                    display: flex;
+                                    flex-direction: column;
+                                    align-items: center;
+                                    justify-content: center;
+                                    box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+                                    position: relative;
+                                    border: 4px solid rgba(255,255,255,0.2);
+                                    opacity: 0.6;
+                                    cursor: default;
+                                ">
+                                    <span style="font-size: 3.8rem; font-weight: 900; color: white; text-shadow: 2px 2px 8px rgba(0,0,0,0.3);">
+                                        {{ numero }}
+                                    </span>
+                                    <div style="position: absolute; top: -8px; right: -8px; background: #ef4444; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 5px 15px rgba(239,68,68,0.5); border: 3px solid white;">
+                                        🔒
+                                    </div>
+                                </div>
+                                <p style="margin-top: 15px; font-size: 1.2rem; font-weight: 600; color: rgba(255,255,255,0.5); text-shadow: 0 2px 5px rgba(0,0,0,0.3);">
+                                    Unité {{ numero }}
+                                    <span style="display: block; font-size: 0.8rem;">Bientôt disponible</span>
                                 </p>
                             {% endif %}
                         </div>
                     {% endfor %}
-                {% endif %}
-                {# ============ TEST DE FIN DE NIVEAU ============ #}
-                {% if niveauEntity %}
-                    {% set testFinNiveau = null %}
-                    {% for test in testsLangue %}
-                        {% if test.type == 'Test de fin de niveau' and test.niveau and test.niveau.id == niveauEntity.id %}
-                            {% set testFinNiveau = test %}
+                </div>
+                
+                {# Test de fin de niveau - s'affiche seulement s'il existe #}
+                {% set testFinNiveau = null %}
+                {% for test in testsLangue %}
+                    {% if test.type == 'Test de fin de niveau' and test.niveau and test.niveau.difficulte == niveauNom %}
+                        {% set testFinNiveau = test %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if testFinNiveau %}
+                    {% set tousCoursDuNiveauExistants = true %}
+                    {% set tousCoursTermines = true %}
+                    {% for num in 1..3 %}
+                        {% set coursTrouve = false %}
+                        {% for cours in coursNiveau %}
+                            {% if cours.numero == num %}
+                                {% set coursTrouve = true %}
+                                {% if progress.dernierNumeroCours < num %}
+                                    {% set tousCoursTermines = false %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if not coursTrouve %}
+                            {% set tousCoursDuNiveauExistants = false %}
                         {% endif %}
                     {% endfor %}
-
-                    {% if testFinNiveau %}
-                        {% set tousCoursTermines = true %}
-                        {% for cours in coursDuNiveau|slice(0, 3) %}
-                            {% set coursReelNumero = cours.numero %}
-                            {% if niveauOrdre == niveauActuelOrdre and dernierCoursTermine < coursReelNumero %}
-                                {% set tousCoursTermines = false %}
-                            {% endif %}
-                        {% endfor %}
-                        {% set testDejaPassé = false %}
-                        {% for passage in testFinNiveau.passages %}
-                            {% if passage.user.id == user.id and passage.statut == 'termine' %}
-                                {% set testDejaPassé = true %}
-                            {% endif %}
-                        {% endfor %}
-                        <div style="position: relative; margin: 100px 0; text-align: center; z-index: 3;">
-                            {% if tousCoursTermines or testDejaPassé %}
-                                <a href="{{ path('app_test_student_show', {id: testFinNiveau.id}) }}" style="text-decoration: none;">
-                            {% endif %}
+                    
+                    {% set testDejaPassé = false %}
+                    {% for passage in testFinNiveau.passages %}
+                        {% if passage.user.id == user.id and passage.statut == 'termine' %}
+                            {% set testDejaPassé = true %}
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% set testDisponible = true %} {# TOUJOURS DISPONIBLE #}
+                    
+                    <div style="text-align: center; margin: 30px 0 60px;">
+                        <a href="{{ path('app_test_student_show', {id: testFinNiveau.id}) }}" style="text-decoration: none;">
+                        
+                        <div style="
+                            width: 120px;
+                            height: 120px;
+                            margin: 0 auto;
+                            background: {% if testDejaPassé %}linear-gradient(135deg, #10b981, #059669){% else %}linear-gradient(135deg, #fbbf24, #f59e0b){% endif %};
+                            border-radius: 50%;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                            transition: all 0.3s ease;
+                            position: relative;
+                            border: 4px solid rgba(255,255,255,0.5);
+                            cursor: pointer;
+                        " 
+                        onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 15px 30px rgba(0,0,0,0.4)';" 
+                        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.3)';">
                             
-                            <div style="
-                                width: 200px;
-                                height: 200px;
-                                margin: 0 auto;
-                                background: {% if testDejaPassé %}linear-gradient(135deg, #10b981, #059669){% elseif tousCoursTermines %}linear-gradient(135deg, #fbbf24, #f59e0b){% else %}#6b7280{% endif %};
-                                border-radius: 50%;
-                                display: flex;
-                                flex-direction: column;
-                                align-items: center;
-                                justify-content: center;
-                                box-shadow: 0 20px 70px rgba(0,0,0,0.5);
-                                transition: all 0.45s ease;
-                                position: relative;
-                                border: 10px solid {{ (tousCoursTermines or testDejaPassé) ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.25)' }};
-                                opacity: {{ (tousCoursTermines or testDejaPassé) ? '1' : '0.5' }};
-                                cursor: {{ (tousCoursTermines or testDejaPassé) ? 'pointer' : 'default' }};
-                            " 
-                            {% if tousCoursTermines or testDejaPassé %}
-                                onmouseover="this.style.transform='scale(1.15) rotate(5deg)'; this.style.boxShadow='0 40px 90px rgba(0,0,0,0.7)';" 
-                                onmouseout="this.style.transform='scale(1) rotate(0deg)'; this.style.boxShadow='0 20px 70px rgba(0,0,0,0.5)';"
-                            {% endif %}>
-                                
-                                <span style="font-size: 6rem; line-height: 1;">
-                                    {% if testDejaPassé %}✅{% else %}📝{% endif %}
-                                </span>
-                                <span style="font-size: 1.3rem; font-weight: 900; color: white; margin-top: 10px; text-align: center; padding: 0 20px;">
-                                    TEST<br>FIN NIVEAU
-                                </span>
+                            <span style="font-size: 3rem; line-height: 1;">
+                                {% if testDejaPassé %}✅{% else %}📝{% endif %}
+                            </span>
+                            <span style="font-size: 0.9rem; font-weight: 800; color: white; margin-top: 5px; text-align: center;">
+                                TEST<br>FIN NIVEAU
+                            </span>
 
-                                {% if testDejaPassé %}
-                                    <div style="position: absolute; top: -10px; right: -10px; background: #10b981; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 10px 24px rgba(16,185,129,0.6); border: 4px solid white;">
-                                        ✓
-                                    </div>
-                                {% elseif not tousCoursTermines %}
-                                    <div style="position: absolute; top: -10px; right: -10px; background: #ef4444; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 10px 24px rgba(239,68,68,0.6); border: 4px solid white;">
-                                        🔒
-                                    </div>
-                                {% endif %}
-                            </div>
-
-                            <p style="margin-top: 20px; font-size: 1.4rem; font-weight: 700; color: white; text-shadow: 0 3px 10px rgba(0,0,0,0.5);">
-                                {% if testDejaPassé %}
-                                    ✓ Validé
-                                {% elseif tousCoursTermines %}
-                                    Débloqué !
-                                {% else %}
-                                    Termine tous les cours d'abord
-                                {% endif %}
-                            </p>
-
-                            {% if tousCoursTermines or testDejaPassé %}
-                                </a>
+                            {% if testDejaPassé %}
+                                <div style="position: absolute; top: -8px; right: -8px; background: #10b981; color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; box-shadow: 0 5px 15px rgba(16,185,129,0.5); border: 2px solid white;">
+                                    ✓
+                                </div>
                             {% endif %}
                         </div>
-                    {% endif %}
+
+                        <p style="margin-top: 12px; font-size: 0.9rem; font-weight: 600; color: rgba(255,255,255,0.8);">
+                            {% if testDejaPassé %}
+                                ✓ Test validé
+                            {% else %}
+                                🎯 Test disponible
+                            {% endif %}
+                        </p>
+
+                        </a>
+                    </div>
                 {% endif %}
             {% endfor %}
+            
             {# ============ TESTS HORS PARCOURS (À DROITE) ============ #}
             <div style="position: fixed; right: 30px; top: 50%; transform: translateY(-50%); z-index: 10; display: flex; flex-direction: column; gap: 30px;">
 
@@ -380,32 +331,32 @@
                         style="text-decoration: none; display: block;"
                         title="{{ test.titre }}">
                             <div style="
-                                width: 120px;
-                                height: 120px;
+                                width: 100px;
+                                height: 100px;
                                 background: {% if testPassé %}linear-gradient(135deg, #10b981, #059669){% else %}linear-gradient(135deg, #3b82f6, #1d4ed8){% endif %};
                                 border-radius: 50%;
                                 display: flex;
                                 flex-direction: column;
                                 align-items: center;
                                 justify-content: center;
-                                box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+                                box-shadow: 0 10px 30px rgba(0,0,0,0.4);
                                 transition: all 0.3s ease;
-                                border: 6px solid rgba(255,255,255,0.8);
+                                border: 4px solid rgba(255,255,255,0.7);
                                 position: relative;
                                 cursor: pointer;
                             " 
-                            onmouseover="this.style.transform='scale(1.15) rotate(10deg)'; this.style.boxShadow='0 20px 60px rgba(0,0,0,0.6)';" 
-                            onmouseout="this.style.transform='scale(1) rotate(0deg)'; this.style.boxShadow='0 10px 40px rgba(0,0,0,0.4)';">
+                            onmouseover="this.style.transform='scale(1.1) rotate(5deg)'; this.style.boxShadow='0 15px 40px rgba(0,0,0,0.5)';" 
+                            onmouseout="this.style.transform='scale(1) rotate(0deg)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.4)';">
                                 
-                                <span style="font-size: 3.5rem; line-height: 1;">
+                                <span style="font-size: 2.5rem; line-height: 1;">
                                     {% if testPassé %}✅{% else %}📝{% endif %}
                                 </span>
-                                <span style="font-size: 0.9rem; font-weight: 800; color: white; margin-top: 5px; text-align: center; line-height: 1.1;">
+                                <span style="font-size: 0.7rem; font-weight: 800; color: white; margin-top: 5px; text-align: center; line-height: 1.1;">
                                     TEST
                                 </span>
 
                                 {% if testPassé %}
-                                    <div style="position: absolute; top: -8px; right: -8px; background: #10b981; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 8px 20px rgba(16,185,129,0.6); border: 3px solid white;">
+                                    <div style="position: absolute; top: -6px; right: -6px; background: #10b981; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; box-shadow: 0 5px 15px rgba(16,185,129,0.5); border: 2px solid white;">
                                         ✓
                                     </div>
                                 {% endif %}
@@ -414,17 +365,17 @@
                     {% endfor %}
                 {% else %}
                     <div style="
-                        width: 120px;
-                        height: 120px;
+                        width: 100px;
+                        height: 100px;
                         background: linear-gradient(135deg, #9ca3af, #6b7280);
                         border-radius: 50%;
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        border: 6px solid rgba(255,255,255,0.5);
+                        border: 4px solid rgba(255,255,255,0.4);
                         opacity: 0.6;
                     ">
-                        <span style="font-size: 3rem;">🔒</span>
+                        <span style="font-size: 2.5rem;">🔒</span>
                     </div>
                 {% endif %}
             </div>

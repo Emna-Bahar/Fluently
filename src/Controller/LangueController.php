@@ -65,170 +65,229 @@ public function showDrapeau(string $filename): Response
     }
     
     #[Route('/{id}/apprentissage', name: 'app_langue_apprentissage', methods: ['GET'])]
-    public function apprentissage(
-        Langue $langue,
-        CoursRepository $coursRepository,
-        NiveauRepository $niveauRepository,
-        Request $request,
-        EntityManagerInterface $em,
-        TestPassageRepository $testPassageRepository,
-        UserProgressRepository $progressRepository
-    ): Response {
-        $premierNiveau = $niveauRepository->findOneBy(['Id_langue' => $langue], ['ordre' => 'ASC']);
-        $tousLesCours = $premierNiveau ? $coursRepository->findCoursByLangue($premierNiveau) : [];
-        $user = $this->getTypedUser();
-        if (!$user) {
-            $this->addFlash('error', 'Vous devez être connecté pour accéder à cette page.');
-            return $this->redirectToRoute('app_login');
-        }
-        $progress = $progressRepository->findOrCreate($user, $langue);
-        $testNiveau = $em->getRepository(\App\Entity\Test::class)
-            ->createQueryBuilder('t')
-            ->andWhere('t.langue = :langue')
-            ->andWhere('t.type = :type')
-            ->setParameter('langue', $langue)
-            ->setParameter('type', 'Test de niveau')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
-        $dernierPassage = null;
-        $niveauObtenu = null;
-        $niveauUtilisateur = $progress->getNiveauActuel();
-        if ($niveauUtilisateur) {
-            $niveauObtenu = $niveauUtilisateur->getDifficulte();
-        }
-        if ($testNiveau) {
-            $dernierPassage = $testPassageRepository->findOneBy(
-                ['test' => $testNiveau, 'user' => $user, 'statut' => 'termine'],
-                ['dateFin' => 'DESC']
-            );
-            if ($dernierPassage && method_exists($dernierPassage, 'getResultat')) {
-                $score = $dernierPassage->getResultat();
-                if ($score !== null) {
-                    $niveauObtenuTest = $this->determinerNiveau($score);
-                    $niveauTest = $niveauRepository->findByLangueEtDifficulte($langue, $niveauObtenuTest);
-                    if (!$niveauTest) {
-                        $ordreNiveaux = ['A1' => 1, 'A2' => 2, 'B1' => 3, 'B2' => 4, 'C1' => 5, 'C2' => 6];
-                        $seuilsMin = ['A1' => 0, 'A2' => 50, 'B1' => 60, 'B2' => 70, 'C1' => 80, 'C2' => 90];
-                        $seuilsMax = ['A1' => 49, 'A2' => 59, 'B1' => 69, 'B2' => 79, 'C1' => 89, 'C2' => 100];
-                        $niveauTest = new \App\Entity\Niveau();
-                        $niveauTest->setIdLangue($langue);
-                        $niveauTest->setDifficulte($niveauObtenuTest);
-                        $niveauTest->setOrdre($ordreNiveaux[$niveauObtenuTest]);
-                        $niveauTest->setSeuilScoreMin($seuilsMin[$niveauObtenuTest]);
-                        $niveauTest->setSeuilScoreMax($seuilsMax[$niveauObtenuTest]);
-                        $niveauTest->setImageCouverture('default.jpg');
-                        $niveauTest->setTitre($langue->getNom() . ' - Niveau ' . $niveauObtenuTest);
-                        $niveauTest->setDescription('Niveau ' . $niveauObtenuTest . ' pour ' . $langue->getNom());
-                        $em->persist($niveauTest);
-                        $em->flush();
-                    }
-                    if (!$progress->isTestNiveauComplete() ||
-                        ($progress->getNiveauActuel() && $progress->getNiveauActuel()->getId() !== $niveauTest->getId())) {
-                        $progress->setTestNiveauComplete(true);
-                        $progress->setNiveauActuel($niveauTest);
-                        $progress->setDernierNumeroCours(0);
-                        $progress->setDateDerniereActivite(new \DateTimeImmutable());
-                        $em->flush();
-                        $niveauUtilisateur = $niveauTest;
-                        $niveauObtenu = $niveauTest->getDifficulte();
-                    }
-                }
-            }
-        }
-        $session = $request->getSession();
-        $tempsTotalSession = $session->get('temps_total_' . $langue->getId(), 0);
-        $tempsTotal = round($tempsTotalSession / 60);
-        $coursCompletes = $progress->getDernierNumeroCours() ?? 0;
-        $niveauActuel = $progress->getNiveauActuel();
-        $totalCoursNiveau = 0;
-        if ($niveauActuel) {
-            $totalCoursNiveau = $coursRepository->countByNiveau($niveauActuel);
-        }
-        $progression = $totalCoursNiveau > 0 ? ($coursCompletes / $totalCoursNiveau * 100) : 0;
-        $pointsFaibles = [];
-        $recommandations = [];
-        if ($niveauUtilisateur) {
-            $niveauNom = $niveauUtilisateur->getDifficulte();
-            if ($niveauNom == 'A1') {
-                $pointsFaibles = ['prononciation', 'verbes de base', 'vocabulaire quotidien'];
-                $recommandations = [
-                    ['type' => 'video', 'titre' => 'Prononciation anglaise pour débutants', 'url' => '#', 'icon' => '🎥'],
-                    ['type' => 'exercice', 'titre' => 'Quiz sur les verbes "to be" et "to have"', 'icon' => '✏️'],
-                    ['type' => 'article', 'titre' => 'Les 50 mots essentiels en anglais', 'icon' => '📖']
-                ];
-            } elseif ($niveauNom == 'A2') {
-                $pointsFaibles = ['temps du passé', 'prépositions', 'vocabulaire des voyages'];
-                $recommandations = [
-                    ['type' => 'video', 'titre' => 'Le prétérit simple expliqué', 'url' => '#', 'icon' => '🎥'],
-                    ['type' => 'exercice', 'titre' => 'Exercices sur les prépositions', 'icon' => '✏️'],
-                    ['type' => 'video', 'titre' => 'Vocabulaire pour voyager', 'url' => '#', 'icon' => '🎥']
-                ];
-            } elseif ($niveauNom == 'B1') {
-                $pointsFaibles = ['conditionnel', 'phrases complexes', 'vocabulaire professionnel'];
-                $recommandations = [
-                    ['type' => 'video', 'titre' => 'Le conditionnel en anglais', 'url' => '#', 'icon' => '🎥'],
-                    ['type' => 'article', 'titre' => 'Comment structurer une phrase complexe', 'icon' => '📖'],
-                    ['type' => 'exercice', 'titre' => 'Vocabulaire des affaires', 'icon' => '✏️']
-                ];
-            } else {
-                $pointsFaibles = ['expressions idiomatiques', 'nuances de sens', 'anglais formel'];
-                $recommandations = [
-                    ['type' => 'video', 'titre' => '10 expressions idiomatiques à connaître', 'url' => '#', 'icon' => '🎥'],
-                    ['type' => 'article', 'titre' => 'Différence entre "say", "tell" et "speak"', 'icon' => '📖'],
-                    ['type' => 'exercice', 'titre' => 'Anglais formel vs informel', 'icon' => '✏️']
-                ];
-            }
-        }
-        if ($progress->getNiveauActuel()) {
-            $niveauActuelProgress = $progress->getNiveauActuel();
-            $totalCoursNiveau = $coursRepository->countByNiveau($niveauActuelProgress);
-            if ($totalCoursNiveau > 0 && $progress->getDernierNumeroCours() >= $totalCoursNiveau) {
-                $ordre = $niveauActuelProgress->getOrdre();
-                $niveauSuivant = $niveauRepository->findNiveauSuivant($langue, $ordre !== null ? (int) $ordre : 0);
-                if ($niveauSuivant) {
-                    $progress->setNiveauActuel($niveauSuivant);
-                    $progress->setDernierNumeroCours(0);
-                    $progress->setDateDerniereActivite(new \DateTimeImmutable());
-                    $em->flush();
-                    $niveauUtilisateur = $niveauSuivant;
-                    $niveauObtenu = $niveauSuivant->getDifficulte();
-                    $this->addFlash('success', '🎉 Félicitations ! Vous passez au niveau ' . $niveauSuivant->getDifficulte() . ' !');
-                }
-            }
-        }
-        $coursParNiveau = [];
-        foreach ($tousLesCours as $c) {
-            $niveauId = $c->getIdNiveau()->getId();
-            if (!isset($coursParNiveau[$niveauId])) {
-                $coursParNiveau[$niveauId] = ['niveau' => $c->getIdNiveau(), 'cours' => []];
-            }
-            $coursParNiveau[$niveauId]['cours'][] = $c;
-        }
-        foreach ($coursParNiveau as &$data) {
-            usort($data['cours'], fn($a, $b) => $a->getNumero() <=> $b->getNumero());
-        }
-        $testsLangue = $em->getRepository(\App\Entity\Test::class)->findBy(['langue' => $langue]);
-        return $this->render('langue/apprentissage.html.twig', [
-            'langue'             => $langue,
-            'allCours'           => $tousLesCours,
-            'coursParNiveau'     => $coursParNiveau,
-            'lastCompletedId'    => $progress->getDernierNumeroCours() ?? 0,
-            'testNiveau'         => $testNiveau,
-            'dernierPassage'     => $dernierPassage,
-            'niveauUtilisateur'  => $niveauUtilisateur,
-            'niveauObtenu'       => $niveauObtenu,
-            'progress'           => $progress,
-            'user'               => $user,
-            'testsLangue'        => $testsLangue,
-            'tempsTotal'         => $tempsTotal,
-            'coursCompletes'     => $coursCompletes,
-            'totalCoursNiveau'   => $totalCoursNiveau,
-            'progression'        => $progression,
-            'pointsFaibles'      => $pointsFaibles,
-            'recommandations'    => $recommandations,
-        ]);
+public function apprentissage(
+    Langue $langue,
+    CoursRepository $coursRepository,
+    NiveauRepository $niveauRepository,
+    Request $request,
+    EntityManagerInterface $em,
+    TestPassageRepository $testPassageRepository,
+    UserProgressRepository $progressRepository
+): Response {
+    $user = $this->getTypedUser();
+    if (!$user) {
+        $this->addFlash('error', 'Vous devez être connecté pour accéder à cette page.');
+        return $this->redirectToRoute('app_login');
     }
+
+    // ── Charger TOUS les cours de la langue (tous niveaux) ────────
+    $tousLesNiveaux = $niveauRepository->findBy(['Id_langue' => $langue], ['ordre' => 'ASC']);
+    $tousLesCours = [];
+    foreach ($tousLesNiveaux as $niv) {
+        $coursDuNiveau = $coursRepository->findBy(['Id_niveau' => $niv], ['numero' => 'ASC']);
+        foreach ($coursDuNiveau as $c) {
+            $tousLesCours[] = $c;
+        }
+    }
+
+    // ── Récupérer TOUTES les progressions de cet user pour cette langue ──
+    $toutesProgresses = $progressRepository->findBy([
+        'user'   => $user,
+        'langue' => $langue,
+    ]);
+
+    // Indexer par niveau_id pour accès rapide dans le template
+    $progressParNiveau = [];
+    foreach ($toutesProgresses as $prog) {
+        if ($prog->getNiveauActuel()) {
+            $progressParNiveau[$prog->getNiveauActuel()->getId()] = $prog;
+        }
+    }
+
+    // Garder $progress = la progression la plus récente (pour compatibilité)
+    $progress = null;
+    if (!empty($toutesProgresses)) {
+        // Trier par date d'activité pour avoir la plus récente
+        usort($toutesProgresses, function($a, $b) {
+            $dateA = $a->getDateDerniereActivite();
+            $dateB = $b->getDateDerniereActivite();
+            if (!$dateA) return 1;
+            if (!$dateB) return -1;
+            return $dateB <=> $dateA;
+        });
+        $progress = $toutesProgresses[0];
+    }
+
+    // Si aucune progression, en créer une pour le premier niveau
+    if (!$progress) {
+        $premierNiveau = !empty($tousLesNiveaux) ? $tousLesNiveaux[0] : null;
+        if ($premierNiveau) {
+            $progress = new \App\Entity\UserProgress();
+            $progress->setUser($user);
+            $progress->setLangue($langue);
+            $progress->setNiveauActuel($premierNiveau);
+            $progress->setDernierNumeroCours(0);
+            $progress->setTestNiveauComplete(false);
+            $progress->setDateDerniereActivite(new \DateTimeImmutable());
+            $em->persist($progress);
+            $em->flush();
+            $progressParNiveau[$premierNiveau->getId()] = $progress;
+        }
+    }
+
+    // ── Test de niveau ─────────────────────────────────────────────
+    $testNiveau = $em->getRepository(\App\Entity\Test::class)
+        ->createQueryBuilder('t')
+        ->andWhere('t.langue = :langue')
+        ->andWhere('t.type = :type')
+        ->setParameter('langue', $langue)
+        ->setParameter('type', 'Test de niveau')
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getOneOrNullResult();
+
+    $dernierPassage  = null;
+    $niveauObtenu    = null;
+    $niveauUtilisateur = $progress ? $progress->getNiveauActuel() : null;
+
+    if ($niveauUtilisateur) {
+        $niveauObtenu = $niveauUtilisateur->getDifficulte();
+    }
+
+    if ($testNiveau) {
+        $dernierPassage = $testPassageRepository->findOneBy(
+            ['test' => $testNiveau, 'user' => $user, 'statut' => 'termine'],
+            ['dateFin' => 'DESC']
+        );
+
+        if ($dernierPassage && method_exists($dernierPassage, 'getResultat')) {
+            $score = $dernierPassage->getResultat();
+            if ($score !== null) {
+                $niveauObtenuTest = $this->determinerNiveau($score);
+                $niveauTest = $niveauRepository->findByLangueEtDifficulte($langue, $niveauObtenuTest);
+
+                if (!$niveauTest) {
+                    $ordreNiveaux = ['A1'=>1,'A2'=>2,'B1'=>3,'B2'=>4,'C1'=>5,'C2'=>6];
+                    $seuilsMin    = ['A1'=>0,'A2'=>50,'B1'=>60,'B2'=>70,'C1'=>80,'C2'=>90];
+                    $seuilsMax    = ['A1'=>49,'A2'=>59,'B1'=>69,'B2'=>79,'C1'=>89,'C2'=>100];
+
+                    $niveauTest = new \App\Entity\Niveau();
+                    $niveauTest->setIdLangue($langue);
+                    $niveauTest->setDifficulte($niveauObtenuTest);
+                    $niveauTest->setOrdre($ordreNiveaux[$niveauObtenuTest]);
+                    $niveauTest->setSeuilScoreMin($seuilsMin[$niveauObtenuTest]);
+                    $niveauTest->setSeuilScoreMax($seuilsMax[$niveauObtenuTest]);
+                    $niveauTest->setImageCouverture('default.jpg');
+                    $niveauTest->setTitre($langue->getNom() . ' - Niveau ' . $niveauObtenuTest);
+                    $niveauTest->setDescription('Niveau ' . $niveauObtenuTest . ' pour ' . $langue->getNom());
+                    $em->persist($niveauTest);
+                    $em->flush();
+                }
+
+                // Mettre à jour ou créer la progression pour ce niveau obtenu
+                $progressNiveauTest = $progressParNiveau[$niveauTest->getId()] ?? null;
+
+                if (!$progressNiveauTest) {
+                    $progressNiveauTest = new \App\Entity\UserProgress();
+                    $progressNiveauTest->setUser($user);
+                    $progressNiveauTest->setLangue($langue);
+                    $progressNiveauTest->setNiveauActuel($niveauTest);
+                    $progressNiveauTest->setDernierNumeroCours(0);
+                    $progressNiveauTest->setTestNiveauComplete(true);
+                    $progressNiveauTest->setDateDerniereActivite(new \DateTimeImmutable());
+                    $em->persist($progressNiveauTest);
+                    $em->flush();
+                    $progressParNiveau[$niveauTest->getId()] = $progressNiveauTest;
+                } elseif (!$progressNiveauTest->isTestNiveauComplete()) {
+                    $progressNiveauTest->setTestNiveauComplete(true);
+                    $progressNiveauTest->setDateDerniereActivite(new \DateTimeImmutable());
+                    $em->flush();
+                }
+
+                $niveauUtilisateur = $niveauTest;
+                $niveauObtenu      = $niveauTest->getDifficulte();
+            }
+        }
+    }
+
+    // ── Temps de session ───────────────────────────────────────────
+    $session         = $request->getSession();
+    $tempsTotalSession = $session->get('temps_total_' . $langue->getId(), 0);
+    $tempsTotal      = round($tempsTotalSession / 60);
+
+    // ── Stats globales (basées sur la progression la plus récente) ─
+    $coursCompletes    = $progress ? ($progress->getDernierNumeroCours() ?? 0) : 0;
+    $niveauActuel      = $progress ? $progress->getNiveauActuel() : null;
+    $totalCoursNiveau  = 0;
+    if ($niveauActuel) {
+        $totalCoursNiveau = $coursRepository->countByNiveau($niveauActuel);
+    }
+    $progression = $totalCoursNiveau > 0
+        ? ($coursCompletes / $totalCoursNiveau * 100)
+        : 0;
+
+    // ── Recommandations ────────────────────────────────────────────
+    $pointsFaibles   = [];
+    $recommandations = [];
+    if ($niveauUtilisateur) {
+        $niveauNom = $niveauUtilisateur->getDifficulte();
+        if ($niveauNom === 'A1') {
+            $pointsFaibles   = ['prononciation', 'verbes de base', 'vocabulaire quotidien'];
+            $recommandations = [
+                ['type'=>'video','titre'=>'Prononciation anglaise pour débutants','url'=>'#','icon'=>'🎥'],
+                ['type'=>'exercice','titre'=>'Quiz sur les verbes "to be" et "to have"','icon'=>'✏️'],
+                ['type'=>'article','titre'=>'Les 50 mots essentiels en anglais','icon'=>'📖'],
+            ];
+        } elseif ($niveauNom === 'A2') {
+            $pointsFaibles   = ['temps du passé', 'prépositions', 'vocabulaire des voyages'];
+            $recommandations = [
+                ['type'=>'video','titre'=>'Le prétérit simple expliqué','url'=>'#','icon'=>'🎥'],
+                ['type'=>'exercice','titre'=>'Exercices sur les prépositions','icon'=>'✏️'],
+                ['type'=>'video','titre'=>'Vocabulaire pour voyager','url'=>'#','icon'=>'🎥'],
+            ];
+        } elseif ($niveauNom === 'B1') {
+            $pointsFaibles   = ['conditionnel', 'phrases complexes', 'vocabulaire professionnel'];
+            $recommandations = [
+                ['type'=>'video','titre'=>'Le conditionnel en anglais','url'=>'#','icon'=>'🎥'],
+                ['type'=>'article','titre'=>'Comment structurer une phrase complexe','icon'=>'📖'],
+                ['type'=>'exercice','titre'=>'Vocabulaire des affaires','icon'=>'✏️'],
+            ];
+        } else {
+            $pointsFaibles   = ['expressions idiomatiques', 'nuances de sens', 'anglais formel'];
+            $recommandations = [
+                ['type'=>'video','titre'=>'10 expressions idiomatiques à connaître','url'=>'#','icon'=>'🎥'],
+                ['type'=>'article','titre'=>'Différence entre "say", "tell" et "speak"','icon'=>'📖'],
+                ['type'=>'exercice','titre'=>'Anglais formel vs informel','icon'=>'✏️'],
+            ];
+        }
+    }
+
+    // ── Tests de la langue ─────────────────────────────────────────
+    $testsLangue = $em->getRepository(\App\Entity\Test::class)
+        ->findBy(['langue' => $langue]);
+
+    return $this->render('langue/apprentissage.html.twig', [
+        'langue'             => $langue,
+        'allCours'           => $tousLesCours,
+        'lastCompletedId'    => $progress ? ($progress->getDernierNumeroCours() ?? 0) : 0,
+        'testNiveau'         => $testNiveau,
+        'dernierPassage'     => $dernierPassage,
+        'niveauUtilisateur'  => $niveauUtilisateur,
+        'niveauObtenu'       => $niveauObtenu,
+        'progress'           => $progress,
+        // ── NOUVEAU : tableau indexé par niveau_id ──────────────
+        'progressParNiveau'  => $progressParNiveau,
+        // ────────────────────────────────────────────────────────
+        'user'               => $user,
+        'testsLangue'        => $testsLangue,
+        'tempsTotal'         => $tempsTotal,
+        'coursCompletes'     => $coursCompletes,
+        'totalCoursNiveau'   => $totalCoursNiveau,
+        'progression'        => $progression,
+        'pointsFaibles'      => $pointsFaibles,
+        'recommandations'    => $recommandations,
+    ]);
+}
 
     private function determinerNiveau(float $score): string
     {

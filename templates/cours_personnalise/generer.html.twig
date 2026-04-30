@@ -3,67 +3,75 @@
 {% block title %}Générer un cours personnalisé{% endblock %}
 
 {% block body %}
-<div style="background: linear-gradient(135deg, #4f46e5 0%, #6d28d9 100%); min-height: 100vh; padding: 60px 20px; color: white; position: relative; overflow-x: hidden;">
-<br><br>
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h2 class="h4 mb-0">📝 Générer un cours personnalisé</h2>
-                    <p class="mb-0 small">Pour la leçon {{ cours.numero }} - {{ cours.idNiveau.titre }}</p>
+<div style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); min-height: 100vh; padding: 60px 20px; color: white;">
+    <div style="max-width: 700px; margin: 0 auto;">
+        <br><br><br>
+        <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+            
+            <!-- En-tête -->
+            <div style="background: linear-gradient(135deg, #4f46e5, #7c3aed); padding: 25px 30px; text-align: center;">
+                <span style="font-size: 2rem;">📝</span>
+                <h2 style="margin: 10px 0 5px; color: white; font-size: 1.5rem;">Générer un cours personnalisé</h2>
+                <p style="margin: 0; color: rgba(255,255,255,0.8); font-size: 0.85rem;">
+                    Leçon {{ cours.numero }} • {{ cours.idNiveau.titre }} • Niveau {{ cours.idNiveau.difficulte }}
+                </p>
+            </div>
+            
+            <!-- Formulaire -->
+            <div style="padding: 30px;">
+                
+                {{ form_start(form) }}
+                
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #1e293b;">🎯 Thème / Vocabulaire</label>
+                    {{ form_widget(form.vocabulaire, {'attr': {'class': 'form-control', 'style': 'width:100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px;'}}) }}
+                    <small style="color: #64748b;">Laissez vide si vous n'avez pas de thème spécifique</small>
                 </div>
                 
-                <div class="card-body">
-                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-                    
-                    <div class="mb-4">
-                        <label class="fw-bold mb-2">🎯 Vocabulaire à travailler</label>
-                        {{ form_widget(form.vocabulaire) }}
-                        <small class="text-muted">Laissez vide si vous n'avez pas de thème spécifique</small>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <label class="fw-bold mb-2">📚 Points de grammaire</label>
-                        {{ form_widget(form.grammaire) }}
-                        <small class="text-muted">Ex: Le présent simple, les prépositions...</small>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <label class="fw-bold mb-2">🔤 Nouveaux mots</label>
-                        {{ form_widget(form.nouveauxMots) }}
-                        <small class="text-muted">Un mot par ligne</small>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <label class="fw-bold mb-2">🎥 Thèmes YouTube</label>
-                        {{ form_widget(form.themesYoutube) }}
-                        <small class="text-muted">Des vidéos seront ajoutées automatiquement</small>
-                    </div>
-                    
-                    <div class="alert alert-info">
-                        <strong>🤖 L'IA va générer</strong> un cours personnalisé avec :
-                        <ul class="mb-0 mt-2">
-                            <li>Un PDF avec explications et exercices</li>
-                            <li>Des vidéos YouTube recommandées</li>
-                            <li>Du contenu adapté à votre niveau {{ cours.idNiveau.difficulte }}</li>
-                        </ul>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary btn-lg w-100">
-                        🚀 Générer mon cours
-                    </button>
-                    
-                    <div class="text-center mt-3">
-                        <a href="{{ path('app_cours_show', {id: cours.id}) }}" class="text-muted">
-                            ← Retour à la leçon
-                        </a>
-         a           </div>
-                    
-                    {{ form_end(form) }}
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #1e293b;">📚 Points de grammaire</label>
+                    {{ form_widget(form.grammaire, {'attr': {'class': 'form-control', 'style': 'width:100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px;'}}) }}
                 </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #1e293b;">🔤 Nouveaux mots</label>
+                    {{ form_widget(form.nouveauxMots, {'attr': {'class': 'form-control', 'rows': 3, 'style': 'width:100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px;'}}) }}
+                    <small style="color: #64748b;">Un mot par ligne</small>
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #1e293b;">🎥 Thèmes YouTube</label>
+                    {{ form_widget(form.themesYoutube, {'attr': {'class': 'form-control', 'style': 'width:100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px;'}}) }}
+                    <small style="color: #64748b;">Des vidéos seront ajoutées automatiquement</small>
+                </div>
+                
+                <div style="background: #fef3c7; padding: 15px; border-radius: 10px; margin-bottom: 25px;">
+                    <div style="display: flex; gap: 10px;">
+                        <span style="font-size: 1.5rem;">🤖</span>
+                        <div style="color: #92400e; font-size: 0.85rem;">
+                            <strong>L'IA va générer :</strong>
+                            <ul style="margin: 5px 0 0 15px;">
+                                <li>Un PDF avec explications et exercices</li>
+                                <li>Des vidéos YouTube recommandées</li>
+                                <li>Du contenu adapté à votre niveau</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" style="background: linear-gradient(135deg, #f97316, #ea580c); color: white; border: none; width: 100%; padding: 12px; border-radius: 10px; font-weight: bold; font-size: 1rem; cursor: pointer;">
+                    🚀 Générer mon cours
+                </button>
+                
+                <div style="text-align: center; margin-top: 15px;">
+                    <a href="{{ path('app_cours_show', {id: cours.id}) }}" style="color: #64748b; text-decoration: none;">← Retour à la leçon</a>
+                </div>
+                
+                {{ form_end(form) }}
+                
             </div>
         </div>
+        
     </div>
-</div></div>
+</div>
 {% endblock %}

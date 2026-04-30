@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Langue;
+use App\Entity\Niveau;
 use App\Entity\User;
 use App\Entity\UserProgress;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -18,6 +19,19 @@ class UserProgressRepository extends ServiceEntityRepository
         parent::__construct($registry, UserProgress::class);
     }
 
+    public function findUserProgressByNiveau(User $user, Langue $langue, Niveau $niveau): ?UserProgress
+{
+    return $this->createQueryBuilder('up')
+        ->andWhere('up.user = :user')
+        ->andWhere('up.langue = :langue')
+        ->andWhere('up.niveauActuel = :niveau')
+        ->setParameter('user', $user)
+        ->setParameter('langue', $langue)
+        ->setParameter('niveau', $niveau)
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
     public function findCompletedForGroup(User $user, int $langueId, ?int $niveauId): ?UserProgress
     {
         return $this->createQueryBuilder('up')
