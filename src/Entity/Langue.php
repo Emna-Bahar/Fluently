@@ -10,15 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\HttpFoundation\File\File;
-
 #[ORM\Entity(repositoryClass: LangueRepository::class)]
 #[UniqueEntity(
     fields: ['nom'],
     message: 'Cette langue existe déjà dans le système.'
 )]
-#[Vich\Uploadable]
 class Langue
 {
     #[ORM\Id]
@@ -39,12 +35,6 @@ class Langue
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $drapeau = null;
 
-    #[Vich\UploadableField(mapping: 'langue_drapeau', fileNameProperty: 'drapeau')]
-    private ?File $drapeauFile = null;
-
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?\DateTimeInterface $updatedAt = null;
-
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "La description est obligatoire.")]
     #[Assert\Length(
@@ -62,6 +52,9 @@ class Langue
     #[ORM\Column]
     #[Assert\NotNull(message: "Veuillez indiquer si la langue est active ou non.")]
     private bool $is_active = false;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $updatedAt = null;
 
     /**
      * @var Collection<int, User>
@@ -87,39 +80,12 @@ class Langue
     #[ORM\OneToMany(targetEntity: Test::class, mappedBy: 'langue')]
     private Collection $tests;
 
-    public function setDrapeauFile(?File $drapeauFile = null): void
-    {
-        $this->drapeauFile = $drapeauFile;
-        
-        if ($drapeauFile) {
-           $this->updatedAt = new \DateTime();
-        }
-    }
-
-    public function getDrapeauFile(): ?File
-    {
-        return $this->drapeauFile;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    protected function setUpdatedAt(?\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-        return $this;
-    }
-
     public function __construct()
     {
         $this->Id_user = new ArrayCollection();
         $this->niveaux = new ArrayCollection();
         $this->groupes = new ArrayCollection();
         $this->tests = new ArrayCollection();
-
-        // Valeurs par défaut raisonnables
         $this->date_ajout = new \DateTime();
         $this->is_active = true;
     }
@@ -137,7 +103,6 @@ class Langue
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -149,7 +114,6 @@ class Langue
     public function setDrapeau(?string $drapeau): static
     {
         $this->drapeau = $drapeau;
-
         return $this;
     }
 
@@ -161,7 +125,6 @@ class Langue
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -173,7 +136,6 @@ class Langue
     public function setPopularite(string $popularite): static
     {
         $this->popularite = $popularite;
-
         return $this;
     }
 
@@ -185,7 +147,6 @@ class Langue
     public function setDateAjout(\DateTime $date_ajout): static
     {
         $this->date_ajout = $date_ajout;
-
         return $this;
     }
 
@@ -197,7 +158,17 @@ class Langue
     public function setIsActive(bool $is_active): static
     {
         $this->is_active = $is_active;
+        return $this;
+    }
 
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
         return $this;
     }
 
@@ -214,14 +185,12 @@ class Langue
         if (!$this->Id_user->contains($idUser)) {
             $this->Id_user->add($idUser);
         }
-
         return $this;
     }
 
     public function removeIdUser(User $idUser): static
     {
         $this->Id_user->removeElement($idUser);
-
         return $this;
     }
 
@@ -239,18 +208,12 @@ class Langue
             $this->niveaux->add($niveau);
             $niveau->setIdLangue($this);
         }
-
         return $this;
     }
 
     public function removeNiveau(Niveau $niveau): static
     {
-        if ($this->niveaux->removeElement($niveau)) {
-            if ($niveau->getIdLangue() === $this) {
-                $niveau->setIdLangue(null);
-            }
-        }
-
+        $this->niveaux->removeElement($niveau);
         return $this;
     }
 
@@ -268,18 +231,12 @@ class Langue
             $this->groupes->add($groupe);
             $groupe->setIDLangue($this);
         }
-
         return $this;
     }
 
     public function removeGroupe(Groupe $groupe): static
     {
-        if ($this->groupes->removeElement($groupe)) {
-            if ($groupe->getIDLangue() === $this) {
-                $groupe->setIDLangue(null);
-            }
-        }
-
+        $this->groupes->removeElement($groupe);
         return $this;
     }
 
@@ -297,18 +254,12 @@ class Langue
             $this->tests->add($test);
             $test->setIdLangue($this);
         }
-
         return $this;
     }
 
     public function removeTest(Test $test): static
     {
-        if ($this->tests->removeElement($test)) {
-            if ($test->getIdLangue() === $this) {
-                $test->setIdLangue(null);
-            }
-        }
-
+        $this->tests->removeElement($test);
         return $this;
     }
 }

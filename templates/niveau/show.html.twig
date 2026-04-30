@@ -78,17 +78,18 @@
                             </div>
 
                             <div class="col-lg-6 text-center">
-                                {% if niveau.imageCouverture %}
-                                    <img src="{{ asset('uploads/niveaux/' ~ niveau.imageCouverture) }}" 
-                                         alt="Couverture {{ niveau.titre }}" 
-                                         class="img-fluid rounded-4 shadow-lg" 
-                                         style="max-height: 380px; object-fit: cover; border: 1px solid rgba(0,0,0,0.1);">
-                                {% else %}
-                                    <div class="bg-light rounded-4 p-5 d-flex align-items-center justify-content-center shadow" style="height: 380px;">
-                                        <p class="text-muted fs-4">Aucune image de couverture</p>
-                                    </div>
-                                {% endif %}
-                            </div>
+    {% if niveau.imageCouverture %}
+        {% set filename = niveau.imageCouverture|split('/')|last %}
+        <img src="{{ path('app_niveau_image', {filename: filename}) }}" 
+             alt="Couverture {{ niveau.titre }}" 
+             class="img-fluid rounded-4 shadow-lg" 
+             style="max-height: 380px; object-fit: cover; border: 1px solid rgba(0,0,0,0.1);">
+    {% else %}
+        <div class="bg-light rounded-4 p-5 d-flex align-items-center justify-content-center shadow" style="height: 380px;">
+            <p class="text-muted fs-4">Aucune image de couverture</p>
+        </div>
+    {% endif %}
+</div>
                         </div>
                     </div>
                 </div>

@@ -207,8 +207,8 @@
                                 {% if app.request.attributes.get('_route') != 'app_admin_langue_new' and langue.drapeau is defined and langue.drapeau %}
                                     <div class="mt-4 text-center">
                                         <p class="small text-muted mb-2">Drapeau actuel :</p>
-                                        <img src="{{ asset('uploads/langues/' ~ langue.drapeau) }}" alt="Drapeau" class="img-fluid rounded shadow-sm" style="max-height: 100px;">
-                                    </div>
+                                        <img src="{{ asset(langue.drapeau) }}" alt="Drapeau" class="img-fluid rounded shadow-sm" style="max-height: 100px;">
+                                         </div>
                                 {% endif %}
                             </div>
                             <div class="col-12 text-end mt-5 pt-4 border-top">

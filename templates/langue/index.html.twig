@@ -51,12 +51,12 @@
                                 
                                 <div style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center;">
                                     {% if langue.drapeau %}
-                                        <img src="{{ asset('uploads/langues/' ~ langue.drapeau) }}" 
-                                             alt="Drapeau {{ langue.nom }}" 
-                                             style="width: 100%; height: 100%; object-fit: cover;">
-                                    {% else %}
-                                        <span style="color: white; font-size: 6rem; opacity: 0.5;">🌍</span>
-                                    {% endif %}
+    {% set filename = langue.drapeau|split('/')|last %}
+    <img src="{{ path('app_drapeau_show', {filename: filename}) }}" 
+         alt="Drapeau {{ langue.nom }}" 
+         class="img-fluid rounded-3 shadow" 
+         style="max-height: 280px; object-fit: contain;">
+{% endif %}
                                 </div>
                                 <div style="padding: 32px; display: flex; flex-direction: column; flex-grow: 1; text-align: center;">
                                     <h3 style="font-size: 2.1rem; font-weight: 900; color: #111827; margin: 0 0 16px;">{{ langue.nom }}</h3>

@@ -79,7 +79,7 @@
                                                         <span>Vidéo YouTube</span>
                                                     {% else %}
                                                         <i class="feather-file-text text-primary me-2"></i>
-                                                        <span>{{ res }}</span>
+                                                        <span>{{ res|split('/')|last|split('\\')|last }}</span>
                                                     {% endif %}
                                                 </div>
 
@@ -88,7 +88,8 @@
                                                         <i class="feather-external-link me-1"></i> Ouvrir
                                                     </a>
                                                 {% else %}
-                                                    <a href="{{ public_path ~ '/' ~ res }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                    {% set filename = res|split('/')|last|split('\\')|last %}
+                                                    <a href="{{ path('app_cours_ressource', {filename: filename}) }}" target="_blank" class="btn btn-sm btn-outline-primary">
                                                         <i class="feather-eye me-1"></i> Voir
                                                     </a>
                                                 {% endif %}

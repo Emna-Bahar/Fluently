@@ -51,18 +51,13 @@
                         <div class="row g-5">
                             <div class="col-lg-4 text-center">
                                 {% if langue.drapeau %}
-                                    <div class="bg-light rounded-4 p-4 shadow-sm mb-4">
-                                        <img src="{{ asset('uploads/langues/' ~ langue.drapeau) }}" 
-                                             alt="Drapeau {{ langue.nom }}" 
-                                             class="img-fluid rounded-3 shadow" 
-                                             style="max-height: 280px; object-fit: contain;">
-                                    </div>
-                                {% else %}
-                                    <div class="bg-light rounded-4 p-5 text-center text-muted shadow-sm">
-                                        <i class="feather-image fs-1 mb-3 d-block"></i>
-                                        Aucun drapeau défini
-                                    </div>
-                                {% endif %}
+    {% set filename = langue.drapeau|split('/')|last %}
+    <img src="{{ path('app_drapeau_show', {filename: filename}) }}" 
+         alt="Drapeau {{ langue.nom }}" 
+         class="img-fluid rounded-3 shadow" 
+         style="max-height: 280px; object-fit: contain;">
+{% endif %}
+
 
                                 <div class="mt-4">
                                     <span class="badge fs-6 px-4 py-3 {{ langue.isActive ? 'bg-success' : 'bg-danger' }}">

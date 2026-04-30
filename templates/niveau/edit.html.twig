@@ -82,16 +82,17 @@
                                 {{ form_errors(form.imageCouvertureFile) }}
 
                                 {% if niveau.imageCouverture %}
-                                    <div class="mt-4 text-center">
-                                        <p class="small text-muted mb-2">Image actuelle :</p>
-                                        <div class="d-inline-block p-2 bg-light rounded-3 shadow-sm">
-                                            <img src="{{ asset('uploads/niveaux/' ~ niveau.imageCouverture) }}" 
-                                                 alt="Couverture actuelle" 
-                                                 class="img-fluid rounded" 
-                                                 style="max-height: 180px;">
-                                        </div>
-                                    </div>
-                                {% endif %}
+    <div class="mt-4 text-center">
+        <p class="small text-muted mb-2">Image actuelle :</p>
+        <div class="d-inline-block p-2 bg-light rounded-3 shadow-sm">
+            {% set filename = niveau.imageCouverture|split('/')|last %}
+            <img src="{{ path('app_niveau_image', {filename: filename}) }}" 
+                 alt="Couverture actuelle" 
+                 class="img-fluid rounded" 
+                 style="max-height: 180px; border: 1px solid #dee2e6;">
+        </div>
+    </div>
+{% endif %}
                             </div>
 
                             <!-- Difficulté + Ordre -->

@@ -11,12 +11,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/niveau')]
 final class NiveauController extends AbstractController
 {
+    private const UPLOADS_IMAGES_NIVEAUX = 'C:/xampp/htdocs/fluently/public/uploads/images/niveaux/';
+
     #[Route('/', name: 'app_niveau_index', methods: ['GET'])]
     public function index(Request $request, NiveauRepository $niveauRepository, LangueRepository $langueRepository): Response
     {
@@ -38,8 +41,20 @@ final class NiveauController extends AbstractController
         ]);
     }
 
+    #[Route('/image/{filename}', name: 'app_niveau_image', methods: ['GET'])]
+    public function showImage(string $filename): Response
+    {
+        $filePath = self::UPLOADS_IMAGES_NIVEAUX . $filename;
+        
+        if (!file_exists($filePath)) {
+            throw $this->createNotFoundException('Image non trouvée');
+        }
+        
+        return $this->file($filePath);
+    }
+
     #[Route('/new', name: 'app_niveau_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $em, SluggerInterface $slugger): Response
+    public function new(Request $request, EntityManagerInterface $em): Response
     {
         $niveau = new Niveau();
         $form = $this->createForm(NiveauType::class, $niveau);
@@ -47,20 +62,24 @@ final class NiveauController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('imageCouvertureFile')->getData();
-            if ($imageFile) {
-                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
-
-                try {
-                    $imageFile->move(
-                        $this->getParameter('kernel.project_dir') . '/public/uploads/niveaux',
-                        $newFilename
-                    );
-                    $niveau->setImageCouverture($newFilename);
-                } catch (FileException $e) {
-                    $this->addFlash('error', 'Erreur lors de l\'upload de l\'image : ' . $e->getMessage());
+            
+            if ($imageFile instanceof UploadedFile) {
+                // Créer le dossier s'il n'existe pas
+                if (!is_dir(self::UPLOADS_IMAGES_NIVEAUX)) {
+                    mkdir(self::UPLOADS_IMAGES_NIVEAUX, 0777, true);
                 }
+                
+                // Nettoyer le nom du fichier
+                $originalName = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $cleanName = preg_replace('/[^a-zA-Z0-9_-]/', '_', $originalName);
+                $extension = $imageFile->guessExtension();
+                $newFilename = uniqid() . '_' . $cleanName . '.' . $extension;
+                
+                // Déplacer le fichier
+                $imageFile->move(self::UPLOADS_IMAGES_NIVEAUX, $newFilename);
+                
+                // Stocker le chemin COMPLET
+                $niveau->setImageCouverture('/uploads/images/niveaux/' . $newFilename);
             }
 
             $em->persist($niveau);
@@ -77,42 +96,54 @@ final class NiveauController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_niveau_show', methods: ['GET'])]
-    public function show(Niveau $niveau): Response
-    {
-        return $this->render('niveau/show.html.twig', [
-            'niveau' => $niveau,
-        ]);
+public function show(int $id, NiveauRepository $niveauRepository): Response
+{
+    $niveau = $niveauRepository->find($id);
+    
+    if (!$niveau) {
+        throw $this->createNotFoundException('Niveau non trouvé');
     }
+    
+    return $this->render('niveau/show.html.twig', [
+        'niveau' => $niveau,
+    ]);
+}
 
     #[Route('/{id}/edit', name: 'app_niveau_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Niveau $niveau, EntityManagerInterface $em, SluggerInterface $slugger): Response
+    public function edit(Request $request, Niveau $niveau, EntityManagerInterface $em): Response
     {
+        $oldImage = $niveau->getImageCouverture();
         $form = $this->createForm(NiveauType::class, $niveau);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('imageCouvertureFile')->getData();
-            if ($imageFile) {
-                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
-
-                try {
-                    if ($niveau->getImageCouverture()) {
-                        $oldPath = $this->getParameter('kernel.project_dir') . '/public/uploads/niveaux/' . $niveau->getImageCouverture();
-                        if (file_exists($oldPath)) {
-                            unlink($oldPath);
-                        }
+            
+            if ($imageFile instanceof UploadedFile) {
+                // Supprimer l'ancienne image
+                if ($oldImage) {
+                    $oldPath = self::UPLOADS_IMAGES_NIVEAUX . basename($oldImage);
+                    if (file_exists($oldPath)) {
+                        unlink($oldPath);
                     }
-
-                    $imageFile->move(
-                        $this->getParameter('kernel.project_dir') . '/public/uploads/niveaux',
-                        $newFilename
-                    );
-                    $niveau->setImageCouverture($newFilename);
-                } catch (FileException $e) {
-                    $this->addFlash('error', 'Erreur upload image : ' . $e->getMessage());
                 }
+                
+                // Créer le dossier s'il n'existe pas
+                if (!is_dir(self::UPLOADS_IMAGES_NIVEAUX)) {
+                    mkdir(self::UPLOADS_IMAGES_NIVEAUX, 0777, true);
+                }
+                
+                // Nettoyer le nom du fichier
+                $originalName = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $cleanName = preg_replace('/[^a-zA-Z0-9_-]/', '_', $originalName);
+                $extension = $imageFile->guessExtension();
+                $newFilename = uniqid() . '_' . $cleanName . '.' . $extension;
+                
+                // Déplacer le fichier
+                $imageFile->move(self::UPLOADS_IMAGES_NIVEAUX, $newFilename);
+                
+                // Stocker le chemin COMPLET
+                $niveau->setImageCouverture('/uploads/images/niveaux/' . $newFilename);
             }
 
             $em->flush();
@@ -135,7 +166,7 @@ final class NiveauController extends AbstractController
         
         if ($this->isCsrfTokenValid('delete' . $niveau->getId(), $token)) {
             if ($niveau->getImageCouverture()) {
-                $filePath = $this->getParameter('kernel.project_dir') . '/public/uploads/niveaux/' . $niveau->getImageCouverture();
+                $filePath = self::UPLOADS_IMAGES_NIVEAUX . basename($niveau->getImageCouverture());
                 if (file_exists($filePath)) {
                     unlink($filePath);
                 }

@@ -67,14 +67,19 @@
                                     <td class="fw-medium">{{ langue.id }}</td>
                                     <td class="fw-bold">{{ langue.nom }}</td>
                                     <td class="text-center">
-                                        {% if langue.drapeau %}
-                                            <img src="{{ asset('uploads/langues/' ~ langue.drapeau) }}" 
-                                                 alt="{{ langue.nom }}" 
-                                                 class="rounded" 
-                                                 style="width: 60px; height: 40px; object-fit: cover; border: 1px solid #dee2e6;">
-                                        {% else %}
-                                            <span class="text-muted">—</span>
-                                        {% endif %}
+                                        <div class="col-lg-4 text-center">
+    
+    {% if langue.drapeau %}
+        {% set filename = langue.drapeau|split('/')|last %}
+        <img src="{{ path('app_drapeau_show', {filename: filename}) }}" 
+             alt="Drapeau {{ langue.nom }}"
+             style="max-height:40px; object-fit:contain;"
+             onerror="this.style.display='none';">
+    {% else %}
+        <span>—</span>
+    {% endif %}
+
+</div>
                                     </td>
                                     <td>{{ langue.popularite ?: '—' }}</td>
                                     <td class="text-center">

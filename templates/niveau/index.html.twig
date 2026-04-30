@@ -106,15 +106,16 @@
                                 <td class="text-center">{{ niveau.ordre }}</td>
                                 <td class="text-center">{{ niveau.difficulte }}</td>
                                 <td class="text-center">
-                                    {% if niveau.imageCouverture %}
-                                        <img src="{{ asset('uploads/niveaux/' ~ niveau.imageCouverture) }}" 
-                                             alt="Couverture {{ niveau.titre }}" 
-                                             class="rounded shadow-sm" 
-                                             style="max-width: 100px; height: auto;">
-                                    {% else %}
-                                        <span class="text-muted">—</span>
-                                    {% endif %}
-                                </td>
+    {% if niveau.imageCouverture %}
+        {% set filename = niveau.imageCouverture|split('/')|last %}
+        <img src="{{ path('app_niveau_image', {filename: filename}) }}" 
+             alt="Couverture {{ niveau.titre }}" 
+             class="rounded shadow-sm" 
+             style="max-width: 100px; height: auto;">
+    {% else %}
+        <span class="text-muted">—</span>
+    {% endif %}
+</td>
                                 <td class="text-center">
                                     <div class="btn-group btn-group-sm" role="group">
                                         <a href="{{ path('app_niveau_show', {'id': niveau.id}) }}" 

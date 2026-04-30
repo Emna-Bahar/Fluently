@@ -5,14 +5,15 @@ namespace App\Controller;
 use App\Entity\Langue;
 use App\Entity\User;
 use App\Form\LangueType;
-use App\Repository\LangueRepository;
 use App\Repository\CoursRepository;
+use App\Repository\LangueRepository;
 use App\Repository\NiveauRepository;
 use App\Repository\TestPassageRepository;
 use App\Repository\UserProgressRepository;
 use App\Service\LanguageStatsService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -42,7 +43,18 @@ final class LangueController extends AbstractController
             'sortBy'  => $sortBy,
         ]);
     }
+    #[Route('/drapeau/{filename}', name: 'app_drapeau_show', methods: ['GET'])]
+public function showDrapeau(string $filename): Response
+{
+    $uploadDir = 'C:/xampp/htdocs/fluently/public/uploads/images/langues/';
+    $filePath = $uploadDir . $filename;
     
+    if (!file_exists($filePath)) {
+        throw $this->createNotFoundException('Drapeau non trouvé');
+    }
+    
+    return $this->file($filePath);
+}
     private function getTypedUser(): ?User
     {
         $user = $this->getUser(); 
@@ -240,42 +252,102 @@ final class LangueController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/new', name: 'app_admin_langue_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $em): Response
-    {
-        $langue = new Langue();
-        $form = $this->createForm(LangueType::class, $langue, ['is_edit' => false]);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            if (!$langue->getDateAjout()) {
-                $langue->setDateAjout(new \DateTime());
-            }
-            $em->persist($langue);
-            $em->flush();
-            $this->addFlash('success', 'Langue créée avec succès !');
-            return $this->redirectToRoute('app_admin_langue_index');
-        }
-        return $this->render('langue/new.html.twig', [
-            'langue' => $langue,
-            'form'   => $form->createView(),
-        ]);
-    }
+    
 
-    #[Route('/admin/{id}/edit', name: 'app_admin_langue_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Langue $langue, EntityManagerInterface $em): Response
-    {
-        $form = $this->createForm(LangueType::class, $langue, ['is_edit' => true]);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
-            $this->addFlash('success', 'Langue modifiée avec succès.');
-            return $this->redirectToRoute('app_admin_langue_index');
+#[Route('/admin/new', name: 'app_admin_langue_new', methods: ['GET', 'POST'])]
+public function new(Request $request, EntityManagerInterface $em): Response
+{
+    $langue = new Langue();
+    $form = $this->createForm(LangueType::class, $langue, ['is_edit' => false]);
+    $form->handleRequest($request);
+    
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Récupérer le fichier uploadé
+        $drapeauFile = $form->get('drapeauFile')->getData();
+        
+        if ($drapeauFile instanceof UploadedFile) {
+            // Créer le dossier s'il n'existe pas
+            $uploadDir = 'C:/xampp/htdocs/fluently/public/uploads/images/langues/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            
+            // Générer un nom unique
+            $originalName = pathinfo($drapeauFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $extension = $drapeauFile->guessExtension();
+            $newFilename = uniqid() . '_' . $originalName . '.' . $extension;
+            
+            // Déplacer le fichier
+            $drapeauFile->move($uploadDir, $newFilename);
+            
+            // Stocker le chemin COMPLET (comme JavaFX)
+            $langue->setDrapeau('/uploads/images/langues/' . $newFilename);
         }
-        return $this->render('langue/edit.html.twig', [
-            'langue' => $langue,
-            'form'   => $form->createView(),
-        ]);
+        
+        if (!$langue->getDateAjout()) {
+            $langue->setDateAjout(new \DateTime());
+        }
+        
+        $em->persist($langue);
+        $em->flush();
+        
+        $this->addFlash('success', 'Langue créée avec succès !');
+        return $this->redirectToRoute('app_admin_langue_index');
     }
+    
+    return $this->render('langue/new.html.twig', [
+        'langue' => $langue,
+        'form'   => $form->createView(),
+    ]);
+}
+
+#[Route('/admin/{id}/edit', name: 'app_admin_langue_edit', methods: ['GET', 'POST'])]
+public function edit(Request $request, Langue $langue, EntityManagerInterface $em): Response
+{
+    $oldDrapeau = $langue->getDrapeau(); // Sauvegarder l'ancien chemin
+    $form = $this->createForm(LangueType::class, $langue, ['is_edit' => true]);
+    $form->handleRequest($request);
+    
+    if ($form->isSubmitted() && $form->isValid()) {
+        $drapeauFile = $form->get('drapeauFile')->getData();
+        
+        if ($drapeauFile instanceof UploadedFile) {
+            // Supprimer l'ancien fichier
+            if ($oldDrapeau) {
+                $oldPath = 'C:/xampp/htdocs/fluently/public' . $oldDrapeau;
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
+            }
+            
+            // Créer le dossier s'il n'existe pas
+            $uploadDir = 'C:/xampp/htdocs/fluently/public/uploads/images/langues/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            
+            // Générer un nom unique
+            $originalName = pathinfo($drapeauFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $extension = $drapeauFile->guessExtension();
+            $newFilename = uniqid() . '_' . $originalName . '.' . $extension;
+            
+            // Déplacer le fichier
+            $drapeauFile->move($uploadDir, $newFilename);
+            
+            // Stocker le chemin COMPLET
+            $langue->setDrapeau('/uploads/images/langues/' . $newFilename);
+        }
+        
+        $em->flush();
+        $this->addFlash('success', 'Langue modifiée avec succès.');
+        return $this->redirectToRoute('app_admin_langue_index');
+    }
+    
+    return $this->render('langue/edit.html.twig', [
+        'langue' => $langue,
+        'form'   => $form->createView(),
+    ]);
+}
 
     #[Route('/admin/{id}/delete', name: 'app_admin_langue_delete', methods: ['POST'])]
     public function delete(Request $request, Langue $langue, EntityManagerInterface $em): Response

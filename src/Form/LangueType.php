@@ -96,18 +96,22 @@ class LangueType extends AbstractType
                 'attr' => ['class' => 'status-radio-group'],
             ])
 
-            ->add('drapeauFile', VichImageType::class, [
-            'label' => 'Drapeau de la langue',
-            'required' => !$isEdit,
-            'allow_delete' => true,
-            'delete_label' => 'Supprimer',
-            'download_uri' => true,
-            'image_uri' => true,
-            'asset_helper' => true,
-            'attr' => [
-                'accept' => 'image/jpeg,image/png,image/webp'
-            ],
+            // Remplacer VichImageType par FileType
+->add('drapeauFile', FileType::class, [
+    'label' => 'Drapeau de la langue',
+    'required' => !$isEdit,
+    'mapped' => false,  // Important : ne pas lier à l'entité
+    'constraints' => [
+        new Assert\File([
+            'maxSize' => '2M',
+            'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
+            'mimeTypesMessage' => 'Format non supporté',
         ])
+    ],
+    'attr' => [
+        'accept' => 'image/jpeg,image/png,image/webp'
+    ],
+])
         ;
     }
 
