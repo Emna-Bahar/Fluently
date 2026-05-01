@@ -127,41 +127,29 @@ public function index(Request $request, TestRepository $testRepository, LangueRe
         WorkflowInterface $testPassageStateMachine
     ): Response {
         $user = $this->getUser();
-
         if (!$user instanceof User) {
             $this->addFlash('error', 'Vous devez être connecté.');
             return $this->redirectToRoute('app_login');
         }
 
-        $existingTermine = $testPassageRepository->findOneBy([
-            'test'   => $test,
-            'user'   => $user,
-            'statut' => 'termine'
-        ]);
-
-        if ($existingTermine) {
-            $this->addFlash('info', 'Vous avez déjà terminé ce test.');
-            return $this->redirectToRoute('app_test_student_result', ['id' => $existingTermine->getId()]);
-        }
-
+        // Chercher un passage en cours ou en pause
         $passage = $testPassageRepository->findOneBy([
             'test'   => $test,
             'user'   => $user,
             'statut' => ['en_cours', 'en_pause']
         ]);
 
+        // Vérifier expiration seulement si en_cours
         if ($passage && $passage->getStatut() === 'en_cours') {
             $dateDebut = $passage->getDateDebut();
             if ($dateDebut) {
-                $dureeMinutes = $test->getDureeEstimee() ?: 15;
-                $dureeSecondes = $dureeMinutes * 60;
-                $tempsEcoule = (new DateTime())->getTimestamp() - $dateDebut->getTimestamp();
+                $dureeSecondes = ($test->getDureeEstimee() ?: 15) * 60;
+                $tempsEcoule = (new \DateTime())->getTimestamp() - $dateDebut->getTimestamp();
 
                 if ($tempsEcoule >= $dureeSecondes) {
                     try {
                         $testPassageStateMachine->apply($passage, 'expirer');
                         $entityManager->flush();
-                        
                         $this->addFlash('warning', '⏰ Temps écoulé.');
                         return $this->redirectToRoute('app_test_student_result', ['id' => $passage->getId()]);
                     } catch (\Exception $e) {
@@ -171,10 +159,27 @@ public function index(Request $request, TestRepository $testRepository, LangueRe
             }
         }
 
+        // Récupérer les réponses sauvegardées si en_pause
+        $savedAnswers = [];
+        if ($passage) {
+            $sessionKey = 'test_answers_' . $test->getId() . '_' . $user->getId();
+            $savedAnswers = $request->getSession()->get($sessionKey, []);
+        }
+
+        // Calculer temps restant
+        $tempsRestantSecondes = null;
+        if ($passage && $passage->getStatut() === 'en_cours' && $passage->getDateDebut()) {
+            $dureeSecondes = ($test->getDureeEstimee() ?: 15) * 60;
+            $tempsEcoule = (new \DateTime())->getTimestamp() - $passage->getDateDebut()->getTimestamp();
+            $tempsRestantSecondes = max(0, $dureeSecondes - $tempsEcoule);
+        }
+
         return $this->render('test_student/show.html.twig', [
-            'test'           => $test,
-            'langue'         => $test->getLangue(),
-            'passageEnCours' => $passage,
+            'test'                 => $test,
+            'langue'               => $test->getLangue(),
+            'passageEnCours'       => $passage,
+            'savedAnswers'         => $savedAnswers,
+            'tempsRestantSecondes' => $tempsRestantSecondes,
         ]);
     }
 
@@ -186,24 +191,20 @@ public function index(Request $request, TestRepository $testRepository, LangueRe
         WorkflowInterface $testPassageStateMachine
     ): Response {
         $user = $this->getUser();
-
         if (!$user instanceof User) {
             $this->addFlash('error', 'Vous devez être connecté.');
             return $this->redirectToRoute('app_login');
         }
 
+        // Vérifier si un test est déjà EN COURS
         $existing = $em->getRepository(TestPassage::class)
-            ->findOneBy([
-                'test'   => $test,
-                'user'   => $user,
-                'statut' => 'en_cours'
-            ]);
+            ->findOneBy(['test' => $test, 'user' => $user, 'statut' => 'en_cours']);
 
         if ($existing) {
-            $this->addFlash('warning', 'Vous avez déjà un test en cours.');
             return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
         }
 
+        // Créer un nouveau passage (même si des passages terminés existent)
         $passage = new TestPassage();
         $passage->setTest($test);
         $passage->setUser($user);
@@ -215,8 +216,9 @@ public function index(Request $request, TestRepository $testRepository, LangueRe
         try {
             $testPassageStateMachine->apply($passage, 'demarrer');
             $em->flush();
-            $this->addFlash('success', 'Test démarré ! 🚀');
         } catch (\Exception $e) {
+            $em->remove($passage);
+            $em->flush();
             $this->addFlash('error', 'Impossible de démarrer : ' . $e->getMessage());
             return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
         }
@@ -224,37 +226,53 @@ public function index(Request $request, TestRepository $testRepository, LangueRe
         return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
     }
 
-    #[Route('/etudiant/{id}/pause', name: 'app_test_student_pause', methods: ['POST'])]
-    public function pauseTest(
-        Test $test,
-        Request $request,
-        EntityManagerInterface $em,
-        WorkflowInterface $testPassageStateMachine
-    ): Response {
-        $user = $this->getUser();
+#[Route('/etudiant/{id}/pause', name: 'app_test_student_pause', methods: ['POST'])]
+public function pauseTest(
+    Test $test,
+    Request $request,
+    EntityManagerInterface $em,
+    WorkflowInterface $testPassageStateMachine
+): Response {
+    $user = $this->getUser();
+    if (!$user instanceof User) {
+        return $this->redirectToRoute('app_login');
+    }
 
-        if (!$user instanceof User) {
-            return $this->redirectToRoute('app_login');
-        }
+    $passage = $em->getRepository(TestPassage::class)
+        ->findOneBy(['test' => $test, 'user' => $user, 'statut' => 'en_cours']);
 
-        $passage = $em->getRepository(TestPassage::class)
-            ->findOneBy(['test' => $test, 'user' => $user, 'statut' => 'en_cours']);
-
-        if (!$passage) {
-            $this->addFlash('error', 'Aucun test en cours à mettre en pause.');
-            return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
-        }
-
-        try {
-            $testPassageStateMachine->apply($passage, 'mettre_en_pause');
-            $em->flush();
-            $this->addFlash('info', 'Test mis en pause.');
-        } catch (\Exception $e) {
-            $this->addFlash('error', 'Impossible de mettre en pause : ' . $e->getMessage());
-        }
-
+    if (!$passage) {
+        $this->addFlash('error', 'Aucun test en cours à mettre en pause.');
         return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
     }
+
+    // ✅ Sauvegarder les réponses en session
+    $sessionKey = 'test_answers_' . $test->getId() . '_' . $user->getId();
+    $answers = [];
+    foreach ($request->request->all() as $key => $value) {
+        if (str_starts_with($key, 'question_') || str_starts_with($key, 'oral_') || str_starts_with($key, 'texte_')) {
+            $answers[$key] = $value;
+        }
+    }
+    $request->getSession()->set($sessionKey, $answers);
+
+    // ✅ Sauvegarder le temps écoulé
+    $dateDebut = $passage->getDateDebut();
+    if ($dateDebut) {
+        $tempsEcoule = (new \DateTime())->getTimestamp() - $dateDebut->getTimestamp();
+        $request->getSession()->set('temps_ecoule_' . $passage->getId(), $tempsEcoule);
+    }
+
+    try {
+        $testPassageStateMachine->apply($passage, 'mettre_en_pause');
+        $em->flush();
+        $this->addFlash('info', 'Test mis en pause. Tes réponses sont sauvegardées.');
+    } catch (\Exception $e) {
+        $this->addFlash('error', 'Impossible de mettre en pause : ' . $e->getMessage());
+    }
+
+    return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
+}
 
     #[Route('/etudiant/{id}/resume', name: 'app_test_student_resume', methods: ['POST'])]
     public function resumeTest(
@@ -340,102 +358,170 @@ public function index(Request $request, TestRepository $testRepository, LangueRe
         return $this->redirectToRoute('app_admin_test_passages');
     }
 
-    #[Route('/etudiant/{id}/submit', name: 'app_test_student_submit', methods: ['POST'])]
-    public function studentSubmit(
-        Request $request,
-        Test $test,
-        EntityManagerInterface $entityManager,
-        TestScoringService $scoringService,
-        AITextCorrectionService $aiCorrection
-    ): Response {
-        $user = $this->getUser();
+#[Route('/etudiant/{id}/submit', name: 'app_test_student_submit', methods: ['POST'])]
+public function studentSubmit(
+    Request $request,
+    Test $test,
+    EntityManagerInterface $entityManager,
+    TestScoringService $scoringService,
+    AITextCorrectionService $aiCorrection
+): Response {
+    $user = $this->getUser();
+    if (!$user instanceof User) {
+        $this->addFlash('error', 'Vous devez être connecté.');
+        return $this->redirectToRoute('app_login');
+    }
 
-        if (!$user instanceof User) {
-            $this->addFlash('error', 'Vous devez être connecté.');
-            return $this->redirectToRoute('app_login');
-        }
+    $passage = $entityManager->getRepository(TestPassage::class)
+        ->findOneBy([
+            'test'   => $test,
+            'user'   => $user,
+            'statut' => 'en_cours'
+        ]);
 
-        $passage = $entityManager->getRepository(TestPassage::class)
-            ->findOneBy([
-                'test'   => $test,
-                'user'   => $user,
-                'statut' => 'en_cours'
-            ]);
+    if (!$passage) {
+        $this->addFlash('error', 'Aucun test en cours trouvé.');
+        return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
+    }
 
-        if (!$passage) {
-            $this->addFlash('error', 'Aucun test en cours trouvé.');
-            return $this->redirectToRoute('app_test_student_show', ['id' => $test->getId()]);
-        }
+    // ✅ Calculer score séparément par type de question
+    $scoreTotal = 0;
+    $scoreMax = 0;
+    $details = [];
 
-        $scoringResult = $scoringService->calculateTestScore($test, $request);
-        $scoreTotal = $scoringResult['total_score'];
-        $scoreMax = $scoringResult['max_score'];
+    foreach ($test->getQuestions() as $question) {
+        $qScoreMax = $question->getScoreMax();
+        $scoreMax += $qScoreMax;
 
-        foreach ($test->getQuestions() as $question) {
-            if ($question->getType() === 'texte_libre') {
-                $studentText = $request->request->get('texte_' . $question->getId());
+        if ($question->getType() === 'texte_libre') {
+            $studentText = $request->request->get('texte_' . $question->getId());
+            $studentText = is_string($studentText) ? $studentText : '';
+            
+            if (strlen(trim($studentText)) >= 50) {
+                $langue = $test->getLangue();
+                $langueNom = $langue ? $langue->getNom() : 'Français';
+                
+                try {
+                    $correction = $aiCorrection->correctFreeText(
+                        $studentText,
+                        $question->getEnonce(),
+                        $langueNom,
+                        'B1'
+                    );
+                    $iaScore = $correction['score'] ?? 50;
+                    $questionScore = ($iaScore / 100.0) * $qScoreMax;
+                } catch (\Exception $e) {
+                    $questionScore = $qScoreMax * 0.5; // 50% par défaut si erreur IA
+                }
+            } else {
+                $questionScore = 0;
+            }
+            $scoreTotal += $questionScore;
 
-                if (is_string($studentText) && strlen(trim($studentText)) >= 50) {
-                    $enonce = $question->getEnonce();
-                    $langue = $test->getLangue();
-                    
-                    if ($enonce && $langue) {
-                        $langueNom = $langue->getNom();
-                        
-                        if ($langueNom) {
-                            $correction = $aiCorrection->correctFreeText(
-                                $studentText,
-                                $enonce,
-                                $langueNom,
-                                'B1'
-                            );
+        } elseif ($question->getType() === 'oral') {
+            $spokenText = $request->request->get('oral_' . $question->getId());
+            $spokenText = is_string($spokenText) ? $spokenText : '';
+            $expectedText = $question->getEnonce();
+            
+            // Calcul Levenshtein
+            $spokenNorm = mb_strtolower(trim($spokenText));
+            $expectedNorm = mb_strtolower(trim($expectedText));
+            
+            if ($spokenNorm === $expectedNorm) {
+                $similarity = 1.0;
+            } else {
+                $lev = levenshtein($spokenNorm, $expectedNorm);
+                $maxLen = max(strlen($spokenNorm), strlen($expectedNorm));
+                $similarity = $maxLen > 0 ? 1 - ($lev / $maxLen) : 1.0;
+            }
+            
+            if ($similarity >= 0.85) {
+                $questionScore = $qScoreMax;
+            } elseif ($similarity >= 0.60) {
+                $questionScore = $qScoreMax * 0.5;
+            } else {
+                $questionScore = 0;
+            }
+            $scoreTotal += $questionScore;
 
-                            $scoreMax = $question->getScoreMax() ?? 0.0;
-                            $questionScore = ($correction['score'] / 100) * $scoreMax;
-                            $scoreTotal += $questionScore;
-
-                            $this->logger->info('Correction texte libre', [
-                                'question_id' => $question->getId(),
-                                'score'       => $correction['score'],
-                                'commentaire' => $correction['commentaire']
-                            ]);
-                        }
-                    }
+        } else {
+            // QCM
+            $reponseId = $request->request->get('question_' . $question->getId());
+            $questionScore = 0;
+            
+            if ($reponseId) {
+                $reponse = $entityManager->getRepository(\App\Entity\Reponse::class)->find($reponseId);
+                if ($reponse && $reponse->isCorrect()) {
+                    $questionScore = $qScoreMax;
                 }
             }
+            $scoreTotal += $questionScore;
         }
-
-        $passage->setScore((int) round($scoreTotal));
-        $passage->setResultat(($scoreTotal / $scoreMax) * 100);
-        $passage->setDateFin(new \DateTime());
-        
-        $dateDebut = $passage->getDateDebut();
-        if ($dateDebut) {
-            $passage->setTempsPasse((new \DateTime())->getTimestamp() - $dateDebut->getTimestamp());
-        }
-        
-        $passage->setStatut('termine');
-
-        $entityManager->flush();
-
-        $resultat = $passage->getResultat() ?? 0.0;
-        $niveau = $this->determinerNiveau($resultat);
-
-        $this->addFlash('success', sprintf(
-            'Test terminé ! Score : %.1f%% → Niveau : %s',
-            $resultat,
-            $niveau
-        ));
-
-        $langue = $test->getLangue();
-        if ($langue) {
-            return $this->redirectToRoute('app_langue_apprentissage', [
-                'id' => $langue->getId()
-            ]);
-        }
-        
-        return $this->redirectToRoute('app_test_index');
     }
+
+    // ✅ Calcul sécurisé du pourcentage
+    $pourcentage = $scoreMax > 0 ? min(100, ($scoreTotal / $scoreMax) * 100) : 0;
+
+    $passage->setScore((int) round($scoreTotal));
+    $passage->setScoreMax((int) round($scoreMax));
+    $passage->setResultat($pourcentage);
+    $passage->setDateFin(new \DateTime());
+    
+    $dateDebut = $passage->getDateDebut();
+    if ($dateDebut) {
+        $passage->setTempsPasse((new \DateTime())->getTimestamp() - $dateDebut->getTimestamp());
+    }
+    
+    $passage->setStatut('termine');
+
+    // ✅ Nettoyer les réponses sauvegardées en session
+    $sessionKey = 'test_answers_' . $test->getId() . '_' . $user->getId();
+    $request->getSession()->remove($sessionKey);
+    // ✅ Sauvegarder les détails pour la page résultat
+    $detailsForSession = [];
+    foreach ($test->getQuestions() as $question) {
+        $detail = [
+            'enonce' => $question->getEnonce(),
+            'type'   => $question->getType(),
+        ];
+        
+        if ($question->getType() === 'qcm') {
+            $reponseId = $request->request->get('question_' . $question->getId());
+            $selectedReponse = $reponseId ? $entityManager->getRepository(\App\Entity\Reponse::class)->find($reponseId) : null;
+            $correctReponse = null;
+            foreach ($question->getReponses() as $rep) {
+                if ($rep->isCorrect()) { $correctReponse = $rep; break; }
+            }
+            $detail['selected'] = $selectedReponse ? $selectedReponse->getContenuRep() : 'Non répondu';
+            $detail['is_correct'] = $selectedReponse && $selectedReponse->isCorrect();
+            $detail['correct_answer'] = $correctReponse ? $correctReponse->getContenuRep() : 'N/A';
+        } elseif ($question->getType() === 'oral') {
+            $spoken = $request->request->get('oral_' . $question->getId(), '');
+            $detail['selected'] = $spoken;
+            $detail['is_correct'] = true; // On affiche juste ce qui a été dit
+            $detail['correct_answer'] = $question->getEnonce();
+        } elseif ($question->getType() === 'texte_libre') {
+            $texte = $request->request->get('texte_' . $question->getId(), '');
+            $detail['selected'] = $texte;
+            $detail['is_correct'] = strlen(trim($texte)) >= 50;
+            $detail['correct_answer'] = '(Corrigé par IA)';
+        }
+        
+        $detailsForSession[] = $detail;
+    }
+    $request->getSession()->set('test_details_' . $passage->getId(), $detailsForSession);
+    $entityManager->flush();
+
+    $niveau = $this->determinerNiveau($pourcentage);
+
+    $this->addFlash('success', sprintf(
+        'Test terminé ! Score : %.1f%% → Niveau : %s',
+        $pourcentage,
+        $niveau
+    ));
+
+    return $this->redirectToRoute('app_test_student_result', ['id' => $passage->getId()]);
+}
 
     #[Route('/etudiant/result/{id}', name: 'app_test_student_result', methods: ['GET'])]
     public function studentResults(
@@ -445,7 +531,6 @@ public function index(Request $request, TestRepository $testRepository, LangueRe
         EntityManagerInterface $entityManager
     ): Response {
         $user = $this->getUser();
-
         if (!$user instanceof User) {
             $this->addFlash('error', 'Vous devez être connecté.');
             return $this->redirectToRoute('app_login');
@@ -456,16 +541,21 @@ public function index(Request $request, TestRepository $testRepository, LangueRe
         }
 
         $test = $passage->getTest();
-
         $examAnalysis = null;
         if ($test && $examService->isExamMode($test)) {
             $examAnalysis = $examService->analyzeSuspiciousActivity($passage);
-            
             $passageId = $passage->getId();
-            if ($passageId) {
-                $examService->clearSessionEvents($passageId);
-            }
+            if ($passageId) $examService->clearSessionEvents($passageId);
         }
+
+        // ✅ Récupérer les détails depuis la session
+        $details = $request->getSession()->get('test_details_' . $passage->getId(), []);
+
+        // ✅ Historique des passages (pour ce test et cet utilisateur)
+        $historique = $entityManager->getRepository(TestPassage::class)->findBy(
+            ['test' => $test, 'user' => $user, 'statut' => 'termine'],
+            ['dateFin' => 'DESC']
+        );
 
         $langue = $test ? $test->getLangue() : null;
         $resultat = $passage->getResultat() ?? 0.0;
@@ -476,6 +566,8 @@ public function index(Request $request, TestRepository $testRepository, LangueRe
             'langue'       => $langue,
             'niveau'       => $this->determinerNiveau($resultat),
             'examAnalysis' => $examAnalysis,
+            'details'      => $details,
+            'historique'   => $historique,
         ]);
     }
 

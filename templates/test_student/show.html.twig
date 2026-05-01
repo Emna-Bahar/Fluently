@@ -477,20 +477,44 @@ function updateProgress() {
 const testForm = document.getElementById('testForm');
 if (testForm) {
     testForm.addEventListener('submit', function(e) {
-        const answeredQCM = document.querySelectorAll('input[type="radio"]:checked').length;
-        const oralInputs = document.querySelectorAll('input[id^="oral_answer_"]');
-        const validOral = Array.from(oralInputs).filter(input => input.value && input.value.trim().length > 0).length;
+        const totalQuestions = {{ test.questions|length }};
+        let unanswered = [];
+        let questionIndex = 0;
         
-        const textLibreInputs = document.querySelectorAll('textarea[id^="texte_"]');
-        const validTextLibre = Array.from(textLibreInputs).filter(textarea => {
-            const text = textarea.value.trim();
-            const wordCount = text ? text.split(/\s+/).length : 0;
-            return wordCount >= 50;
-        }).length;
+        {% for question in test.questions %}
+        questionIndex++;
+        {% if question.type == 'oral' %}
+        {
+            const oralInput = document.getElementById('oral_answer_{{ question.id }}');
+            if (!oralInput || !oralInput.value.trim()) {
+                unanswered.push('Question ' + questionIndex + ' (orale) : pas encore enregistrée');
+            }
+        }
+        {% elseif question.type == 'texte_libre' %}
+        {
+            const textarea = document.getElementById('texte_{{ question.id }}');
+            if (textarea) {
+                const text = textarea.value.trim();
+                const wordCount = text ? text.split(/\s+/).filter(w => w).length : 0;
+                if (wordCount < 50) {
+                    unanswered.push('Question ' + questionIndex + ' (texte libre) : ' + wordCount + '/50 mots minimum');
+                }
+            }
+        }
+        {% else %}
+        {
+            const selected = document.querySelector('input[name="question_{{ question.id }}"]:checked');
+            if (!selected) {
+                unanswered.push('Question ' + questionIndex + ' : aucune réponse sélectionnée');
+            }
+        }
+        {% endif %}
+        {% endfor %}
         
-        if (answeredQCM + validOral + validTextLibre < totalQuestions) {
+        if (unanswered.length > 0) {
             e.preventDefault();
-            alert('Veuillez répondre à toutes les questions (minimum 50 mots pour les questions texte libre) !');
+            alert('⚠️ Questions incomplètes :\n\n' + unanswered.join('\n') + '\n\nComplète toutes les questions avant de soumettre.');
+            return false;
         }
     });
     
@@ -521,12 +545,8 @@ function submitToResume(event) {
 }
 
 {% if passageEnCours and passageEnCours.statut == 'en_cours' %}
-const dureeMinutes = {{ test.dureeEstimee ?: 15 }};
-const dateDebut = new Date("{{ passageEnCours.dateDebut|date('Y-m-d H:i:s') }}");
-const now = new Date();
-const tempsEcoule = Math.floor((now - dateDebut) / 1000);
-const dureeSecondes = dureeMinutes * 60;
-let tempsRestant = dureeSecondes - tempsEcoule;
+// ✅ Utiliser le temps restant calculé côté serveur (plus fiable)
+let tempsRestant = {{ tempsRestantSecondes ?? ((test.dureeEstimee ?: 15) * 60) }};
 window.testAlreadySubmitted = false;
 
 const timerDisplay = document.getElementById('timerDisplay');
@@ -552,6 +572,8 @@ function updateTimer() {
         timerContainer.className = 'timer-container critical';
     } else if (tempsRestant <= 300) {
         timerContainer.className = 'timer-container warning';
+    } else {
+        timerContainer.className = 'timer-container';
     }
     
     tempsRestant--;

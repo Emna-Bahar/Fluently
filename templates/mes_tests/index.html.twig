@@ -1,0 +1,249 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Tests - Fluently{% endblock %}
+
+{% block css %}
+{{ parent() }}
+<style>
+    .mes-tests-container {
+        background: linear-gradient(135deg, #4f46e5 0%, #6d28d9 100%);
+        min-height: 100vh;
+        padding: 60px 20px;
+    }
+    .langue-section {
+        background: white;
+        border-radius: 20px;
+        margin-bottom: 30px;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    .langue-header {
+        background: linear-gradient(135deg, #4f46e5, #6d28d9);
+        color: white;
+        padding: 20px 30px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    .test-card {
+        border: 2px solid #e5e7eb;
+        border-radius: 15px;
+        padding: 20px;
+        margin: 15px;
+        transition: all 0.3s;
+        position: relative;
+    }
+    .test-card.accessible:hover {
+        border-color: #4f46e5;
+        box-shadow: 0 5px 20px rgba(79,70,229,0.15);
+        transform: translateY(-3px);
+    }
+    .test-card.bloque {
+        opacity: 0.6;
+        background: #f9fafb;
+    }
+    .type-badge {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+    .type-niveau { background: #fbbf24; color: #1e293b; }
+    .type-quiz { background: #3b82f6; color: white; }
+    .type-fin { background: #10b981; color: white; }
+    .score-bar {
+        height: 8px;
+        background: #e5e7eb;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-top: 5px;
+    }
+    .score-fill {
+        height: 100%;
+        border-radius: 4px;
+    }
+    .stats-mini {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+    }
+    .stat-mini {
+        background: #f8f9fa;
+        padding: 8px 15px;
+        border-radius: 10px;
+        font-size: 0.85rem;
+    }
+    .cadenas {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 1.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="mes-tests-container">
+    <br><br><br>
+    <div style="max-width: 1000px; margin: 0 auto;">
+
+        <div style="text-align: center; margin-bottom: 40px; color: white;">
+            <h1 style="font-size: 2.8rem; font-weight: 900;">📚 Mes Tests</h1>
+            <p style="font-size: 1.2rem; opacity: 0.9;">Suis ta progression et repasse tes tests</p>
+        </div>
+
+        {% if testsParLangue is empty %}
+            <div class="langue-section">
+                <div style="text-align: center; padding: 60px 20px; color: #64748b;">
+                    <div style="font-size: 5rem; margin-bottom: 20px;">📝</div>
+                    <h3>Aucun test disponible</h3>
+                    <p>Commence par choisir une langue !</p>
+                    <a href="{{ path('app_langue_index') }}" class="btn btn-primary btn-lg mt-3">Explorer les langues</a>
+                </div>
+            </div>
+        {% else %}
+            {% for langueData in testsParLangue %}
+                <div class="langue-section">
+                    <div class="langue-header">
+                        <span style="font-size: 2rem;">🌍</span>
+                        <div>
+                            <h3 style="margin: 0; font-weight: 800;">{{ langueData.langue.nom }}</h3>
+                            <small style="opacity: 0.85;">
+                                {% if langueData.niveauActuel %}
+                                    Ton niveau : <strong>{{ langueData.niveauActuel.difficulte }}</strong>
+                                {% else %}
+                                    Aucun niveau encore — passe le test de niveau !
+                                {% endif %}
+                            </small>
+                        </div>
+                        <div style="margin-left: auto;">
+                            <a href="{{ path('app_langue_apprentissage', {id: langueData.langue.id}) }}"
+                               class="btn btn-light btn-sm">📖 Parcours</a>
+                        </div>
+                    </div>
+
+                    <div style="padding: 10px;">
+                        {% for testInfo in langueData.tests %}
+                            <div class="test-card {{ testInfo.accessible ? 'accessible' : 'bloque' }}">
+                                {% if not testInfo.accessible %}
+                                    <div class="cadenas">🔒</div>
+                                {% endif %}
+
+                                <div class="d-flex align-items-start justify-content-between flex-wrap gap-2">
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                                            <span class="type-badge
+                                                {% if testInfo.test.type == 'Test de niveau' %}type-niveau
+                                                {% elseif testInfo.test.type == 'quiz_debutant' %}type-quiz
+                                                {% else %}type-fin{% endif %}">
+                                                {% if testInfo.test.type == 'Test de niveau' %}🎯 Test de niveau
+                                                {% elseif testInfo.test.type == 'quiz_debutant' %}📚 Quiz
+                                                {% else %}🏆 Fin de niveau{% endif %}
+                                            </span>
+                                            {% if testInfo.test.niveau %}
+                                                <span class="badge bg-secondary">{{ testInfo.test.niveau.difficulte }}</span>
+                                            {% endif %}
+                                            {% if testInfo.niveauObtenu %}
+                                                <span class="badge bg-warning text-dark">Niveau obtenu : {{ testInfo.niveauObtenu }}</span>
+                                            {% endif %}
+                                        </div>
+
+                                        <h5 style="margin: 0; font-weight: 700; color: #1e293b;">
+                                            {{ testInfo.test.titre }}
+                                        </h5>
+
+                                        {% if not testInfo.accessible and testInfo.raisonBlocage %}
+                                            <p style="color: #ef4444; font-size: 0.85rem; margin-top: 5px;">
+                                                🔒 {{ testInfo.raisonBlocage }}
+                                            </p>
+                                        {% endif %}
+
+                                        <div class="stats-mini">
+                                            <div class="stat-mini">❓ {{ testInfo.test.questions|length }} questions</div>
+                                            <div class="stat-mini">⏱️ {{ testInfo.test.dureeEstimee ?: '15' }} min</div>
+                                            {% if testInfo.nbrPassages > 0 %}
+                                                <div class="stat-mini">📊 {{ testInfo.nbrPassages }} passage(s)</div>
+                                                <div class="stat-mini">
+                                                    🏅 Meilleur :
+                                                    <strong class="{{ testInfo.meilleurScore >= 70 ? 'text-success' : (testInfo.meilleurScore >= 50 ? 'text-warning' : 'text-danger') }}">
+                                                        {{ testInfo.meilleurScore }}%
+                                                    </strong>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+
+                                        {% if testInfo.nbrPassages > 0 %}
+                                            <div class="score-bar mt-2" style="max-width: 300px;">
+                                                <div class="score-fill"
+                                                     style="width: {{ testInfo.meilleurScore }}%; background: {{ testInfo.meilleurScore >= 70 ? '#10b981' : (testInfo.meilleurScore >= 50 ? '#f59e0b' : '#ef4444') }};">
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="d-flex flex-column gap-2" style="min-width: 130px;">
+                                        {% if testInfo.accessible %}
+                                            {% if testInfo.nbrPassages > 0 %}
+                                                <form method="post" action="{{ path('app_test_student_start', {id: testInfo.test.id}) }}">
+                                                    <button type="submit" class="btn btn-sm btn-outline-primary w-100">🔄 Repasser</button>
+                                                </form>
+                                                <a href="{{ path('app_test_student_result', {id: testInfo.dernierPassage.id}) }}"
+                                                   class="btn btn-sm btn-outline-secondary">📊 Dernier résultat</a>
+                                            {% else %}
+                                                <form method="post" action="{{ path('app_test_student_start', {id: testInfo.test.id}) }}">
+                                                    <button type="submit" class="btn btn-sm btn-primary w-100">▶️ Commencer</button>
+                                                </form>
+                                            {% endif %}
+                                        {% else %}
+                                            <button class="btn btn-sm btn-secondary w-100" disabled>🔒 Bloqué</button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                {% if testInfo.passages|length > 0 %}
+                                    <div style="margin-top: 15px; border-top: 1px solid #e5e7eb; padding-top: 12px;">
+                                        <button class="btn btn-sm btn-outline-secondary mb-2"
+                                                type="button"
+                                                onclick="this.nextElementSibling.classList.toggle('d-none')">
+                                            📋 Historique ({{ testInfo.passages|length }})
+                                        </button>
+                                        <div class="d-none">
+                                            <table class="table table-sm" style="font-size: 0.85rem;">
+                                                <thead>
+                                                    <tr><th>#</th><th>Date</th><th>Score</th><th>Résultat</th><th>Temps</th><th></th></tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for i, p in testInfo.passages %}
+                                                        <tr>
+                                                            <td>{{ i + 1 }}</td>
+                                                            <td>{{ p.dateFin ? p.dateFin|date('d/m/Y H:i') : '-' }}</td>
+                                                            <td>{{ p.score }}/{{ p.scoreMax }}</td>
+                                                            <td>
+                                                                <span class="badge {{ p.resultat >= 70 ? 'bg-success' : (p.resultat >= 50 ? 'bg-warning' : 'bg-danger') }}">
+                                                                    {{ p.resultat|number_format(1) }}%
+                                                                </span>
+                                                            </td>
+                                                            <td>{{ p.tempsPasse ? (p.tempsPasse / 60)|number_format(0) ~ ' min' : '-' }}</td>
+                                                            <td>
+                                                                <a href="{{ path('app_test_student_result', {id: p.id}) }}"
+                                                                   class="btn btn-xs btn-outline-info"
+                                                                   style="font-size: 0.7rem; padding: 2px 8px;">Voir</a>
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

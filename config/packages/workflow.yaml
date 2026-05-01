@@ -18,6 +18,10 @@ framework:
                 - en_correction
                 - termine
                 - expire
+                - annule
+                - duel_gagne
+                - duel_perdu
+                - duel_egalite
             transitions:
                 demarrer:
                     from: non_commence
@@ -41,3 +45,6 @@ framework:
                 expirer:
                     from: [en_cours, en_pause]
                     to: expire
+                annuler:
+                    from: [non_commence, en_cours, en_pause]
+                    to: annule

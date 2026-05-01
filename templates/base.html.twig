@@ -92,6 +92,9 @@
         <a href="{{ path('app_session_index') }}" class="nav-link">Sessions</a>
     </li>
 {% else %}
+    <li class="nav-item {{ app.request.get('_route') == 'app_mes_tests' ? 'active' : '' }}">
+        <a href="{{ path('app_mes_tests') }}" class="nav-link">Mes Tests</a>
+    </li>
     <li class="nav-item {{ app.request.get('_route') == 'app_groupe' ? 'active' : '' }}">
         <a href="{{ path('app_groupe') }}" class="nav-link">Groupes</a>
     </li>

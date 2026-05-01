@@ -177,9 +177,85 @@
             </div>
         {% endif %}
         
+        {# ✅ DÉTAILS DES RÉPONSES #}
+{% if details|length > 0 %}
+<div class="details-section">
+    <h3 class="mb-4 text-center">📋 Détail de tes réponses</h3>
+    {% for i, detail in details %}
+        <div class="question-result {{ detail.is_correct ? 'correct' : 'incorrect' }}">
+            <div class="d-flex align-items-center mb-2">
+                <span style="font-size: 1.3rem; margin-right: 10px;">
+                    {{ detail.is_correct ? '✅' : '❌' }}
+                </span>
+                <strong>Question {{ i + 1 }} 
+                    <span class="badge bg-secondary ms-1">{{ detail.type }}</span>
+                </strong>
+            </div>
+            <p class="mb-1"><em>{{ detail.enonce }}</em></p>
+            <p class="mb-1">
+                <strong>Ta réponse :</strong> 
+                <span class="{{ detail.is_correct ? 'text-success' : 'text-danger' }}">
+                    {{ detail.selected|default('Non répondu') }}
+                </span>
+            </p>
+            {% if not detail.is_correct and detail.correct_answer is defined %}
+                <p class="mb-0">
+                    <strong>Bonne réponse :</strong> 
+                    <span class="text-success">{{ detail.correct_answer }}</span>
+                </p>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
 
+{# ✅ HISTORIQUE DES PASSAGES #}
+{% if historique|length > 1 %}
+<div class="details-section" style="border-top: 3px solid #e5e7eb;">
+    <h3 class="mb-4 text-center">📊 Historique de tes passages</h3>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Score</th>
+                    <th>Résultat</th>
+                    <th>Temps</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hist in historique %}
+                    <tr {% if hist.id == passage.id %}class="table-primary fw-bold"{% endif %}>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ hist.dateFin ? hist.dateFin|date('d/m/Y H:i') : '-' }}</td>
+                        <td>{{ hist.score }} / {{ hist.scoreMax }}</td>
+                        <td>
+                            <span class="badge {{ hist.resultat >= 70 ? 'bg-success' : (hist.resultat >= 50 ? 'bg-warning' : 'bg-danger') }}">
+                                {{ hist.resultat|number_format(1) }}%
+                            </span>
+                        </td>
+                        <td>{{ hist.tempsPasse ? (hist.tempsPasse / 60)|number_format(0) ~ ' min' : '-' }}</td>
+                        <td>
+                            {% if hist.id == passage.id %}
+                                <span class="badge bg-info">Actuel</span>
+                            {% else %}
+                                <a href="{{ path('app_test_student_result', {id: hist.id}) }}" class="btn btn-sm btn-outline-primary">Voir</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
         <div class="action-buttons">
-            <a href="{{ path('app_langue_apprentissage', {id: passage.test.langue.id}) }}" class="btn btn-primary btn-lg">Retour au parcours</a>
+            <a href="{{ path('app_test_student_show', {id: passage.test.id}) }}" class="btn btn-warning btn-lg">🔄 Repasser ce test</a>
+            {% if langue %}
+                <a href="{{ path('app_langue_apprentissage', {id: langue.id}) }}" class="btn btn-primary btn-lg ms-2">Retour au parcours</a>
+            {% endif %}
             <a href="{{ path('app_langue_index') }}" class="btn btn-outline-secondary btn-lg ms-2">Autres langues</a>
         </div>
     </div>
