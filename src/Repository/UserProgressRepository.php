@@ -40,6 +40,7 @@ class UserProgressRepository extends ServiceEntityRepository
             ->andWhere('up.testNiveauComplete = true')
             ->setParameter('user', $user)
             ->setParameter('langueId', $langueId)
+            ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
     }
