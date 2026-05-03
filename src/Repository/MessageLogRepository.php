@@ -24,7 +24,7 @@ class MessageLogRepository extends ServiceEntityRepository
     public function findByGroupe(int $groupeId, int $limit = 50): array
     {
         return $this->createQueryBuilder('l')
-            ->andWhere('l.groupeId = :gid')
+            ->andWhere('l.groupe = :gid')
             ->setParameter('gid', $groupeId)
             ->orderBy('l.createdAt', 'DESC')
             ->setMaxResults($limit)

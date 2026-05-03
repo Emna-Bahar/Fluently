@@ -210,6 +210,9 @@ final class GroupeController extends AbstractController
         $log->setUser($u);
         $log->setUserName($u ? trim($u->getNom() . ' ' . $u->getPrenom()) : 'Inconnu');
         $log->setOriginalContent($message->getContenu());
+        $log->setCreatedBy($currentUser);
+        $log->setUpdatedBy($currentUser);
+        $log->setUpdatedAt(new \DateTimeImmutable());
         $em->persist($log);
         // --------------------
 
@@ -262,6 +265,9 @@ final class GroupeController extends AbstractController
             $log->setUserName($editUser ? trim($editUser->getNom() . ' ' . $editUser->getPrenom()) : 'Inconnu');
             $log->setOriginalContent($message->getContenu());
             $log->setNewContent($contenu);
+            $log->setCreatedBy($editCurrentUser);
+            $log->setUpdatedBy($editCurrentUser);
+            $log->setUpdatedAt(new \DateTimeImmutable());
             $em->persist($log);
             // ----------------
 
@@ -524,6 +530,7 @@ final class GroupeController extends AbstractController
         $groupId = (int) $idGroupe->getId();
 
         // --- Log admin deletion ---
+        $admin=$this->getUser();
         $log = new MessageLog();
         $log->setAction('deleted');
         $log->setMessageId($message->getId());
@@ -532,6 +539,9 @@ final class GroupeController extends AbstractController
         $log->setUser($adminDelUser);
         $log->setUserName($adminDelUser ? trim($adminDelUser->getNom() . ' ' . $adminDelUser->getPrenom()) : 'Inconnu');
         $log->setOriginalContent($message->getContenu());
+        $log->setCreatedBy($admin);
+        $log->setUpdatedBy($admin);
+        $log->setUpdatedAt(new \DateTimeImmutable());
         $em->persist($log);
         // -------------------------
 
