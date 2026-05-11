@@ -210,6 +210,7 @@ final class GroupeController extends AbstractController
         $log->setUser($u);
         $log->setUserName($u ? trim($u->getNom() . ' ' . $u->getPrenom()) : 'Inconnu');
         $log->setOriginalContent($message->getContenu());
+        $log->setCreatedBy($currentUser);
         $em->persist($log);
         // --------------------
 
@@ -262,6 +263,7 @@ final class GroupeController extends AbstractController
             $log->setUserName($editUser ? trim($editUser->getNom() . ' ' . $editUser->getPrenom()) : 'Inconnu');
             $log->setOriginalContent($message->getContenu());
             $log->setNewContent($contenu);
+            $log->setCreatedBy($editCurrentUser);
             $em->persist($log);
             // ----------------
 
@@ -292,12 +294,7 @@ final class GroupeController extends AbstractController
         if ($expected !== null) {
             $detected = $this->detectLanguage($http, $contenu);
 
-            if ($detected === null) {
-                $this->addFlash('error', "Language check unavailable. Try again.");
-                return $this->redirectToRoute('app_groupe_details', ['id' => $groupe->getId()]);
-            }
-
-            if ($detected !== $expected) {
+            if ($detected !== null && $detected !== $expected) {
                 $this->addFlash('error', "Message blocked: group language is {$expected}, detected {$detected}.");
                 return $this->redirectToRoute('app_groupe_details', ['id' => $groupe->getId()]);
             }
@@ -524,6 +521,8 @@ final class GroupeController extends AbstractController
         $groupId = (int) $idGroupe->getId();
 
         // --- Log admin deletion ---
+        /** @var \App\Entity\User $admin */
+        $admin = $this->getUser();
         $log = new MessageLog();
         $log->setAction('deleted');
         $log->setMessageId($message->getId());
@@ -532,6 +531,7 @@ final class GroupeController extends AbstractController
         $log->setUser($adminDelUser);
         $log->setUserName($adminDelUser ? trim($adminDelUser->getNom() . ' ' . $adminDelUser->getPrenom()) : 'Inconnu');
         $log->setOriginalContent($message->getContenu());
+        $log->setCreatedBy($admin);
         $em->persist($log);
         // -------------------------
 
