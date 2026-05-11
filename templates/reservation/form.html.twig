@@ -1,59 +1,201 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-    {% if edit %}Modifier{% else %}Nouvelle{% endif %} Réservation
-{% endblock %}
+{% block title %}{% if edit %}Modifier{% else %}Nouvelle{% endif %} Réservation{% endblock %}
 
 {% block body %}
-    <div class="container mt-5 pt-5">
-        {% if successMessage is defined and successMessage %}
-            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                {{ successMessage }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<style>
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes shimmer { 0% { left: -100%; } 100% { left: 200%; } }
+
+body {
+    background: linear-gradient(135deg,#7b1fa2 0%,#4a148c 30%,#1565c0 70%,#0d47a1 100%) !important;
+    min-height: 100vh;
+}
+#ftco-navbar {
+    background: rgba(74,20,140,0.92) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.page-hero {
+    padding: 100px 0 20px;
+    text-align: center;
+    animation: fadeInDown 0.7s ease;
+}
+.page-hero h1 {
+    margin-bottom: 10px;
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg,#fff 0%,#f8bbd0 50%,#ce93d8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.page-hero p {
+    color: rgba(255,255,255,0.72);
+    font-size: 1rem;
+}
+
+.form-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 24px;
+    backdrop-filter: blur(16px);
+    padding: 36px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+    animation: fadeInUp 0.7s ease;
+}
+
+.field-group { margin-bottom: 20px; }
+
+.form-card .form-control,
+.form-card .form-select {
+    width: 100%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 14px;
+    color: #fff;
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    box-shadow: none;
+}
+
+.form-card .form-control:focus,
+.form-card .form-select:focus {
+    background: rgba(255,255,255,0.13);
+    border-color: rgba(255,255,255,0.35);
+    box-shadow: 0 0 0 3px rgba(123,31,162,0.18);
+}
+
+.form-card .form-label {
+    color: rgba(255,255,255,0.8);
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-card .form-text,
+.form-card .invalid-feedback {
+    color: rgba(255,255,255,0.65);
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: none;
+    background: linear-gradient(135deg,#7b1fa2,#1565c0);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 28px rgba(123,31,162,0.3);
+}
+
+.btn-submit::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg,transparent,rgba(255,255,255,0.12),transparent);
+    animation: shimmer 2.5s infinite;
+}
+
+.btn-cancel {
+    width: 100%;
+    padding: 13px 18px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.75);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-cancel:hover {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    text-decoration: none;
+}
+</style>
+
+<div class="page-hero">
+<br><br><br><br><br><br>
+    <h1><i class="fa fa-bookmark me-2"></i>{% if edit %}Modifier{% else %}Nouvelle{% endif %} réservation</h1>
+    <p>Remplissez ce formulaire pour envoyer une demande dans le même style que les autres pages.</p>
+</div>
+
+<div class="container pb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="form-card">
+                {% if successMessage is defined and successMessage %}
+                    <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                        {{ successMessage }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
+
+                {{ form_start(form, {'attr': {'id': 'reservation-form', 'novalidate': 'novalidate'}}) }}
+
+                {% if form_errors(form) %}
+                    <div class="alert alert-danger">
+                        {{ form_errors(form) }}
+                    </div>
+                {% endif %}
+
+                <div class="field-group">
+                    {{ form_row(form.dateReservation) }}
+                </div>
+
+                {% if is_student_view %}
+                    <div class="field-group">
+                        <label class="form-label">Statut</label>
+                        <input type="text" class="form-control" value="En attente (demande envoyée)" readonly>
+                    </div>
+                {% else %}
+                    <div class="field-group">
+                        {{ form_row(form.statut) }}
+                    </div>
+                {% endif %}
+
+                <div class="field-group">
+                    {{ form_row(form.session) }}
+                </div>
+
+                <div class="field-group">
+                    {{ form_row(form.user) }}
+                </div>
+
+                <div class="d-grid gap-3 mt-4">
+                    <button type="submit" class="btn-submit">
+                        <i class="fa fa-save me-2"></i>
+                        {% if edit %}Enregistrer les modifications{% else %}Envoyer la demande{% endif %}
+                    </button>
+                    <a href="{{ path('app_session_index') }}" class="btn-cancel">
+                        <i class="fa fa-arrow-left me-2"></i>Retour à la liste des sessions
+                    </a>
+                </div>
+
+                {{ form_end(form) }}
             </div>
-        {% endif %}
-
-        <h1 class="text-center fw-bold text-primary mb-5">
-            <i class="fa fa-{% if edit %}edit{% else %}plus-circle{% endif %} me-2"></i>
-            {% if edit %}Modifier la réservation{% else %}Créer une nouvelle réservation{% endif %}
-        </h1>
-
-        {{ form_start(form) }}
-
-        {# Affichage des erreurs globales #}
-        {% if form_errors(form) %}
-            <div class="alert alert-danger">
-                {{ form_errors(form) }}
-            </div>
-        {% endif %}
-
-        {# Date #}
-        {{ form_row(form.dateReservation) }}
-
-        {# Statut : différent selon le rôle #}
-        {% if is_student_view %}
-            <div class="mb-3">
-                <label class="form-label">Statut</label>
-                <input type="text" class="form-control" value="En attente (demande envoyée)" readonly>
-            </div>
-        {% else %}
-            {{ form_row(form.statut) }}
-        {% endif %}
-
-        {# Session et Utilisateur #}
-        {{ form_row(form.session) }}
-        {{ form_row(form.user) }}
-
-        <div class="mt-4 text-center">
-            <button type="submit" class="btn btn-primary btn-lg px-5">
-                <i class="fa fa-save me-2"></i> 
-                {% if edit %}Enregistrer les modifications{% else %}Envoyer la demande{% endif %}
-            </button>
-            <a href="{{ path('app_session_index') }}" class="btn btn-secondary btn-lg px-5 ms-3">
-                <i class="fa fa-arrow-left me-2"></i> Retour à la liste des sessions
-            </a>
         </div>
-
-        {{ form_end(form) }}
     </div>
+</div>
 {% endblock %}

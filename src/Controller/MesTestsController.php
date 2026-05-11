@@ -1,6 +1,8 @@
 <?php
 
+
 namespace App\Controller;
+
 
 use App\Entity\User;
 use App\Entity\Test;
@@ -13,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+
 
 #[Route('/mes-tests')]
 final class MesTestsController extends AbstractController
@@ -30,30 +33,37 @@ final class MesTestsController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
+
         $langues = $langueRepository->findBy(['is_active' => true], ['nom' => 'ASC']);
+
 
         $testsParLangue = [];
 
+
         foreach ($langues as $langue) {
             // Trouver le niveau actuel de l'utilisateur pour cette langue
-            $progress = $progressRepository->findOneBy([
-                'user'   => $user,
-                'langue' => $langue,
-            ]);
+            // Remplace findOneBy par une requête qui prend la ligne la plus récente
+            $progress = $progressRepository->findMostRecentByUserAndLangue($user, $langue);
+
 
             $niveauActuel = $progress ? $progress->getNiveauActuel() : null;
+
 
             // Tous les tests de cette langue
             $tousTests = $em->getRepository(Test::class)->findBy(['langue' => $langue]);
 
+
             if (empty($tousTests)) continue;
 
+
             $testsAvecInfo = [];
+
 
             foreach ($tousTests as $test) {
                 // Déterminer si le test est accessible
                 $accessible = false;
                 $raisonBlocage = null;
+
 
                 if ($test->getType() === 'Test de niveau') {
                     // Toujours accessible
@@ -71,7 +81,7 @@ final class MesTestsController extends AbstractController
                         // Extraire les codes CECRL pour comparaison
                         $codeActuel = $this->extraireCodeCECRL($niveauActuel->getDifficulte());
                         $codeTest = $this->extraireCodeCECRL($niveauDuTest->getDifficulte());
-                        
+                       
                         if ($codeActuel !== null && $codeTest !== null && $codeActuel === $codeTest) {
                             $accessible = true;
                         } else {
@@ -81,11 +91,13 @@ final class MesTestsController extends AbstractController
                     }
                 }
 
+
                 // Historique des passages terminés
                 $passages = $testPassageRepository->findBy(
                     ['test' => $test, 'user' => $user, 'statut' => 'termine'],
                     ['dateFin' => 'DESC']
                 );
+
 
                 $dernierPassage = !empty($passages) ? $passages[0] : null;
                 $meilleurScore = 0;
@@ -93,10 +105,12 @@ final class MesTestsController extends AbstractController
                     $meilleurScore = max($meilleurScore, $p->getResultat() ?? 0);
                 }
 
+
                 $niveauObtenu = null;
                 if ($test->getType() === 'Test de niveau' && $dernierPassage) {
                     $niveauObtenu = $this->scoreToNiveau($dernierPassage->getResultat() ?? 0);
                 }
+
 
                 $testsAvecInfo[] = [
                     'test'           => $test,
@@ -110,6 +124,7 @@ final class MesTestsController extends AbstractController
                 ];
             }
 
+
             if (!empty($testsAvecInfo)) {
                 $testsParLangue[] = [
                     'langue'       => $langue,
@@ -119,14 +134,16 @@ final class MesTestsController extends AbstractController
             }
         }
 
+
         return $this->render('mes_tests/index.html.twig', [
             'testsParLangue' => $testsParLangue,
         ]);
     }
 
+
     /**
      * Extrait le code CECRL (A1, A2, B1, B2, C1, C2) d'une chaîne de difficulté
-     * 
+     *
      * Exemples:
      * - "B2 - Intermédiaire supérieur" → "B2"
      * - "A1 - Débutant" → "A1"
@@ -139,29 +156,30 @@ final class MesTestsController extends AbstractController
         if ($difficulte === null) {
             return null;
         }
-        
+       
         // Liste des codes CECRL
         $codes = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
-        
+       
         // Version insensible à la casse
         $difficulteUpper = strtoupper($difficulte);
-        
+       
         foreach ($codes as $code) {
             // Chercher le code dans la chaîne (mot entier)
             if (preg_match('/\b' . $code . '\b/', $difficulteUpper)) {
                 return $code;
             }
         }
-        
+       
         // Fallback: chercher simplement la présence du code
         foreach ($codes as $code) {
             if (strpos($difficulteUpper, $code) !== false) {
                 return $code;
             }
         }
-        
+       
         return null;
     }
+
 
     private function scoreToNiveau(float $score): string
     {

@@ -19,14 +19,27 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/session')]
 class SessionController extends AbstractController
 {
+    /**
+     * ✅ Récupère l'User réel depuis la BDD via l'email (getUserIdentifier).
+     * Robuste contre les proxies Doctrine et les objets désérialisés depuis la session PHP.
+     */
     private function getCurrentUser(EntityManagerInterface $em): ?User
     {
-        $user = $this->getUser();
-        if ($user instanceof User) {
-            return $user;
+        $userInterface = $this->getUser();
+
+        if ($userInterface === null) {
+            return $em->getRepository(User::class)->find(1); // fallback dev
         }
-        return $em->getRepository(User::class)->find(1);
+
+        /** @var User|null */
+        return $em->getRepository(User::class)->findOneBy([
+            'email' => $userInterface->getUserIdentifier(),
+        ]);
     }
+
+    // =========================================================================
+    // ESPACE ÉTUDIANT — liste publique des sessions
+    // =========================================================================
 
     #[Route('/', name: 'app_session_index', methods: ['GET'])]
     public function index(
@@ -37,22 +50,17 @@ class SessionController extends AbstractController
         EntityManagerInterface $em,
         PaginatorInterface $paginator
     ): Response {
-
         $filters = [
             'statut' => $request->query->get('statut'),
             'groupe' => $request->query->get('groupe'),
             'search' => $request->query->get('search'),
         ];
 
-        // ✅ PHPStan fix #1 ligne 49 : strtoupper() attend string, get() retourne bool|float|int|string|null
         $sortBy = (string) $request->query->get('sortBy', 'dateHeure');
         $order  = strtoupper((string) $request->query->get('order', 'DESC')) === 'ASC' ? 'ASC' : 'DESC';
 
-        // ✅ PHPStan fix #2 ligne 52 : getFilteredQuery() attend string pour $sortBy
-        $query = $sessionRepository->getFilteredQuery($filters, $sortBy, $order);
-
-        $pagination = $paginator->paginate(
-            $query,
+        $pagination     = $paginator->paginate(
+            $sessionRepository->getFilteredQuery($filters, $sortBy, $order),
             $request->query->getInt('page', 1),
             6
         );
@@ -66,6 +74,76 @@ class SessionController extends AbstractController
             'myReservations' => $myReservations,
         ]);
     }
+
+    // =========================================================================
+    // CRÉATION SESSION — route étudiant (formulaire public)
+    // ✅ FIX : on force TOUJOURS session->setUser($currentUser)
+    //          Le champ 'user' est retiré du formulaire (show_user_field=false)
+    //          pour empêcher qu'un étudiant se désigne comme enseignant.
+    // =========================================================================
+
+    #[Route('/new', name: 'app_session_new', methods: ['GET', 'POST'])]
+    public function new(
+        Request $request,
+        EntityManagerInterface $em
+    ): Response {
+        $user = $this->getCurrentUser($em);
+        if (!$user) {
+            $this->addFlash('warning', 'Veuillez vous connecter.');
+            return $this->redirectToRoute('app_login');
+        }
+
+        $session = new Session();
+        $session->setUser($user); // ✅ forcé avant handleRequest
+
+        // show_user_field: false → le champ enseignant n'apparaît PAS dans le form
+        $form = $this->createForm(SessionType::class, $session, [
+            'show_user_field' => false,
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            // ✅ On reforce l'user après handleRequest (sécurité supplémentaire)
+            $session->setUser($user);
+
+            if ($form->isValid()) {
+                $now = new \DateTime();
+                if ($session->getDateHeure() && $session->getDateHeure() <= $now) {
+                    if ($request->isXmlHttpRequest()) {
+                        return $this->json(['success' => false, 'errors' => ['La date choisie doit être dans le futur.']]);
+                    }
+                    $this->addFlash('danger', 'La date choisie doit être dans le futur.');
+                    return $this->render('session/new.html.twig', ['form' => $form->createView()]);
+                }
+
+                $em->persist($session);
+                $em->flush();
+
+                if ($request->isXmlHttpRequest()) {
+                    return $this->json(['success' => true, 'message' => 'Session créée avec succès !']);
+                }
+
+                $this->addFlash('success', 'Session créée avec succès !');
+                return $this->redirectToRoute('app_session_index');
+            }
+
+            if ($request->isXmlHttpRequest()) {
+                $errors = [];
+                foreach ($form->getErrors(true) as $error) {
+                    $errors[] = $error->getMessage();
+                }
+                return $this->json(['success' => false, 'errors' => $errors]);
+            }
+        }
+
+        return $this->render('session/new.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    // =========================================================================
+    // ESPACE PROFESSEUR
+    // =========================================================================
 
     #[Route('/professeur/reservations', name: 'session_prof_reservations_redirect', methods: ['GET'])]
     public function redirectToReservations(): Response
@@ -82,18 +160,16 @@ class SessionController extends AbstractController
         Request $request
     ): Response {
         $user = $this->getCurrentUser($em);
-
         if (!$user) {
             $this->addFlash('warning', 'Veuillez vous connecter pour accéder à cet espace.');
             return $this->redirectToRoute('app_login');
         }
 
-        $sessionsPagination = $paginator->paginate(
+        $sessionsPagination  = $paginator->paginate(
             $sessionRepository->getQueryByProf($user),
             $request->query->getInt('page_sessions', 1),
             8
         );
-
         $pendingReservations = $reservationRepository->findPendingForProf($user);
         $recentReservations  = $reservationRepository->findRecentForProf($user);
 
@@ -129,11 +205,15 @@ class SessionController extends AbstractController
         ]);
     }
 
+    // =========================================================================
+    // CRÉATION SESSION PROF — route dédiée (/professeur/sessions/new)
+    // ✅ FIX : même logique, user forcé, champ enseignant masqué
+    // =========================================================================
+
     #[Route('/professeur/sessions/new', name: 'prof_session_new', methods: ['GET', 'POST'])]
     public function profSessionNew(
         Request $request,
-        EntityManagerInterface $em,
-        GroupeRepository $groupeRepository
+        EntityManagerInterface $em
     ): Response {
         $user = $this->getCurrentUser($em);
         if (!$user) {
@@ -141,19 +221,40 @@ class SessionController extends AbstractController
         }
 
         $session = new Session();
-        $session->setUser($user);
+        $session->setUser($user); // ✅ forcé avant handleRequest
 
-        $form = $this->createForm(SessionType::class, $session);
+        $form = $this->createForm(SessionType::class, $session, [
+            'show_user_field' => false,
+        ]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($session);
-            $em->flush();
-            $this->addFlash('success', 'Session créée avec succès !');
-            return $this->redirectToRoute('prof_session_list');
+        if ($form->isSubmitted()) {
+            $session->setUser($user); // ✅ reforce après handleRequest
+
+            if ($form->isValid()) {
+                $em->persist($session);
+                $em->flush();
+
+                if ($request->isXmlHttpRequest()) {
+                    return $this->json(['success' => true, 'message' => 'Session créée avec succès !']);
+                }
+
+                $this->addFlash('success', 'Session créée avec succès !');
+                return $this->redirectToRoute('session_professeur');
+            }
+
+            if ($request->isXmlHttpRequest()) {
+                $errors = [];
+                foreach ($form->getErrors(true) as $error) {
+                    $errors[] = $error->getMessage();
+                }
+                return $this->json(['success' => false, 'errors' => $errors], 400);
+            }
+
+            $this->addFlash('error', 'Le formulaire contient des erreurs. Vérifiez les champs.');
         }
 
-        return $this->render('dashboard/new.html.twig', [
+        return $this->render('session/new.html.twig', [
             'form' => $form->createView(),
             'user' => $user,
         ]);
@@ -178,20 +279,48 @@ class SessionController extends AbstractController
             return $this->redirectToRoute('prof_session_list');
         }
 
-        if ($session->getUser() !== $user) {
+        if ($session->getUser()?->getId() !== $user->getId()) {
             throw $this->createAccessDeniedException('Vous n\'êtes pas autorisé à modifier cette session.');
         }
 
-        $form = $this->createForm(SessionType::class, $session);
+        $form = $this->createForm(SessionType::class, $session, [
+            'show_user_field' => false,
+        ]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
-            $this->addFlash('success', 'Session modifiée avec succès !');
-            return $this->redirectToRoute('prof_session_list');
-        }
+        if ($form->isSubmitted()) {
+            $session->setUser($user); // ✅ reforce le propriétaire
 
-        if ($form->isSubmitted() && !$form->isValid()) {
+            if ($form->isValid()) {
+                $em->flush();
+
+                if ($request->isXmlHttpRequest()) {
+                    return $this->json([
+                        'success' => true,
+                        'message' => 'Session modifiée avec succès !',
+                        'session' => [
+                            'id'          => $session->getId(),
+                            'date'        => $session->getDateHeure()?->format('d/m/Y H:i'),
+                            'statut'      => $session->getStatut(),
+                            'groupe'      => $session->getGroup()?->getNom(),
+                            'groupeId'    => $session->getGroup()?->getId(),
+                            'lienReunion' => $session->getLienReunion(),
+                        ],
+                    ]);
+                }
+
+                $this->addFlash('success', 'Session modifiée avec succès !');
+                return $this->redirectToRoute('prof_session_list');
+            }
+
+            if ($request->isXmlHttpRequest()) {
+                $errors = [];
+                foreach ($form->getErrors(true) as $error) {
+                    $errors[] = $error->getMessage();
+                }
+                return $this->json(['success' => false, 'errors' => $errors], 400);
+            }
+
             $this->addFlash('error', 'Le formulaire contient des erreurs. Vérifiez les champs.');
         }
 
@@ -220,7 +349,7 @@ class SessionController extends AbstractController
             return $this->redirectToRoute('prof_session_list');
         }
 
-        if ($session->getUser() !== $user) {
+        if ($session->getUser()?->getId() !== $user->getId()) {
             throw $this->createAccessDeniedException('Vous n\'êtes pas autorisé à voir cette session.');
         }
 
@@ -249,23 +378,36 @@ class SessionController extends AbstractController
             return $this->redirectToRoute('prof_session_list');
         }
 
-        if ($session->getUser() !== $user) {
+        if ($session->getUser()?->getId() !== $user->getId()) {
             throw $this->createAccessDeniedException('Vous n\'êtes pas autorisé à supprimer cette session.');
         }
 
-        // ✅ PHPStan fix #3 ligne 261 : isCsrfTokenValid() attend string|null, cast (string)
         $token = (string) $request->request->get('_token', '');
 
         if ($this->isCsrfTokenValid('delete' . $session->getId(), $token)) {
             $em->remove($session);
             $em->flush();
+            if ($request->isXmlHttpRequest()) {
+                return $this->json(['success' => true, 'message' => 'Session supprimée avec succès !']);
+            }
             $this->addFlash('success', 'Session supprimée avec succès !');
         } else {
+            if ($request->isXmlHttpRequest()) {
+                return $this->json(['success' => false, 'message' => 'Token CSRF invalide.'], 400);
+            }
             $this->addFlash('error', 'Token CSRF invalide.');
+        }
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->json(['success' => false, 'message' => 'Impossible de supprimer la session.'], 400);
         }
 
         return $this->redirectToRoute('prof_session_list');
     }
+
+    // =========================================================================
+    // PAGE PRINCIPALE ESPACE PROF (liste paginée + modales AJAX)
+    // =========================================================================
 
     #[Route('/professeur', name: 'session_professeur', methods: ['GET'])]
     public function espaceProfesseur(
@@ -281,14 +423,9 @@ class SessionController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        $filters = [
-            'statut' => $request->query->get('statut'),
-        ];
-
-        // ✅ PHPStan fix #4 ligne 291 : strtoupper() attend string
-        // ✅ PHPStan fix #5 ligne 295 : getFilteredQueryForProf() attend string pour $sortBy
-        $sortBy = (string) $request->query->get('sortBy', 'dateHeure');
-        $order  = strtoupper((string) $request->query->get('order', 'DESC')) === 'ASC' ? 'ASC' : 'DESC';
+        $filters = ['statut' => $request->query->get('statut')];
+        $sortBy  = (string) $request->query->get('sortBy', 'dateHeure');
+        $order   = strtoupper((string) $request->query->get('order', 'DESC')) === 'ASC' ? 'ASC' : 'DESC';
 
         $pagination = $paginator->paginate(
             $sessionRepository->getFilteredQueryForProf($user, $filters, $sortBy, $order),
@@ -302,35 +439,9 @@ class SessionController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_session_new', methods: ['GET', 'POST'])]
-    public function new(
-        Request $request,
-        EntityManagerInterface $em,
-        GroupeRepository $groupeRepository
-    ): Response {
-        $session = new Session();
-
-        $user = $this->getCurrentUser($em);
-        if (!$user) {
-            $this->addFlash('warning', 'Veuillez vous connecter.');
-            return $this->redirectToRoute('app_login');
-        }
-        $session->setUser($user);
-
-        $form = $this->createForm(SessionType::class, $session);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($session);
-            $em->flush();
-            $this->addFlash('success', 'Session créée avec succès !');
-            return $this->redirectToRoute('session_prof_dashboard');
-        }
-
-        return $this->render('session/new.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
+    // =========================================================================
+    // NOTATION
+    // =========================================================================
 
     #[Route('/{id}/rate', name: 'app_session_rate', methods: ['POST'])]
     public function rate(
@@ -345,7 +456,6 @@ class SessionController extends AbstractController
         }
 
         $rating = (int) $request->request->get('rating', 0);
-
         if ($rating < 1 || $rating > 5) {
             return $this->json(['error' => 'Note invalide (1–5)'], 400);
         }
@@ -353,10 +463,6 @@ class SessionController extends AbstractController
         $session->setRating($rating);
         $em->flush();
 
-        return $this->json([
-            'success' => true,
-            'rating'  => $rating,
-            'message' => 'Note enregistrée',
-        ]);
+        return $this->json(['success' => true, 'rating' => $rating, 'message' => 'Note enregistrée']);
     }
 }

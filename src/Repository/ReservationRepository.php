@@ -19,9 +19,6 @@ class ReservationRepository extends ServiceEntityRepository
     }
 
     /**
-     * ✅ PHPStan fix ligne 21 (missingType.iterableValue) :
-     * array sans type de valeur → ajouter @return Reservation[]
-     *
      * @return Reservation[]
      */
     public function findBySession(Session $session): array
@@ -37,9 +34,6 @@ class ReservationRepository extends ServiceEntityRepository
     }
 
     /**
-     * ✅ PHPStan fix ligne 33 (missingType.iterableValue) :
-     * array sans type de valeur → ajouter @return Reservation[]
-     *
      * @return Reservation[]
      */
     public function findByUser(User $user): array
@@ -55,7 +49,7 @@ class ReservationRepository extends ServiceEntityRepository
     }
 
     /**
-     * Réservations en attente pour un professeur (dashboard)
+     * Réservations en attente pour un professeur (dashboard).
      *
      * @return Reservation[]
      */
@@ -63,38 +57,65 @@ class ReservationRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('r')
             ->join('r.session', 's')
-            ->join('s.user', 'u')
-            ->andWhere('u.id = :profId')
+            ->andWhere('s.user = :prof')
             ->andWhere('r.statut = :statut')
-            ->setParameter('profId', $prof->getId())
+            ->setParameter('prof', $prof)
             ->setParameter('statut', 'en attente')
+            ->leftJoin('r.user', 'etudiant')
+            ->addSelect('etudiant')
             ->orderBy('r.dateReservation', 'ASC')
             ->getQuery()
             ->getResult();
     }
 
     /**
-     * Toutes les réservations des étudiants pour les sessions d'un professeur
+     * Toutes les réservations pour les sessions d'un professeur.
+     *
+     * ✅ FIX : deux requêtes indépendantes (pas de clone) pour éviter
+     * les problèmes de partage d'état du QueryBuilder Doctrine.
+     * Les "en attente" apparaissent en premier, puis les autres.
      *
      * @return Reservation[]
      */
     public function findAllForProf(User $prof): array
     {
-        return $this->createQueryBuilder('r')
+        // 1. Réservations "en attente" — en premier
+        /** @var Reservation[] $pending */
+        $pending = $this->createQueryBuilder('r')
             ->join('r.session', 's')
             ->join('s.user', 'profUser')
             ->leftJoin('r.user', 'etudiant')
             ->leftJoin('s.group', 'g')
             ->addSelect('s', 'etudiant', 'g')
-            ->where('profUser.id = :profId')
-            ->setParameter('profId', $prof->getId())
+            ->where('profUser = :prof')
+            ->andWhere('r.statut = :statut')
+            ->setParameter('prof', $prof)
+            ->setParameter('statut', 'en attente')
+            ->orderBy('r.dateReservation', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        // 2. Toutes les autres (confirmée, acceptée, refusée, annulée)
+        /** @var Reservation[] $others */
+        $others = $this->createQueryBuilder('r')
+            ->join('r.session', 's')
+            ->join('s.user', 'profUser')
+            ->leftJoin('r.user', 'etudiant')
+            ->leftJoin('s.group', 'g')
+            ->addSelect('s', 'etudiant', 'g')
+            ->where('profUser = :prof')
+            ->andWhere('r.statut != :statut')
+            ->setParameter('prof', $prof)
+            ->setParameter('statut', 'en attente')
             ->orderBy('r.dateReservation', 'DESC')
             ->getQuery()
             ->getResult();
+
+        return array_merge($pending, $others);
     }
 
     /**
-     * Réservations récentes (hors "en attente") pour le dashboard prof
+     * Réservations récentes (hors "en attente") pour le dashboard prof.
      *
      * @return Reservation[]
      */

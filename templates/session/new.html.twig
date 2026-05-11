@@ -1,23 +1,854 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Nouvelle Session{% endblock %}
-
 {% block body %}
-    <div class="container mt-5 pt-5">
-        <h1 class="text-center fw-bold text-primary mb-5">
-            <i class="fa fa-plus-circle me-2"></i> Créer une nouvelle session
-        </h1>
 
-        {{ form_start(form) }}
-            {{ form_widget(form) }}
-            <div class="mt-4 text-center">
-                <button type="submit" class="btn btn-primary btn-lg px-5">
-                    <i class="fa fa-save me-2"></i> Enregistrer
-                </button>
-                <a href="{{ path('session_professeur') }}" class="btn btn-secondary btn-lg px-5 ms-3">
-                    <i class="fa fa-arrow-left me-2"></i> Annuler
-                </a>
-            </div>
-        {{ form_end(form) }}
+<style>
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes float {
+    0%,100% { transform: translateY(0px); }
+    50%      { transform: translateY(-8px); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes shimmer {
+    0%   { left: -100%; }
+    100% { left: 200%; }
+}
+@keyframes calPop {
+    from { opacity: 0; transform: translateY(8px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+body {
+    background: linear-gradient(135deg,#7b1fa2 0%,#4a148c 30%,#1565c0 70%,#0d47a1 100%) !important;
+    min-height: 100vh;
+}
+#ftco-navbar {
+    background: rgba(74,20,140,0.92) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+#ftco-loader { display: none !important; }
+
+.page-hero {
+    padding: 120px 0 30px;
+    text-align: center;
+    animation: fadeInDown 0.6s ease;
+}
+.page-hero h1 {
+    background: linear-gradient(135deg,#fff 0%,#f8bbd0 50%,#ce93d8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 2.3rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px;
+}
+.page-hero p { color: rgba(255,255,255,0.55); font-size: 0.95rem; }
+
+.form-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 24px;
+    backdrop-filter: blur(16px);
+    padding: 40px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.3);
+    animation: fadeInUp 0.7s ease;
+    margin-bottom: 80px;
+}
+
+.step-indicator { display: flex; align-items: center; justify-content: center; margin-bottom: 36px; }
+.step { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.step-circle {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,255,255,0.18);
+    color: rgba(255,255,255,0.4);
+    font-weight: 700; font-size: 0.88rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+}
+.step.active .step-circle {
+    background: linear-gradient(135deg,#7b1fa2,#1565c0);
+    border-color: rgba(255,255,255,0.4); color: #fff;
+    box-shadow: 0 0 0 5px rgba(123,31,162,0.25);
+}
+.step.done .step-circle { background: linear-gradient(135deg,#00C853,#00897B); border-color: rgba(0,200,83,0.4); color: #fff; }
+.step-label { font-size: 0.7rem; color: rgba(255,255,255,0.4); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.step.active .step-label, .step.done .step-label { color: rgba(255,255,255,0.85); }
+.step-line { flex: 1; height: 2px; background: rgba(255,255,255,0.1); margin: 0 10px 20px; max-width: 70px; }
+
+.field-group { margin-bottom: 20px; }
+.field-label {
+    display: flex; align-items: center; gap: 8px;
+    color: rgba(255,255,255,0.8); font-size: 0.83rem; font-weight: 600;
+    margin-bottom: 7px; letter-spacing: 0.3px;
+}
+.field-icon {
+    width: 26px; height: 26px; border-radius: 7px;
+    background: rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center; font-size: 0.78rem;
+}
+.field-input,
+.field-input.form-control,
+.field-input.form-select {
+    width: 100% !important;
+    background: rgba(255,255,255,0.08) !important;
+    border: 1px solid rgba(255,255,255,0.15) !important;
+    border-radius: 12px !important;
+    color: #fff !important;
+    padding: 13px 16px !important;
+    font-size: 0.93rem !important;
+    transition: all 0.25s !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+.field-input:focus {
+    background: rgba(255,255,255,0.13) !important;
+    border-color: rgba(255,255,255,0.35) !important;
+    box-shadow: 0 0 0 3px rgba(123,31,162,0.2) !important;
+}
+.field-input option { background: #2d1b69 !important; color: #fff !important; }
+.field-input::placeholder { color: rgba(255,255,255,0.3) !important; }
+
+/* ════ CALENDRIER ════ */
+.cal-wrapper { position: relative; }
+.cal-trigger {
+    display: flex; align-items: center;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px; cursor: pointer;
+    transition: all 0.25s; user-select: none; min-height: 50px;
+}
+.cal-trigger:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.28); }
+.cal-trigger.is-open {
+    background: rgba(255,255,255,0.13);
+    border-color: rgba(255,255,255,0.35);
+    box-shadow: 0 0 0 3px rgba(123,31,162,0.2);
+}
+.cal-trigger-icon { padding: 0 14px; color: rgba(255,255,255,0.5); font-size: 0.95rem; flex-shrink: 0; }
+.cal-trigger-text { flex: 1; padding: 13px 0; font-size: 0.93rem; color: #fff; }
+.cal-trigger-text.is-placeholder { color: rgba(255,255,255,0.3); }
+.cal-trigger-clear { padding: 0 14px; color: rgba(255,255,255,0.35); font-size: 0.8rem; transition: color 0.2s; display: none; }
+.cal-trigger-clear:hover { color: #EF4444; }
+.cal-trigger-clear.visible { display: block; }
+
+.cal-popup {
+    position: absolute; top: calc(100% + 10px); left: 0;
+    z-index: 9999; width: 310px; max-width: calc(100vw - 32px);
+    background: linear-gradient(160deg, rgba(28,14,72,0.99) 0%, rgba(12,28,66,0.99) 100%);
+    border: 1px solid rgba(255,255,255,0.16); border-radius: 20px;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.55); padding: 20px;
+    backdrop-filter: blur(28px); display: none;
+}
+.cal-popup.is-open { display: block; animation: calPop 0.2s ease; }
+
+.cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.cal-month-title { color: #fff; font-size: 0.96rem; font-weight: 700; letter-spacing: -0.2px; }
+.cal-nav {
+    width: 30px; height: 30px; border-radius: 9px;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.75); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.95rem; transition: all 0.18s;
+}
+.cal-nav:hover { background: rgba(255,255,255,0.14); color: #fff; }
+
+.cal-weekdays { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; margin-bottom: 5px; }
+.cal-wd {
+    text-align: center; font-size: 0.68rem; font-weight: 700;
+    color: rgba(255,255,255,0.35); padding: 3px 0;
+    text-transform: uppercase; letter-spacing: 0.4px;
+}
+.cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; }
+.cal-day {
+    aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+    border-radius: 9px; font-size: 0.83rem; font-weight: 500;
+    cursor: pointer; color: rgba(255,255,255,0.82);
+    background: rgba(255,255,255,0.05); border: 1px solid transparent;
+    transition: all 0.15s; user-select: none;
+}
+.cal-day:hover:not(.is-past):not(.is-empty) { background: rgba(255,255,255,0.13); border-color: rgba(255,255,255,0.2); color: #fff; }
+.cal-day.is-today { border-color: rgba(255,255,255,0.28); color: #fff; font-weight: 700; }
+.cal-day.is-selected {
+    background: linear-gradient(135deg,#7b1fa2,#1565c0) !important;
+    border-color: rgba(255,255,255,0.3) !important;
+    color: #fff !important; font-weight: 700;
+    box-shadow: 0 3px 12px rgba(123,31,162,0.45);
+}
+.cal-day.is-past { opacity: 0.22; cursor: not-allowed; pointer-events: none; }
+.cal-day.is-empty { background: transparent; border-color: transparent; cursor: default; pointer-events: none; }
+
+.cal-time {
+    margin-top: 16px; padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: none;
+}
+.cal-time.visible { display: block; }
+.cal-time-lbl { font-size: 0.7rem; font-weight: 700; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+.cal-time-row { display: flex; align-items: center; gap: 8px; }
+.cal-sel {
+    flex: 1;
+    background: rgba(255,255,255,0.07) !important;
+    border: 1px solid rgba(255,255,255,0.13) !important;
+    border-radius: 10px !important; color: #fff !important;
+    padding: 9px 10px !important; font-size: 0.88rem !important;
+    outline: none !important; text-align: center;
+    appearance: none; -webkit-appearance: none; cursor: pointer;
+}
+.cal-sel option { background: #1e0f50 !important; }
+.cal-time-sep { color: rgba(255,255,255,0.4); font-size: 1.1rem; font-weight: 700; }
+.cal-time-hint { margin-top: 10px; font-size: 0.72rem; color: rgba(255,255,255,0.38); text-align: center; }
+
+/* ── Meet ── */
+.meet-box {
+    background: rgba(0,200,83,0.1); border: 1px solid rgba(0,200,83,0.3);
+    border-radius: 12px; padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px;
+}
+.meet-logo {
+    width: 34px; height: 34px; border-radius: 8px;
+    background: linear-gradient(135deg,#00C853,#00897B);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.95rem; flex-shrink: 0; color: #fff;
+}
+.meet-link-text { color: rgba(255,255,255,0.9); font-size: 0.85rem; font-weight: 600; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: monospace; }
+.meet-regen {
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 8px; color: rgba(255,255,255,0.65);
+    font-size: 0.78rem; padding: 6px 12px;
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.meet-regen:hover { background: rgba(255,255,255,0.18); color: #fff; }
+.meet-regen.spin i { animation: spin 0.7s linear infinite; display: inline-block; }
+
+/* ── Statut ── */
+.statut-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
+.statut-option {
+    background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.12);
+    border-radius: 12px; padding: 12px 14px; cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; gap: 10px; user-select: none;
+}
+.statut-option:hover { background: rgba(255,255,255,0.11); border-color: rgba(255,255,255,0.25); }
+.statut-option.selected { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.13); }
+.statut-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.statut-name { color: #fff; font-size: 0.87rem; font-weight: 600; }
+.statut-desc { color: rgba(255,255,255,0.4); font-size: 0.73rem; margin-top: 1px; }
+
+.section-divider { display: flex; align-items: center; gap: 12px; margin: 28px 0 22px; }
+.section-divider span { color: rgba(255,255,255,0.45); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
+.section-divider::before,.section-divider::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.1); }
+
+.btn-submit {
+    width: 100%; padding: 15px; border-radius: 14px; border: none;
+    background: linear-gradient(135deg,#7b1fa2,#1565c0);
+    color: #fff; font-size: 1rem; font-weight: 700;
+    cursor: pointer; transition: all 0.3s;
+    position: relative; overflow: hidden; margin-top: 6px;
+}
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(123,31,162,0.4); }
+.btn-submit::after {
+    content:''; position:absolute; top:0; left:-100%; width:60%; height:100%;
+    background: linear-gradient(90deg,transparent,rgba(255,255,255,0.12),transparent);
+    animation: shimmer 2.5s infinite;
+}
+.btn-cancel {
+    width:100%; padding:13px; border-radius:14px;
+    border:1px solid rgba(255,255,255,0.18); background:rgba(255,255,255,0.06);
+    color:rgba(255,255,255,0.7); font-size:0.93rem; font-weight:600;
+    cursor:pointer; transition:all 0.25s;
+    text-decoration:none; display:block; text-align:center; margin-top:10px;
+}
+.btn-cancel:hover { background:rgba(255,255,255,0.11); color:#fff; text-decoration:none; }
+
+.preview-card {
+    background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
+    border-radius:18px; padding:22px;
+    animation: float 4s ease-in-out infinite; position:sticky; top:100px;
+}
+.preview-title { color:rgba(255,255,255,0.38); font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; }
+.preview-row { display:flex; align-items:flex-start; gap:10px; margin-bottom:14px; }
+.preview-row-icon { width:30px; height:30px; border-radius:8px; background:rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; font-size:0.78rem; flex-shrink:0; color:rgba(255,255,255,0.6); }
+.preview-row-label { font-size:0.7rem; color:rgba(255,255,255,0.38); font-weight:600; text-transform:uppercase; letter-spacing:0.5px; }
+.preview-row-value { font-size:0.88rem; color:rgba(255,255,255,0.85); font-weight:600; margin-top:1px; }
+.preview-badge { display:inline-block; padding:4px 12px; border-radius:20px; font-size:0.78rem; font-weight:700; margin-top:3px; }
+
+.error-msg { color:#ff8a80; font-size:0.8rem; margin-top:5px; display:flex; align-items:center; gap:5px; }
+.error-summary {
+    background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.25);
+    border-radius:12px; padding:12px 16px;
+    display:none; flex-direction:column; gap:6px; margin-bottom:16px;
+}
+.error-summary span { color:#ff8a80; font-size:0.85rem; }
+
+/* Info box enseignant auto-assigné */
+.teacher-info-box {
+    background: rgba(123,31,162,0.15);
+    border: 1px solid rgba(123,31,162,0.3);
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.teacher-info-box .teacher-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg,#7b1fa2,#1565c0);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; color: #fff; flex-shrink: 0;
+}
+.teacher-info-box .teacher-name {
+    color: rgba(255,255,255,0.9);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+.teacher-info-box .teacher-label {
+    color: rgba(255,255,255,0.45);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+</style>
+
+<div class="page-hero">
+<br><br><br><br><br><br>
+    <h1><i class="fa fa-plus-circle" style="margin-right:12px;"></i>Créer une session</h1>
+    <p>Planifiez et configurez votre nouvelle session d'apprentissage</p>
+</div>
+
+<div class="container pb-5">
+<div class="row justify-content-center">
+<div class="col-lg-7">
+<div class="form-card">
+
+    <div class="step-indicator">
+        <div class="step active" id="step1-ind">
+            <div class="step-circle">1</div>
+            <div class="step-label">Planification</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" id="step2-ind">
+            <div class="step-circle">2</div>
+            <div class="step-label">Groupe</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" id="step3-ind">
+            <div class="step-circle">3</div>
+            <div class="step-label">Réunion</div>
+        </div>
     </div>
+
+    {{ form_start(form, {'attr': {'id': 'session-form', 'novalidate': 'novalidate'}}) }}
+    <div class="error-summary" id="error-summary"></div>
+
+    {# ──────────────────────────────────────────── #}
+    {# SECTION 1 : PLANIFICATION                    #}
+    {# ──────────────────────────────────────────── #}
+    <div class="section-divider">
+        <span><i class="fa fa-calendar" style="margin-right:6px;"></i>Planification</span>
+    </div>
+
+    <div style="display:none;">
+        {{ form_widget(form.dateHeure, {'attr': {'id': 'sf-date-input'}}) }}
+    </div>
+
+    <div class="field-group">
+        <div class="field-label">
+            <div class="field-icon"><i class="fa fa-clock-o" style="color:rgba(255,255,255,0.7);"></i></div>
+            Date et heure de la session
+        </div>
+        <div class="cal-wrapper" id="cal-wrapper">
+            <div class="cal-trigger" id="cal-trigger" role="button" tabindex="0" aria-label="Ouvrir le calendrier">
+                <span class="cal-trigger-icon"><i class="fa fa-calendar-o"></i></span>
+                <span class="cal-trigger-text is-placeholder" id="cal-display">Cliquez pour choisir une date et une heure</span>
+                <span class="cal-trigger-clear" id="cal-clear" title="Effacer la date">✕</span>
+            </div>
+            <div class="cal-popup" id="cal-popup" role="dialog" aria-modal="true" aria-label="Sélecteur de date">
+                <div class="cal-header">
+                    <button type="button" class="cal-nav" id="cal-prev" aria-label="Mois précédent">‹</button>
+                    <span class="cal-month-title" id="cal-month-title"></span>
+                    <button type="button" class="cal-nav" id="cal-next" aria-label="Mois suivant">›</button>
+                </div>
+                <div class="cal-weekdays">
+                    <div class="cal-wd">Lu</div><div class="cal-wd">Ma</div><div class="cal-wd">Me</div>
+                    <div class="cal-wd">Je</div><div class="cal-wd">Ve</div><div class="cal-wd">Sa</div><div class="cal-wd">Di</div>
+                </div>
+                <div class="cal-grid" id="cal-grid"></div>
+                <div class="cal-time" id="cal-time">
+                    <div class="cal-time-lbl"><i class="fa fa-clock-o" style="margin-right:5px;"></i>Heure</div>
+                    <div class="cal-time-row">
+                        <select class="cal-sel" id="cal-h" aria-label="Heure">
+                            {% for h in 0..23 %}
+                                <option value="{{ '%02d'|format(h) }}" {% if h == 9 %}selected{% endif %}>{{ '%02d'|format(h) }}</option>
+                            {% endfor %}
+                        </select>
+                        <span class="cal-time-sep">:</span>
+                        <select class="cal-sel" id="cal-m" aria-label="Minute">
+                            {% for m in [0,5,10,15,20,25,30,35,40,45,50,55] %}
+                                <option value="{{ '%02d'|format(m) }}">{{ '%02d'|format(m) }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="cal-time-hint"><i class="fa fa-info-circle" style="margin-right:4px;"></i>Modifiez l'heure — la date se met à jour automatiquement</div>
+                </div>
+            </div>
+        </div>
+        {% if form_errors(form.dateHeure) %}
+            <div class="error-msg"><i class="fa fa-exclamation-circle"></i>{{ form_errors(form.dateHeure) }}</div>
+        {% endif %}
+    </div>
+
+    <div class="field-group">
+        <div class="field-label">
+            <div class="field-icon"><i class="fa fa-tag" style="color:rgba(255,255,255,0.7);"></i></div>
+            Statut de la session
+        </div>
+        <div class="statut-grid">
+            <div class="statut-option selected" data-value="planifiée" onclick="selectStatut(this)">
+                <div class="statut-dot" style="background:#F59E0B;"></div>
+                <div><div class="statut-name">Planifiée</div><div class="statut-desc">Session à venir</div></div>
+            </div>
+            <div class="statut-option" data-value="en cours" onclick="selectStatut(this)">
+                <div class="statut-dot" style="background:#10B981;"></div>
+                <div><div class="statut-name">En cours</div><div class="statut-desc">Session active maintenant</div></div>
+            </div>
+            <div class="statut-option" data-value="terminée" onclick="selectStatut(this)">
+                <div class="statut-dot" style="background:#6B7280;"></div>
+                <div><div class="statut-name">Terminée</div><div class="statut-desc">Session déjà passée</div></div>
+            </div>
+            <div class="statut-option" data-value="annulée" onclick="selectStatut(this)">
+                <div class="statut-dot" style="background:#EF4444;"></div>
+                <div><div class="statut-name">Annulée</div><div class="statut-desc">Session annulée</div></div>
+            </div>
+        </div>
+        <div style="display:none;">
+            {{ form_widget(form.statut, {'attr': {'id': 'sf-statut'}}) }}
+        </div>
+    </div>
+
+    {# ──────────────────────────────────────────── #}
+    {# SECTION 2 : PARTICIPANTS                     #}
+    {# ──────────────────────────────────────────── #}
+    <div class="section-divider">
+        <span><i class="fa fa-users" style="margin-right:6px;"></i>Participants</span>
+    </div>
+
+    <div class="field-group">
+        <div class="field-label">
+            <div class="field-icon"><i class="fa fa-users" style="color:rgba(255,255,255,0.7);"></i></div>
+            Groupe concerné
+        </div>
+        {{ form_widget(form.group, {'attr': {'class': 'field-input', 'id': 'sf-groupe'}}) }}
+        {% if form_errors(form.group) %}
+            <div class="error-msg"><i class="fa fa-exclamation-circle"></i>{{ form_errors(form.group) }}</div>
+        {% endif %}
+    </div>
+
+    {# ✅ FIX PRINCIPAL : Le champ 'user' (enseignant) est SUPPRIMÉ du formulaire.
+       Le controller assigne toujours l'utilisateur connecté comme enseignant.
+       On affiche juste une info-box avec le nom du prof connecté.
+       Un input caché avec l'id du prof permet au JS de preview de fonctionner. #}
+    <div class="field-group">
+        <div class="field-label">
+            <div class="field-icon"><i class="fa fa-user" style="color:rgba(255,255,255,0.7);"></i></div>
+            Enseignant responsable
+            <span style="margin-left:auto;background:rgba(0,200,83,0.2);color:#4ade80;font-size:0.7rem;padding:3px 10px;border-radius:20px;font-weight:700;">
+                <i class="fa fa-lock" style="margin-right:3px;"></i>Vous
+            </span>
+        </div>
+        <div class="teacher-info-box">
+            <div class="teacher-avatar"><i class="fa fa-user"></i></div>
+            <div>
+                <div class="teacher-label">Enseignant assigné automatiquement</div>
+                <div class="teacher-name">{{ user.prenom }} {{ user.nom }}</div>
+            </div>
+        </div>
+        {# Input caché pour le JS de preview et la validation JS #}
+        <input type="hidden" id="sf-user" value="{{ user.id }}">
+    </div>
+
+    {# ──────────────────────────────────────────── #}
+    {# SECTION 3 : RÉUNION EN LIGNE                 #}
+    {# ──────────────────────────────────────────── #}
+    <div class="section-divider">
+        <span><i class="fa fa-video-camera" style="margin-right:6px;"></i>Réunion en ligne</span>
+    </div>
+
+    <div class="field-group">
+        <div class="field-label">
+            <div class="field-icon"><i class="fa fa-link" style="color:rgba(255,255,255,0.7);"></i></div>
+            Lien de la réunion
+            <span style="margin-left:auto;background:rgba(0,200,83,0.2);color:#4ade80;font-size:0.7rem;padding:3px 10px;border-radius:20px;font-weight:700;">
+                <i class="fa fa-magic" style="margin-right:3px;"></i>Auto-généré
+            </span>
+        </div>
+        <div class="meet-box">
+            <div class="meet-logo"><i class="fa fa-video-camera"></i></div>
+            <span class="meet-link-text" id="meet-display">Génération...</span>
+            <button type="button" class="meet-regen" id="meet-regen" onclick="regenMeet()">
+                <i class="fa fa-refresh" id="regen-icon"></i> Nouveau lien
+            </button>
+        </div>
+        <div style="display:none;">
+            {{ form_widget(form.lienReunion, {'attr': {'id': 'sf-lien'}}) }}
+        </div>
+        {% if form_errors(form.lienReunion) %}
+            <div class="error-msg"><i class="fa fa-exclamation-circle"></i>{{ form_errors(form.lienReunion) }}</div>
+        {% endif %}
+    </div>
+
+    <div class="mt-4">
+        <button type="submit" class="btn-submit" id="submit-btn">
+            <i class="fa fa-check-circle" style="margin-right:8px;"></i>Créer la session
+        </button>
+        <a href="{{ path('session_professeur') }}" class="btn-cancel">
+            <i class="fa fa-arrow-left" style="margin-right:6px;"></i>Annuler et retour à la liste
+        </a>
+    </div>
+
+    {{ form_end(form) }}
+
+</div>
+</div>
+
+{# ── Aperçu latéral ── #}
+<div class="col-lg-4 d-none d-lg-block">
+    <div class="preview-card">
+        <div class="preview-title"><i class="fa fa-eye" style="margin-right:5px;"></i>Aperçu de la session</div>
+        <div class="preview-row">
+            <div class="preview-row-icon"><i class="fa fa-clock-o"></i></div>
+            <div>
+                <div class="preview-row-label">Date & heure</div>
+                <div class="preview-row-value" id="prev-date">Non définie</div>
+            </div>
+        </div>
+        <div class="preview-row">
+            <div class="preview-row-icon"><i class="fa fa-tag"></i></div>
+            <div>
+                <div class="preview-row-label">Statut</div>
+                <div id="prev-statut">
+                    <span class="preview-badge" style="background:rgba(245,158,11,0.2);color:#F59E0B;">Planifiée</span>
+                </div>
+            </div>
+        </div>
+        <div class="preview-row">
+            <div class="preview-row-icon"><i class="fa fa-users"></i></div>
+            <div>
+                <div class="preview-row-label">Groupe</div>
+                <div class="preview-row-value" id="prev-groupe">Non sélectionné</div>
+            </div>
+        </div>
+        <div class="preview-row">
+            <div class="preview-row-icon"><i class="fa fa-user"></i></div>
+            <div>
+                <div class="preview-row-label">Enseignant</div>
+                {# ✅ Nom affiché directement depuis Twig, pas besoin de JS #}
+                <div class="preview-row-value" id="prev-user">{{ user.prenom }} {{ user.nom }}</div>
+            </div>
+        </div>
+        <div class="preview-row">
+            <div class="preview-row-icon"><i class="fa fa-video-camera"></i></div>
+            <div>
+                <div class="preview-row-label">Réunion</div>
+                <div class="preview-row-value" id="prev-meet" style="font-size:0.75rem;word-break:break-all;">—</div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<script>
+'use strict';
+
+const MONTHS = ['Janvier','Février','Mars','Avril','Mai','Juin',
+                'Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+function pad(n){ return String(n).padStart(2,'0'); }
+
+const Cal = {
+    year: 0, month: 0,
+    selYear: null, selMonth: null, selDay: null,
+    open: false,
+    wrapper: null, trigger: null, popup: null,
+    display: null, clearBtn: null,
+    monthTitle: null, grid: null,
+    hourSel: null, minSel: null,
+    timeSection: null,
+
+    init() {
+        const now  = new Date();
+        this.year  = now.getFullYear();
+        this.month = now.getMonth();
+
+        this.wrapper     = document.getElementById('cal-wrapper');
+        this.trigger     = document.getElementById('cal-trigger');
+        this.popup       = document.getElementById('cal-popup');
+        this.display     = document.getElementById('cal-display');
+        this.clearBtn    = document.getElementById('cal-clear');
+        this.monthTitle  = document.getElementById('cal-month-title');
+        this.grid        = document.getElementById('cal-grid');
+        this.hourSel     = document.getElementById('cal-h');
+        this.minSel      = document.getElementById('cal-m');
+        this.timeSection = document.getElementById('cal-time');
+
+        this.trigger.addEventListener('click', (e) => {
+            if (this.clearBtn.contains(e.target)) return;
+            this.open ? this.close() : this.show();
+        });
+        this.trigger.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.open ? this.close() : this.show(); }
+        });
+        this.clearBtn.addEventListener('click', (e) => { e.stopPropagation(); this.clear(); });
+        document.getElementById('cal-prev').addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.month--; if (this.month < 0) { this.month = 11; this.year--; } this.render();
+        });
+        document.getElementById('cal-next').addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.month++; if (this.month > 11) { this.month = 0; this.year++; } this.render();
+        });
+        this.hourSel.addEventListener('change', () => { if (this.selDay) this.applyDate(); });
+        this.minSel.addEventListener('change',  () => { if (this.selDay) this.applyDate(); });
+        this.popup.addEventListener('click', (e) => e.stopPropagation());
+        document.addEventListener('click', (e) => { if (this.open && !this.wrapper.contains(e.target)) this.close(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && this.open) this.close(); });
+    },
+
+    show() { this.trigger.classList.add('is-open'); this.popup.classList.add('is-open'); this.open = true; this.render(); },
+    close() { this.trigger.classList.remove('is-open'); this.popup.classList.remove('is-open'); this.open = false; },
+
+    render() {
+        this.monthTitle.textContent = MONTHS[this.month] + ' ' + this.year;
+        const today = new Date(); today.setHours(0,0,0,0);
+        this.grid.innerHTML = '';
+        const firstDay = new Date(this.year, this.month, 1);
+        const offset   = (firstDay.getDay() + 6) % 7;
+        for (let i = 0; i < offset; i++) {
+            const el = document.createElement('div'); el.className = 'cal-day is-empty'; this.grid.appendChild(el);
+        }
+        const daysInMonth = new Date(this.year, this.month + 1, 0).getDate();
+        for (let d = 1; d <= daysInMonth; d++) {
+            const cellDate = new Date(this.year, this.month, d);
+            const el = document.createElement('div');
+            el.className = 'cal-day';
+            el.textContent = d;
+            const isPast     = cellDate.getTime() < today.getTime();
+            const isToday    = cellDate.getTime() === today.getTime();
+            const isSelected = (this.selDay === d && this.selMonth === this.month && this.selYear === this.year);
+            if (isPast)     el.classList.add('is-past');
+            if (isToday)    el.classList.add('is-today');
+            if (isSelected) el.classList.add('is-selected');
+            if (!isPast || isToday) {
+                el.addEventListener('click', () => {
+                    this.selDay = d; this.selMonth = this.month; this.selYear = this.year;
+                    this.timeSection.classList.add('visible');
+                    this.applyDate(); this.render();
+                });
+            }
+            this.grid.appendChild(el);
+        }
+    },
+
+    applyDate() {
+        if (!this.selDay) return;
+        const h   = this.hourSel.value;
+        const m   = this.minSel.value;
+        const iso = this.selYear + '-' + pad(this.selMonth + 1) + '-' + pad(this.selDay) + 'T' + h + ':' + m;
+        const hiddenField = document.getElementById('sf-date-input')
+                         || document.querySelector('input[name*="dateHeure"], input[name*="date_heure"], input[type="datetime-local"]');
+        if (hiddenField) { hiddenField.value = iso; hiddenField.dispatchEvent(new Event('change', { bubbles: true })); }
+        const human = pad(this.selDay) + '/' + pad(this.selMonth + 1) + '/' + this.selYear + ' à ' + h + ':' + m;
+        this.display.textContent = human;
+        this.display.classList.remove('is-placeholder');
+        this.clearBtn.classList.add('visible');
+        document.getElementById('prev-date').textContent = human;
+        showErrors([]); updateSteps();
+    },
+
+    clear() {
+        this.selDay = this.selMonth = this.selYear = null;
+        this.timeSection.classList.remove('visible');
+        const f = document.getElementById('sf-date-input'); if (f) f.value = '';
+        this.display.textContent = 'Cliquez pour choisir une date et une heure';
+        this.display.classList.add('is-placeholder');
+        this.clearBtn.classList.remove('visible');
+        document.getElementById('prev-date').textContent = 'Non définie';
+        updateSteps(); this.render();
+    }
+};
+
+function meetCode() {
+    const c = 'abcdefghijklmnopqrstuvwxyz';
+    const s = 👎 => Array.from({length:n}, () => c[Math.floor(Math.random()*c.length)]).join('');
+    return s(3)+'-'+s(4)+'-'+s(3);
+}
+function setMeet(url) {
+    document.getElementById('meet-display').textContent = url;
+    const lienEl = document.getElementById('sf-lien') || document.querySelector('input[name*="lienReunion"], input[name*="lien_reunion"]');
+    if (lienEl) lienEl.value = url;
+    document.getElementById('prev-meet').textContent = url;
+    updateSteps();
+}
+function regenMeet() {
+    const btn = document.getElementById('meet-regen');
+    btn.classList.add('spin');
+    setTimeout(() => { setMeet('https://meet.google.com/'+meetCode()); btn.classList.remove('spin'); }, 600);
+}
+
+const STATUT_COLORS = {
+    'planifiée': {bg:'rgba(245,158,11,0.2)', color:'#F59E0B'},
+    'en cours':  {bg:'rgba(16,185,129,0.2)', color:'#10B981'},
+    'terminée':  {bg:'rgba(107,114,128,0.2)',color:'#9CA3AF'},
+    'annulée':   {bg:'rgba(239,68,68,0.2)',  color:'#EF4444'}
+};
+function selectStatut(el) {
+    document.querySelectorAll('.statut-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    const val = el.dataset.value;
+    const sel = document.getElementById('sf-statut') || document.querySelector('select[name*="statut"]');
+    if (sel) for (const opt of sel.options) opt.selected = (opt.value === val);
+    const c = STATUT_COLORS[val] || {bg:'rgba(255,255,255,0.1)',color:'#fff'};
+    document.getElementById('prev-statut').innerHTML =
+        '<span class="preview-badge" style="background:'+c.bg+';color:'+c.color+';">'+val.charAt(0).toUpperCase()+val.slice(1)+'</span>';
+    updateSteps();
+}
+
+function getField(nameFragment) {
+    const byId = {
+        'dateHeure': 'sf-date-input',
+        'groupe':    'sf-groupe',
+        'statut':    'sf-statut',
+        'lien':      'sf-lien'
+    }[nameFragment];
+    if (byId) { const el = document.getElementById(byId); if (el) return el; }
+    return document.querySelector('[name*="' + nameFragment + '"]') || null;
+}
+
+function updateSteps() {
+    const dateVal  = getField('dateHeure')?.value;
+    const groupVal = getField('groupe')?.value || getField('group')?.value;
+    const meetVal  = getField('lien')?.value   || getField('lienReunion')?.value;
+    function setStep(id, done) {
+        const el = document.getElementById(id); if (!el) return;
+        const num = id.replace('step','').replace('-ind','');
+        el.classList.toggle('done', done); el.classList.toggle('active', !done);
+        el.querySelector('.step-circle').innerHTML = done ? '<i class="fa fa-check"></i>' : num;
+    }
+    setStep('step1-ind', !!dateVal);
+    setStep('step2-ind', !!groupVal);
+    setStep('step3-ind', !!meetVal);
+}
+
+function showErrors(msgs) {
+    const box = document.getElementById('error-summary');
+    if (!msgs.length) { box.style.display = 'none'; box.innerHTML = ''; return; }
+    box.innerHTML = msgs.map(m => '<span><i class="fa fa-exclamation-circle" style="margin-right:6px;"></i>'+m+'</span>').join('');
+    box.style.display = 'flex';
+    box.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function validate() {
+    const errs = [];
+    const dateVal = getField('dateHeure')?.value;
+    if (!dateVal) {
+        errs.push('Veuillez sélectionner une date et une heure pour la session.');
+    } else {
+        const d = new Date(dateVal);
+        if (isNaN(d.getTime())) errs.push('La date saisie est invalide.');
+    }
+    const groupVal = getField('groupe')?.value || getField('group')?.value;
+    const statVal  = getField('statut')?.value;
+    if (!groupVal) errs.push('Veuillez sélectionner un groupe.');
+    if (!statVal)  errs.push('Veuillez choisir un statut.');
+    // ✅ FIX : suppression de la validation JS sur 'user' — l'enseignant
+    // est maintenant assigné automatiquement par le controller côté serveur.
+    return errs;
+}
+
+document.getElementById('session-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const btn  = document.getElementById('submit-btn');
+    const errs = validate();
+    if (errs.length) { showErrors(errs); return; }
+    showErrors([]);
+    btn.innerHTML = '<i class="fa fa-spinner fa-spin" style="margin-right:8px;"></i>Création en cours...';
+    btn.style.opacity = '0.8'; btn.style.pointerEvents = 'none';
+
+    fetch(window.location.href, {
+        method: 'POST', body: new FormData(this),
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(res => {
+        const ct = res.headers.get('content-type') || '';
+        if (!ct.includes('application/json')) {
+            return res.text().then(html => {
+                const doc  = new DOMParser().parseFromString(html, 'text/html');
+                const msgs = [...doc.querySelectorAll('.form-error-message, .invalid-feedback')]
+                              .map(el => el.textContent.trim()).filter(Boolean);
+                throw new Error(msgs.length ? msgs.join(' · ') : 'Erreur serveur. Consultez les logs Symfony.');
+            });
+        }
+        return res.json();
+    })
+    .then(data => {
+        if (data.success) {
+            btn.innerHTML = '<i class="fa fa-check-circle" style="margin-right:8px;"></i>Session créée !';
+            btn.style.background = 'linear-gradient(135deg,#00C853,#00897B)';
+            setTimeout(() => { window.location.href = '{{ path("session_professeur") }}'; }, 900);
+        } else {
+            showErrors(data.errors || ['Erreur inconnue lors de la création.']);
+            resetBtn(btn);
+        }
+    })
+    .catch(err => { showErrors([err.message]); resetBtn(btn); });
+});
+
+function resetBtn(btn) {
+    btn.innerHTML = '<i class="fa fa-check-circle" style="margin-right:8px;"></i>Créer la session';
+    btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; btn.style.background = '';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    Cal.init();
+
+    const lienField = getField('lien') || getField('lienReunion');
+    setMeet((lienField && lienField.value) ? lienField.value : 'https://meet.google.com/' + meetCode());
+
+    const dateField = getField('dateHeure');
+    if (dateField && dateField.value) {
+        const d = new Date(dateField.value);
+        Cal.selDay = d.getDate(); Cal.selMonth = d.getMonth(); Cal.selYear = d.getFullYear();
+        document.getElementById('cal-h').value = pad(d.getHours());
+        document.getElementById('cal-m').value = pad(Math.round(d.getMinutes()/5)*5);
+        Cal.timeSection.classList.add('visible');
+        Cal.applyDate();
+    }
+
+    const sfStatut = getField('statut');
+    if (sfStatut && sfStatut.value) {
+        const match = document.querySelector('.statut-option[data-value="'+sfStatut.value+'"]');
+        if (match) { document.querySelectorAll('.statut-option').forEach(o => o.classList.remove('selected')); match.classList.add('selected'); }
+    }
+
+    const groupeField = getField('groupe') || getField('group');
+    if (groupeField) {
+        const initTxt = groupeField.options[groupeField.selectedIndex]?.text || '';
+        if (initTxt && groupeField.value) document.getElementById('prev-groupe').textContent = initTxt;
+        groupeField.addEventListener('change', function() {
+            const txt = this.options[this.selectedIndex]?.text || '';
+            document.getElementById('prev-groupe').textContent = (txt && this.value) ? txt : 'Non sélectionné';
+            updateSteps();
+        });
+    }
+
+    updateSteps();
+});
+</script>
+
 {% endblock %}

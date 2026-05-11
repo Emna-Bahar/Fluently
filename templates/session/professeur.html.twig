@@ -1,105 +1,526 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Session - Espace Professeur{% endblock %}
 
 {% block body %}
-    <div class="container mt-5 pt-5">
-        <h1 class="text-center fw-bold text-primary mb-5">
-            <i class="fa fa-chalkboard-teacher me-2"></i> 
-            Espace Professeur - Gestion des Sessions
-        </h1>
+<style>
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+body { background: linear-gradient(135deg,#7b1fa2 0%,#4a148c 30%,#1565c0 70%,#0d47a1 100%) !important; min-height: 100vh; }
+#ftco-navbar { background: rgba(74,20,140,0.92) !important; backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+.page-hero { padding: 90px 0 35px; text-align: center; animation: fadeInDown 0.7s ease; }
+.page-hero h1 { margin-bottom: 12px; font-size: 2.6rem; font-weight: 800; letter-spacing: -1px; background: linear-gradient(135deg,#fff 0%,#f8bbd0 50%,#ce93d8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.page-hero p { color: rgba(255,255,255,0.75); font-size: 1rem; }
+.hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 20px; }
+.hero-actions a { min-width: 190px; }
+.session-panel { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); border-radius: 28px; backdrop-filter: blur(18px); box-shadow: 0 24px 64px rgba(0,0,0,0.28); padding: 26px; margin-bottom: 40px; }
+.session-panel-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 24px; }
+.session-panel-header h2 { color: #fff; margin: 0; font-size: 1.9rem; }
+.session-panel-header .subtitle { color: rgba(255,255,255,0.7); font-size: 0.95rem; }
+.sessions-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+.sessions-table thead { background: rgba(255,255,255,0.1); }
+.sessions-table th, .sessions-table td { padding: 14px 12px; vertical-align: middle; }
+.sessions-table th { color: rgba(255,255,255,0.75); font-weight: 700; font-size: 0.92rem; text-align: center; }
+.sessions-table tbody tr { background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.08); }
+.sessions-table tbody tr:last-child { border-bottom: none; }
+.sessions-table td { color: rgba(255,255,255,0.9); text-align: center; }
+.sessions-table td:first-child, .sessions-table td:nth-child(4) { text-align: left; }
+.badge { border-radius: 999px; padding: 8px 12px; font-weight: 700; }
+.action-buttons { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.action-buttons .btn { min-width: 96px; }
 
-        <div class="mb-4 text-end">
-            <a href="{{ path('app_session_new') }}" class="btn btn-success btn-lg shadow">
-                <i class="fa fa-plus me-2"></i> Créer une nouvelle session
-            </a>
-        </div>
+/* ===== MODAL — SCROLLABLE FIX ===== */
+.modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(6,10,30,0.92);
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 20px;
+    z-index: 1100;
+    overflow-y: auto;
+}
+.modal-overlay.open { display: flex; }
 
-        <div class="mb-4 text-end">
-            {# ✅ CORRIGÉ : pointe vers la vue professeur des réservations #}
-            <a href="{{ path('reservation_professeur') }}" class="btn btn-primary btn-lg shadow">
-                <i class="fa fa-cog me-2"></i> Gérer les réservations
-            </a>
-        </div>
+.modal-card {
+    width: 100%;
+    max-width: 720px;
+    background: rgba(14,18,46,0.98);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 22px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 80px);
+}
 
-        <div class="card shadow mb-4">
-            <div class="card-body">
-                <table class="table table-hover table-bordered align-middle">
-                    <thead class="table-dark text-center">
-                        <tr>
-                            <th>Date & Heure</th>
-                            <th>Statut</th>
-                            <th>Note</th>
-                            <th>Groupe</th>
-                            <th>Réunion</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for session in pagination %}
-                            <tr>
-                                <td class="text-center">{{ session.dateHeure ? session.dateHeure|date('d/m/Y H:i') : '—' }}</td>
-                                <td class="text-center">
-                                    <span class="badge fs-6 px-3 py-2
-                                        {% if session.statut == 'planifiée' %}bg-warning text-dark
-                                        {% elseif session.statut == 'en cours' %}bg-success text-white
-                                        {% elseif session.statut == 'terminée' %}bg-secondary text-white
-                                        {% else %}bg-danger text-white{% endif %}">
-                                        {{ session.statut|capitalize }}
-                                    </span>
-                                </td>
-                                <td class="text-center">
-                                    {% set rating = session.rating|default(0) %}
-                                    {% for i in 1..5 %}
-                                        <i class="fa fa-star {% if i <= rating %}text-warning{% else %}text-muted{% endif %}"></i>
-                                    {% endfor %}
-                                    {% if rating == 0 %}
-                                        <span class="text-muted ms-2 small">(non notée)</span>
-                                    {% endif %}
-                                </td>
-                                <td>{{ session.group ? session.group.nom : '—' }}</td>
-                                <td class="text-center">
-                                    {% if session.lienReunion %}
-                                        <a href="{{ session.lienReunion }}" target="_blank" class="btn btn-sm btn-info">
-                                            <i class="fa fa-video me-1"></i> Rejoindre
-                                        </a>
-                                    {% else %}
-                                        —
-                                    {% endif %}
-                                </td>
-                                <td class="text-center">
-                                    <div class="btn-group btn-group-sm">
-                                        <a href="{{ path('prof_session_show', {'id': session.id}) }}" class="btn btn-info">
-                                            <i class="fa fa-eye"></i> Voir
-                                        </a>
-                                        <a href="{{ path('prof_session_edit', {'id': session.id}) }}" class="btn btn-warning">
-                                            <i class="fa fa-edit"></i> Modifier
-                                        </a>
-                                        <form method="post" action="{{ path('prof_session_delete', {'id': session.id}) }}" 
-                                              onsubmit="return confirm('Vraiment supprimer cette session ?');" class="d-inline">
-                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ session.id) }}">
-                                            <button type="submit" class="btn btn-danger">
-                                                <i class="fa fa-trash"></i> Supprimer
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% else %}
-                            <tr>
-                                <td colspan="6" class="text-center py-5 text-muted fs-5">
-                                    <i class="fa fa-folder-open fa-2x mb-3 d-block"></i>
-                                    Aucune session trouvée
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 22px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    flex-shrink: 0;
+}
+.modal-title { color: #fff; font-size: 1.25rem; font-weight: 800; }
+.modal-close { background: transparent; border: none; color: rgba(255,255,255,0.7); font-size: 1.4rem; cursor: pointer; }
+
+.modal-body {
+    padding: 22px 24px 20px;
+    display: grid;
+    gap: 16px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.modal-footer {
+    padding: 18px 24px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-end;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    flex-shrink: 0;
+    background: rgba(14,18,46,0.98);
+}
+
+.modal-row, .form-field { display: grid; gap: 8px; }
+.modal-row strong, .form-field label { color: rgba(255,255,255,0.7); font-size: 0.86rem; text-transform: uppercase; letter-spacing: 0.8px; }
+.modal-row span, .modal-row a { color: rgba(255,255,255,0.92); font-size: 0.96rem; }
+.modal-body a { color: #8cc3ff; }
+.form-field input, .form-field select { width: 100%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 14px; color: #fff; padding: 12px 14px; font-size: 0.95rem; }
+.form-field select option { background: #131840; color: #fff; }
+.input-group { display: grid; grid-template-columns: 1fr auto; gap: 10px; }
+.input-group button { min-width: 140px; }
+.error-summary { background: rgba(239,68,68,0.16); border: 1px solid rgba(239,68,68,0.3); color: #ffe6e6; border-radius: 14px; padding: 12px 14px; display: none; flex-direction: column; gap: 8px; }
+.error-summary.open { display: flex; }
+.pagination-wrapper { margin-top: 24px; display: flex; justify-content: center; }
+.btn-secondary { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); color: #fff; }
+.btn-secondary:hover { background: rgba(255,255,255,0.12); }
+</style>
+
+<div class="page-hero">
+<br><br><br><br><br><br>
+    <h1><i class="fa fa-chalkboard-teacher me-2"></i>Espace Professeur</h1>
+    <p>Gérez vos sessions directement depuis cette page, avec un style cohérent et une interface moderne.</p>
+    <div class="hero-actions">
+        <a href="{{ path('prof_session_new') }}" class="btn btn-success btn-lg shadow">
+            <i class="fa fa-plus me-2"></i>Créer une session
+        </a>
+        <a href="{{ path('reservation_professeur') }}" class="btn btn-primary btn-lg shadow">
+            <i class="fa fa-cog me-2"></i>Réservations
+        </a>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <div class="session-panel">
+        <div class="session-panel-header">
+            <div>
+                <h2>Mes sessions</h2>
+                <div class="subtitle">Cliquez sur Voir ou Modifier pour gérer la session en temps réel.</div>
             </div>
+            <div class="badge bg-white text-dark py-2 px-3">Total : {{ pagination.getTotalItemCount() }}</div>
         </div>
 
-        <div class="d-flex justify-content-center mt-4">
+        <div class="table-responsive">
+            <table class="sessions-table">
+                <thead>
+                    <tr>
+                        <th>Date & Heure</th>
+                        <th>Statut</th>
+                        <th>Note</th>
+                        <th>Groupe</th>
+                        <th>Réunion</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for session in pagination %}
+                        <tr data-id="{{ session.id }}">
+                            <td class="text-left">{{ session.dateHeure ? session.dateHeure|date('d/m/Y H:i') : '—' }}</td>
+                            <td class="text-center">
+                                <span class="badge" style="background: {% if session.statut == 'planifiée' %}rgba(245,158,11,0.18){% elseif session.statut == 'en cours' %}rgba(16,185,129,0.18){% elseif session.statut == 'terminée' %}rgba(107,114,128,0.18){% else %}rgba(239,68,68,0.18){% endif %}; color: {% if session.statut == 'planifiée' %}#F59E0B{% elseif session.statut == 'en cours' %}#10B981{% elseif session.statut == 'terminée' %}#9CA3AF{% else %}#EF4444{% endif %}; border: 1px solid rgba(255,255,255,0.12);">
+                                    {{ session.statut|capitalize }}
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                {% set rating = session.rating|default(0) %}
+                                <span style="display:inline-flex; gap:4px; align-items:center;">
+                                    {% for i in 1..5 %}
+                                        <i class="fa fa-star" style="color: {% if i <= rating %}#F59E0B{% else %}rgba(255,255,255,0.25){% endif %};"></i>
+                                    {% endfor %}
+                                </span>
+                                {% if rating == 0 %}
+                                    <div style="color:rgba(255,255,255,0.65);font-size:.85rem;">(non notée)</div>
+                                {% endif %}
+                            </td>
+                            <td class="text-left">{{ session.group ? session.group.nom : '—' }}</td>
+                            <td class="text-center">
+                                {% if session.lienReunion %}
+                                    <a href="{{ session.lienReunion }}" target="_blank" class="btn btn-sm btn-info">
+                                        <i class="fa fa-video me-1"></i>Rejoindre
+                                    </a>
+                                {% else %}
+                                    —
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <div class="action-buttons">
+                                    <button type="button" class="btn btn-sm btn-info action-btn" data-action="view"
+                                            data-id="{{ session.id }}"
+                                            data-date="{{ session.dateHeure ? session.dateHeure|date('d/m/Y H:i') : '' }}"
+                                            data-statut="{{ session.statut }}"
+                                            data-rating="{{ session.rating|default(0) }}"
+                                            data-groupe="{{ session.group ? session.group.nom : '' }}"
+                                            data-groupe-id="{{ session.group ? session.group.id : '' }}"
+                                            data-lien="{{ session.lienReunion|default('')|e('html_attr') }}">
+                                        <i class="fa fa-eye"></i> Voir
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-warning action-btn" data-action="edit"
+                                            data-id="{{ session.id }}"
+                                            data-date="{{ session.dateHeure ? session.dateHeure|date('d/m/Y H:i') : '' }}"
+                                            data-statut="{{ session.statut }}"
+                                            data-groupe-id="{{ session.group ? session.group.id : '' }}"
+                                            data-groupe="{{ session.group ? session.group.nom : '' }}"
+                                            data-lien="{{ session.lienReunion|default('')|e('html_attr') }}">
+                                        <i class="fa fa-edit"></i> Modifier
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-danger action-btn" data-action="delete"
+                                            data-id="{{ session.id }}"
+                                            data-token="{{ csrf_token('delete' ~ session.id) }}">
+                                        <i class="fa fa-trash"></i> Supprimer
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center py-5" style="color:rgba(255,255,255,0.65);font-size:1rem;">
+                                <i class="fa fa-folder-open fa-2x mb-3 d-block"></i>
+                                Aucune session trouvée
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination-wrapper">
             {{ knp_pagination_render(pagination) }}
         </div>
     </div>
+</div>
+
+{# ===== MODAL VOIR ===== #}
+<div class="modal-overlay" id="view-modal-overlay">
+    <div class="modal-card">
+        <div class="modal-header">
+            <div>
+                <div class="modal-title">Détails de la session</div>
+                <div class="text-white-50">Informations affichées sans changer de page.</div>
+            </div>
+            <button type="button" class="modal-close" data-close="view">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-row"><strong>Date & Heure</strong><span id="view-date">—</span></div>
+            <div class="modal-row"><strong>Statut</strong><span id="view-statut">—</span></div>
+            <div class="modal-row"><strong>Groupe</strong><span id="view-groupe">—</span></div>
+            <div class="modal-row"><strong>Note</strong><span id="view-rating">—</span></div>
+            <div class="modal-row"><strong>Lien de réunion</strong><a href="#" target="_blank" id="view-lien">—</a></div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-close="view">Fermer</button>
+        </div>
+    </div>
+</div>
+
+{# ===== MODAL MODIFIER ===== #}
+<div class="modal-overlay" id="edit-modal-overlay">
+    <div class="modal-card">
+        <div class="modal-header">
+            <div>
+                <div class="modal-title">Modifier la session</div>
+                <div class="text-white-50">Enregistrement instantané en AJAX.</div>
+            </div>
+            <button type="button" class="modal-close" data-close="edit">×</button>
+        </div>
+        <div class="modal-body">
+            <div id="edit-error-summary" class="error-summary"></div>
+
+            <div class="form-field">
+                <label for="edit-date">DATE ET HEURE</label>
+                <input id="edit-date" name="dateHeure" type="datetime-local">
+            </div>
+
+            <div class="form-field">
+                <label for="edit-statut">STATUT</label>
+                <select id="edit-statut" name="statut">
+                    <option value="planifiée">Planifiée</option>
+                    <option value="en cours">En cours</option>
+                    <option value="terminée">Terminée</option>
+                    <option value="annulée">Annulée</option>
+                </select>
+            </div>
+
+            <div class="form-field">
+                <label for="edit-groupe">GROUPE</label>
+                <select id="edit-groupe" name="group">
+                    <option value="">Sélectionnez un groupe</option>
+                    {% for groupe in groupes %}
+                        <option value="{{ groupe.id }}">{{ groupe.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-field">
+                <label for="edit-lien">LIEN DE RÉUNION</label>
+                <div class="input-group">
+                    <input id="edit-lien" name="lienReunion" type="text" placeholder="https://meet.google.com/...">
+                    <button type="button" class="btn btn-secondary" id="edit-regenerate">Nouveau lien</button>
+                </div>
+            </div>
+
+            <input type="hidden" id="edit-session-id" name="sessionId">
+            {# ✅ CORRECTION : suppression de edit-user-id — le controller assigne toujours l'user connecté #}
+            <input type="hidden" id="edit-csrf-token" name="session[_token]" value="{{ csrf_token('session') }}">
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-close="edit">Annuler</button>
+            <button type="button" class="btn btn-success" id="edit-save">Enregistrer</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const statusLabels = {
+    'planifiée': {color: '#F59E0B', bg: 'rgba(245,158,11,0.18)', label: 'Planifiée'},
+    'en cours':  {color: '#10B981', bg: 'rgba(16,185,129,0.18)', label: 'En cours'},
+    'terminée':  {color: '#9CA3AF', bg: 'rgba(107,114,128,0.18)', label: 'Terminée'},
+    'annulée':   {color: '#EF4444', bg: 'rgba(239,68,68,0.18)', label: 'Annulée'}
+};
+
+function formatStars(value) {
+    value = parseInt(value, 10) || 0;
+    let html = '';
+    for (let i = 1; i <= 5; i++) {
+        html += '<i class="fa fa-star" style="color:' + (i <= value ? '#F59E0B' : 'rgba(255,255,255,0.25)') + '; margin-right:3px;"></i>';
+    }
+    return html + (value === 0 ? '<span style="color:rgba(255,255,255,0.65); font-size:0.9rem;">(non notée)</span>' : '');
+}
+
+function openModal(id) {
+    document.getElementById(id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+function showViewModal(data) {
+    document.getElementById('view-date').textContent = data.date || '—';
+    const statut = statusLabels[data.statut] || {label: data.statut || '—', bg: 'rgba(255,255,255,0.08)', color: '#fff'};
+    document.getElementById('view-statut').innerHTML =
+        '<span style="display:inline-block;padding:6px 10px;border-radius:999px;background:' + statut.bg + ';color:' + statut.color + ';">' + statut.label + '</span>';
+    document.getElementById('view-groupe').textContent = data.groupe || '—';
+    document.getElementById('view-rating').innerHTML = formatStars(data.rating || 0);
+    const lienEl = document.getElementById('view-lien');
+    if (data.lien) {
+        lienEl.textContent = data.lien;
+        lienEl.href = data.lien;
+    } else {
+        lienEl.textContent = 'Aucun lien disponible';
+        lienEl.removeAttribute('href');
+    }
+    openModal('view-modal-overlay');
+}
+
+function openEditModal(data) {
+    document.getElementById('edit-session-id').value = data.id;
+
+    const dateInput = document.getElementById('edit-date');
+    if (data.date) {
+        const match = data.date.match(/^(\d{2})\/(\d{2})\/(\d{4})\s+(\d{2}):(\d{2})$/);
+        if (match) {
+            dateInput.value = match[3] + '-' + match[2] + '-' + match[1] + 'T' + match[4] + ':' + match[5];
+        } else {
+            dateInput.value = '';
+        }
+    } else {
+        dateInput.value = '';
+    }
+
+    document.getElementById('edit-statut').value = data.statut || 'planifiée';
+    document.getElementById('edit-groupe').value = data.groupeId || '';
+    document.getElementById('edit-lien').value = data.lien || '';
+    document.getElementById('edit-error-summary').classList.remove('open');
+    document.getElementById('edit-error-summary').innerHTML = '';
+    openModal('edit-modal-overlay');
+}
+
+function showEditErrors(errors) {
+    const summary = document.getElementById('edit-error-summary');
+    summary.innerHTML = errors.map(function(err) {
+        return '<span><i class="fa fa-exclamation-circle" style="margin-right:8px;"></i>' + err + '</span>';
+    }).join('');
+    summary.classList.add('open');
+}
+
+function updateRowData(id, changes) {
+    const row = document.querySelector('tr[data-id="' + id + '"]');
+    if (!row) return;
+    if (changes.date) row.cells[0].textContent = changes.date;
+    if (changes.statut) {
+        const s = statusLabels[changes.statut] || {bg:'rgba(255,255,255,0.08)', color:'#fff', label: changes.statut};
+        row.cells[1].innerHTML = '<span class="badge" style="background:' + s.bg + '; color:' + s.color + '; border: 1px solid rgba(255,255,255,0.12);">' + s.label + '</span>';
+    }
+    if (changes.groupe) row.cells[3].textContent = changes.groupe;
+    if (changes.lienReunion) {
+        const linkBtn = row.cells[4].querySelector('a');
+        if (linkBtn) linkBtn.href = changes.lienReunion;
+    }
+    const viewBtn = row.querySelector('button[data-action="view"]');
+    const editBtn = row.querySelector('button[data-action="edit"]');
+    if (viewBtn) {
+        if (changes.date)        viewBtn.dataset.date     = changes.date;
+        if (changes.statut)      viewBtn.dataset.statut   = changes.statut;
+        if (changes.groupe)      viewBtn.dataset.groupe   = changes.groupe;
+        if (changes.lienReunion) viewBtn.dataset.lien     = changes.lienReunion;
+    }
+    if (editBtn) {
+        if (changes.date)        editBtn.dataset.date     = changes.date;
+        if (changes.statut)      editBtn.dataset.statut   = changes.statut;
+        if (changes.groupeId)    editBtn.dataset.groupeId = changes.groupeId;
+        if (changes.groupe)      editBtn.dataset.groupe   = changes.groupe;
+        if (changes.lienReunion) editBtn.dataset.lien     = changes.lienReunion;
+    }
+}
+
+function bindActions() {
+    document.querySelectorAll('.action-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const action = this.dataset.action;
+            const data = {
+                id:       this.dataset.id,
+                date:     this.dataset.date,
+                statut:   this.dataset.statut,
+                rating:   this.dataset.rating,
+                groupe:   this.dataset.groupe,
+                groupeId: this.dataset.groupeId,
+                lien:     this.dataset.lien,
+                token:    this.dataset.token,
+            };
+            if (action === 'view')   { showViewModal(data); return; }
+            if (action === 'edit')   { openEditModal(data); return; }
+            if (action === 'delete') {
+                if (!confirm('Vraiment supprimer cette session ?')) return;
+                fetch('{{ path('prof_session_delete', {'id': 'SESSION_ID'}) }}'.replace('SESSION_ID', data.id), {
+                    method: 'POST',
+                    headers: {'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: '_token=' + encodeURIComponent(data.token)
+                })
+                .then(function(r) { return r.json(); })
+                .then(function(result) {
+                    if (result.success) {
+                        const row = document.querySelector('tr[data-id="' + data.id + '"]');
+                        if (row) row.remove();
+                    } else {
+                        alert(result.message || 'Impossible de supprimer la session.');
+                    }
+                })
+                .catch(function() { alert('Erreur lors de la suppression.'); });
+            }
+        });
+    });
+}
+
+document.querySelectorAll('[data-close="view"]').forEach(function(btn) {
+    btn.addEventListener('click', function() { closeModal('view-modal-overlay'); });
+});
+document.querySelectorAll('[data-close="edit"]').forEach(function(btn) {
+    btn.addEventListener('click', function() { closeModal('edit-modal-overlay'); });
+});
+
+document.getElementById('view-modal-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal('view-modal-overlay');
+});
+document.getElementById('edit-modal-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal('edit-modal-overlay');
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeModal('view-modal-overlay');
+        closeModal('edit-modal-overlay');
+    }
+});
+
+document.getElementById('edit-regenerate').addEventListener('click', function() {
+    const code = Array.from({length:3}, function() {
+        return Math.random().toString(36).substring(2,5);
+    }).join('-');
+    document.getElementById('edit-lien').value = 'https://meet.google.com/' + code;
+});
+
+document.getElementById('edit-save').addEventListener('click', function() {
+    const id          = document.getElementById('edit-session-id').value;
+    const dateValue   = document.getElementById('edit-date').value.trim();
+    const statutValue = document.getElementById('edit-statut').value;
+    const groupeValue = document.getElementById('edit-groupe').value;
+    const lienValue   = document.getElementById('edit-lien').value.trim();
+
+    const errors = [];
+    if (!dateValue) {
+        errors.push('La date est requise.');
+    } else {
+        const d = new Date(dateValue);
+        if (isNaN(d.getTime())) errors.push('La date saisie est invalide.');
+        else if (d.getTime() <= Date.now()) errors.push('La date doit être dans le futur.');
+    }
+    if (!groupeValue) errors.push('Le groupe est requis.');
+    if (!statutValue) errors.push('Le statut est requis.');
+
+    if (errors.length) { showEditErrors(errors); return; }
+
+    // ✅ CORRECTION : session[user] retiré — le controller assigne automatiquement l'user connecté
+    const formData = new URLSearchParams();
+    formData.append('session[dateHeure]',   dateValue);
+    formData.append('session[statut]',       statutValue);
+    formData.append('session[lienReunion]',  lienValue);
+    formData.append('session[group]',        groupeValue);
+    formData.append('session[_token]',       document.getElementById('edit-csrf-token').value);
+
+    fetch('{{ path('prof_session_edit', {'id': 'SESSION_ID'}) }}'.replace('SESSION_ID', id), {
+        method: 'POST',
+        headers: {'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/x-www-form-urlencoded'},
+        body: formData.toString()
+    })
+    .then(function(response) { return response.json(); })
+    .then(function(result) {
+        if (result.success) {
+            const d = new Date(dateValue);
+            const displayDate = ('0'+d.getDate()).slice(-2) + '/' +
+                                ('0'+(d.getMonth()+1)).slice(-2) + '/' +
+                                d.getFullYear() + ' ' +
+                                ('0'+d.getHours()).slice(-2) + ':' +
+                                ('0'+d.getMinutes()).slice(-2);
+            updateRowData(id, {
+                date:        displayDate,
+                statut:      statutValue,
+                groupe:      document.getElementById('edit-groupe').selectedOptions[0].text,
+                groupeId:    groupeValue,
+                lienReunion: lienValue
+            });
+            closeModal('edit-modal-overlay');
+            alert(result.message || 'Session modifiée avec succès !');
+        } else {
+            showEditErrors(result.errors || [result.message || 'Erreur lors de la mise à jour.']);
+        }
+    })
+    .catch(function() { showEditErrors(['Erreur réseau lors de la mise à jour.']); });
+});
+
+bindActions();
+</script>
 {% endblock %}

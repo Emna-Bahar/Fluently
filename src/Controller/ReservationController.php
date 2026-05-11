@@ -21,21 +21,42 @@ class ReservationController extends AbstractController
         private ReservationRepository $reservationRepository,
     ) {}
 
+    /**
+     * Recharge l'entité User réelle depuis la BDD via l'email.
+     * Robuste contre les proxies Doctrine et la désérialisation de session PHP.
+     */
     private function getCurrentUser(EntityManagerInterface $em): ?User
     {
-        $user = $this->getUser();
-        if ($user instanceof User) {
-            return $user;
+        $userInterface = $this->getUser();
+
+        if ($userInterface === null) {
+            return $em->getRepository(User::class)->find(1); // fallback dev
         }
-        return $em->getRepository(User::class)->find(1);
+
+        /** @var User|null */
+        return $em->getRepository(User::class)->findOneBy([
+            'email' => $userInterface->getUserIdentifier(),
+        ]);
     }
+
+    /**
+     * ✅ Vérifie que la réservation appartient bien à une session du prof connecté.
+     * Utilisé pour sécuriser les actions : modifier statut, supprimer.
+     */
+    private function checkProfOwnsReservation(Reservation $reservation, User $prof): bool
+    {
+        return $reservation->getSession()?->getUser()?->getId() === $prof->getId();
+    }
+
+    // =========================================================================
+    // LISTE DES RÉSERVATIONS DE L'ÉTUDIANT CONNECTÉ
+    // =========================================================================
 
     #[Route('/', name: 'app_reservation_index', methods: ['GET'])]
     public function index(EntityManagerInterface $em): Response
     {
         $user = $this->getCurrentUser($em);
 
-        // ✅ PHPStan fix #1 ligne 38 : findByUser() attend un User non-null
         if (!$user) {
             return $this->redirectToRoute('app_login');
         }
@@ -47,6 +68,10 @@ class ReservationController extends AbstractController
         ]);
     }
 
+    // =========================================================================
+    // ESPACE PROFESSEUR — liste des réservations sur SES sessions
+    // =========================================================================
+
     #[Route('/professeur/reservations', name: 'reservation_professeur', methods: ['GET'])]
     public function professeurReservations(EntityManagerInterface $em): Response
     {
@@ -57,6 +82,20 @@ class ReservationController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
+        // ✅ DEBUG temporaire — décommenter si problème persiste :
+        // $all = $this->reservationRepository->findAll();
+        // foreach ($all as $r) {
+        //     dump([
+        //         'resa_id'      => $r->getId(),
+        //         'statut'       => $r->getStatut(),
+        //         'session_id'   => $r->getSession()?->getId(),
+        //         'session_prof' => $r->getSession()?->getUser()?->getId(),
+        //         'current_prof' => $user->getId(),
+        //         'match'        => $r->getSession()?->getUser()?->getId() === $user->getId(),
+        //     ]);
+        // }
+        // dd('FIN DEBUG');
+
         $reservations = $this->reservationRepository->findAllForProf($user);
 
         return $this->render('reservation/professeur.html.twig', [
@@ -64,6 +103,10 @@ class ReservationController extends AbstractController
             'user'         => $user,
         ]);
     }
+
+    // =========================================================================
+    // CALENDRIER
+    // =========================================================================
 
     #[Route('/calendar', name: 'reservation_calendar', methods: ['GET'])]
     public function calendar(): Response
@@ -89,11 +132,11 @@ class ReservationController extends AbstractController
             }
 
             $color = match($resa->getStatut()) {
-                'confirmée'  => '#00C853',
-                'en attente' => '#ffc107',
-                'refusée'    => '#FF4757',
-                'annulée'    => '#FF4757',
-                default      => '#6b6b9a',
+                'confirmée', 'acceptée' => '#00C853',
+                'en attente'            => '#ffc107',
+                'refusée'               => '#FF4757',
+                'annulée'               => '#FF4757',
+                default                 => '#6b6b9a',
             };
 
             $events[] = [
@@ -119,13 +162,23 @@ class ReservationController extends AbstractController
         return $this->json($events);
     }
 
+    // =========================================================================
+    // NOUVELLE RÉSERVATION (côté étudiant)
+    // =========================================================================
+
     #[Route('/new', name: 'app_reservation_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
         EntityManagerInterface $em
     ): Response {
+        $user = $this->getCurrentUser($em);
+
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
         $reservation = new Reservation();
-        $reservation->setUser($this->getCurrentUser($em));
+        $reservation->setUser($user);
         $reservation->setStatut('en attente');
 
         $sessionId = $request->query->get('session_id');
@@ -139,10 +192,13 @@ class ReservationController extends AbstractController
         $form = $this->createForm(ReservationType::class, $reservation, [
             'is_student_view' => true,
         ]);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // ✅ Sécurité : on reforce le user et le statut après handleRequest
+            $reservation->setUser($user);
+            $reservation->setStatut('en attente');
+
             $em->persist($reservation);
             $em->flush();
             $this->addFlash('success', 'Demande de réservation envoyée avec succès.');
@@ -158,6 +214,10 @@ class ReservationController extends AbstractController
         ]);
     }
 
+    // =========================================================================
+    // VOIR UNE RÉSERVATION
+    // =========================================================================
+
     #[Route('/{id}', name: 'app_reservation_show', methods: ['GET'])]
     public function show(Reservation $reservation): Response
     {
@@ -165,6 +225,10 @@ class ReservationController extends AbstractController
             'reservation' => $reservation,
         ]);
     }
+
+    // =========================================================================
+    // MODIFIER UNE RÉSERVATION (côté prof)
+    // =========================================================================
 
     #[Route('/{id}/edit', name: 'app_reservation_edit', methods: ['GET', 'POST'])]
     public function edit(
@@ -174,19 +238,15 @@ class ReservationController extends AbstractController
     ): Response {
         $user = $this->getCurrentUser($em);
 
-        // ✅ PHPStan fix #2 lignes 176 : getSession()/getUser()/getId() sur null possible
-        // On vérifie que $user, session et user de session existent avant d'appeler getId()
-        $session     = $reservation->getSession();
-        $sessionUser = $session?->getUser();
-
-        if (!$user || !$session || !$sessionUser || $sessionUser->getId() !== $user->getId()) {
-            throw $this->createAccessDeniedException();
+        if (!$user || !$this->checkProfOwnsReservation($reservation, $user)) {
+            throw $this->createAccessDeniedException(
+                'Vous n\'êtes pas autorisé à modifier cette réservation.'
+            );
         }
 
         $form = $this->createForm(ReservationType::class, $reservation, [
             'is_student_view' => false,
         ]);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -204,6 +264,10 @@ class ReservationController extends AbstractController
         ]);
     }
 
+    // =========================================================================
+    // CHANGER LE STATUT D'UNE RÉSERVATION (confirmer / refuser / annuler)
+    // =========================================================================
+
     #[Route('/{id}/statut', name: 'app_reservation_update_statut', methods: ['POST'])]
     public function updateStatut(
         Request $request,
@@ -212,36 +276,34 @@ class ReservationController extends AbstractController
     ): Response {
         $user = $this->getCurrentUser($em);
 
-        // ✅ PHPStan fix #3 lignes 210 : même pattern null-check avant getId()
-        $session     = $reservation->getSession();
-        $sessionUser = $session?->getUser();
-
-        if (!$user || !$session || !$sessionUser || $sessionUser->getId() !== $user->getId()) {
-            throw $this->createAccessDeniedException();
+        // ✅ Sécurité : seul le prof propriétaire de la SESSION peut changer le statut
+        if (!$user || !$this->checkProfOwnsReservation($reservation, $user)) {
+            throw $this->createAccessDeniedException(
+                'Vous n\'êtes pas autorisé à modifier cette réservation.'
+            );
         }
 
-        // ✅ PHPStan fix #4 ligne 221 : cast (string) car get() retourne bool|float|int|string|null
         $statut  = (string) $request->request->get('statut', '');
-        $allowed = ['confirmée', 'refusée', 'annulée'];
+        $allowed = ['confirmée', 'acceptée', 'refusée', 'annulée'];
+        $token   = (string) $request->request->get('_token', '');
 
-        // ✅ PHPStan fix #5 ligne 219 : cast (string) pour isCsrfTokenValid() qui attend string|null
-        $token = (string) $request->request->get('_token', '');
-
-        if (in_array($statut, $allowed) && $this->isCsrfTokenValid('resa_statut_' . $reservation->getId(), $token)) {
+        if (
+            in_array($statut, $allowed, true)
+            && $this->isCsrfTokenValid('resa_statut_' . $reservation->getId(), $token)
+        ) {
             $reservation->setStatut($statut);
             $em->flush();
             $this->addFlash('success', 'Réservation marquée comme "' . $statut . '".');
         } else {
-            $this->addFlash('error', 'Action invalide.');
+            $this->addFlash('error', 'Action invalide ou token CSRF incorrect.');
         }
 
-        $referer = $request->headers->get('referer');
-        if ($referer && str_contains($referer, 'professeur/reservations')) {
-            return $this->redirectToRoute('reservation_professeur');
-        }
-
-        return $this->redirectToRoute('session_prof_dashboard');
+        return $this->redirectToRoute('reservation_professeur');
     }
+
+    // =========================================================================
+    // SUPPRIMER UNE RÉSERVATION
+    // =========================================================================
 
     #[Route('/{id}', name: 'app_reservation_delete', methods: ['POST'])]
     public function delete(
@@ -251,28 +313,23 @@ class ReservationController extends AbstractController
     ): Response {
         $user = $this->getCurrentUser($em);
 
-        // ✅ PHPStan fix #6 lignes 245 : même pattern null-check avant getId()
-        $session     = $reservation->getSession();
-        $sessionUser = $session?->getUser();
-
-        if (!$user || !$session || !$sessionUser || $sessionUser->getId() !== $user->getId()) {
-            throw $this->createAccessDeniedException();
+        // ✅ Sécurité : seul le prof propriétaire de la SESSION peut supprimer
+        if (!$user || !$this->checkProfOwnsReservation($reservation, $user)) {
+            throw $this->createAccessDeniedException(
+                'Vous n\'êtes pas autorisé à supprimer cette réservation.'
+            );
         }
 
-        // ✅ PHPStan fix #7 ligne 249 : cast (string) pour isCsrfTokenValid()
         $token = (string) $request->request->get('_token', '');
 
         if ($this->isCsrfTokenValid('delete' . $reservation->getId(), $token)) {
             $em->remove($reservation);
             $em->flush();
             $this->addFlash('success', 'Réservation supprimée.');
+        } else {
+            $this->addFlash('error', 'Token CSRF invalide.');
         }
 
-        $referer = $request->headers->get('referer');
-        if ($referer && str_contains($referer, 'professeur/reservations')) {
-            return $this->redirectToRoute('reservation_professeur');
-        }
-
-        return $this->redirectToRoute('session_prof_dashboard');
+        return $this->redirectToRoute('reservation_professeur');
     }
 }
