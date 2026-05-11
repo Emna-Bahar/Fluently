@@ -211,6 +211,8 @@ final class GroupeController extends AbstractController
         $log->setUserName($u ? trim($u->getNom() . ' ' . $u->getPrenom()) : 'Inconnu');
         $log->setOriginalContent($message->getContenu());
         $log->setCreatedBy($currentUser);
+        $log->setUpdatedBy($currentUser);
+        $log->setUpdatedAt(new \DateTimeImmutable());
         $em->persist($log);
         // --------------------
 
@@ -264,6 +266,8 @@ final class GroupeController extends AbstractController
             $log->setOriginalContent($message->getContenu());
             $log->setNewContent($contenu);
             $log->setCreatedBy($editCurrentUser);
+            $log->setUpdatedBy($editCurrentUser);
+            $log->setUpdatedAt(new \DateTimeImmutable());
             $em->persist($log);
             // ----------------
 
@@ -532,6 +536,8 @@ final class GroupeController extends AbstractController
         $log->setUserName($adminDelUser ? trim($adminDelUser->getNom() . ' ' . $adminDelUser->getPrenom()) : 'Inconnu');
         $log->setOriginalContent($message->getContenu());
         $log->setCreatedBy($admin);
+        $log->setUpdatedBy($admin);
+        $log->setUpdatedAt(new \DateTimeImmutable());
         $em->persist($log);
         // -------------------------
 

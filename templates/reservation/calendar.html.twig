@@ -10,13 +10,11 @@
     to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ✅ MÊME background que le footer Fluently */
 body {
     background: linear-gradient(135deg, #7b1fa2 0%, #4a148c 30%, #1565c0 70%, #0d47a1 100%) !important;
     min-height: 100vh;
 }
 
-/* Navbar transparente pour laisser voir le gradient */
 #ftco-navbar {
     background: rgba(74,20,140,0.92) !important;
     backdrop-filter: blur(10px);
@@ -100,7 +98,6 @@ body {
     backdrop-filter: blur(10px);
 }
 
-/* FullCalendar */
 #calendar-resa .fc-theme-standard td,
 #calendar-resa .fc-theme-standard th,
 #calendar-resa .fc-theme-standard .fc-scrollgrid { border-color: rgba(255,255,255,0.15); }
@@ -280,10 +277,12 @@ body {
 <div class="container py-5">
 <br><br><br><br><br><br>
     <div class="d-flex align-items-center justify-content-between mb-4" style="animation: fadeInDown 0.5s ease;">
+    <br><br><br><br><br><br>
         <h1 class="page-title mb-0">
             <i class="fa fa-calendar-check-o mr-2"></i> Mes Réservations
         </h1>
-        <a href="/calendar" class="btn-retour">
+        {# ✅ CORRECTION : href="/calendar" remplacé par path('reservation_calendar') #}
+        <a href="{{ path('reservation_calendar') }}" class="btn-retour">
             <i class="fa fa-arrow-left"></i> Retour au calendrier
         </a>
     </div>
@@ -371,7 +370,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var resaEventsUrl = "{{ path('reservation_calendar_events') }}";
     var calEl = document.getElementById('calendar-resa');
 
-    // ══ MODALE JS PUR ══
     function openResaModal() {
         var backdrop = document.createElement('div');
         backdrop.className = 'resa-backdrop';
@@ -395,7 +393,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (e.key === 'Escape') closeResaModal();
     });
 
-    // ══ FULLCALENDAR ══
     var cal = new FullCalendar.Calendar(calEl, {
         initialView: 'dayGridMonth',
         locale: 'fr',

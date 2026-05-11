@@ -28,9 +28,9 @@ class CalendarController extends AbstractController
         private ReservationRepository  $reservationRepo,
     ) {}
 
-    // ✅ PHPStan fix #1 : méthode getCurrentUser() supprimée car inutilisée (method.unused)
-
-    #[Route('/calendar_index', name: 'calendar_index', methods: ['GET'])]
+    // ✅ CORRECTION : route était '/calendar_index' → maintenant '/'
+    // Résultat : /calendar au lieu de /calendar/calendar_index
+    #[Route('/', name: 'calendar_index', methods: ['GET'])]
     public function index(): Response
     {
         return $this->render('calendar/index.html.twig');
@@ -126,8 +126,6 @@ class CalendarController extends AbstractController
     #[Route('/recommend', name: 'calendar_recommend', methods: ['POST'])]
     public function recommend(Request $request): JsonResponse
     {
-        // ✅ PHPStan fix #2 : cast (string) pour satisfaire trim() qui attend un string
-        //    $request->request->get() retourne bool|float|int|string|null
         $question = trim((string) $request->request->get('question', ''));
 
         if (empty($question)) {

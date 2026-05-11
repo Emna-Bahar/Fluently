@@ -1,6 +1,7 @@
 # 🌍 Fluently — Module Symfony (Langue / Niveau / Cours)
 > Application web Symfony — Gestion administrative et pédagogique des langues, niveaux CECRL et cours
 
+---
 ## Présentation générale
 
 Fluently est une plateforme web Symfony de **formation linguistique et de suivi pédagogique**. L’application centralise tout le parcours d’apprentissage dans une seule interface : inscription des utilisateurs, gestion des langues et des niveaux CECRL, consultation des cours, passage des tests, suivi de la progression, travail en groupe, planification des sessions, réservations et objectifs personnels.

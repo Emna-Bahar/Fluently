@@ -1,249 +1,456 @@
+{# templates/mes_tests/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Mes Tests - Fluently{% endblock %}
 
-{% block css %}
-{{ parent() }}
-<style>
-    .mes-tests-container {
-        background: linear-gradient(135deg, #4f46e5 0%, #6d28d9 100%);
-        min-height: 100vh;
-        padding: 60px 20px;
-    }
-    .langue-section {
-        background: white;
-        border-radius: 20px;
-        margin-bottom: 30px;
-        overflow: hidden;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-    }
-    .langue-header {
-        background: linear-gradient(135deg, #4f46e5, #6d28d9);
-        color: white;
-        padding: 20px 30px;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-    .test-card {
-        border: 2px solid #e5e7eb;
-        border-radius: 15px;
-        padding: 20px;
-        margin: 15px;
-        transition: all 0.3s;
-        position: relative;
-    }
-    .test-card.accessible:hover {
-        border-color: #4f46e5;
-        box-shadow: 0 5px 20px rgba(79,70,229,0.15);
-        transform: translateY(-3px);
-    }
-    .test-card.bloque {
-        opacity: 0.6;
-        background: #f9fafb;
-    }
-    .type-badge {
-        padding: 5px 12px;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: 700;
-        text-transform: uppercase;
-    }
-    .type-niveau { background: #fbbf24; color: #1e293b; }
-    .type-quiz { background: #3b82f6; color: white; }
-    .type-fin { background: #10b981; color: white; }
-    .score-bar {
-        height: 8px;
-        background: #e5e7eb;
-        border-radius: 4px;
-        overflow: hidden;
-        margin-top: 5px;
-    }
-    .score-fill {
-        height: 100%;
-        border-radius: 4px;
-    }
-    .stats-mini {
-        display: flex;
-        gap: 15px;
-        flex-wrap: wrap;
-        margin-top: 10px;
-    }
-    .stat-mini {
-        background: #f8f9fa;
-        padding: 8px 15px;
-        border-radius: 10px;
-        font-size: 0.85rem;
-    }
-    .cadenas {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        font-size: 1.5rem;
-    }
-</style>
-{% endblock %}
+{% block title %}Mes Tests — Fluently{% endblock %}
+
 
 {% block body %}
-<div class="mes-tests-container">
-    <br><br><br>
-    <div style="max-width: 1000px; margin: 0 auto;">
+<style>
+.mt-page { background:#F4F5FA; min-height:100vh; padding-bottom:60px; font-family:'Inter',system-ui,sans-serif; }
 
-        <div style="text-align: center; margin-bottom: 40px; color: white;">
-            <h1 style="font-size: 2.8rem; font-weight: 900;">📚 Mes Tests</h1>
-            <p style="font-size: 1.2rem; opacity: 0.9;">Suis ta progression et repasse tes tests</p>
+
+.mt-hero {
+    background: linear-gradient(135deg,#6C63FF 0%,#8B7CF6 60%,#A78BFA 100%);
+    padding: 200px 40px 88px;  /* ← Réduire le padding-top */
+    position: relative;
+    overflow: hidden;
+    margin-top: 0;  /* ← S'assurer qu'il n'y a pas de marge */
+}
+.mt-hero::before {
+    content:''; position:absolute; top:-60px; right:-60px;
+    width:300px; height:300px; border-radius:50%;
+    background:rgba(255,255,255,.06);
+}
+.mt-hero h1 { font-size:34px; font-weight:800; color:#fff; position:relative; z-index:1; margin:0; }
+.mt-hero p  { font-size:15px; color:rgba(255,255,255,.78); margin:6px 0 0; position:relative; z-index:1; }
+
+
+.mt-toolbar {
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+    padding:0 40px; margin-top:-36px; position:relative; z-index:10;
+}
+.mt-search {
+    flex:1; min-width:240px; background:#fff; border-radius:16px;
+    box-shadow:0 4px 20px rgba(108,99,255,.10);
+    display:flex; align-items:center; padding:0 18px; gap:10px;
+    height:56px; border:1.5px solid transparent; transition:border-color .2s;
+}
+.mt-search:focus-within { border-color:#6C63FF; }
+.mt-search input { border:none; outline:none; flex:1; font-size:14px; color:#1A1D2E; background:transparent; }
+.mt-badge { background:#EEF0FF; color:#6C63FF; font-size:12px; font-weight:700; padding:4px 12px; border-radius:20px; }
+.mt-btn-perf {
+    height:46px; padding:0 20px; border-radius:24px; font-size:13px; font-weight:700;
+    background:#10B981; color:#fff; text-decoration:none;
+    display:inline-flex; align-items:center; gap:6px; border:none;
+    transition:opacity .2s; cursor:pointer; white-space:nowrap;
+}
+.mt-btn-perf:hover { opacity:.88; color:#fff; text-decoration:none; }
+
+
+.mt-reco {
+    margin:24px 40px 0;
+    background:linear-gradient(to right,#EFF6FF,#F0FDF4);
+    border:1.5px solid #BFDBFE; border-radius:16px;
+    padding:18px 24px; display:flex; align-items:center; gap:16px;
+}
+.mt-reco-ico {
+    width:50px; height:50px; border-radius:25px; background:#DBEAFE;
+    display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0;
+}
+.mt-reco-text { flex:1; }
+.mt-reco-text strong { font-size:14px; font-weight:700; color:#1E40AF; display:block; }
+.mt-reco-text span   { font-size:12px; color:#64748B; }
+.mt-btn-reco {
+    background:#3B82F6; color:#fff; padding:10px 22px; border-radius:10px;
+    font-size:12px; font-weight:700; text-decoration:none; white-space:nowrap;
+    transition:background .2s;
+}
+.mt-btn-reco:hover { background:#2563EB; color:#fff; text-decoration:none; }
+
+
+.mt-content { padding:24px 40px 0; display:flex; flex-direction:column; gap:24px; }
+
+
+.mt-langue-card { background:#fff; border-radius:18px; box-shadow:0 4px 20px rgba(108,99,255,.08); overflow:hidden; }
+.mt-langue-card.mt-hidden { display:none; }
+
+
+.mt-lh {
+    background:linear-gradient(to right,#6C63FF,#8B7CF6);
+    padding:22px 28px; display:flex; align-items:center; gap:16px;
+}
+.mt-lh-ico { font-size:30px; flex-shrink:0; }
+.mt-lh-info { flex:1; }
+.mt-lh-info h2 { font-size:20px; font-weight:800; color:#fff; margin:0; }
+.mt-lh-info p  { font-size:12px; color:rgba(255,255,255,.72); margin:3px 0 0; }
+.mt-niveau-badge {
+    background:rgba(255,255,255,.20); border-radius:14px;
+    padding:10px 22px; text-align:center; flex-shrink:0;
+}
+.mt-niveau-badge small { display:block; font-size:10px; color:rgba(255,255,255,.68); font-weight:700; letter-spacing:.5px; }
+.mt-niveau-badge big   { display:block; font-size:26px; font-weight:800; color:#fff; line-height:1.1; }
+.mt-invite { background:rgba(255,255,255,.16); border-radius:20px; padding:8px 18px; font-size:11px; font-weight:700; color:#fff; flex-shrink:0; }
+
+
+.mt-lbody { padding:20px 24px 24px; display:flex; flex-direction:column; gap:20px; }
+
+
+.mt-type-hdr {
+    display:flex; align-items:center; gap:8px; padding:7px 14px;
+    border-radius:8px; font-size:12px; font-weight:700; margin-bottom:10px;
+}
+.mt-t-niveau { background:#EFF6FF; color:#3B82F6; }
+.mt-t-quiz   { background:#FFFBEB; color:#D97706; }
+.mt-t-fin    { background:#ECFDF5; color:#10B981; }
+
+
+.mt-tests-list { display:flex; flex-direction:column; gap:10px; }
+
+
+.mt-card { border-radius:14px; border:1.5px solid #E5E7EB; overflow:hidden; transition:box-shadow .2s, transform .15s; }
+.mt-card.mt-acc  { background:#fff; cursor:pointer; }
+.mt-card.mt-acc:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(108,99,255,.14); }
+.mt-card.mt-bloc { background:#FAFBFF; border-color:#EEF0F8; opacity:.58; }
+.mt-card.mt-filtered { display:none; }
+
+
+.mt-card-row { display:flex; align-items:center; gap:16px; padding:18px 20px; }
+.mt-ico {
+    width:46px; height:46px; border-radius:23px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:20px; flex-shrink:0;
+}
+.mt-ico-n { background:#EEF2FF; }
+.mt-ico-q { background:#FFFBEB; }
+.mt-ico-f { background:#ECFDF5; }
+.mt-ico-l { background:#F3F4F6; }
+.mt-ci    { flex:1; min-width:0; }
+.mt-title { font-size:15px; font-weight:700; color:#1E1B4B; margin-bottom:6px; }
+.mt-meta  { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+
+
+.mt-chip { font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; }
+.mt-chip-gray   { background:#F1F5F9; color:#64748B; }
+.mt-chip-green  { background:#ECFDF5; color:#059669; }
+.mt-chip-amber  { background:#FFFBEB; color:#D97706; }
+.mt-chip-red    { background:#FEF2F2; color:#DC2626; }
+.mt-chip-violet { background:#EEF2FF; color:#6366F1; }
+.mt-chip-blue   { background:#EFF6FF; color:#3B82F6; }
+
+
+.mt-actions { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+.mt-btn-h {
+    background:#F8FAFF; color:#818CF8; border:1px solid #E0E7FF;
+    padding:7px 14px; border-radius:20px; font-size:11px; font-weight:700;
+    cursor:pointer; transition:background .2s; white-space:nowrap;
+}
+.mt-btn-h:hover { background:#EEF2FF; }
+.mt-btn-s {
+    padding:10px 22px; border-radius:22px; font-size:13px; font-weight:700;
+    color:#fff; border:none; cursor:pointer; text-decoration:none;
+    display:inline-flex; align-items:center; gap:5px; transition:opacity .2s; white-space:nowrap;
+}
+.mt-btn-s:hover { opacity:.85; color:#fff; text-decoration:none; }
+.mt-btn-n { background:#6366F1; }
+.mt-btn-q { background:#F59E0B; }
+.mt-btn-f { background:#10B981; }
+
+
+.mt-prog-wrap { height:4px; background:#EEF0F8; border-radius:2px; margin-top:8px; }
+.mt-prog-bar  { height:4px; border-radius:2px; }
+
+
+.mt-bloc-title  { color:#9CA3AF; font-size:13px; font-weight:700; margin-bottom:4px; }
+.mt-bloc-reason { color:#C0C7D0; font-size:11px; }
+
+
+.mt-histo { background:#F8F9FD; border-top:1px solid #EAECF5; padding:14px 20px 16px; display:none; }
+.mt-histo.open { display:block; }
+.mt-histo-lbl { font-size:11px; font-weight:700; color:#9CA3AF; margin-bottom:10px; text-transform:uppercase; letter-spacing:.5px; }
+.mt-histo-row {
+    display:flex; align-items:center; gap:14px; background:#fff;
+    border-radius:8px; border:1px solid #EAECF5;
+    padding:8px 14px; margin-bottom:6px; font-size:12px;
+}
+.mt-histo-date  { color:#9CA3AF; flex:1; }
+.mt-histo-score { font-weight:700; }
+.sc-g { color:#16A34A; }
+.sc-m { color:#CA8A04; }
+.sc-b { color:#DC2626; }
+
+
+.mt-empty { text-align:center; padding:60px 20px; color:#9CA3AF; }
+.mt-empty .ei { font-size:52px; margin-bottom:16px; }
+
+
+@media(max-width:768px){
+    .mt-hero { padding:28px 16px 72px; }
+    .mt-toolbar { padding:0 16px; }
+    .mt-content { padding:20px 16px 0; }
+    .mt-reco { margin:20px 16px 0; flex-wrap:wrap; }
+    .mt-actions { flex-direction:column; align-items:flex-end; }
+}
+</style>
+
+
+<div class="mt-page">
+
+
+    <div class="mt-hero">
+        <h1>🎯 Mes Tests</h1>
+        <p>Suis ta progression et repasse tes tests à ton rythme</p>
+    </div>
+
+
+    <div class="mt-toolbar">
+        <div class="mt-search">
+            <svg width="18" height="18" fill="none" stroke="#9CA3AF" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input id="mtSearch" type="text" placeholder="Rechercher un test…" oninput="mtFilter(this.value)">
+            <span class="mt-badge" id="mtCount">
+                {% set total = 0 %}
+                {% for bloc in testsParLangue %}{% set total = total + bloc.tests|length %}{% endfor %}
+                {{ total }} test{{ total > 1 ? 's' : '' }}
+            </span>
         </div>
 
+
+        {% if testsParLangue|length > 0 %}
+        <a href="{{ path('app_etudiant_analyse', {langueId: testsParLangue|first.langue.id}) }}"
+           class="mt-btn-perf">📊 Mes Performances</a>
+        {% endif %}
+    </div>
+
+
+    {# ── Bannière recommandation ── #}
+    {% set recoFound = false %}
+    {% for bloc in testsParLangue %}
+        {% if not recoFound and bloc.niveauActuel %}
+            {% for item in bloc.tests %}
+                {% if not recoFound and item.test.type == 'quiz_debutant' and item.accessible and item.nbrPassages == 0 %}
+                    {% set recoFound = true %}
+                    <div class="mt-reco">
+                        <div class="mt-reco-ico">💡</div>
+                        <div class="mt-reco-text">
+                            <strong>Test recommandé pour vous !</strong>
+                            <span>{{ bloc.langue.nom }} · {{ item.test.titre }} ({{ item.test.dureeEstimee }} min)</span>
+                        </div>
+                        <a href="{{ path('app_test_student_show', {id: item.test.id}) }}" class="mt-btn-reco">▶ Commencer</a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+
+
+    <div class="mt-content" id="mtContent">
+
+
         {% if testsParLangue is empty %}
-            <div class="langue-section">
-                <div style="text-align: center; padding: 60px 20px; color: #64748b;">
-                    <div style="font-size: 5rem; margin-bottom: 20px;">📝</div>
-                    <h3>Aucun test disponible</h3>
-                    <p>Commence par choisir une langue !</p>
-                    <a href="{{ path('app_langue_index') }}" class="btn btn-primary btn-lg mt-3">Explorer les langues</a>
-                </div>
+            <div class="mt-empty">
+                <div class="ei">📭</div>
+                <p>Aucun test disponible pour le moment.</p>
             </div>
         {% else %}
-            {% for langueData in testsParLangue %}
-                <div class="langue-section">
-                    <div class="langue-header">
-                        <span style="font-size: 2rem;">🌍</span>
-                        <div>
-                            <h3 style="margin: 0; font-weight: 800;">{{ langueData.langue.nom }}</h3>
-                            <small style="opacity: 0.85;">
-                                {% if langueData.niveauActuel %}
-                                    Ton niveau : <strong>{{ langueData.niveauActuel.difficulte }}</strong>
-                                {% else %}
-                                    Aucun niveau encore — passe le test de niveau !
-                                {% endif %}
-                            </small>
-                        </div>
-                        <div style="margin-left: auto;">
-                            <a href="{{ path('app_langue_apprentissage', {id: langueData.langue.id}) }}"
-                               class="btn btn-light btn-sm">📖 Parcours</a>
-                        </div>
+
+
+        {% for bloc in testsParLangue %}
+        {% set langue = bloc.langue %}
+        {% set niveauActuel = bloc.niveauActuel %}
+
+
+        {# Drapeau #}
+        {% set ico = '🌍' %}
+        {% if 'english' in langue.nom|lower or 'anglais' in langue.nom|lower %}{% set ico = '🇬🇧' %}
+        {% elseif 'français' in langue.nom|lower or 'francais' in langue.nom|lower %}{% set ico = '🇫🇷' %}
+        {% elseif 'espagnol' in langue.nom|lower or 'spanish' in langue.nom|lower %}{% set ico = '🇪🇸' %}
+        {% elseif 'allemand' in langue.nom|lower %}{% set ico = '🇩🇪' %}
+        {% elseif 'arabe' in langue.nom|lower %}{% set ico = '🇹🇳' %}
+        {% endif %}
+
+
+        {# Code CECRL du niveau actuel #}
+        {% set cecrlCode = '' %}
+        {% if niveauActuel %}
+            {% for code in ['A1','A2','B1','B2','C1','C2'] %}
+                {% if cecrlCode == '' and code in niveauActuel.difficulte|upper %}
+                    {% set cecrlCode = code %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+
+        <div class="mt-langue-card" data-langue="{{ langue.nom|lower }}">
+
+
+            <div class="mt-lh">
+                <div class="mt-lh-ico">{{ ico }}</div>
+                <div class="mt-lh-info">
+                    <h2>{{ langue.nom }}</h2>
+                    <p>{{ bloc.tests|length }} test{{ bloc.tests|length > 1 ? 's' : '' }} disponible{{ bloc.tests|length > 1 ? 's' : '' }}</p>
+                </div>
+                {% if niveauActuel and cecrlCode != '' %}
+                    <div class="mt-niveau-badge">
+                        <small>Votre niveau</small>
+                        <big>{{ cecrlCode }}</big>
                     </div>
+                {% else %}
+                    <div class="mt-invite">🎯 Passez le test de niveau pour commencer !</div>
+                {% endif %}
+            </div>
 
-                    <div style="padding: 10px;">
-                        {% for testInfo in langueData.tests %}
-                            <div class="test-card {{ testInfo.accessible ? 'accessible' : 'bloque' }}">
-                                {% if not testInfo.accessible %}
-                                    <div class="cadenas">🔒</div>
-                                {% endif %}
 
-                                <div class="d-flex align-items-start justify-content-between flex-wrap gap-2">
-                                    <div class="flex-grow-1">
-                                        <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
-                                            <span class="type-badge
-                                                {% if testInfo.test.type == 'Test de niveau' %}type-niveau
-                                                {% elseif testInfo.test.type == 'quiz_debutant' %}type-quiz
-                                                {% else %}type-fin{% endif %}">
-                                                {% if testInfo.test.type == 'Test de niveau' %}🎯 Test de niveau
-                                                {% elseif testInfo.test.type == 'quiz_debutant' %}📚 Quiz
-                                                {% else %}🏆 Fin de niveau{% endif %}
-                                            </span>
-                                            {% if testInfo.test.niveau %}
-                                                <span class="badge bg-secondary">{{ testInfo.test.niveau.difficulte }}</span>
+            <div class="mt-lbody">
+
+
+            {% for typeKey in ['Test de niveau', 'quiz_debutant', 'Test de fin de niveau'] %}
+
+
+                {% set testsDeType = [] %}
+                {% for item in bloc.tests %}
+                    {% if item.test.type == typeKey %}
+                        {% set testsDeType = testsDeType|merge([item]) %}
+                    {% endif %}
+                {% endfor %}
+
+
+                {% if testsDeType|length > 0 %}
+                <div>
+                    {% if typeKey == 'Test de niveau' %}
+                        <div class="mt-type-hdr mt-t-niveau">🎯&nbsp; Test de Niveau</div>
+                    {% elseif typeKey == 'quiz_debutant' %}
+                        <div class="mt-type-hdr mt-t-quiz">📖&nbsp; Quiz Débutant</div>
+                    {% else %}
+                        <div class="mt-type-hdr mt-t-fin">🏆&nbsp; Test de Fin de Niveau</div>
+                    {% endif %}
+
+
+                    <div class="mt-tests-list">
+                    {% for item in testsDeType %}
+                        {% set test = item.test %}
+                        {% set dejaPassé = item.nbrPassages > 0 %}
+                        {% set best = item.meilleurScore %}
+
+
+                        {% if typeKey == 'Test de niveau' %}
+                            {% set icoC='mt-ico-n' %}{% set btnC='mt-btn-n' %}{% set typeIco='🎯' %}
+                        {% elseif typeKey == 'quiz_debutant' %}
+                            {% set icoC='mt-ico-q' %}{% set btnC='mt-btn-q' %}{% set typeIco='📖' %}
+                        {% else %}
+                            {% set icoC='mt-ico-f' %}{% set btnC='mt-btn-f' %}{% set typeIco='🏆' %}
+                        {% endif %}
+
+
+                        {% if item.accessible %}
+                        <div class="mt-card mt-acc"
+                             data-titre="{{ test.titre|lower }}"
+                             data-type="{{ test.type|lower }}">
+                            <div class="mt-card-row">
+                                <div class="mt-ico {{ icoC }}">{{ typeIco }}</div>
+                                <div class="mt-ci">
+                                    <div class="mt-title">{{ test.titre }}</div>
+                                    <div class="mt-meta">
+                                        <span class="mt-chip mt-chip-gray">⏱ {{ test.dureeEstimee }} min</span>
+                                        {% if dejaPassé %}
+                                            {% if best >= 70 %}<span class="mt-chip mt-chip-green">Meilleur : {{ best }}%</span>
+                                            {% elseif best >= 50 %}<span class="mt-chip mt-chip-amber">Meilleur : {{ best }}%</span>
+                                            {% else %}<span class="mt-chip mt-chip-red">Meilleur : {{ best }}%</span>
                                             {% endif %}
-                                            {% if testInfo.niveauObtenu %}
-                                                <span class="badge bg-warning text-dark">Niveau obtenu : {{ testInfo.niveauObtenu }}</span>
-                                            {% endif %}
-                                        </div>
-
-                                        <h5 style="margin: 0; font-weight: 700; color: #1e293b;">
-                                            {{ testInfo.test.titre }}
-                                        </h5>
-
-                                        {% if not testInfo.accessible and testInfo.raisonBlocage %}
-                                            <p style="color: #ef4444; font-size: 0.85rem; margin-top: 5px;">
-                                                🔒 {{ testInfo.raisonBlocage }}
-                                            </p>
+                                            <span class="mt-chip mt-chip-violet">{{ item.nbrPassages }} passage{{ item.nbrPassages > 1 ? 's' : '' }}</span>
                                         {% endif %}
-
-                                        <div class="stats-mini">
-                                            <div class="stat-mini">❓ {{ testInfo.test.questions|length }} questions</div>
-                                            <div class="stat-mini">⏱️ {{ testInfo.test.dureeEstimee ?: '15' }} min</div>
-                                            {% if testInfo.nbrPassages > 0 %}
-                                                <div class="stat-mini">📊 {{ testInfo.nbrPassages }} passage(s)</div>
-                                                <div class="stat-mini">
-                                                    🏅 Meilleur :
-                                                    <strong class="{{ testInfo.meilleurScore >= 70 ? 'text-success' : (testInfo.meilleurScore >= 50 ? 'text-warning' : 'text-danger') }}">
-                                                        {{ testInfo.meilleurScore }}%
-                                                    </strong>
-                                                </div>
-                                            {% endif %}
-                                        </div>
-
-                                        {% if testInfo.nbrPassages > 0 %}
-                                            <div class="score-bar mt-2" style="max-width: 300px;">
-                                                <div class="score-fill"
-                                                     style="width: {{ testInfo.meilleurScore }}%; background: {{ testInfo.meilleurScore >= 70 ? '#10b981' : (testInfo.meilleurScore >= 50 ? '#f59e0b' : '#ef4444') }};">
-                                                </div>
-                                            </div>
-                                        {% endif %}
-                                    </div>
-
-                                    <div class="d-flex flex-column gap-2" style="min-width: 130px;">
-                                        {% if testInfo.accessible %}
-                                            {% if testInfo.nbrPassages > 0 %}
-                                                <form method="post" action="{{ path('app_test_student_start', {id: testInfo.test.id}) }}">
-                                                    <button type="submit" class="btn btn-sm btn-outline-primary w-100">🔄 Repasser</button>
-                                                </form>
-                                                <a href="{{ path('app_test_student_result', {id: testInfo.dernierPassage.id}) }}"
-                                                   class="btn btn-sm btn-outline-secondary">📊 Dernier résultat</a>
-                                            {% else %}
-                                                <form method="post" action="{{ path('app_test_student_start', {id: testInfo.test.id}) }}">
-                                                    <button type="submit" class="btn btn-sm btn-primary w-100">▶️ Commencer</button>
-                                                </form>
-                                            {% endif %}
-                                        {% else %}
-                                            <button class="btn btn-sm btn-secondary w-100" disabled>🔒 Bloqué</button>
+                                        {% if item.niveauObtenu %}
+                                            <span class="mt-chip mt-chip-blue">Niveau obtenu : {{ item.niveauObtenu }}</span>
                                         {% endif %}
                                     </div>
+                                    {% if dejaPassé %}
+                                    <div class="mt-prog-wrap">
+                                        <div class="mt-prog-bar" style="width:{{ best }}%;background:{{ best >= 70 ? '#10B981' : (best >= 50 ? '#F59E0B' : '#EF4444') }}"></div>
+                                    </div>
+                                    {% endif %}
                                 </div>
-
-                                {% if testInfo.passages|length > 0 %}
-                                    <div style="margin-top: 15px; border-top: 1px solid #e5e7eb; padding-top: 12px;">
-                                        <button class="btn btn-sm btn-outline-secondary mb-2"
-                                                type="button"
-                                                onclick="this.nextElementSibling.classList.toggle('d-none')">
-                                            📋 Historique ({{ testInfo.passages|length }})
-                                        </button>
-                                        <div class="d-none">
-                                            <table class="table table-sm" style="font-size: 0.85rem;">
-                                                <thead>
-                                                    <tr><th>#</th><th>Date</th><th>Score</th><th>Résultat</th><th>Temps</th><th></th></tr>
-                                                </thead>
-                                                <tbody>
-                                                    {% for i, p in testInfo.passages %}
-                                                        <tr>
-                                                            <td>{{ i + 1 }}</td>
-                                                            <td>{{ p.dateFin ? p.dateFin|date('d/m/Y H:i') : '-' }}</td>
-                                                            <td>{{ p.score }}/{{ p.scoreMax }}</td>
-                                                            <td>
-                                                                <span class="badge {{ p.resultat >= 70 ? 'bg-success' : (p.resultat >= 50 ? 'bg-warning' : 'bg-danger') }}">
-                                                                    {{ p.resultat|number_format(1) }}%
-                                                                </span>
-                                                            </td>
-                                                            <td>{{ p.tempsPasse ? (p.tempsPasse / 60)|number_format(0) ~ ' min' : '-' }}</td>
-                                                            <td>
-                                                                <a href="{{ path('app_test_student_result', {id: p.id}) }}"
-                                                                   class="btn btn-xs btn-outline-info"
-                                                                   style="font-size: 0.7rem; padding: 2px 8px;">Voir</a>
-                                                            </td>
-                                                        </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                {% endif %}
+                                <div class="mt-actions">
+                                    {% if dejaPassé %}
+                                        <button class="mt-btn-h" onclick="mtToggleHisto(this,'mth-{{ test.id }}')">📋 Historique</button>
+                                    {% endif %}
+                                    <a href="{{ path('app_test_student_show', {id: test.id}) }}"
+                                       class="mt-btn-s {{ btnC }}">
+                                        {{ dejaPassé ? '🔄 Repasser' : '▶ Commencer' }}
+                                    </a>
+                                </div>
                             </div>
-                        {% endfor %}
+
+
+                            {% if dejaPassé %}
+                            <div class="mt-histo" id="mth-{{ test.id }}">
+                                <div class="mt-histo-lbl">Historique des passages</div>
+                                {% for p in item.passages %}
+                                    {% set pct = p.scoreMax > 0 ? (p.score / p.scoreMax * 100)|round(0) : 0 %}
+                                    <div class="mt-histo-row">
+                                        <span>{{ p.statut == 'termine' ? '✅' : (p.statut == 'en_cours' ? '🔄' : '❌') }}</span>
+                                        <span class="mt-histo-date">{{ p.dateDebut ? p.dateDebut|date('d/m/Y H:i') : '—' }}</span>
+                                        <span class="mt-histo-score {{ pct >= 70 ? 'sc-g' : (pct >= 50 ? 'sc-m' : 'sc-b') }}">{{ pct }}%</span>
+                                        <span style="color:#C0C4D8;font-size:12px;">⏱ {% if p.tempsPasse >= 60 %}{{ (p.tempsPasse / 60)|round(0,'floor') }}m {% endif %}{{ p.tempsPasse % 60 }}s</span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+
+                        {% else %}
+                        <div class="mt-card mt-bloc"
+                             data-titre="{{ test.titre|lower }}"
+                             data-type="{{ test.type|lower }}">
+                            <div class="mt-card-row">
+                                <div class="mt-ico mt-ico-l">🔒</div>
+                                <div class="mt-ci">
+                                    <div class="mt-bloc-title">{{ test.titre }}</div>
+                                    <div class="mt-bloc-reason">{{ item.raisonBlocage ?? 'Non disponible pour votre niveau actuel' }}</div>
+                                </div>
+                                <span class="mt-chip mt-chip-gray">⏱ {{ test.dureeEstimee }} min</span>
+                            </div>
+                        </div>
+                        {% endif %}
+
+
+                    {% endfor %}
                     </div>
                 </div>
+                {% endif %}
+
+
             {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
         {% endif %}
     </div>
 </div>
+
+
+<script>
+function mtToggleHisto(btn, id) {
+    var p = document.getElementById(id);
+    if (!p) return;
+    var open = p.classList.toggle('open');
+    btn.textContent = open ? '🔼 Masquer' : '📋 Historique';
+}
+function mtFilter(val) {
+    var q = val.toLowerCase().trim();
+    document.querySelectorAll('.mt-card').forEach(function(c) {
+        if (!q) { c.classList.remove('mt-filtered'); return; }
+        var match = (c.dataset.titre||'').includes(q) || (c.dataset.type||'').includes(q);
+        c.classList.toggle('mt-filtered', !match);
+    });
+    document.querySelectorAll('.mt-langue-card').forEach(function(lc) {
+        var has = lc.querySelectorAll('.mt-card:not(.mt-filtered)').length > 0;
+        lc.classList.toggle('mt-hidden', q ? !has : false);
+    });
+    var total = document.querySelectorAll('.mt-card:not(.mt-filtered)').length;
+    var b = document.getElementById('mtCount');
+    if (b) b.textContent = total + ' test' + (total > 1 ? 's' : '');
+}
+</script>
 {% endblock %}

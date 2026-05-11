@@ -3,31 +3,61 @@
 {% block title %}Professeur - Gestion des Réservations{% endblock %}
 
 {% block body %}
-<div class="container mt-5 pt-5">
-    <h1 class="text-center fw-bold text-primary mb-5">
-        <i class="fa fa-bookmark me-2"></i>
-        Espace Professeur - Gestion des Réservations
-    </h1>
+<style>
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+body { background: linear-gradient(135deg,#7b1fa2 0%,#4a148c 30%,#1565c0 70%,#0d47a1 100%) !important; min-height: 100vh; }
+#ftco-navbar { background: rgba(74,20,140,0.92) !important; backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+.page-hero { padding: 90px 0 35px; text-align: center; animation: fadeInDown 0.7s ease; }
+.page-hero h1 { margin-bottom: 12px; font-size: 2.6rem; font-weight: 800; letter-spacing: -1px; background: linear-gradient(135deg,#fff 0%,#f8bbd0 50%,#ce93d8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.page-hero p { color: rgba(255,255,255,0.75); font-size: 1rem; }
+.hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 20px; }
+.hero-actions a { min-width: 190px; }
+.panel { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); border-radius: 28px; backdrop-filter: blur(18px); box-shadow: 0 24px 64px rgba(0,0,0,0.28); padding: 26px; margin-bottom: 40px; }
+.panel-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 24px; }
+.panel-header h2 { color: #fff; margin: 0; font-size: 1.9rem; }
+.panel-header .subtitle { color: rgba(255,255,255,0.7); font-size: 0.95rem; }
+.reservations-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+.reservations-table thead { background: rgba(255,255,255,0.1); }
+.reservations-table th, .reservations-table td { padding: 14px 12px; vertical-align: middle; }
+.reservations-table th { color: rgba(255,255,255,0.75); font-weight: 700; font-size: 0.92rem; text-align: center; }
+.reservations-table tbody tr { background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.08); }
+.reservations-table tbody tr:last-child { border-bottom: none; }
+.reservations-table td { color: rgba(255,255,255,0.9); text-align: center; }
+</style>
 
-    {% for label, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="alert alert-{{ label == 'success' ? 'success' : 'danger' }} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        {% endfor %}
-    {% endfor %}
-
-    <div class="mb-4 text-end">
-        <a href="{{ path('session_prof_dashboard') }}" class="btn btn-secondary">
-            <i class="fa fa-arrow-left me-2"></i> Retour au Dashboard
+<div class="page-hero">
+<br><br><br><br><br><br>
+    <h1><i class="fa fa-bookmark me-2"></i>Espace Professeur</h1>
+    <p>Consultez et traitez les demandes de réservation de vos étudiants.</p>
+    <div class="hero-actions">
+        <a href="{{ path('session_professeur') }}" class="btn btn-success btn-lg shadow">
+            <i class="fa fa-arrow-left me-2"></i>Retour à mes sessions
         </a>
     </div>
+</div>
 
-    <div class="card shadow mb-4">
-        <div class="card-body">
-            <table class="table table-hover table-bordered align-middle">
-                <thead class="table-dark text-center">
+<div class="container pb-5">
+    <div class="panel">
+        <div class="panel-header">
+            <div>
+                <h2>Demandes de réservation</h2>
+                <div class="subtitle">Acceptez ou refusez les demandes en attente. Consultez l'historique des autres réservations.</div>
+            </div>
+            <div class="badge bg-white text-dark py-2 px-3">Total : {{ reservations|length }}</div>
+        </div>
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label == 'success' ? 'success' : 'danger' }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <div class="table-responsive">
+            <table class="reservations-table">
+                <thead>
                     <tr>
                         <th>Date Réservation</th>
                         <th>Statut</th>
@@ -39,45 +69,49 @@
                 </thead>
                 <tbody>
                     {% for reservation in reservations %}
+                        {% set isConfirmed = reservation.statut == 'confirmée' or reservation.statut == 'acceptée' %}
+                        {% set isPending   = reservation.statut == 'en attente' %}
+                        {% set isRefused   = reservation.statut == 'refusée' %}
+                        {% set isCancelled = reservation.statut == 'annulée' %}
+
                         <tr>
-                            <td class="text-center">
+                            <td>
                                 {{ reservation.dateReservation ? reservation.dateReservation|date('d/m/Y') : '—' }}
                             </td>
-                            <td class="text-center">
+                            <td>
                                 <span class="badge fs-6 px-3 py-2
-                                    {% if reservation.statut == 'confirmée' %}bg-success text-white
-                                    {% elseif reservation.statut == 'en attente' %}bg-warning text-dark
-                                    {% elseif reservation.statut == 'refusée' %}bg-danger text-white
+                                    {% if isConfirmed %}bg-success text-white
+                                    {% elseif isPending %}bg-warning text-dark
+                                    {% elseif isRefused or isCancelled %}bg-danger text-white
                                     {% else %}bg-secondary text-white{% endif %}">
                                     {{ reservation.statut|capitalize }}
                                 </span>
                             </td>
-                            <td class="text-center">
+                            <td>
                                 {{ reservation.session ? reservation.session.dateHeure|date('d/m/Y H:i') : '—' }}
                             </td>
-                            <td class="text-center">
+                            <td>
                                 {{ reservation.session and reservation.session.group ? reservation.session.group.nom : '—' }}
                             </td>
-                            <td class="text-center">
+                            <td>
                                 {{ reservation.user ? reservation.user.prenom ~ ' ' ~ reservation.user.nom : '—' }}
                             </td>
-                            <td class="text-center">
+                            <td>
                                 <div class="d-flex flex-wrap gap-1 justify-content-center">
 
-                                    {% if reservation.statut == 'en attente' %}
-                                        {# Confirmer #}
+                                    {# ✅ Le prof peut SEULEMENT accepter ou refuser une réservation en attente #}
+                                    {% if isPending %}
                                         <form method="post" action="{{ path('app_reservation_update_statut', {'id': reservation.id}) }}" class="d-inline">
                                             <input type="hidden" name="statut" value="confirmée">
-                                            <input type="hidden" name="_token" value="{{ csrf_token('resa_statut_' ~ reservation.id) }}">
+                                            <input type="hidden" name="token" value="{{ csrf_token('resa_statut' ~ reservation.id) }}">
                                             <button type="submit" class="btn btn-sm btn-success"
-                                                    onclick="return confirm('Confirmer cette réservation ?')">
-                                                <i class="fa fa-check me-1"></i> Confirmer
+                                                    onclick="return confirm('Accepter cette réservation ?')">
+                                                <i class="fa fa-check me-1"></i> Accepter
                                             </button>
                                         </form>
-                                        {# Refuser #}
                                         <form method="post" action="{{ path('app_reservation_update_statut', {'id': reservation.id}) }}" class="d-inline">
                                             <input type="hidden" name="statut" value="refusée">
-                                            <input type="hidden" name="_token" value="{{ csrf_token('resa_statut_' ~ reservation.id) }}">
+                                            <input type="hidden" name="token" value="{{ csrf_token('resa_statut' ~ reservation.id) }}">
                                             <button type="submit" class="btn btn-sm btn-danger"
                                                     onclick="return confirm('Refuser cette réservation ?')">
                                                 <i class="fa fa-times me-1"></i> Refuser
@@ -85,38 +119,19 @@
                                         </form>
                                     {% endif %}
 
-                                    {% if reservation.statut == 'confirmée' %}
-                                        {# Annuler #}
-                                        <form method="post" action="{{ path('app_reservation_update_statut', {'id': reservation.id}) }}" class="d-inline">
-                                            <input type="hidden" name="statut" value="annulée">
-                                            <input type="hidden" name="_token" value="{{ csrf_token('resa_statut_' ~ reservation.id) }}">
-                                            <button type="submit" class="btn btn-sm btn-warning text-dark"
-                                                    onclick="return confirm('Annuler cette réservation ?')">
-                                                <i class="fa fa-ban me-1"></i> Annuler
-                                            </button>
-                                        </form>
-                                    {% endif %}
-
-                                    {# Voir #}
+                                    {# ✅ Voir les détails — toujours disponible #}
                                     <a href="{{ path('app_reservation_show', {'id': reservation.id}) }}" class="btn btn-sm btn-info">
-                                        <i class="fa fa-eye"></i> Voir
+                                        <i class="fa fa-eye me-1"></i> Voir
                                     </a>
 
-                                    {# Supprimer #}
-                                    <form method="post" action="{{ path('app_reservation_delete', {'id': reservation.id}) }}"
-                                          onsubmit="return confirm('Supprimer définitivement cette réservation ?');" class="d-inline">
-                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ reservation.id) }}">
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                    </form>
+                                    {# ✅ Aucun bouton Modifier ni Supprimer pour le prof #}
 
                                 </div>
                             </td>
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="6" class="text-center py-5 text-muted fs-5">
+                            <td colspan="6" class="text-center py-5" style="color:rgba(255,255,255,0.65);font-size:1rem;">
                                 <i class="fa fa-folder-open fa-2x mb-3 d-block"></i>
                                 Aucune demande de réservation trouvée
                             </td>
@@ -124,6 +139,220 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+show:{% extends 'base.html.twig' %}
+
+{% block title %}Réservation #{{ reservation.id }}{% endblock %}
+
+{% block body %}
+<style>
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInUp   { from { opacity: 0; transform: translateY(20px);  } to { opacity: 1; transform: translateY(0); } }
+
+body {
+    background: linear-gradient(135deg,#7b1fa2 0%,#4a148c 30%,#1565c0 70%,#0d47a1 100%) !important;
+    min-height: 100vh;
+}
+#ftco-navbar {
+    background: rgba(74,20,140,0.92) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.page-hero {
+    padding: 110px 0 30px;
+    text-align: center;
+    animation: fadeInDown 0.7s ease;
+}
+.page-hero h1 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg,#fff 0%,#f8bbd0 50%,#ce93d8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.page-hero p { color: rgba(255,255,255,0.65); font-size: 0.95rem; }
+
+.detail-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 24px;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.28);
+    padding: 36px;
+    animation: fadeInUp 0.6s ease;
+    margin-bottom: 40px;
+}
+
+.detail-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.detail-row:last-child { border-bottom: none; }
+
+.detail-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.65);
+    margin-top: 2px;
+}
+.detail-label {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 4px;
+}
+.detail-value {
+    color: rgba(255,255,255,0.92);
+    font-size: 0.97rem;
+    font-weight: 500;
+}
+
+.statut-pill {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+.actions-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 30px;
+}
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 14px;
+    font-size: 0.93rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.25s;
+    border: none;
+    cursor: pointer;
+}
+.btn-action:hover { transform: translateY(-2px); text-decoration: none; }
+.btn-back {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.85);
+}
+.btn-back:hover { background: rgba(255,255,255,0.18); color: #fff; }
+</style>
+
+<div class="page-hero">
+    <h1><i class="fa fa-eye me-2"></i>Détails de la réservation #{{ reservation.id }}</h1>
+    <p>Informations complètes sur cette demande de réservation.</p>
+</div>
+
+<div class="container pb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="detail-card">
+
+                <div class="detail-row">
+                    <div class="detail-icon"><i class="fa fa-calendar"></i></div>
+                    <div>
+                        <div class="detail-label">Date de réservation</div>
+                        <div class="detail-value">
+                            {{ reservation.dateReservation ? reservation.dateReservation|date('d/m/Y') : '—' }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-icon"><i class="fa fa-tag"></i></div>
+                    <div>
+                        <div class="detail-label">Statut</div>
+                        <div class="detail-value">
+                            {% set s = reservation.statut %}
+                            <span class="statut-pill
+                                {% if s == 'confirmée' or s == 'acceptée' %}
+                                    " style="background:rgba(16,185,129,0.2);color:#10B981;border:1px solid rgba(16,185,129,0.3);"
+                                {% elseif s == 'en attente' %}
+                                    " style="background:rgba(245,158,11,0.2);color:#F59E0B;border:1px solid rgba(245,158,11,0.3);"
+                                {% else %}
+                                    " style="background:rgba(239,68,68,0.2);color:#EF4444;border:1px solid rgba(239,68,68,0.3);"
+                                {% endif %}
+                            >
+                                {{ s|capitalize }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-icon"><i class="fa fa-calendar-check-o"></i></div>
+                    <div>
+                        <div class="detail-label">Session</div>
+                        <div class="detail-value">
+                            {% if reservation.session %}
+                                {{ reservation.session.dateHeure|date('d/m/Y H:i') }}
+                                {% if reservation.session.group %}
+                                    — {{ reservation.session.group.nom }}
+                                {% endif %}
+                            {% else %}
+                                —
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-icon"><i class="fa fa-user"></i></div>
+                    <div>
+                        <div class="detail-label">Étudiant</div>
+                        <div class="detail-value">
+                            {{ reservation.user ? reservation.user.prenom ~ ' ' ~ reservation.user.nom : '—' }}
+                        </div>
+                    </div>
+                </div>
+
+                {% if reservation.session and reservation.session.lienReunion and (reservation.statut == 'confirmée' or reservation.statut == 'acceptée') %}
+                <div class="detail-row">
+                    <div class="detail-icon"><i class="fa fa-video-camera"></i></div>
+                    <div>
+                        <div class="detail-label">Lien de réunion</div>
+                        <div class="detail-value">
+                            <a href="{{ reservation.session.lienReunion }}" target="_blank"
+                               style="color:#8cc3ff; font-weight:600; word-break:break-all;">
+                                <i class="fa fa-external-link me-1"></i>Rejoindre la session
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+            <div class="actions-row">
+                <a href="{{ path('reservation_professeur') }}" class="btn-action btn-back">
+                    <i class="fa fa-arrow-left"></i> Retour à la liste professeur
+                </a>
+            </div>
         </div>
     </div>
 </div>

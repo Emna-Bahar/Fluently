@@ -1,6 +1,8 @@
 <?php
 
+
 namespace App\Repository;
+
 
 use App\Entity\Langue;
 use App\Entity\Niveau;
@@ -8,6 +10,7 @@ use App\Entity\User;
 use App\Entity\UserProgress;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+
 
 /**
  * @extends ServiceEntityRepository<UserProgress>
@@ -18,6 +21,7 @@ class UserProgressRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, UserProgress::class);
     }
+
 
     public function findUserProgressByNiveau(User $user, Langue $langue, Niveau $niveau): ?UserProgress
 {
@@ -40,9 +44,11 @@ class UserProgressRepository extends ServiceEntityRepository
             ->andWhere('up.testNiveauComplete = true')
             ->setParameter('user', $user)
             ->setParameter('langueId', $langueId)
+            ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
     }
+
 
     public function findOrCreate(User $user, Langue $langue): UserProgress
     {
@@ -50,6 +56,7 @@ class UserProgressRepository extends ServiceEntityRepository
             'user' => $user,
             'langue' => $langue,
         ]);
+
 
         if (!$progress) {
             $progress = new UserProgress();
@@ -59,12 +66,15 @@ class UserProgressRepository extends ServiceEntityRepository
             $progress->setDernierNumeroCours(0);
             $progress->setDateDerniereActivite(new \DateTimeImmutable());
 
+
             $this->getEntityManager()->persist($progress);
             $this->getEntityManager()->flush();
         }
 
+
         return $progress;
     }
+
 
     public function findUserProgress(User $user, Langue $langue): ?UserProgress
     {
@@ -73,4 +83,16 @@ class UserProgressRepository extends ServiceEntityRepository
             'langue' => $langue
         ]);
     }
+    public function findMostRecentByUserAndLangue(User $user, Langue $langue): ?UserProgress
+{
+    return $this->createQueryBuilder('up')
+        ->where('up.user = :user')
+        ->andWhere('up.langue = :langue')
+        ->setParameter('user', $user)
+        ->setParameter('langue', $langue)
+        ->orderBy('up.dateDerniereActivite', 'DESC')
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getOneOrNullResult();
+}
 }
