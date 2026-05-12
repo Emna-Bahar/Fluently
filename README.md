@@ -1,5 +1,6 @@
-# 🌍 Fluently — Module Symfony (Langue / Niveau / Cours)
-> Application web Symfony — Gestion administrative et pédagogique des langues, niveaux CECRL et cours
+# 🌍 Fluently — Application Desktop JavaFX
+> Plateforme d'apprentissage des langues étrangères — ESPRIT School of Engineering
+
 
 ---
 ## Présentation générale
@@ -26,7 +27,10 @@ Fluently fonctionne en **Symfony 6** avec une base de données MySQL partagée a
 - **Profil utilisateur**, inscription, connexion et récupération de compte
 
 ---
+# 🌍 Fluently — Module Symfony (Langue / Niveau / Cours)
+> Application web Symfony — Gestion administrative et pédagogique des langues, niveaux CECRL et cours
 
+---
 ## 📌 Présentation du module
 
 Ce module est la partie **gestion de contenu pédagogique et progression** de l'application Fluently. Il permet à un **administrateur** de gérer les langues, les niveaux CECRL et les cours, et à un **étudiant** de suivre son apprentissage, de consulter les cours, générer du contenu personnalisé par IA, et suivre sa progression.
