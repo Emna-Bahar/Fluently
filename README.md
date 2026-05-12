@@ -1,4 +1,4 @@
-# 🌍 Fluently — Application Desktop JavaFX
+# 🌍 Fluently — Application Web Symfony
 > Plateforme d'apprentissage des langues étrangères — ESPRIT School of Engineering
 
 
